@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://minigame/SimpleLineGame.gd" type="Script" id=1]
+
+[node name="SimpleLineGame" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+minSecondsPerBounce = 2.0
+successWidth = 20
+successLineMaxPercentOffsetFromCenter = 45
+markerInZoneColor = Color( 0.945098, 1, 0, 1 )
+dangerLinePath = NodePath("DangerLine")
+markerPath = NodePath("DangerLine/Marker")
+
+[node name="DangerLine" type="Line2D" parent="."]
+position = Vector2( 343.637, 187.043 )
+points = PoolVector2Array( -300, 0, 300, 0 )
+width = 30.0
+default_color = Color( 0.717647, 0.592157, 0.592157, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SuccessLines" type="Node2D" parent="DangerLine"]
+
+[node name="Marker" type="Line2D" parent="DangerLine"]
+points = PoolVector2Array( 0, -30, 0, 30 )
+width = 5.0
+default_color = Color( 0.992157, 1, 0, 1 )
+__meta__ = {
+"_edit_lock_": true
+}

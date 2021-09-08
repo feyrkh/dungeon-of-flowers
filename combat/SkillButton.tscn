@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://combat/SkillButton.gd" type="Script" id=1]
+
+[node name="SkillButton" type="Button" groups=[
+"skill_button",
+]]
+margin_right = 51.0
+margin_bottom = 20.0
+text = "Punch"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="." to="." method="_on_SkillButton_pressed"]

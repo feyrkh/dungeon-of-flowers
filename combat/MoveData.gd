@@ -1,6 +1,9 @@
 extends Reference
 class_name MoveData
 
+const SimpleLineGame = preload("res://minigame/SimpleLineGame.tscn")
+const Enums = preload("res://Enums.gd")
+
 var label : String = "????"
 var name : String = "????"
 var hp_cost : int = 0
@@ -26,3 +29,18 @@ var failureLevel : float = 0.5 # base damage multiplier if the attacker doesn't 
 var targets_enemy : bool = true
 var targets_all_enemies : bool = false
 var targets_ally : bool = false
+
+func get_attack_scene(enemy):
+	var scene = SimpleLineGame.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+	var config = {
+			"markerMoveStyle": Enums.MarkerMoveStyle.WrapRight,
+			"markerMoveSpeed": markerMoveSpeed, # percentage per second; 1 means it will take 1 second, 0.5 means it will take 2 seconds
+			"markerMoveDirection": 1, # 1 = to the right, -1 = to the left
+			"markerStartPosition": 0, # 0 - 1.0
+			"successZones": successZones,
+			"failureLevel": failureLevel,
+			"strikes": strikes,
+			"strikeDelay": strikeDelay,
+		}
+	scene.setMinigameConfig(config)
+	return scene

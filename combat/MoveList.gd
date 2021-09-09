@@ -22,6 +22,22 @@ func _ready():
 		"failureLevel": 0.25
 	}))
 	add_move(Util.config(MoveData.new(), {
+		"label": "Headbutt",
+		"name": "headbutt",
+		"base_damage": 8,
+		"damageFormat": "{player} headbutts {enemy} for {damage} damage!",
+		"weakFormat": "But {enemy} just grins at {player}!",
+		"strongFormat": "{enemy} is seeing stars!",
+		"strikes": 1,
+		"markerMoveSpeed": 1,
+		"successZones": [
+			{"width": 0.1, "position": 0.7, "level": 1, "color": Color.green},
+			{"width": 0.05, "position": 0.7, "level": 1.5, "color": Color.orange},
+			{"width": 0.02, "position": 0.7, "level": 2, "color": Color.orangered}
+		],
+		"failureLevel": 0.25
+	}))
+	add_move(Util.config(MoveData.new(), {
 		"label": "Kick",
 		"name": "kick",
 		"base_damage": 10,

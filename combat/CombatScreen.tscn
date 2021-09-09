@@ -285,9 +285,18 @@ size_flags_vertical = 3
 bbcode_enabled = true
 scroll_following = true
 script = SubResource( 1 )
+
+[node name="AttackContainer" type="MarginContainer" parent="DisplayArea"]
+visible = false
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1017.0
+margin_bottom = 129.0
+[connection signal="enemy_turn_complete" from="." to="." method="_on_CombatScreen_enemy_turn_complete"]
 [connection signal="log_msg" from="." to="DisplayArea/HBoxContainer/CombatLog" method="_on_CombatScreen_log_msg"]
 [connection signal="player_move_complete" from="." to="." method="_on_CombatScreen_player_move_complete"]
 [connection signal="start_combat" from="." to="." method="_on_CombatScreen_start_combat"]
+[connection signal="start_enemy_turn" from="." to="." method="_on_CombatScreen_start_enemy_turn"]
 [connection signal="start_player_turn" from="." to="." method="_on_CombatScreen_start_player_turn"]
 [connection signal="pressed" from="DisplayArea/HBoxContainer/PlayerInputSpacer/PlayerInput/AdjustStance" to="." method="_on_AdjustStance_pressed"]
 [connection signal="value_changed" from="DisplayArea/HBoxContainer/PlayerInputSpacer/PlayerInput/BalanceContainer/ModifiedBalance/NewHeight" to="." method="_on_NewHeight_value_changed"]

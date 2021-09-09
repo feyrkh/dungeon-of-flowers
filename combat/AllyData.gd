@@ -1,7 +1,7 @@
 extends Reference
 class_name AllyData
 
-var name : String
+var label : String
 var className : String
 var hp : int
 var max_hp : int

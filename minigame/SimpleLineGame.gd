@@ -1,11 +1,10 @@
 extends BaseMinigame
 
 const SuccessLine = preload("res://minigame/SuccessLine.tscn")
-
-enum MarkerMoveStyle {Bounce, WrapLeft, WrapRight}
+const Enums = preload("res://Enums.gd")
 
 signal minigame_success(successAmount)
-signal minigame_fail(failAmount)
+signal minigame_complete
 
 export var minSecondsPerBounce = 0.5
 export var maxSecondsPerBounce = 2.0
@@ -23,7 +22,7 @@ var successLineEnd
 var markerResetStyleBounce
 var markerDirection
 var markerMoveStyle
-
+var isStarted = false
 
 export(NodePath) var dangerLinePath
 export(NodePath) var successLinePath
@@ -33,11 +32,13 @@ onready var marker:Line2D = find_node("Marker")
 onready var successLineContainer:Node = find_node("SuccessLines")
 
 var config:Dictionary
+var strikesMade:int = 0
+var strikeDelay:int = 0
 
 func _ready():
 	if get_parent() == get_tree().root:
 		setMinigameConfig({
-			"markerMoveStyle": MarkerMoveStyle.WrapRight,
+			"markerMoveStyle": Enums.MarkerMoveStyle.WrapRight,
 			"markerMoveSpeed": 0.4, # percentage per second; 1 means it will take 1 second, 0.5 means it will take 2 seconds
 			"markerMoveDirection": 1, # 1 = to the right, -1 = to the left
 			"markerStartPosition": 0, # 0 - 1.0
@@ -46,19 +47,24 @@ func _ready():
 				{"width": 0.03, "position": 0.525, "level": 1.5, "color": Color.orange},
 				{"width": 0.01, "position": 0.8, "level": 2, "color": Color.orangered}
 			],
-			"failure": {
-				"level": 0.5
-			}
+			"failureLevel": 0.5,
+			"strikes": 3,
+			"strikeDelay": 0.1
 		})
 	setupGame()
+	if get_parent() == get_tree().root:
+		start()
 	
+func start():
+	isStarted = true
+
 func setMinigameConfig(config):
 	self.config = config
 	if !config.has("markerMoveStyle"):
 		match randi()%4:
-			0,1: markerMoveStyle = MarkerMoveStyle.Bounce
-			2: markerMoveStyle = MarkerMoveStyle.WrapLeft
-			3: markerMoveStyle = MarkerMoveStyle.WrapRight
+			0,1: markerMoveStyle = Enums.MarkerMoveStyle.Bounce
+			2: markerMoveStyle = Enums.MarkerMoveStyle.WrapLeft
+			3: markerMoveStyle = Enums.MarkerMoveStyle.WrapRight
 		config["markerMoveStyle"] = markerMoveStyle
 	markerMoveStyle = config["markerMoveStyle"]
 	
@@ -91,21 +97,32 @@ func setupGame():
 	moveMarkerTo(markerStartPosition)
 	
 func _unhandled_key_input(event):
+	if !isStarted or strikeDelay > 0: 
+		return
 	if event.is_action_pressed("ui_accept"):
-		if markerInsideSuccessZone():
-			emit_signal("minigame_success", 1)
-		else: 
-			emit_signal("minigame_fail", 0)
-		setupGame()
+		var successLevel = getBestSuccessZoneLevel()
+		emit_signal("minigame_success", successLevel)
+		print("Minigame result: "+str(successLevel))
+		#setupGame()
 		get_tree().set_input_as_handled()
+		strikesMade += 1
+		if strikesMade >= config.get("strikes", 1):
+			end_game()
+		else:
+			strikeDelay = config.get("strikeDelay", 0)
 
 func markerInsideSuccessZone():
+	return getBestSuccessZoneLevel() > config["failureLevel"]
+
+func getBestSuccessZoneLevel():
+	var val = config["failureLevel"]
 	var markerX = marker.points[0].x
 	var markerPosPercent = (markerX - dangerLine.points[0].x)/(dangerLine.points[-1].x - dangerLine.points[0].x) # Should be between 0 and 1
 	for successLine in config["successZones"]:
 		if markerPosPercent > successLine["position"] - successLine["width"] and markerPosPercent < successLine["position"] + successLine["width"]:
-			return true
-	return false
+			if successLine["level"] > val: 
+				val = successLine["level"]
+	return val
 	#return (markerX >= successLine.points[0].x) and (markerX <= successLine.points[-1].x)
 	
 func moveMarkerTo(xCoord):
@@ -120,11 +137,12 @@ func setMarkerColor():
 		marker.default_color = markerOutOfZoneColor
 
 func _process(delta):
-	if !isSetup: return
+	if !isSetup or !isStarted: return
+	strikeDelay = max(0, strikeDelay - delta)
 	match markerMoveStyle:
-		MarkerMoveStyle.Bounce: processBounceMove(delta)
-		MarkerMoveStyle.WrapLeft: processWrapLeftMove(delta)
-		MarkerMoveStyle.WrapRight: processWrapRightMove(delta)
+		Enums.MarkerMoveStyle.Bounce: processBounceMove(delta)
+		Enums.MarkerMoveStyle.WrapLeft: processWrapLeftMove(delta)
+		Enums.MarkerMoveStyle.WrapRight: processWrapRightMove(delta)
 	
 func processBounceMove(delta):
 	var newMarkerX = marker.points[0].x + (markerDirection * markerPixelsPerSec * delta)
@@ -138,13 +156,21 @@ func processWrapLeftMove(delta):
 	var newMarkerX = marker.points[0].x - (markerPixelsPerSec * delta)
 	newMarkerX = max(dangerLine.points[0].x, newMarkerX)
 	moveMarkerTo(newMarkerX)
-	if newMarkerX == dangerLine.points[0].x: moveMarkerTo(dangerLine.points[-1].x)
+	if newMarkerX == dangerLine.points[0].x: #moveMarkerTo(dangerLine.points[-1].x)
+		end_game()
+
+func end_game():
+	emit_signal("minigame_complete")
+	queue_free() 
 	
 func processWrapRightMove(delta):
 	var newMarkerX = marker.points[0].x + (markerPixelsPerSec * delta)
 	newMarkerX = min(dangerLine.points[-1].x, newMarkerX)
 	moveMarkerTo(newMarkerX)
-	if newMarkerX == dangerLine.points[-1].x: moveMarkerTo(dangerLine.points[0].x)
+	if newMarkerX == dangerLine.points[-1].x:
+		emit_signal("minigame_complete")
+		queue_free() 
+		#moveMarkerTo(dangerLine.points[0].x)
 	
 func getPowerText(powerLevel):
 	match powerLevel:

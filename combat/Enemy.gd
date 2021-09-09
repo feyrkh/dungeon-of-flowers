@@ -25,17 +25,17 @@ func unhighlight():
 	find_node("Pulser").stop()
 
 func _on_TargetButton_pressed():
-	print("Targeted an enemy: "+data.name)
+	print("Targeted an enemy: "+data.label)
 	emit_signal("target_button_hover")
 
 
 func _on_Area2D_mouse_entered():
-	print("Mouse entered enemy: "+data.name)
+	print("Mouse entered enemy: "+data.label)
 	emit_signal("target_button_entered")
 
 
 func _on_Area2D_mouse_exited():
-	print("Mouse left enemy: "+data.name)
+	print("Mouse left enemy: "+data.label)
 	emit_signal("target_button_exited")
 
 

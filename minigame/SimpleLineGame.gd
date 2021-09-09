@@ -108,6 +108,7 @@ func _unhandled_key_input(event):
 		get_tree().set_input_as_handled()
 		strikesMade += 1
 		markerPause = 0.15
+		Util.shake(self, 0.15, 10)
 		if strikesMade >= config.get("strikes", 1):
 			end_game()
 		else:
@@ -165,6 +166,7 @@ func processWrapLeftMove(delta):
 		end_game()
 
 func end_game():
+	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("minigame_complete")
 	queue_free() 
 	

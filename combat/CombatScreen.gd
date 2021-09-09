@@ -153,15 +153,19 @@ func trigger_attack_skill(enemy:Enemy, skill):
 	yield(get_tree().create_timer(0.5), "timeout")
 	accumulated_damage = 0
 	expected_damage = skill.base_damage * skill.strikes
-	attackScene.connect("minigame_success", self, "_on_skill_damage", [skill])
+	attackScene.connect("minigame_success", self, "_on_skill_damage", [skill, enemy])
 	attackScene.start()
 	yield(attackScene, "minigame_complete")
 	attackContainer.visible = false
-	var msg:String = skill.damageFormat
-	if accumulated_damage > expected_damage*1.5:
-		msg = msg + " " + skill.strongFormat
-	elif accumulated_damage < expected_damage*0.6:
-		msg = msg + " " + skill.weakFormat
+	var msg:String
+	if accumulated_damage > 0:
+		msg = skill.damageFormat
+		if accumulated_damage > expected_damage*1.5:
+			msg = msg + " " + skill.strongFormat
+		elif accumulated_damage < expected_damage*0.6:
+			msg = msg + " " + skill.weakFormat
+	else:
+		msg = skill.missFormat
 	msg = msg.format({
 		"player": combatData.get_current_ally().label,
 		"enemy": enemy.data.label,
@@ -171,9 +175,10 @@ func trigger_attack_skill(enemy:Enemy, skill):
 	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("player_move_complete", combatData, skill)
 
-func _on_skill_damage(damageMultiplier:float, skill):
+func _on_skill_damage(damageMultiplier:float, skill, enemy:Enemy):
 	var damage = skill.base_damage * damageMultiplier
 	accumulated_damage += damage
+	enemy.damage_hp(damage)
 
 func mock_combat_data():
 	var ally
@@ -352,6 +357,8 @@ func _on_Enemy_target_button_exited(enemyNode, enemyData):
 		highlight_targeted_enemy()
 	else:
 		targeted_enemy.erase(enemyNode)
+	if targeted_enemy.size() == 0:
+		unhighlight_targeted_enemy()
 
 func _on_Enemy_target_button_entered(enemyNode, enemyData):
 	if !enemy_targeting_enabled: 
@@ -362,15 +369,12 @@ func _on_Enemy_target_button_entered(enemyNode, enemyData):
 func _on_Enemy_target_button_pressed(enemyNode, enemyData):
 	if targeted_enemy.size() > 0:
 		trigger_attack_skill(targeted_enemy[0], selected_skill)
-	
-
 
 func _on_CombatScreen_start_enemy_turn(combatData):
 	emit_signal("log_msg", "The enemy is confused...")
 	yield(get_tree().create_timer(2), "timeout")
 	emit_signal("log_msg", "The enemy just stands there!")
 	emit_signal("enemy_turn_complete", combatData)
-
 
 func _on_CombatScreen_enemy_turn_complete(combatData):
 	yield(get_tree().create_timer(0.5), "timeout")

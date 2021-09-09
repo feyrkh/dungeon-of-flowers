@@ -12,6 +12,7 @@ func _ready():
 		"damageFormat": "{player} pummels {enemy} for {damage} damage!",
 		"weakFormat": "But {enemy} shrugs off the blows...",
 		"strongFormat": "{enemy} reels from the punishing blows!",
+		"missFormat": "{enemy} looks puzzled as {player} misses with every punch.",
 		"strikes": 3,
 		"markerMoveSpeed": 1,
 		"successZones": [
@@ -28,6 +29,7 @@ func _ready():
 		"damageFormat": "{player} headbutts {enemy} for {damage} damage!",
 		"weakFormat": "But {enemy} just grins at {player}!",
 		"strongFormat": "{enemy} is seeing stars!",
+		"missFormat": "{enemy} deftly dodges the headbutt.",
 		"strikes": 1,
 		"markerMoveSpeed": 1,
 		"successZones": [
@@ -44,6 +46,7 @@ func _ready():
 		"damageFormat": "{player} snaps a kick into {enemy} for {damage} damage!",
 		"weakFormat": "But {enemy} knocks their leg away...",
 		"strongFormat": "{enemy} staggers back!",
+		"missFormat": "{enemy} snickers as {player} trips.",
 		"strikes": 1,
 		"markerMoveSpeed": 1.5,
 		"successZones": [

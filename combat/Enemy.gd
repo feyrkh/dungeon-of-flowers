@@ -2,6 +2,7 @@ extends Node2D
 class_name Enemy
 
 const Weakspot = preload("res://combat/Weakspot.tscn")
+const DamageFloater = preload("res://combat/DamageFloater.tscn")
 
 signal target_button_pressed
 signal target_button_entered
@@ -12,6 +13,12 @@ var data : EnemyData
 
 func setup(data:EnemyData):
 	self.data = data
+
+func damage_hp(amt):
+	self.data.hp -= amt
+	var floater = DamageFloater.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+	floater.set_damage(round(amt))
+	add_child(floater)
 
 func _ready():
 	if !data:

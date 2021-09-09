@@ -14,6 +14,7 @@ var base_heal_mp : int = 0
 var damageFormat : String = "{player} hits {enemy} with a mysterious move for {damage}!"
 var weakFormat : String = "{enemy} is barely scratched!"
 var strongFormat : String = "{enemy} is eviscerated!"
+var missFormat : String = "{enemy} is untouched..."
 var strikes : int = 1 # number of times the user can click to attack
 var strikeDelay : float = 0.01 # number of seconds between strike attempts
 var markerMoveSpeed : float = 0.7 # percentage of the attack zone this moves per second; 1 means it will take 1 second, 0.5 means it will take 2 seconds

@@ -23,6 +23,7 @@ var markerResetStyleBounce
 var markerDirection
 var markerMoveStyle
 var isStarted = false
+var markerPause = 0
 
 export(NodePath) var dangerLinePath
 export(NodePath) var successLinePath
@@ -106,6 +107,7 @@ func _unhandled_key_input(event):
 		#setupGame()
 		get_tree().set_input_as_handled()
 		strikesMade += 1
+		markerPause = 0.15
 		if strikesMade >= config.get("strikes", 1):
 			end_game()
 		else:
@@ -138,6 +140,9 @@ func setMarkerColor():
 
 func _process(delta):
 	if !isSetup or !isStarted: return
+	if markerPause > 0: 
+		markerPause -= delta
+		return
 	strikeDelay = max(0, strikeDelay - delta)
 	match markerMoveStyle:
 		Enums.MarkerMoveStyle.Bounce: processBounceMove(delta)

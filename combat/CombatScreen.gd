@@ -179,6 +179,8 @@ func _on_skill_damage(damageMultiplier:float, skill, enemy:Enemy):
 	var damage = skill.base_damage * damageMultiplier
 	accumulated_damage += damage
 	enemy.damage_hp(damage)
+	if damage > 0:
+		Util.shake(enemy, 0.2, 20)
 
 func mock_combat_data():
 	var ally

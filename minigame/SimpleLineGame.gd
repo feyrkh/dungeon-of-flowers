@@ -110,7 +110,7 @@ func _unhandled_key_input(event):
 		get_tree().set_input_as_handled()
 		markerPause = 0.15
 		Util.shake(self, 0.15, 1)
-		if strikesMade >= config.get("strikes", 2):
+		if strikesMade >= config.get("strikes", 1):
 			end_game()
 
 func markerInsideSuccessZone():

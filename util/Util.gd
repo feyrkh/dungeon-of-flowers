@@ -41,8 +41,10 @@ static func fadeout(node:Node2D, time:float):
 	if node.has_meta('fadeout'):
 		return
 	node.set_meta('fadeout', true)
-	for i in range(1.0, 0, -0.05):
-		node.modulate(Color(1, 1, 1, i))
+	var i = 1
+	while i >= 0: 
+		i-=0.05
+		node.modulate = (Color(1, 1, 1, i))
 		yield(node.get_tree().create_timer(0.05), "timeout")
 		if !node: 
 			return

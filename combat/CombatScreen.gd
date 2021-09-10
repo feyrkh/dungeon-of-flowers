@@ -14,6 +14,8 @@ signal enemy_move_selected(combatData, moveData)
 signal enemy_move_complete(combatData, moveData)
 signal enemy_turn_complete(combatData)
 signal log_msg(msg)
+signal allies_win(combatData)
+signal allies_lose(combatData)
 
 # Combat flow:
 # start_combat() - display any combat opening effects, call start_player_turn or start_enemy_turn depending on surprise
@@ -104,7 +106,13 @@ func render_enemies():
 			enemyNamesList += ", "
 	
 	emit_signal("log_msg", "Uh oh - "+combatData.get_current_ally().label+" ran into "+enemyNamesList)
-		
+
+func enemies_all_dead():
+	return get_tree().get_nodes_in_group("enemy").size() == 0
+
+func allies_all_dead():
+	return combatData.get_current_ally().hp <= 0
+
 func render_ally_moves(combatData):
 	Util.delete_children(movesContainer)
 	for move in combatData.get_current_ally().moves:
@@ -114,6 +122,7 @@ func render_ally_moves(combatData):
 		})
 		movesContainer.add_child(skillButton)
 		skillButton.connect("skill_triggered", self, "_on_skill_triggered", [skillButton])
+	movesContainer.visible = true
 
 func highlight_targeted_enemy():
 	for enemy in get_tree().get_nodes_in_group("enemy"): 
@@ -145,7 +154,8 @@ func trigger_attack_skill(enemy:Enemy, skill):
 	unhighlight_skills()
 	print("Attacking "+enemy.data.label+" with "+skill.name)
 	var attackScene = skill.get_attack_scene(enemy)
-	playerInput.visible = false
+	movesContainer.visible = false
+	#playerInput.visible = false
 	#combatLog.visible = false
 	Util.delete_children(attackContainer)
 	attackContainer.visible = true
@@ -173,7 +183,7 @@ func trigger_attack_skill(enemy:Enemy, skill):
 	})
 	emit_signal("log_msg", msg)
 	#combatLog.visible = true
-	if enemy.data.hp < 0:
+	if enemy.data.hp <= 0:
 		Util.fadeout(enemy, 0.5)
 		yield(get_tree().create_timer(0.5), "timeout")
 		if enemy != null:
@@ -345,6 +355,8 @@ func _on_CombatScreen_start_player_turn(combatData):
 func _on_CombatScreen_player_move_complete(combatData, moveData):
 	unhighlight_targeted_enemy()
 	disable_enemy_targeting()
+	if check_combat_over():
+		return
 	emit_signal("start_enemy_turn", combatData)
 	
 func _on_skill_triggered(combatData, moveData, skillNode):
@@ -386,4 +398,22 @@ func _on_CombatScreen_start_enemy_turn(combatData):
 
 func _on_CombatScreen_enemy_turn_complete(combatData):
 	yield(get_tree().create_timer(0.5), "timeout")
+	if check_combat_over():
+		return
 	emit_signal("start_player_turn", combatData)
+
+func check_combat_over():
+	if enemies_all_dead():
+		emit_signal("allies_win", combatData)
+		emit_signal("log_msg", "The allies win!")
+		Util.fadeout(self, 1.5)
+		yield(get_tree().create_timer(2), "timeout")
+		queue_free()
+		return true
+	elif allies_all_dead():
+		emit_signal("allies_lose", combatData)
+		emit_signal("log_msg", "The allies lost....")
+		Util.fadeout(self, 1.5)
+		yield(get_tree().create_timer(2), "timeout")
+		queue_free()
+		return true

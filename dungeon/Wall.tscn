@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://img/tuongda590x590.webp" type="Texture" id=1]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_texture = ExtResource( 1 )
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 3.98597, 3.45881, 0.497913 )
+
+[node name="Wall" type="CSGPolygon"]
+polygon = PoolVector2Array( 0, 0, 0, 9, 13, 9, 13, 0 )
+material = SubResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.48106, 4.50169, -0.5 )
+shape = SubResource( 2 )

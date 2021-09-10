@@ -146,7 +146,7 @@ func trigger_attack_skill(enemy:Enemy, skill):
 	print("Attacking "+enemy.data.label+" with "+skill.name)
 	var attackScene = skill.get_attack_scene(enemy)
 	playerInput.visible = false
-	combatLog.visible = false
+	#combatLog.visible = false
 	Util.delete_children(attackContainer)
 	attackContainer.visible = true
 	attackContainer.add_child(attackScene)
@@ -172,15 +172,22 @@ func trigger_attack_skill(enemy:Enemy, skill):
 		"damage": accumulated_damage,
 	})
 	emit_signal("log_msg", msg)
+	#combatLog.visible = true
+	if enemy.data.hp < 0:
+		Util.fadeout(enemy, 0.5)
+		yield(get_tree().create_timer(0.5), "timeout")
+		if enemy != null:
+			enemy.queue_free()
+		emit_signal("log_msg", enemy.data.label+" dies")
 	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("player_move_complete", combatData, skill)
 
 func _on_skill_damage(damageMultiplier:float, skill, enemy:Enemy):
 	var damage = skill.base_damage * damageMultiplier
 	accumulated_damage += damage
-	enemy.damage_hp(damage)
-	if damage > 0:
-		Util.shake(enemy, 0.2, 20)
+	if enemy.data.hp > 0: 
+		enemy.damage_hp(damage)
+			
 
 func mock_combat_data():
 	var ally
@@ -338,7 +345,6 @@ func _on_CombatScreen_start_player_turn(combatData):
 func _on_CombatScreen_player_move_complete(combatData, moveData):
 	unhighlight_targeted_enemy()
 	disable_enemy_targeting()
-	combatLog.visible = true
 	emit_signal("start_enemy_turn", combatData)
 	
 func _on_skill_triggered(combatData, moveData, skillNode):

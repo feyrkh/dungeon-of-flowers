@@ -16,7 +16,7 @@ var weakFormat : String = "{enemy} is barely scratched!"
 var strongFormat : String = "{enemy} is eviscerated!"
 var missFormat : String = "{enemy} is untouched..."
 var strikes : int = 1 # number of times the user can click to attack
-var strikeDelay : float = 0.01 # number of seconds between strike attempts
+var strikeDelay : float = 0.1 # number of seconds between strike attempts
 var markerMoveSpeed : float = 0.7 # percentage of the attack zone this moves per second; 1 means it will take 1 second, 0.5 means it will take 2 seconds
 var successZones : Array = [
 	{"width":0.05, "position":0.5, "level":1, "color":Color.green},

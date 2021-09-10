@@ -16,9 +16,15 @@ func setup(data:EnemyData):
 
 func damage_hp(amt):
 	self.data.hp -= amt
+	print(data.label + " has "+str(data.hp)+" hp left")
 	var floater = DamageFloater.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
 	floater.set_damage(round(amt))
 	add_child(floater)
+	if amt > 0:
+		Util.shake(self, 0.2, 20)
+		yield(get_tree().create_timer(0.5), "timeout")
+		
+		
 
 func _ready():
 	if !data:

@@ -34,7 +34,7 @@ onready var successLineContainer:Node = find_node("SuccessLines")
 
 var config:Dictionary
 var strikesMade:int = 0
-var strikeDelay:int = 0
+var strikeDelay:float = 0
 
 func _ready():
 	if get_parent() == get_tree().root:
@@ -98,21 +98,20 @@ func setupGame():
 	moveMarkerTo(markerStartPosition)
 	
 func _unhandled_key_input(event):
-	if !isStarted or strikeDelay > 0: 
+	if !isStarted or strikeDelay > 0 or strikesMade >= config.get("strikes", 1): 
 		return
 	if event.is_action_pressed("ui_accept"):
+		strikeDelay = config.get("strikeDelay", 0)
+		strikesMade += 1
 		var successLevel = getBestSuccessZoneLevel()
 		emit_signal("minigame_success", successLevel)
 		print("Minigame result: "+str(successLevel))
 		#setupGame()
 		get_tree().set_input_as_handled()
-		strikesMade += 1
 		markerPause = 0.15
-		Util.shake(self, 0.15, 10)
+		Util.shake(self, 0.15, 1)
 		if strikesMade >= config.get("strikes", 1):
 			end_game()
-		else:
-			strikeDelay = config.get("strikeDelay", 0)
 
 func markerInsideSuccessZone():
 	return getBestSuccessZoneLevel() > config["failureLevel"]
@@ -166,6 +165,9 @@ func processWrapLeftMove(delta):
 		end_game()
 
 func end_game():
+	if has_meta('game_ending'):
+		return
+	set_meta('game_ending', true)
 	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("minigame_complete")
 	queue_free() 

@@ -292,6 +292,7 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 1017.0
 margin_bottom = 129.0
+
 [connection signal="enemy_turn_complete" from="." to="." method="_on_CombatScreen_enemy_turn_complete"]
 [connection signal="log_msg" from="." to="DisplayArea/HBoxContainer/CombatLog" method="_on_CombatScreen_log_msg"]
 [connection signal="player_move_complete" from="." to="." method="_on_CombatScreen_player_move_complete"]

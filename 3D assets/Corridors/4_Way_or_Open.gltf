@@ -15,12 +15,28 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Dead End",
+            "name" : "Straight Corridor ",
             "scale" : [
                 1.5,
-                0.02469135820865631,
+                0.024896282702684402,
                 1.5
             ]
+        }
+    ],
+    "materials" : [
+        {
+            "doubleSided" : true,
+            "name" : "Material",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1
+                ],
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.4000000059604645
+            }
         }
     ],
     "meshes" : [
@@ -33,7 +49,8 @@
                         "NORMAL" : 1,
                         "TEXCOORD_0" : 2
                     },
-                    "indices" : 3
+                    "indices" : 3,
+                    "material" : 0
                 }
             ]
         }
@@ -42,15 +59,15 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 20,
+            "count" : 48,
             "max" : [
                 1,
-                120.5,
+                122.75831604003906,
                 1
             ],
             "min" : [
                 -1,
-                0.4999961853027344,
+                -2.2583351135253906,
                 -1
             ],
             "type" : "VEC3"
@@ -58,48 +75,48 @@
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 20,
+            "count" : 48,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 20,
+            "count" : 48,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 30,
+            "count" : 72,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 240,
+            "byteLength" : 576,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 240,
-            "byteOffset" : 240
+            "byteLength" : 576,
+            "byteOffset" : 576
         },
         {
             "buffer" : 0,
-            "byteLength" : 160,
-            "byteOffset" : 480
+            "byteLength" : 384,
+            "byteOffset" : 1152
         },
         {
             "buffer" : 0,
-            "byteLength" : 60,
-            "byteOffset" : 640
+            "byteLength" : 144,
+            "byteOffset" : 1536
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 700,
-            "uri" : "Dead End.bin"
+            "byteLength" : 1680,
+            "uri" : "4_Way_or_Open.bin"
         }
     ]
 }

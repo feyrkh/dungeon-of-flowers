@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/corridor.gltf-7d707c85b85e5f0273722737290f2806.scn"
+path="res://.import/Straight_Corridor.gltf-6afb51695126c3e1c3f27d55cb5e3510.scn"
 
 [deps]
 
-source_file="res://3D assets/Corridors/corridor.gltf"
-dest_files=[ "res://.import/corridor.gltf-7d707c85b85e5f0273722737290f2806.scn" ]
+source_file="res://3D assets/Corridors/Straight_Corridor.gltf"
+dest_files=[ "res://.import/Straight_Corridor.gltf-6afb51695126c3e1c3f27d55cb5e3510.scn" ]
 
 [params]
 

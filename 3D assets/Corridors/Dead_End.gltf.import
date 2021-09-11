@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/4way or open.gltf-fb497b633e00a93db054e3a2cd0fd447.scn"
+path="res://.import/Dead_End.gltf-e0798c16e55dccf92e05944e2d397ca3.scn"
 
 [deps]
 
-source_file="res://3D assets/Corridors/4way or open.gltf"
-dest_files=[ "res://.import/4way or open.gltf-fb497b633e00a93db054e3a2cd0fd447.scn" ]
+source_file="res://3D assets/Corridors/Dead_End.gltf"
+dest_files=[ "res://.import/Dead_End.gltf-e0798c16e55dccf92e05944e2d397ca3.scn" ]
 
 [params]
 

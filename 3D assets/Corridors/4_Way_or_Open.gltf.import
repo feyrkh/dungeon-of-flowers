@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/T Section.gltf-ec64c83c1232311275bacfa1cd8b0be4.scn"
+path="res://.import/4_Way_or_Open.gltf-63aa479763a41d93269ac06f48406b5a.scn"
 
 [deps]
 
-source_file="res://3D assets/Corridors/T Section.gltf"
-dest_files=[ "res://.import/T Section.gltf-ec64c83c1232311275bacfa1cd8b0be4.scn" ]
+source_file="res://3D assets/Corridors/4_Way_or_Open.gltf"
+dest_files=[ "res://.import/4_Way_or_Open.gltf-63aa479763a41d93269ac06f48406b5a.scn" ]
 
 [params]
 

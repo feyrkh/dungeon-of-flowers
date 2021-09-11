@@ -18,7 +18,7 @@
             "name" : "Straight Corridor ",
             "scale" : [
                 1.5,
-                0.02469135820865631,
+                0.024896282702684402,
                 1.5
             ]
         }
@@ -59,64 +59,64 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 16,
+            "count" : 76,
             "max" : [
                 1,
-                120.5,
-                1
+                122.75831604003906,
+                1.033333659172058
             ],
             "min" : [
                 -1,
-                0.4999961853027344,
-                -1
+                -2.2583351135253906,
+                -1.033333659172058
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 16,
+            "count" : 76,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 16,
+            "count" : 76,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 24,
+            "count" : 120,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 192,
+            "byteLength" : 912,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 192,
-            "byteOffset" : 192
+            "byteLength" : 912,
+            "byteOffset" : 912
         },
         {
             "buffer" : 0,
-            "byteLength" : 128,
-            "byteOffset" : 384
+            "byteLength" : 608,
+            "byteOffset" : 1824
         },
         {
             "buffer" : 0,
-            "byteLength" : 48,
-            "byteOffset" : 512
+            "byteLength" : 240,
+            "byteOffset" : 2432
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 560,
-            "uri" : "corridor.bin"
+            "byteLength" : 2672,
+            "uri" : "T_Section.bin"
         }
     ]
 }

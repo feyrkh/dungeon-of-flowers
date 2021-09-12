@@ -28,32 +28,32 @@ func _ready():
 	connect("move_complete", self, "_on_move_complete")
 	connect("turn_complete", self, "_on_turn_complete")
 
-func _input(event):
+func process_input():
 	if is_moving or is_bumping: 
 		return
-	if event.is_action_pressed("move_forward"):
+	if Input.is_action_pressed("move_forward"):
 		if can_move(forwardSensor):
 			move(1)
 		else:
 			bump_forward(1)
-	elif event.is_action_pressed("move_backward"):
+	elif Input.is_action_pressed("move_backward"):
 		if can_move(backwardSensor):
 			move(-1)
 		else:
 			bump_forward(-1)
-	if event.is_action_pressed("move_left"):
+	if Input.is_action_pressed("move_left"):
 		if can_move(leftSensor):
 			sidestep(1)
 		else:
 			bump_sideways(1)
-	elif event.is_action_pressed("move_right"):
+	elif Input.is_action_pressed("move_right"):
 		if can_move(rightSensor):
 			sidestep(-1)
 		else:
 			bump_sideways(-1)
-	elif event.is_action_pressed("turn_left"):
+	elif Input.is_action_pressed("turn_left"):
 		turn(-1)
-	elif event.is_action_pressed("turn_right"):
+	elif Input.is_action_pressed("turn_right"):
 		turn(1)
 
 func bump_forward(dir):
@@ -102,6 +102,7 @@ func _on_turn_complete():
 	is_moving = false
 
 func _process(delta):
+	process_input()
 	if target_position:
 		move_time += delta*move_multiplier
 		if move_time < MOVE_TIME:

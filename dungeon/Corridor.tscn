@@ -3,6 +3,7 @@
 [ext_resource path="res://dungeon/wall.tscn" type="PackedScene" id=1]
 
 [sub_resource type="SphereShape" id=1]
+radius = 0.03
 
 [node name="corridor" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.23517e-08 )
@@ -16,7 +17,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, -2.23517e-08 )
 [node name="MoveTarget" type="Area" parent="wall2" groups=[
 "movetarget",
 ]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -1.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="wall2/MoveTarget"]
 shape = SubResource( 1 )

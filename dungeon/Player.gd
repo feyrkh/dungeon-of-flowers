@@ -1,7 +1,7 @@
 extends Spatial
 
 const ROTATE_TIME = 0.5
-const MOVE_TIME = 1.0
+const MOVE_TIME = 0.5
 
 var is_moving = false
 var start_rotation
@@ -21,6 +21,10 @@ func _input(event):
 		move(1)
 	elif event.is_action_pressed("move_backward"):
 		move(-1)
+	if event.is_action_pressed("move_left"):
+		sidestep(1)
+	elif event.is_action_pressed("move_right"):
+		sidestep(-1)
 	elif event.is_action_pressed("turn_left"):
 		turn(-1)
 	elif event.is_action_pressed("turn_right"):
@@ -57,6 +61,14 @@ func move(dir):
 	target_position = global_transform.origin + global_transform.basis.z*3 * -dir
 	move_time = 0
 
+func sidestep(dir):
+	if is_moving:
+		return
+	is_moving = true
+	print("start sidestep at ", OS.get_system_time_msecs())
+	start_position = global_transform.origin
+	target_position = global_transform.origin + global_transform.basis.x*3*-dir
+	move_time = 0
 
 func turn(dir):
 	if is_moving: 

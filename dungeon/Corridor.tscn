@@ -8,10 +8,10 @@
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.23517e-08 )
 
 [node name="wall" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 1.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -2.23517e-08 )
 
 [node name="wall2" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 1.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, -2.23517e-08 )
 
 [node name="MoveTarget" type="Area" parent="wall2" groups=[
 "movetarget",

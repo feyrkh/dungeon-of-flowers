@@ -16,6 +16,10 @@ var combat_grace_period_counter:int
 var combat_chance_per_tile:float = 0.1
 var property_types:Dictionary = {}
 
+onready var Map:Spatial = find_node("Map")
+onready var Combat:Control = find_node("Combat")
+onready var Fader:Control = find_node("Fader")
+
 func _ready():
 	for prop in get_property_list():
 		property_types[prop.name] = prop.type
@@ -48,7 +52,6 @@ func process_config_line(line:String):
 			TYPE_STRING:
 				set(chunks[0], chunks[1])
 			_: printerr("Unexpected property type: ", property_types.get(chunks[0]))
-		
 	
 func process_map(file):
 	var z = 0

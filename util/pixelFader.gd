@@ -39,5 +39,5 @@ func _process(delta):
 	else:
 		shader.set_shader_param("size_x", target)
 		shader.set_shader_param("size_y", target)
-		emit_signal("fade_complete")
 		fading = false
+		emit_signal("fade_complete")

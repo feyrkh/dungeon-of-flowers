@@ -184,8 +184,8 @@ func trigger_attack_skill(enemy:Enemy, skill):
 	emit_signal("log_msg", msg)
 	#combatLog.visible = true
 	if enemy.data.hp <= 0:
-		Util.fadeout(enemy, 0.5)
-		yield(get_tree().create_timer(0.5), "timeout")
+		#Util.fadeout(enemy, 0.5)
+		yield(get_tree().create_timer(0.7), "timeout")
 		if enemy != null:
 			enemy.queue_free()
 		emit_signal("log_msg", enemy.data.label+" dies")
@@ -406,14 +406,14 @@ func check_combat_over():
 	if enemies_all_dead():
 		emit_signal("allies_win", combatData)
 		emit_signal("log_msg", "The allies win!")
-		Util.fadeout(self, 1.5)
+		#Util.fadeout(self, 1.5)
 		yield(get_tree().create_timer(2), "timeout")
 		queue_free()
 		return true
 	elif allies_all_dead():
 		emit_signal("allies_lose", combatData)
 		emit_signal("log_msg", "The allies lost....")
-		Util.fadeout(self, 1.5)
+		#Util.fadeout(self, 1.5)
 		yield(get_tree().create_timer(2), "timeout")
 		queue_free()
 		return true

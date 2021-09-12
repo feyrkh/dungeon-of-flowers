@@ -6,6 +6,7 @@
 size = Vector3( 3, 3, 3 )
 
 [sub_resource type="SpatialMaterial" id=4]
+flags_disable_ambient_light = true
 albedo_texture = ExtResource( 1 )
 
 [node name="wallBlock" type="Spatial"]

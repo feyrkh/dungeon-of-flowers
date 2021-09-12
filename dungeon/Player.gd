@@ -14,12 +14,14 @@ var target_position
 var rotation_time
 var move_time
 var move_multiplier = 1.0
+var is_bumping = false
 
 onready var forwardSensor:Area = find_node("forwardSensor")
 onready var backwardSensor:Area = find_node("backwardSensor")
 onready var leftSensor:Area = find_node("leftSensor")
 onready var rightSensor:Area = find_node("rightSensor")
 onready var wallBumpSfx:AudioStreamPlayer = find_node("wallBumpSfx")
+onready var walkSfx:AudioStreamPlayer = find_node("walkSfx")
 
 func _ready():
 	transform = transform.looking_at(transform.origin + Vector3(0, 0, 1), Vector3.UP)
@@ -53,6 +55,7 @@ func _input(event):
 		turn(1)
 
 func bump_forward(dir):
+	is_bumping = true
 	move_multiplier = 2
 	move(0.1*dir)
 	yield(self, "move_complete")
@@ -61,8 +64,10 @@ func bump_forward(dir):
 	move(-0.1*dir)
 	yield(self, "move_complete")
 	move_multiplier = 1
+	is_bumping = false
 
 func bump_sideways(dir):
+	is_bumping = true
 	move_multiplier = 2
 	sidestep(0.1*dir)
 	yield(self, "move_complete")
@@ -71,6 +76,7 @@ func bump_sideways(dir):
 	sidestep(-0.1*dir)
 	yield(self, "move_complete")
 	move_multiplier = 1
+	is_bumping = false
 
 func can_move(sensor):
 	var areas = sensor.get_overlapping_areas()
@@ -111,6 +117,8 @@ func move(dir):
 	if is_moving: 
 		return
 	is_moving = true
+	if !is_bumping:
+		walkSfx.play()
 	print("start move at ", OS.get_system_time_msecs())
 	start_position = global_transform.origin
 	target_position = global_transform.origin + global_transform.basis.z*3 * -dir
@@ -120,6 +128,8 @@ func sidestep(dir):
 	if is_moving:
 		return
 	is_moving = true
+	if !is_bumping:
+		walkSfx.play()
 	print("start sidestep at ", OS.get_system_time_msecs())
 	start_position = global_transform.origin
 	target_position = global_transform.origin + global_transform.basis.x*3*-dir

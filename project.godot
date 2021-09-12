@@ -64,6 +64,7 @@ config/icon="res://icon.png"
 
 EnemyList="*res://combat/EnemyList.gd"
 MoveList="*res://combat/MoveList.gd"
+CombatMgr="*res://combat/CombatMgr.tscn"
 
 [debug]
 

@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://shader/pixel.shader" type="Shader" id=1]
+[ext_resource path="res://util/pixelFader.gd" type="Script" id=2]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 1 )
+shader_param/size_x = 0.01
+shader_param/size_y = 0.01
+
+[node name="PixelFader" type="ColorRect"]
+material = SubResource( 1 )
+margin_right = 1025.0
+margin_bottom = 602.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

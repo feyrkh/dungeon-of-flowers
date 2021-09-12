@@ -2,6 +2,7 @@ extends Spatial
 
 signal move_complete
 signal turn_complete
+signal tile_move_complete
 
 const ROTATE_TIME = 0.5
 const MOVE_TIME = 0.5
@@ -15,6 +16,7 @@ var rotation_time
 var move_time
 var move_multiplier = 1.0
 var is_bumping = false
+var is_in_combat = false
 
 onready var forwardSensor:Area = find_node("forwardSensor")
 onready var backwardSensor:Area = find_node("backwardSensor")
@@ -28,8 +30,14 @@ func _ready():
 	connect("move_complete", self, "_on_move_complete")
 	connect("turn_complete", self, "_on_turn_complete")
 
+func _on_combat_start():
+	is_in_combat = true
+
+func _on_combat_end():
+	is_in_combat = false
+
 func process_input():
-	if is_moving or is_bumping: 
+	if is_in_combat or is_moving or is_bumping: 
 		return
 	if Input.is_action_pressed("move_forward"):
 		if can_move(forwardSensor):
@@ -110,7 +118,9 @@ func _process(delta):
 		else:
 			global_transform.origin = target_position
 			emit_signal("move_complete")
-			print("ended move at ", OS.get_system_time_msecs())
+			#print("ended move at ", OS.get_system_time_msecs())
+			if !is_bumping:
+				emit_signal("tile_move_complete")
 	if target_rotation:
 		rotation_time += delta
 		if rotation_time < ROTATE_TIME:
@@ -118,7 +128,6 @@ func _process(delta):
 		else:
 			transform.basis = target_rotation
 			emit_signal("turn_complete")
-			print("ended rotate at ", OS.get_system_time_msecs())
 
 func move(dir):
 	if is_moving: 
@@ -126,7 +135,7 @@ func move(dir):
 	is_moving = true
 	if !is_bumping:
 		walkSfx.play()
-	print("start move at ", OS.get_system_time_msecs())
+	#print("start move at ", OS.get_system_time_msecs())
 	start_position = global_transform.origin
 	target_position = global_transform.origin + global_transform.basis.z*3 * -dir
 	move_time = 0
@@ -137,7 +146,7 @@ func sidestep(dir):
 	is_moving = true
 	if !is_bumping:
 		walkSfx.play()
-	print("start sidestep at ", OS.get_system_time_msecs())
+	#print("start sidestep at ", OS.get_system_time_msecs())
 	start_position = global_transform.origin
 	target_position = global_transform.origin + global_transform.basis.x*3*-dir
 	move_time = 0
@@ -146,7 +155,7 @@ func turn(dir):
 	if is_moving: 
 		return
 	is_moving = true
-	print("start rotate at ", OS.get_system_time_msecs())
+	#print("start rotate at ", OS.get_system_time_msecs())
 	start_rotation = transform.basis
 	target_rotation = transform.basis.rotated(Vector3.DOWN, deg2rad(90*dir))
 	rotation_time = 0

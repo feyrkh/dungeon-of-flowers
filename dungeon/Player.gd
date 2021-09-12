@@ -25,9 +25,11 @@ onready var walkSfx:AudioStreamPlayer = find_node("walkSfx")
 
 func _ready():
 	transform = transform.looking_at(transform.origin + Vector3(0, 0, 1), Vector3.UP)
+	connect("move_complete", self, "_on_move_complete")
+	connect("turn_complete", self, "_on_turn_complete")
 
 func _input(event):
-	if is_moving: 
+	if is_moving or is_bumping: 
 		return
 	if event.is_action_pressed("move_forward"):
 		if can_move(forwardSensor):
@@ -89,6 +91,16 @@ func can_move(sensor):
 			print(area.name)
 		return true
 
+func _on_move_complete():
+	target_position = null
+	move_time = 0
+	is_moving = false
+
+func _on_turn_complete():
+	target_rotation = null
+	rotation_time = 0
+	is_moving = false
+
 func _process(delta):
 	if target_position:
 		move_time += delta*move_multiplier
@@ -96,9 +108,6 @@ func _process(delta):
 			global_transform.origin = (target_position - start_position)*(move_time/MOVE_TIME)+start_position
 		else:
 			global_transform.origin = target_position
-			target_position = null
-			move_time = 0
-			is_moving = false
 			emit_signal("move_complete")
 			print("ended move at ", OS.get_system_time_msecs())
 	if target_rotation:
@@ -107,9 +116,6 @@ func _process(delta):
 			transform.basis = start_rotation.slerp(target_rotation, rotation_time/ROTATE_TIME)
 		else:
 			transform.basis = target_rotation
-			target_rotation = null
-			rotation_time = 0
-			is_moving = false
 			emit_signal("turn_complete")
 			print("ended rotate at ", OS.get_system_time_msecs())
 

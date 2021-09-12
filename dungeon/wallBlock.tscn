@@ -1,49 +1,21 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://img/stonewall.png" type="Texture" id=1]
-[ext_resource path="res://img/stones-normal.png" type="Texture" id=2]
+[ext_resource path="res://img/Cube_6.PNG" type="Texture" id=2]
 
-[sub_resource type="SpatialMaterial" id=1]
-flags_disable_ambient_light = true
+[sub_resource type="SpatialMaterial" id=2]
 albedo_texture = ExtResource( 1 )
-normal_enabled = true
-normal_scale = 1.0
-normal_texture = ExtResource( 2 )
+
+[sub_resource type="CubeMesh" id=3]
+material = SubResource( 2 )
+size = Vector3( 3, 3, 3 )
+
+[sub_resource type="SpatialMaterial" id=4]
+albedo_texture = ExtResource( 2 )
 
 [node name="wallBlock" type="Spatial"]
 
-[node name="wall" type="CSGPolygon" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5 )
-polygon = PoolVector2Array( -1.5, 0, -1.5, 3, 1.5, 3, 1.5, 0 )
-depth = 0.001
-material = SubResource( 1 )
-
-[node name="wall2" type="CSGPolygon" parent="."]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -1.5 )
-polygon = PoolVector2Array( -1.5, 0, -1.5, 3, 1.5, 3, 1.5, 0 )
-depth = 0.001
-material = SubResource( 1 )
-
-[node name="wall3" type="CSGPolygon" parent="."]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.5, 0, 0 )
-polygon = PoolVector2Array( -1.5, 0, -1.5, 3, 1.5, 3, 1.5, 0 )
-depth = 0.001
-material = SubResource( 1 )
-
-[node name="wall4" type="CSGPolygon" parent="."]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.5, 0, 0 )
-polygon = PoolVector2Array( -1.5, 0, -1.5, 3, 1.5, 3, 1.5, 0 )
-depth = 0.001
-material = SubResource( 1 )
-
-[node name="wall5" type="CSGPolygon" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 3, -1.5 )
-polygon = PoolVector2Array( -1.5, 0, -1.5, 3, 1.5, 3, 1.5, 0 )
-depth = 0.001
-material = SubResource( 1 )
-
-[node name="wall6" type="CSGPolygon" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -1.5 )
-polygon = PoolVector2Array( -1.5, 0, -1.5, 3, 1.5, 3, 1.5, 0 )
-depth = 0.001
-material = SubResource( 1 )
+[node name="CSGMesh" type="CSGMesh" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+mesh = SubResource( 3 )
+material = SubResource( 4 )

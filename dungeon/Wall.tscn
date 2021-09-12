@@ -4,6 +4,7 @@
 [ext_resource path="res://img/stones-normal.png" type="Texture" id=2]
 
 [sub_resource type="SpatialMaterial" id=1]
+flags_disable_ambient_light = true
 albedo_texture = ExtResource( 1 )
 normal_enabled = true
 normal_scale = 1.0

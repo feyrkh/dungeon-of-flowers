@@ -6,15 +6,13 @@
 [node name="Roots" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.059, 0.002 )
 script = ExtResource( 2 )
-min_translation = Vector3( -0.5, -0.1, 0 )
-max_translation = Vector3( 0.5, 0.1, 0 )
-min_rotation_degrees = Vector3( 0, -10, 0 )
-max_rotation_degrees = Vector3( 0, 10, 0 )
-appearance_chance = 0.3
+appearance_chance = 0.2
 min_scale = Vector3( 0.5, 0.5, 0.5 )
 max_scale = Vector3( 2, 2, 2 )
 flipped_translation = Vector3( 0, -3, 0 )
 flipped_rotation = Vector3( 180, 0, 0 )
+writhe_rotate = Vector3( 0, 0, 5 )
+writhe_scale = Vector3( 0.07, 0.07, 0.07 )
 
 [node name="Roots" parent="." index="0"]
-transform = Transform( 0.0486863, 0.0584034, 0.0330323, 0.0463445, 0.000242313, -0.0687355, -0.0485209, 0.0588339, -0.0325075, 0, 0, 0 )
+transform = Transform( 0.0486863, 0.0584034, 0.0330323, 0.0463445, 0.000242302, -0.0687355, -0.0485209, 0.0588339, -0.0325075, 0, 0, 0 )

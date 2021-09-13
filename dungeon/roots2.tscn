@@ -5,10 +5,15 @@
 
 [node name="Roots_2" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-min_translation = Vector3( 2, 0, 0 )
-appearance_chance = 0.2
+min_translation = Vector3( 1.5, 0, 0 )
+appearance_chance = 0.4
+min_scale = Vector3( 0.5, 0.5, 0.5 )
+max_scale = Vector3( 1.1, 1.1, 1.1 )
 flipped_translation = Vector3( 0, -3, 0 )
 flipped_rotation = Vector3( 180, 0, 0 )
+writhe_rotate = Vector3( 10, 0, 0 )
+writhe_scale = Vector3( 0.2, 0, 0 )
+writhe_time = 4.0
 
 [node name="Cylinder" parent="." index="0"]
 transform = Transform( 0.0679896, 0, 0.0476069, 0, 0.083, 0, -0.0476069, 0, 0.0679896, 0.0733852, 0.00276059, -0.00469033 )

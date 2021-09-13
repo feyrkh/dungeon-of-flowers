@@ -13,9 +13,10 @@ emission_on_uv2 = false
 
 [node name="Torch Sconce" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+appearance_chance = 0.2
 
 [node name="OmniLight" type="OmniLight" parent="." index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6347, 0.2399 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.009, 0.6347, 0.3399 )
 script = ExtResource( 3 )
 min_energy = 2.0
 max_energy = 3.0

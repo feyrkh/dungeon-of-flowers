@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://3D assets/Wall Lever/wall lever.gltf" type="PackedScene" id=1]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_disable_ambient_light = true
+albedo_color = Color( 0.286275, 0.0313726, 0.0313726, 1 )
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_disable_ambient_light = true
+albedo_color = Color( 0.427451, 0.427451, 0.427451, 1 )
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_disable_ambient_light = true
+albedo_color = Color( 1, 0, 0, 1 )
+
+[node name="wall lever" instance=ExtResource( 1 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+
+[node name="Cube" parent="." index="0"]
+material/0 = SubResource( 1 )
+material/1 = SubResource( 3 )
+
+[node name="Cube001" parent="Armature/Bone" index="0"]
+transform = Transform( 1.05219, 0, 0, 0, 1.25335, 0.257661, 0, -2.17086, 0.148761, -1.06581e-14, -0.0223138, -0.0223134 )
+material/0 = SubResource( 2 )

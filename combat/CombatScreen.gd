@@ -146,7 +146,6 @@ func disable_enemy_targeting():
 	targeted_enemy = []
 	enemy_targeting_enabled = false
 	unhighlight_targeted_enemy()
-	
 
 func trigger_attack_skill(enemy:Enemy, skill):
 	unhighlight_targeted_enemy()
@@ -197,7 +196,6 @@ func _on_skill_damage(damageMultiplier:float, skill, enemy:Enemy):
 	accumulated_damage += damage
 	if enemy.data.hp > 0: 
 		enemy.damage_hp(damage)
-			
 
 func mock_combat_data():
 	var ally
@@ -212,7 +210,7 @@ func mock_combat_data():
 	for i in randi()%5+1:
 		cd.enemies.append(EnemyList.get_enemy('random'))
 	return cd
-	
+
 func mock_pharoah():
 	var ally = AllyData.new()
 	ally.label = "Imhotep"

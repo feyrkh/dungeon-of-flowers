@@ -4,10 +4,14 @@ const Player = preload("res://dungeon/Player.tscn")
 
 export var dungeon_file = "res://data/map/intro.txt"
 
+const tile_wall = preload("res://dungeon/wall.tscn")
+const tile_corridor = preload("res://dungeon/corridor.tscn")
+const tile_torch = preload("res://dungeon/torchwall.tscn")
+
 const tiles = {
-	"#": preload("res://dungeon/wall.tscn"),
-	" ": preload("res://dungeon/corridor.tscn"),
-	"@": preload("res://dungeon/corridor.tscn"),
+	"#": [tile_torch, tile_wall],
+	" ": tile_corridor,
+	"@": tile_corridor,
 }
 
 var player
@@ -15,6 +19,7 @@ var combat_grace_period:int = 4
 var combat_grace_period_counter:int
 var combat_chance_per_tile:float = 0.1
 var property_types:Dictionary = {}
+var randseed:int
 
 onready var Map:Spatial = find_node("Map")
 onready var Combat:Control = find_node("Combat")
@@ -54,6 +59,7 @@ func process_config_line(line:String):
 			_: printerr("Unexpected property type: ", property_types.get(chunks[0]))
 	
 func process_map(file):
+	rand_seed(randseed)
 	var z = 0
 	var content = file.get_line()
 	while content != "":
@@ -65,13 +71,17 @@ func process_map(file):
 				#player.transform = player.transform.rotated(Vector3.UP, deg2rad(90))
 				add_child(player)
 			var tileScene = tiles.get(c)
+			if tileScene is Array:
+				tileScene = tileScene[randi()%tileScene.size()]
 			if tileScene == null:
 				printerr("Undefined tile character in "+dungeon_file+" at ("+x+","+z+") '"+c+"'")
 				x += 1
 				continue
-			var tile = tileScene.instance(0)
+			var tile:Spatial = tileScene.instance(0)
 			add_child(tile)
 			tile.transform.origin = Vector3(3*x, 0, 3*z)
+			var rotate_amt = deg2rad(randi()%4 * 90)
+			tile.transform.basis = tile.transform.basis.rotated(Vector3.UP, rotate_amt)
 			x += 1
 		content = file.get_line()
 		z += 1

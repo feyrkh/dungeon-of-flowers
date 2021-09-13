@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://3D assets/Misc_/Roots_2.gltf" type="PackedScene" id=1]
+[ext_resource path="res://dungeon/DungeonProp.gd" type="Script" id=2]
+
+[node name="Roots_2" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+min_translation = Vector3( 2, 0, 0 )
+appearance_chance = 0.2
+flipped_translation = Vector3( 0, -3, 0 )
+flipped_rotation = Vector3( 180, 0, 0 )
+
+[node name="Cylinder" parent="." index="0"]
+transform = Transform( 0.0679896, 0, 0.0476069, 0, 0.083, 0, -0.0476069, 0, 0.0679896, 0.0733852, 0.00276059, -0.00469033 )

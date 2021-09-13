@@ -1,19 +1,13 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://dungeon/wallBlock.tscn" type="PackedScene" id=1]
-[ext_resource path="res://dungeon/wall lever.tscn" type="PackedScene" id=2]
+[ext_resource path="res://dungeon/wall.tscn" type="PackedScene" id=1]
+[ext_resource path="res://dungeon/torch.tscn" type="PackedScene" id=2]
 
 [node name="corridor" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.23517e-08 )
 
-[node name="wallBlock" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -2.23517e-08 )
+[node name="corridor" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
-[node name="wallBlock2" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, -2.23517e-08 )
-
-[node name="wallBlock3" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.23517e-08 )
-
-[node name="wall lever" parent="." instance=ExtResource( 2 )]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1.5, 1.5 )
+[node name="Torch Sconce" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39259, 1.50591 )

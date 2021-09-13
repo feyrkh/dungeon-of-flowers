@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://3D assets/Misc_/Roots.gltf" type="PackedScene" id=1]
+[ext_resource path="res://dungeon/DungeonProp.gd" type="Script" id=2]
+
+[node name="Roots" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.059, 0.002 )
+script = ExtResource( 2 )
+min_translation = Vector3( -0.5, -0.1, 0 )
+max_translation = Vector3( 0.5, 0.1, 0 )
+min_rotation_degrees = Vector3( 0, -10, 0 )
+max_rotation_degrees = Vector3( 0, 10, 0 )
+appearance_chance = 0.3
+min_scale = Vector3( 0.5, 0.5, 0.5 )
+max_scale = Vector3( 2, 2, 2 )
+flipped_translation = Vector3( 0, -3, 0 )
+flipped_rotation = Vector3( 180, 0, 0 )
+
+[node name="Roots" parent="." index="0"]
+transform = Transform( 0.0486863, 0.0584034, 0.0330323, 0.0463445, 0.000242313, -0.0687355, -0.0485209, 0.0588339, -0.0325075, 0, 0, 0 )

@@ -57,7 +57,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Dungeon of Flowers"
-run/main_scene="res://combat/CombatScreen.tscn"
+run/main_scene="res://dungeon/GeneratedDungeon.tscn"
 config/icon="res://icon.png"
 
 [autoload]

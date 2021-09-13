@@ -2,8 +2,8 @@ extends OmniLight
 
 export var min_energy = 1.0
 export var max_energy = 1.0
-export var min_range = 6
-export var max_range = 9
+export var min_range = 6.0
+export var max_range = 9.0
 export var time_between_flicker = 0.1
 export var min_time_between_direction_change = 1
 export var max_time_between_direction_change = 1

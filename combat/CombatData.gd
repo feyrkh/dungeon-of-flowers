@@ -1,12 +1,12 @@
 extends Reference
 class_name CombatData
 
-var ally : AllyData
 var targeted_enemy : EnemyData
-var enemies : Array
+var enemies : Array # of EnemyData
+var allies : Array # of AllyData
 
 func get_current_ally():
-	return ally
+	return allies[0]
 
 func get_targeted_enemy():
 	return targeted_enemy

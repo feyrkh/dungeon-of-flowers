@@ -205,7 +205,7 @@ func mock_combat_data():
 		2: ally = mock_shantae()
 		3: ally = mock_vega()
 	var cd = CombatData.new()
-	cd.ally = ally
+	cd.allies = [ally]
 	cd.enemies = []
 	for i in randi()%5+1:
 		cd.enemies.append(EnemyList.get_enemy('random'))

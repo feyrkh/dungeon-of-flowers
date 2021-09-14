@@ -71,6 +71,11 @@ CombatMgr="*res://combat/CombatMgr.tscn"
 gdscript/warnings/unused_variable=false
 gdscript/warnings/unused_argument=false
 
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
 [global]
 
 error=false

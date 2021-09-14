@@ -79,7 +79,7 @@ func process_map(file):
 				continue
 			var tile:Spatial = tileScene.instance(0)
 			add_child(tile)
-			tile.transform.origin = Vector3(3*x, 0, 3*z)
+			tile.transform.origin = Vector3(3*x, 0, 3*z) 
 			if tile.is_in_group("rotated"):
 				var rotate_amt = deg2rad(randi()%4 * 90)
 				tile.transform.basis = tile.transform.basis.rotated(Vector3.UP, rotate_amt)

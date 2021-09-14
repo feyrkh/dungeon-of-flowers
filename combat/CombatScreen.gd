@@ -198,14 +198,8 @@ func _on_skill_damage(damageMultiplier:float, skill, enemy:Enemy):
 		enemy.damage_hp(damage)
 
 func mock_combat_data():
-	var ally
-	match randi()%4:
-		0: ally = mock_pharoah()
-		1: ally = mock_hipster()
-		2: ally = mock_shantae()
-		3: ally = mock_vega()
 	var cd = CombatData.new()
-	cd.allies = [ally]
+	cd.allies = [mock_pharoah(), mock_hipster(), mock_shantae()]
 	cd.enemies = []
 	for i in randi()%5+1:
 		cd.enemies.append(EnemyList.get_enemy('random'))

@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://combat/CombatScreen.gd" type="Script" id=1]
 [ext_resource path="res://img/hero1.png" type="Texture" id=2]
 [ext_resource path="res://combat/SkillButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://img/swordIcon.png" type="Texture" id=4]
 [ext_resource path="res://util/Pulser.tscn" type="PackedScene" id=5]
+[ext_resource path="res://combat/AllyCombatDisplay.tscn" type="PackedScene" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends RichTextLabel
@@ -60,6 +61,7 @@ scale = Vector2( 0.057433, 0.057433 )
 texture = ExtResource( 4 )
 
 [node name="DisplayArea" type="PanelContainer" parent="."]
+visible = false
 margin_left = -0.890869
 margin_top = 461.746
 margin_right = 1023.11
@@ -292,6 +294,20 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 1017.0
 margin_bottom = 129.0
+
+[node name="AllyCombatDisplay1" parent="." instance=ExtResource( 6 )]
+
+[node name="AllyCombatDisplay2" parent="." instance=ExtResource( 6 )]
+margin_left = 49.3619
+margin_top = 463.498
+margin_right = 323.362
+margin_bottom = 599.498
+
+[node name="AllyCombatDisplay3" parent="." instance=ExtResource( 6 )]
+margin_left = 692.885
+margin_top = 463.498
+margin_right = 966.885
+margin_bottom = 599.498
 
 [connection signal="enemy_turn_complete" from="." to="." method="_on_CombatScreen_enemy_turn_complete"]
 [connection signal="log_msg" from="." to="DisplayArea/HBoxContainer/CombatLog" method="_on_CombatScreen_log_msg"]

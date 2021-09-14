@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://3D assets/Misc_/Roots_2.gltf" type="PackedScene" id=1]
 [ext_resource path="res://dungeon/DungeonProp.gd" type="Script" id=2]
+[ext_resource path="res://dungeon/Pink Lotus.tscn" type="PackedScene" id=3]
+[ext_resource path="res://dungeon/Blue Hibiscus.tscn" type="PackedScene" id=4]
 
 [node name="Roots_2" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -16,3 +18,12 @@ writhe_time = 7.0
 
 [node name="Cylinder" parent="." index="0"]
 transform = Transform( 0.0679896, 0, 0.0476069, 0, 0.083, 0, -0.0476069, 0, 0.0679896, 0.0733852, 0.00276059, -0.00469033 )
+
+[node name="Pink Lotus" parent="Cylinder" index="0" instance=ExtResource( 3 )]
+transform = Transform( 15.8495, -10.6611, 5.92754, 10.661, 7.38406, -15.2255, 5.92755, 15.2255, 11.5346, -34.3191, 2.56915, 3.96917 )
+
+[node name="Blue Hibiscus" parent="." index="1" instance=ExtResource( 4 )]
+transform = Transform( 0.378197, 0.925725, 0, -0.925725, 0.378197, 0, 0, 0, 1, -2.043, 0.04, 1.576 )
+
+[node name="Blue Hibiscus2" parent="." index="2" instance=ExtResource( 4 )]
+transform = Transform( 0.845986, -0.533206, 0, 0.533206, 0.845986, 0, 0, 0, 1, -2.161, 0.014, 0.957 )

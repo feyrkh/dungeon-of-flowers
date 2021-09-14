@@ -5,7 +5,7 @@
 
 [node name="Roots_2" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-appearance_chance = 0.6
+appearance_chance = 0.3
 min_scale = Vector3( 0.5, 0.5, 0.5 )
 max_scale = Vector3( 0.8, 0.8, 0.8 )
 flipped_translation = Vector3( 0, -3, 0 )

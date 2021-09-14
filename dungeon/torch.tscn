@@ -16,7 +16,7 @@ script = ExtResource( 2 )
 appearance_chance = 0.2
 
 [node name="OmniLight" type="OmniLight" parent="." index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.009, 0.6347, 0.3399 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0126945, 0.424651, 0.457529 )
 script = ExtResource( 3 )
 min_energy = 2.0
 max_energy = 3.0
@@ -24,6 +24,6 @@ min_range = 0.5
 max_range = 1.5
 
 [node name="CSGSphere" type="CSGSphere" parent="." index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.587, 0.269 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00369446, 0.376951, 0.386629 )
 radius = 0.112
 material = SubResource( 1 )

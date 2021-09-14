@@ -43,6 +43,20 @@
                 "metallicFactor" : 0,
                 "roughnessFactor" : 0.5
             }
+        },
+        {
+            "doubleSided" : true,
+            "name" : "Material.001",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.06692973524332047,
+                    0.06971903145313263,
+                    0.07322443276643753,
+                    1
+                ],
+                "metallicFactor" : 0.859375,
+                "roughnessFactor" : 0.1796875
+            }
         }
     ],
     "meshes" : [
@@ -57,6 +71,15 @@
                     },
                     "indices" : 3,
                     "material" : 0
+                },
+                {
+                    "attributes" : {
+                        "POSITION" : 4,
+                        "NORMAL" : 5,
+                        "TEXCOORD_0" : 6
+                    },
+                    "indices" : 7,
+                    "material" : 1
                 }
             ]
         }
@@ -67,14 +90,14 @@
             "componentType" : 5126,
             "count" : 112,
             "max" : [
-                1.3674557209014893,
-                12.666379928588867,
-                5.201089859008789
+                1.3711707592010498,
+                7.811659336090088,
+                8.68851089477539
             ],
             "min" : [
-                -1.3674557209014893,
-                -1.3635387420654297,
-                -1.7818901538848877
+                -1.3637406826019287,
+                -6.218259334564209,
+                1.705531358718872
             ],
             "type" : "VEC3"
         },
@@ -94,6 +117,40 @@
             "bufferView" : 3,
             "componentType" : 5123,
             "count" : 180,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5126,
+            "count" : 100,
+            "max" : [
+                3.4508285522460938,
+                9.981122970581055,
+                4.464939117431641
+            ],
+            "min" : [
+                -3.455782413482666,
+                -7.735202312469482,
+                -1.0323596000671387
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 5,
+            "componentType" : 5126,
+            "count" : 100,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 6,
+            "componentType" : 5126,
+            "count" : 100,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 7,
+            "componentType" : 5123,
+            "count" : 156,
             "type" : "SCALAR"
         }
     ],
@@ -117,11 +174,31 @@
             "buffer" : 0,
             "byteLength" : 360,
             "byteOffset" : 3584
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 1200,
+            "byteOffset" : 3944
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 1200,
+            "byteOffset" : 5144
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 800,
+            "byteOffset" : 6344
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 312,
+            "byteOffset" : 7144
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 3944,
+            "byteLength" : 7456,
             "uri" : "Torch Sconce.bin"
         }
     ]

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Pink Lotus.png-cf9f8823ec9268072cf82a6b1aa87ef6.stex"
+path="res://.import/ui_HUD_icon_skill.png-64b2126a6889483d2ac45238c849fc0d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://3D assets/Misc_/Pink Lotus.png"
-dest_files=[ "res://.import/Pink Lotus.png-cf9f8823ec9268072cf82a6b1aa87ef6.stex" ]
+source_file="res://art_exports/ui_HUD/ui_HUD_icon_skill.png"
+dest_files=[ "res://.import/ui_HUD_icon_skill.png-64b2126a6889483d2ac45238c849fc0d.stex" ]
 
 [params]
 

@@ -2,6 +2,7 @@ extends Node2D
 
 const Enemy = preload("res://combat/Enemy.tscn")
 const SkillButton = preload("res://combat/SkillButton.tscn")
+const STATUS_CATEGORY = 4
 
 var combatData : CombatData
 
@@ -38,6 +39,7 @@ onready var allies = [find_node("Ally1"), find_node("Ally2"), find_node("Ally3")
 
 var selected_ally_idx = 0
 var selected_category_idx = 0
+var restore_category_idx = 0 # set when moving to the 'status' icon, so we can restore back to the previously selected item
 var targeted_enemy = []
 var selected_skill
 var accumulated_damage = 0
@@ -90,6 +92,9 @@ func input_select_character():
 	elif Input.is_action_just_pressed("ui_right"):
 		select_next_category(1)
 		input_delayed = UI_DELAY
+	elif Input.is_action_just_pressed("ui_down"):
+		select_status_category()
+		input_delayed = UI_DELAY
 
 func select_next_char(direction):
 	var prev_selected = allies[selected_ally_idx]
@@ -101,9 +106,13 @@ func select_next_char(direction):
 	selected_ally_idx = new_selected_ally_idx
 
 func open_category_submenu(ally_idx, category_idx):
-	cur_input_phase = InputPhase.PLAYER_SELECT_SUBMENU
-	var ally = allies[ally_idx]
-	ally.open_category_submenu(category_idx)
+	if (category_idx == STATUS_CATEGORY): # status icon, up should go back to previously selected icon instead
+		selected_category_idx = restore_category_idx
+		select_next_category(0)
+	else:
+		cur_input_phase = InputPhase.PLAYER_SELECT_SUBMENU
+		var ally = allies[ally_idx]
+		ally.open_category_submenu(category_idx)
 
 func _on_Ally_cancel_submenu():
 	cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
@@ -111,6 +120,13 @@ func _on_Ally_cancel_submenu():
 func select_next_category(direction):
 	var cur_ally = allies[selected_ally_idx]
 	selected_category_idx = cur_ally.select_category(selected_category_idx, direction)
+
+func select_status_category():
+	if selected_category_idx != STATUS_CATEGORY:
+		var cur_ally = allies[selected_ally_idx]
+		restore_category_idx = selected_category_idx
+		selected_category_idx = cur_ally.select_status_category()
+	
 	
 func input_select_submenu():
 	pass

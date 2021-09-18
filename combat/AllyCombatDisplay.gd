@@ -26,6 +26,9 @@ func setup(_allyData:AllyData):
 	self.allyData = _allyData
 	updateLabels()
 
+func _ready():
+	CombatIcons.categories.append(find_node("IconStatus"))
+
 func updateLabels():
 	HpLabel.bbcode_text = str(allyData.hp) + "/" + str(allyData.max_hp)
 	SpLabel.bbcode_text = str(allyData.sp) + "/" + str(allyData.max_sp)
@@ -43,10 +46,17 @@ func select(category_idx):
 	CombatIcons.show(category_idx)
 	modulate = selected_color
 	rect_position = selected_position
+	return category_idx
 
 func select_category(selected_category_idx, direction):
 	return CombatIcons.select_next_category(selected_category_idx, direction)
 
+func select_status_category():
+	return CombatIcons.select(4)
+
+func select_no_category():
+	CombatIcons.select_no_category()
+	
 func open_category_submenu(category_idx):
 	for icon in category_zoom_icons:
 		icon.visible = false

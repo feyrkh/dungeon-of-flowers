@@ -29,10 +29,16 @@ func select(selected_idx=0):
 		else:
 			categories[i].modulate = deselected_color
 			categories[i].rect_scale = Vector2(0.8, 0.8)
+	return selected_idx
 
 func select_next_category(selected_category_idx, direction):
-	var new_category_idx = (selected_category_idx + direction) % categories.size()
+	if (selected_category_idx+direction >= categories.size()):
+		selected_category_idx = categories.size() - 2
+	var new_category_idx = (selected_category_idx + direction) % (categories.size() - 1)
 	if new_category_idx < 0: 
-		new_category_idx += categories.size()
+		new_category_idx += (categories.size() - 1)
 	select(new_category_idx)
 	return new_category_idx
+
+func select_no_category():
+	select(null)

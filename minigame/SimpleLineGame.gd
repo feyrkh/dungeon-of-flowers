@@ -59,8 +59,8 @@ func _ready():
 func start():
 	isStarted = true
 
-func setMinigameConfig(config):
-	self.config = config
+func setMinigameConfig(_config):
+	self.config = _config
 	if !config.has("markerMoveStyle"):
 		match randi()%4:
 			0,1: markerMoveStyle = Enums.MarkerMoveStyle.Bounce

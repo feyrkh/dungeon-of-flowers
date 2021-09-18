@@ -11,9 +11,9 @@ var player
 var dungeon
 var combat
 
-func register(player, dungeon):
-	self.player = player
-	self.dungeon = dungeon
+func register(_player, _dungeon):
+	self.player = _player
+	self.dungeon = _dungeon
 	connect("combat_start", player, "_on_combat_start")
 	connect("combat_end", player, "_on_combat_end")
 	player.connect("tile_move_complete", dungeon, "_on_player_tile_move_complete")

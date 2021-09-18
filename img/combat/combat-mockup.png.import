@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ui_HUD_icon_fight.png-2da553723ae5e52b860d8d14bb75328f.stex"
+path="res://.import/combat-mockup.png-20dbcdc8d303898db9d0429a15884dc9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art_exports/ui_HUD/ui_HUD_icon_fight.png"
-dest_files=[ "res://.import/ui_HUD_icon_fight.png-2da553723ae5e52b860d8d14bb75328f.stex" ]
+source_file="res://img/combat/combat-mockup.png"
+dest_files=[ "res://.import/combat-mockup.png-20dbcdc8d303898db9d0429a15884dc9.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

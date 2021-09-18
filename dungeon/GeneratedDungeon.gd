@@ -24,6 +24,7 @@ var randseed:int
 onready var Map:Spatial = find_node("Map")
 onready var Combat:Control = find_node("Combat")
 onready var Fader:Control = find_node("Fader")
+onready var BackgroundBlur:Control = find_node("BackgroundBlur")
 
 func _ready():
 	for prop in get_property_list():

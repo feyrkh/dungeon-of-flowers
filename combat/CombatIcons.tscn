@@ -1,0 +1,186 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_item.png" type="Texture" id=1]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_skill.png" type="Texture" id=2]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_fight.png" type="Texture" id=3]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_defend.png" type="Texture" id=4]
+[ext_resource path="res://combat/CombatIcons.gd" type="Script" id=5]
+[ext_resource path="res://art_exports/ui_HUD/ui_submenu_arrow.png" type="Texture" id=6]
+[ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=7]
+
+[sub_resource type="Animation" id=1]
+resource_name = "fade"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 5 ), Vector2( 0, 149 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:rect_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.8 ) ]
+}
+
+[node name="CombatIcons" type="Control"]
+margin_left = 95.7539
+margin_top = 831.548
+margin_right = 95.7539
+margin_bottom = 831.548
+rect_pivot_offset = Vector2( 431.667, -821.041 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 783.0, 741.863 ],
+"_edit_use_anchors_": false,
+"_edit_vertical_guides_": [ 60.3019, 111.083, 562.769, 613.55 ]
+}
+
+[node name="IconFight" type="TextureRect" parent="."]
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 115.583
+margin_top = -177.259
+margin_right = 223.583
+margin_bottom = -4.25883
+rect_scale = Vector2( 0.8, 0.8 )
+rect_pivot_offset = Vector2( 54, 173 )
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IconDefend" type="TextureRect" parent="."]
+margin_left = 224.655
+margin_top = -158.188
+margin_right = 340.655
+margin_bottom = -7.18796
+rect_scale = Vector2( 0.8, 0.8 )
+rect_pivot_offset = Vector2( 58, 151 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IconSkill" type="TextureRect" parent="."]
+margin_left = -0.554472
+margin_top = -176.029
+margin_right = 119.446
+margin_bottom = -3.02924
+rect_scale = Vector2( 0.8, 0.8 )
+rect_pivot_offset = Vector2( 60, 173 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IconItem" type="TextureRect" parent="."]
+margin_left = 354.799
+margin_top = -135.572
+margin_right = 478.799
+margin_bottom = -17.5717
+rect_scale = Vector2( 0.8, 0.8 )
+rect_pivot_offset = Vector2( 62, 118 )
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/fade = SubResource( 1 )
+
+[node name="CharSwitchLeft" type="Control" parent="."]
+margin_left = -36.0
+margin_top = -91.0
+margin_right = 4.0
+margin_bottom = -51.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bouncer" parent="CharSwitchLeft" instance=ExtResource( 7 )]
+
+[node name="Icon" type="TextureRect" parent="CharSwitchLeft/Bouncer"]
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -36.0
+margin_top = -91.0
+margin_right = 9.0
+margin_bottom = -71.0
+rect_rotation = 90.0
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CharSwitchLeft/Bouncer"]
+margin_left = -36.0
+margin_top = -84.0
+margin_right = 4.0
+margin_bottom = -70.0
+rect_scale = Vector2( 2, 2 )
+text = "Q"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharSwitchRight" type="Control" parent="."]
+margin_left = 500.0
+margin_top = -89.0
+margin_right = 540.0
+margin_bottom = -49.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bouncer" parent="CharSwitchRight" instance=ExtResource( 7 )]
+bounce_vector = Vector2( 20, 0 )
+
+[node name="Icon" type="TextureRect" parent="CharSwitchRight/Bouncer"]
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -19.0
+margin_top = -50.0
+margin_right = 26.0
+margin_bottom = -30.0
+rect_rotation = -90.0
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CharSwitchRight/Bouncer"]
+margin_left = -36.0
+margin_top = -84.0
+margin_right = 4.0
+margin_bottom = -70.0
+rect_scale = Vector2( 2, 2 )
+text = "E"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,5 +1,5 @@
-combat_grace_period:20
-combat_chance_per_tile:0.01
+combat_grace_period:5
+combat_chance_per_tile:0.1
 map:
 ###########################
 #       ########         ##

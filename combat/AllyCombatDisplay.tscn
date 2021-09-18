@@ -1,73 +1,195 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://img/combat/skill.png" type="Texture" id=1]
-[ext_resource path="res://img/combat/item.png" type="Texture" id=2]
-[ext_resource path="res://img/combat/flee.png" type="Texture" id=3]
-[ext_resource path="res://img/combat/ally_face.png" type="Texture" id=4]
-[ext_resource path="res://img/combat/attack.png" type="Texture" id=5]
-[ext_resource path="res://img/combat/defend.png" type="Texture" id=6]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_fight.png" type="Texture" id=1]
+[ext_resource path="res://combat/CombatIcons.tscn" type="PackedScene" id=2]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_item.png" type="Texture" id=3]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_skill.png" type="Texture" id=4]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_defend.png" type="Texture" id=5]
+[ext_resource path="res://art_exports/ui_HUD/ui_bar_HP.png" type="Texture" id=6]
+[ext_resource path="res://art_exports/ui_HUD/ui_bar_SP.png" type="Texture" id=7]
+[ext_resource path="res://art_exports/ui_HUD/ui_bar_fill.png" type="Texture" id=8]
+[ext_resource path="res://combat/CombatSubmenu.tscn" type="PackedScene" id=9]
+[ext_resource path="res://combat/AllyCombatDisplay.gd" type="Script" id=10]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_box_BG.png" type="Texture" id=11]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_portrait_idle01.png" type="Texture" id=12]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_portrait_mask.png" type="Texture" id=13]
+[ext_resource path="res://shader/alpha_mask.shader" type="Shader" id=14]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_status.png" type="Texture" id=15]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_cursor.png" type="Texture" id=17]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 14 )
+shader_param/mask_texture = ExtResource( 13 )
 
 [node name="AllyCombatDisplay" type="Control"]
-margin_left = 367.003
-margin_top = 462.0
-margin_right = 641.003
-margin_bottom = 598.0
+modulate = Color( 0.701961, 0.701961, 0.701961, 1 )
+script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Face" type="TextureRect" parent="."]
-margin_left = 2.99661
-margin_right = 276.997
-margin_bottom = 136.0
-texture = ExtResource( 4 )
+[node name="CombatIcons" parent="." instance=ExtResource( 2 )]
+margin_left = 39.4908
+margin_top = 808.499
+margin_right = 39.4908
+margin_bottom = 808.499
 
-[node name="Attack" type="TextureRect" parent="."]
-margin_left = 14.7357
-margin_top = -36.9594
-margin_right = 288.736
-margin_bottom = 99.0406
+[node name="PortraitBG" type="TextureRect" parent="."]
+margin_left = 4.21387
+margin_top = 14.5493
+margin_right = 465.214
+margin_bottom = 124.553
+texture = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PortraitBGSelected" type="TextureRect" parent="."]
+margin_left = -2.78613
+margin_top = 6.54932
+margin_right = 477.214
+margin_bottom = 135.553
+texture = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Portrait" type="TextureRect" parent="."]
+light_mask = 524288
+material = SubResource( 1 )
+margin_left = 4.21387
+margin_top = -14.0777
+margin_right = 255.214
+margin_bottom = 160.923
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IconZoomSkill" type="TextureRect" parent="."]
+visible = false
+margin_left = 8.05426
+margin_top = 747.867
+margin_right = 128.054
+margin_bottom = 920.867
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IconZoomItem" type="TextureRect" parent="."]
+visible = false
+margin_left = 13.0543
+margin_top = 747.867
+margin_right = 137.054
+margin_bottom = 920.867
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IconZoomDefend" type="TextureRect" parent="."]
+visible = false
+margin_left = 10.0543
+margin_top = 745.867
+margin_right = 126.054
+margin_bottom = 918.867
 texture = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Skill" type="TextureRect" parent="."]
-margin_left = 79.7357
-margin_top = -36.9594
-margin_right = 353.736
-margin_bottom = 99.0406
+[node name="IconZoomFight" type="TextureRect" parent="."]
+visible = false
+margin_left = 25.9753
+margin_top = 741.634
+margin_right = 133.975
+margin_bottom = 914.634
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Defend" type="TextureRect" parent="."]
-margin_left = 142.736
-margin_top = -36.9594
-margin_right = 416.736
-margin_bottom = 99.0406
+[node name="HpBar" type="TextureRect" parent="."]
+margin_left = 271.162
+margin_top = 28.9433
+margin_right = 424.162
+margin_bottom = 65.9433
 texture = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Item" type="TextureRect" parent="."]
-margin_left = 207.736
-margin_top = -36.9594
-margin_right = 481.736
-margin_bottom = 99.0406
-texture = ExtResource( 2 )
+[node name="HpFill" type="TextureRect" parent="HpBar"]
+margin_top = 30.0
+margin_right = 150.0
+margin_bottom = 34.0
+texture = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Flee" type="TextureRect" parent="."]
-margin_left = 244.736
-margin_top = 70.0406
-margin_right = 518.736
-margin_bottom = 206.041
-texture = ExtResource( 3 )
+[node name="HpLabel" type="RichTextLabel" parent="HpBar"]
+margin_left = 37.0
+margin_top = -1.0
+margin_right = 104.0
+margin_bottom = 14.0
+rect_scale = Vector2( 2, 2 )
+bbcode_enabled = true
+bbcode_text = "3/3"
+text = "3/3"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpBar" type="TextureRect" parent="."]
+margin_left = 271.162
+margin_top = 71.9433
+margin_right = 424.162
+margin_bottom = 109.943
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpFill" type="TextureRect" parent="SpBar"]
+margin_top = 31.0
+margin_right = 150.0
+margin_bottom = 35.0
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpLabel" type="RichTextLabel" parent="SpBar"]
+margin_left = 37.0
+margin_right = 99.0
+margin_bottom = 15.0
+rect_scale = Vector2( 2, 2 )
+bbcode_enabled = true
+bbcode_text = "[b]3/3[/b]"
+text = "3/3"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Submenu2" parent="." instance=ExtResource( 9 )]
+visible = false
+margin_left = 332.555
+margin_top = 937.288
+margin_right = 332.555
+margin_bottom = 937.288
+
+[node name="IconStatus" type="TextureButton" parent="."]
+margin_left = -22.3715
+margin_top = 86.4207
+margin_right = 30.6285
+margin_bottom = 141.424
+texture_normal = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

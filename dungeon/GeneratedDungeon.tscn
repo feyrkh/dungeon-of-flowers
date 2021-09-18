@@ -1,11 +1,23 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://dungeon/GeneratedDungeon.gd" type="Script" id=1]
+[ext_resource path="res://shader/pixel.shader" type="Shader" id=2]
 
 [sub_resource type="Environment" id=1]
 background_energy = 0.0
 ambient_light_energy = 0.0
 ambient_light_sky_contribution = 0.0
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 2 )
+shader_param/size_x = 0.1
+shader_param/size_y = 0.5
+
+[sub_resource type="Gradient" id=3]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 3 )
 
 [node name="Dungeon" type="Spatial"]
 script = ExtResource( 1 )
@@ -28,3 +40,14 @@ __meta__ = {
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource( 4 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 128.0
+rect_min_size = Vector2( 1920, 1080 )
+texture = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -2,7 +2,6 @@ extends ColorRect
 
 signal fade_complete
 
-export(float) var pixelize_level = 0.01
 var shader:ShaderMaterial
 var start:float
 var target:float
@@ -14,17 +13,21 @@ func _ready():
 	#self.rect_size = get_viewport().get_rect().size
 	shader = self.material
 
-func fade_out(pixelize_level:float, fade_secs:float):
+func set_fade(_pixelize_level:float):
+	self.material.set_shader_param("size_x", _pixelize_level)
+	self.material.set_shader_param("size_y", _pixelize_level)
+
+func fade_out(_pixelize_level:float, _fade_secs:float):
 	start = 0
-	target = pixelize_level
-	self.fade_secs = fade_secs
+	target = _pixelize_level
+	self.fade_secs = _fade_secs
 	counter = 0
 	fading = true
 
-func fade_in(pixelize_level:float, fade_secs:float):
-	start = pixelize_level
+func fade_in(_pixelize_level:float, _fade_secs:float):
+	start = _pixelize_level
 	target = 0
-	self.fade_secs = fade_secs
+	self.fade_secs = _fade_secs
 	counter = 0
 	fading = true
 

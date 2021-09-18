@@ -5,8 +5,8 @@ var label : String
 var className : String
 var hp : int
 var max_hp : int
-var mp : int
-var max_mp : int
+var sp : int
+var max_sp : int
 var balance : int
 var max_balance : int
 

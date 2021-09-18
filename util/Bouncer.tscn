@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://util/bouncer.gd" type="Script" id=1]
+[ext_resource path="res://util/BounceCurve.tres" type="Curve" id=2]
+
+[node name="Bouncer" type="Control"]
+margin_left = 36.0
+margin_top = 91.0
+margin_right = 76.0
+margin_bottom = 131.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+bounce_vector = Vector2( -20, 0 )
+ease_curve = ExtResource( 2 )

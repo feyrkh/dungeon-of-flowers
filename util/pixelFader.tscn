@@ -10,8 +10,8 @@ shader_param/size_y = 0.01
 
 [node name="PixelFader" type="ColorRect"]
 material = SubResource( 1 )
-margin_right = 1025.0
-margin_bottom = 602.0
+margin_right = 1920.0
+margin_bottom = 1080.0
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false

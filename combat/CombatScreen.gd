@@ -17,6 +17,12 @@ signal log_msg(msg)
 signal allies_win(combatData)
 signal allies_lose(combatData)
 
+enum InputPhase {
+	PLAYER_SELECT_CHARACTER, PLAYER_SELECT_CATEGORY, PLAYER_SELECT_SUBMENU, PLAYER_SELECT_TARGET, NO_INPUT
+}
+var cur_input_phase = InputPhase.NO_INPUT
+var input_delayed = 0
+
 # Combat flow:
 # start_combat() - display any combat opening effects, call start_player_turn or start_enemy_turn depending on surprise
 # start_player_turn() - renders player control panel, waits for player to make a selection
@@ -28,31 +34,16 @@ signal allies_lose(combatData)
 #					   otherwise call enemy_turn_complete()
 # enemy_turn_complete() - if enemies are dead, combat_complete; otherwise start_player_turn()
 
-onready var adjustStanceButton = find_node("AdjustStance")
-onready var balanceContainer = find_node("BalanceContainer")
-onready var attackContainer = find_node("AttackContainer")
-onready var stanceHeight = find_node("Height")
-onready var stanceSidestep = find_node("Sidestep")
-onready var stanceAngle = find_node("Angle")
-onready var stanceNewHeight = find_node("NewHeight")
-onready var stanceNewSidestep = find_node("NewSidestep")
-onready var stanceNewAngle = find_node("NewAngle")
-onready var acceptStance = find_node("AcceptStance")
-onready var playerInput = find_node("PlayerInput")
-onready var movesContainer = find_node("MovesContainer")
-onready var playerSprite = find_node("PlayerSprite")
-onready var allyName = find_node("Name")
-onready var allyClass = find_node("Class")
-onready var allyHp = find_node("Hp")
-onready var allyMp = find_node("Mp")
-onready var allyBalance = find_node("Balance")
-onready var combatLog = find_node("CombatLog")
+onready var allies = [find_node("Ally1"), find_node("Ally2"), find_node("Ally3")]
 
-var enemy_targeting_enabled = false
+var selected_ally_idx = 0
+var selected_category_idx = 0
 var targeted_enemy = []
 var selected_skill
 var accumulated_damage = 0
 var expected_damage = 0
+
+const UI_DELAY = 0.12
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -63,15 +54,69 @@ func _ready():
 	render_enemies()
 	#adjustStanceButton.visible = true
 	#balanceContainer.visible = false
+	input_delayed = UI_DELAY
 	emit_signal('start_combat', combatData)
 
+func _process(delta):
+	if input_delayed > 0:
+		input_delayed -= delta
+	if input_delayed <= 0:
+		process_input()
+
+func process_input():
+	match(cur_input_phase):
+		InputPhase.NO_INPUT: 
+			return
+		InputPhase.PLAYER_SELECT_CHARACTER:
+			input_select_character()
+		InputPhase.PLAYER_SELECT_SUBMENU:
+			input_select_submenu()
+		InputPhase.PLAYER_SELECT_TARGET:
+			input_select_target()
+
+func input_select_character():
+	if Input.is_action_just_pressed("select_prev_char"):
+		select_next_char(-1)
+		input_delayed = UI_DELAY
+	elif Input.is_action_just_pressed("select_next_char"):
+		select_next_char(1)
+		input_delayed = UI_DELAY
+	elif Input.is_action_just_pressed("ui_select") or Input.is_action_just_pressed("ui_up"):
+		
+		input_delayed = UI_DELAY
+	elif Input.is_action_just_pressed("ui_left"):
+		select_next_category(-1)
+		input_delayed = UI_DELAY
+	elif Input.is_action_just_pressed("ui_right"):
+		select_next_category(1)
+		input_delayed = UI_DELAY
+
+
+func select_next_char(direction):
+	var prev_selected = allies[selected_ally_idx]
+	var new_selected_ally_idx = (selected_ally_idx + direction) % allies.size()
+	if new_selected_ally_idx < 0: new_selected_ally_idx += allies.size()
+	var next_selected = allies[new_selected_ally_idx]
+	prev_selected.deselect()
+	next_selected.select(selected_category_idx)
+	selected_ally_idx = new_selected_ally_idx
+
+
+func select_next_category(direction):
+	var cur_ally = allies[selected_ally_idx]
+	selected_category_idx = cur_ally.select_category(selected_category_idx, direction)
+	
+func input_select_submenu():
+	pass
+
+func input_select_target():
+	pass
+
 func render_allies():
-	playerSprite.texture = combatData.get_current_ally().texture
-	allyName.text = combatData.get_current_ally().label
-	allyClass.text = combatData.get_current_ally().className
-	allyHp.text = str(combatData.get_current_ally().hp)+"/"+str(combatData.get_current_ally().max_hp)
-	allyMp.text = str(combatData.get_current_ally().mp)+"/"+str(combatData.get_current_ally().max_mp)
-	allyBalance.text = str(combatData.get_current_ally().balance)+"/"+str(combatData.get_current_ally().max_balance)
+	var allyIdx = 0
+	for allyData in combatData.allies:
+		allies[allyIdx].setup(allyData)
+		allyIdx += 1
 
 func add_enemy(enemyData):
 	var positionIdx = 1
@@ -113,90 +158,6 @@ func enemies_all_dead():
 func allies_all_dead():
 	return combatData.get_current_ally().hp <= 0
 
-func render_ally_moves(combatData):
-	Util.delete_children(movesContainer)
-	for move in combatData.get_current_ally().moves:
-		var skillButton = Util.config(SkillButton.instance(), {
-			"moveData": move,
-			"combatData": combatData
-		})
-		movesContainer.add_child(skillButton)
-		skillButton.connect("skill_triggered", self, "_on_skill_triggered", [skillButton])
-	movesContainer.visible = true
-
-func highlight_targeted_enemy():
-	for enemy in get_tree().get_nodes_in_group("enemy"): 
-		enemy.unhighlight()
-	if targeted_enemy.size() > 0:
-		targeted_enemy[0].highlight()
-
-func unhighlight_targeted_enemy():
-	for enemy in get_tree().get_nodes_in_group("enemy"): 
-		enemy.unhighlight()
-
-func unhighlight_skills():
-	for skillButton in get_tree().get_nodes_in_group("skill_button"):
-		skillButton.unhighlight()
-
-func enable_enemy_targeting():
-	enemy_targeting_enabled = true
-	highlight_targeted_enemy()
-
-func disable_enemy_targeting():
-	targeted_enemy = []
-	enemy_targeting_enabled = false
-	unhighlight_targeted_enemy()
-
-func trigger_attack_skill(enemy:Enemy, skill):
-	unhighlight_targeted_enemy()
-	disable_enemy_targeting()
-	unhighlight_skills()
-	print("Attacking "+enemy.data.label+" with "+skill.name)
-	var attackScene = skill.get_attack_scene(enemy)
-	movesContainer.visible = false
-	#playerInput.visible = false
-	#combatLog.visible = false
-	Util.delete_children(attackContainer)
-	attackContainer.visible = true
-	attackContainer.add_child(attackScene)
-	yield(get_tree().create_timer(0.5), "timeout")
-	accumulated_damage = 0
-	expected_damage = skill.base_damage * skill.strikes
-	attackScene.connect("minigame_success", self, "_on_skill_damage", [skill, enemy])
-	attackScene.start()
-	yield(attackScene, "minigame_complete")
-	attackContainer.visible = false
-	var msg:String
-	if accumulated_damage > 0:
-		msg = skill.damageFormat
-		if accumulated_damage > expected_damage*1.5:
-			msg = msg + " " + skill.strongFormat
-		elif accumulated_damage < expected_damage*0.6:
-			msg = msg + " " + skill.weakFormat
-	else:
-		msg = skill.missFormat
-	msg = msg.format({
-		"player": combatData.get_current_ally().label,
-		"enemy": enemy.data.label,
-		"damage": accumulated_damage,
-	})
-	emit_signal("log_msg", msg)
-	#combatLog.visible = true
-	if enemy.data.hp <= 0:
-		#Util.fadeout(enemy, 0.5)
-		yield(get_tree().create_timer(0.7), "timeout")
-		if enemy != null:
-			enemy.queue_free()
-		emit_signal("log_msg", enemy.data.label+" dies")
-	yield(get_tree().create_timer(0.5), "timeout")
-	emit_signal("player_move_complete", combatData, skill)
-
-func _on_skill_damage(damageMultiplier:float, skill, enemy:Enemy):
-	var damage = skill.base_damage * damageMultiplier
-	accumulated_damage += damage
-	if enemy.data.hp > 0: 
-		enemy.damage_hp(damage)
-
 func mock_combat_data():
 	var cd = CombatData.new()
 	cd.allies = [mock_pharoah(), mock_hipster(), mock_shantae()]
@@ -210,9 +171,9 @@ func mock_pharoah():
 	ally.label = "Imhotep"
 	ally.className = "Pharoah"
 	ally.max_hp = 100
-	ally.hp = 100
-	ally.mp = 20
-	ally.max_mp = 20
+	ally.hp = 80
+	ally.sp = 20
+	ally.max_sp = 20
 	ally.balance = 100
 	ally.max_balance = 100
 	ally.texture = load("res://img/hero1.png")
@@ -228,9 +189,9 @@ func mock_hipster():
 	ally.label = "Allie"
 	ally.className = "Barista"
 	ally.max_hp = 100
-	ally.hp = 100
-	ally.mp = 20
-	ally.max_mp = 20
+	ally.hp = 80
+	ally.sp = 20
+	ally.max_sp = 20
 	ally.balance = 100
 	ally.max_balance = 100
 	ally.texture = load("res://img/hero2.jpg")
@@ -245,9 +206,9 @@ func mock_shantae():
 	ally.label = "Shantae"
 	ally.className = "Half Genie"
 	ally.max_hp = 100
-	ally.hp = 100
-	ally.mp = 20
-	ally.max_mp = 20
+	ally.hp = 80
+	ally.sp = 20
+	ally.max_sp = 20
 	ally.balance = 100
 	ally.max_balance = 100
 	ally.texture = load("res://img/hero3.jpg")
@@ -262,9 +223,9 @@ func mock_vega():
 	ally.label = "Vega"
 	ally.className = "Street Fighter"
 	ally.max_hp = 100
-	ally.hp = 100
-	ally.mp = 20
-	ally.max_mp = 20
+	ally.hp = 80
+	ally.sp = 20
+	ally.max_sp = 20
 	ally.balance = 100
 	ally.max_balance = 100
 	ally.texture = load("res://img/hero4.jpg")
@@ -275,124 +236,45 @@ func mock_vega():
 	]
 	return ally
 
-
-func _on_AdjustStance_pressed():
-	adjustStanceButton.visible = false
-	balanceContainer.visible = true
-	stanceHeight.text = str(combatData.get_current_ally().stance_height)
-	stanceSidestep.text = str(combatData.get_current_ally().stance_sidestep)
-	stanceAngle.text = str(combatData.get_current_ally().stance_angle)
-	stanceNewHeight.value = (combatData.get_current_ally().stance_height)
-	stanceNewSidestep.value = (combatData.get_current_ally().stance_sidestep)
-	stanceNewAngle.value = (combatData.get_current_ally().stance_angle)
-	update_stance_change_cost()
-
-
-func _on_CancelStance_pressed():
-	adjustStanceButton.visible = true
-	balanceContainer.visible = false
-
-
-func _on_AcceptStance_pressed():
-	adjustStanceButton.visible = true
-	balanceContainer.visible = false
-	var cost = calculate_stance_change_cost()
-	combatData.get_current_ally().balance -= cost
-	combatData.get_current_ally().stance_height = stanceNewHeight.value
-	combatData.get_current_ally().stance_sidestep = stanceNewSidestep.value
-	combatData.get_current_ally().stance_angle = stanceNewAngle.value
-
-func _on_NewHeight_value_changed(value):
-	update_stance_change_cost()
-
-func _on_NewSidestep_value_changed(value):
-	update_stance_change_cost()
-
-func _on_NewAngle_value_changed(value):
-	update_stance_change_cost()
-
-func update_stance_change_cost():
-	var cost = calculate_stance_change_cost()
-	if cost != 0:
-		acceptStance.text = "Accept (cost: "+str(cost)+")"
-	else:
-		acceptStance.text = "No change"
-	acceptStance.disabled = cost > combatData.get_current_ally().balance
-
-func calculate_stance_change_cost():
-	var cost = abs(combatData.get_current_ally().stance_height - stanceNewHeight.value)
-	cost += abs(combatData.get_current_ally().stance_sidestep - stanceNewSidestep.value)
-	cost += abs(combatData.get_current_ally().stance_angle - stanceNewAngle.value)
-	cost = cost * cost
-	return cost
-
-func _on_CombatScreen_start_combat(combatData):
+func _on_CombatScreen_start_combat(_combatData):
 	# todo: surprise attacks, screen effects
-	playerInput.visible = false
-	playerSprite.visible = false
+	#playerInput.visible = false
+	#playerSprite.visible = false
 	yield(get_tree().create_timer(1.0), "timeout")
-	emit_signal("start_player_turn", combatData)
+	emit_signal("start_player_turn", _combatData)
 
 
-func _on_CombatScreen_start_player_turn(combatData):
-	emit_signal("log_msg", "It's "+combatData.get_current_ally().label+"'s turn!")
-	playerInput.visible = true
-	playerSprite.visible = true
+func _on_CombatScreen_start_player_turn(_combatData):
+	emit_signal("log_msg", "It's "+_combatData.get_current_ally().label+"'s turn!")
+	cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
+	selected_ally_idx = 0
+	allies[selected_ally_idx].select(selected_category_idx)
+	#playerInput.visible = true
+	#playerSprite.visible = true
 	selected_skill = null
 	#playerSprite.find_node("PlayerPulser").start()
-	render_ally_moves(combatData)
+	#render_ally_moves(_combatData)
 	#highlight_targeted_enemy()
 	#enable_enemy_targeting()
 
-func _on_CombatScreen_player_move_complete(combatData, moveData):
-	unhighlight_targeted_enemy()
-	disable_enemy_targeting()
+func _on_CombatScreen_player_move_complete(_combatData, moveData):
+	#unhighlight_targeted_enemy()
+	#disable_enemy_targeting()
 	if check_combat_over():
 		return
-	emit_signal("start_enemy_turn", combatData)
-	
-func _on_skill_triggered(combatData, moveData, skillNode):
-	unhighlight_skills()
-	if selected_skill != moveData: 
-		skillNode.highlight()
-		selected_skill = moveData
-	else:
-		selected_skill = null
-	if selected_skill and moveData.targets_enemy:
-		enable_enemy_targeting()
-	else:
-		disable_enemy_targeting()
+	emit_signal("start_enemy_turn", _combatData)
 
-func _on_Enemy_target_button_exited(enemyNode, enemyData):
-	if targeted_enemy.size() > 1 and targeted_enemy[0] == enemyNode:
-		targeted_enemy.erase(enemyNode)
-		highlight_targeted_enemy()
-	else:
-		targeted_enemy.erase(enemyNode)
-	if targeted_enemy.size() == 0:
-		unhighlight_targeted_enemy()
-
-func _on_Enemy_target_button_entered(enemyNode, enemyData):
-	if !enemy_targeting_enabled: 
-		return
-	targeted_enemy.push_front(enemyNode)
-	highlight_targeted_enemy()
-
-func _on_Enemy_target_button_pressed(enemyNode, enemyData):
-	if targeted_enemy.size() > 0:
-		trigger_attack_skill(targeted_enemy[0], selected_skill)
-
-func _on_CombatScreen_start_enemy_turn(combatData):
+func _on_CombatScreen_start_enemy_turn(_combatData):
 	emit_signal("log_msg", "The enemy is confused...")
 	yield(get_tree().create_timer(2), "timeout")
 	emit_signal("log_msg", "The enemy just stands there!")
-	emit_signal("enemy_turn_complete", combatData)
+	emit_signal("enemy_turn_complete", _combatData)
 
-func _on_CombatScreen_enemy_turn_complete(combatData):
+func _on_CombatScreen_enemy_turn_complete(_combatData):
 	yield(get_tree().create_timer(0.5), "timeout")
 	if check_combat_over():
 		return
-	emit_signal("start_player_turn", combatData)
+	emit_signal("start_player_turn", _combatData)
 
 func check_combat_over():
 	if enemies_all_dead():

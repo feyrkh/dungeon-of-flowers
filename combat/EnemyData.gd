@@ -7,9 +7,9 @@ var max_hp : int
 var img : Texture
 var weakspot_offsets : Array
 
-func _init(name:String, max_hp:int, img:Texture, weakspot_offsets:Array):
-	self.label = name
-	self.max_hp = max_hp
-	self.hp = max_hp
+func _init(_name:String, _max_hp:int, _img:Texture, _weakspot_offsets:Array):
+	self.label = _name
+	self.max_hp = _max_hp
+	self.hp = _max_hp
 	self.weakspot_offsets = weakspot_offsets
-	self.img = img
+	self.img = _img

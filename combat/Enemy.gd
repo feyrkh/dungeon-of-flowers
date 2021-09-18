@@ -11,8 +11,8 @@ signal target_button_exited
 onready var sprite = find_node('Sprite')
 var data : EnemyData
 
-func setup(data:EnemyData):
-	self.data = data
+func setup(_data:EnemyData):
+	self.data = _data
 
 func damage_hp(amt):
 	self.data.hp -= amt

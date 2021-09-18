@@ -1,0 +1,73 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://img/combat/skill.png" type="Texture" id=1]
+[ext_resource path="res://img/combat/item.png" type="Texture" id=2]
+[ext_resource path="res://img/combat/flee.png" type="Texture" id=3]
+[ext_resource path="res://img/combat/ally_face.png" type="Texture" id=4]
+[ext_resource path="res://img/combat/attack.png" type="Texture" id=5]
+[ext_resource path="res://img/combat/defend.png" type="Texture" id=6]
+
+[node name="AllyCombatDisplay" type="Control"]
+margin_left = 367.003
+margin_top = 462.0
+margin_right = 641.003
+margin_bottom = 598.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Face" type="TextureRect" parent="."]
+margin_left = 2.99661
+margin_right = 276.997
+margin_bottom = 136.0
+texture = ExtResource( 4 )
+
+[node name="Attack" type="TextureRect" parent="."]
+margin_left = 14.7357
+margin_top = -36.9594
+margin_right = 288.736
+margin_bottom = 99.0406
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Skill" type="TextureRect" parent="."]
+margin_left = 79.7357
+margin_top = -36.9594
+margin_right = 353.736
+margin_bottom = 99.0406
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Defend" type="TextureRect" parent="."]
+margin_left = 142.736
+margin_top = -36.9594
+margin_right = 416.736
+margin_bottom = 99.0406
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Item" type="TextureRect" parent="."]
+margin_left = 207.736
+margin_top = -36.9594
+margin_right = 481.736
+margin_bottom = 99.0406
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Flee" type="TextureRect" parent="."]
+margin_left = 244.736
+margin_top = 70.0406
+margin_right = 518.736
+margin_bottom = 206.041
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

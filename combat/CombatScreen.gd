@@ -104,8 +104,10 @@ func open_category_submenu(ally_idx, category_idx):
 	cur_input_phase = InputPhase.PLAYER_SELECT_SUBMENU
 	var ally = allies[ally_idx]
 	ally.open_category_submenu(category_idx)
-	
 
+func _on_Ally_cancel_submenu():
+	cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
+	
 func select_next_category(direction):
 	var cur_ally = allies[selected_ally_idx]
 	selected_category_idx = cur_ally.select_category(selected_category_idx, direction)
@@ -295,3 +297,5 @@ func check_combat_over():
 		yield(get_tree().create_timer(2), "timeout")
 		queue_free()
 		return true
+
+

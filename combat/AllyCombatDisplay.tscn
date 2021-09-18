@@ -34,6 +34,13 @@ margin_top = 808.499
 margin_right = 39.4908
 margin_bottom = 808.499
 
+[node name="Submenu" parent="." instance=ExtResource( 9 )]
+visible = false
+margin_left = 229.211
+margin_top = 10.7536
+margin_right = 229.211
+margin_bottom = 10.7536
+
 [node name="PortraitBG" type="TextureRect" parent="."]
 margin_left = 4.21387
 margin_top = 14.5493
@@ -45,6 +52,7 @@ __meta__ = {
 }
 
 [node name="PortraitBGSelected" type="TextureRect" parent="."]
+visible = false
 margin_left = -2.78613
 margin_top = 6.54932
 margin_right = 477.214
@@ -68,7 +76,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconSkill" type="TextureRect" parent="."]
+[node name="IconZoomSkill" type="TextureRect" parent="."]
 visible = false
 margin_left = 8.05426
 margin_top = 747.867
@@ -79,7 +87,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconItem" type="TextureRect" parent="."]
+[node name="IconZoomItem" type="TextureRect" parent="."]
 visible = false
 margin_left = 13.0543
 margin_top = 747.867
@@ -90,7 +98,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconDefend" type="TextureRect" parent="."]
+[node name="IconZoomDefend" type="TextureRect" parent="."]
 visible = false
 margin_left = 10.0543
 margin_top = 745.867
@@ -101,7 +109,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconFight" type="TextureRect" parent="."]
+[node name="IconZoomFight" type="TextureRect" parent="."]
 visible = false
 margin_left = 25.9753
 margin_top = 741.634
@@ -177,13 +185,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Submenu2" parent="." instance=ExtResource( 9 )]
-visible = false
-margin_left = 332.555
-margin_top = 937.288
-margin_right = 332.555
-margin_bottom = 937.288
-
 [node name="IconStatus" type="TextureButton" parent="."]
 margin_left = -22.3715
 margin_top = 86.4207
@@ -193,3 +194,5 @@ texture_normal = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[connection signal="cancel_submenu" from="Submenu" to="." method="_on_Submenu_cancel_submenu"]

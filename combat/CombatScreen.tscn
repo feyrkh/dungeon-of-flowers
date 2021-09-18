@@ -59,3 +59,6 @@ margin_bottom = 2013.0
 [connection signal="start_combat" from="." to="." method="_on_CombatScreen_start_combat"]
 [connection signal="start_enemy_turn" from="." to="." method="_on_CombatScreen_start_enemy_turn"]
 [connection signal="start_player_turn" from="." to="." method="_on_CombatScreen_start_player_turn"]
+[connection signal="cancel_submenu" from="Ally1" to="." method="_on_Ally_cancel_submenu"]
+[connection signal="cancel_submenu" from="Ally2" to="." method="_on_Ally_cancel_submenu"]
+[connection signal="cancel_submenu" from="Ally3" to="." method="_on_Ally_cancel_submenu"]

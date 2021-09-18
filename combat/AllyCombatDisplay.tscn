@@ -68,7 +68,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconZoomSkill" type="TextureRect" parent="."]
+[node name="IconSkill" type="TextureRect" parent="."]
 visible = false
 margin_left = 8.05426
 margin_top = 747.867
@@ -79,7 +79,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconZoomItem" type="TextureRect" parent="."]
+[node name="IconItem" type="TextureRect" parent="."]
 visible = false
 margin_left = 13.0543
 margin_top = 747.867
@@ -90,7 +90,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconZoomDefend" type="TextureRect" parent="."]
+[node name="IconDefend" type="TextureRect" parent="."]
 visible = false
 margin_left = 10.0543
 margin_top = 745.867
@@ -101,7 +101,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconZoomFight" type="TextureRect" parent="."]
+[node name="IconFight" type="TextureRect" parent="."]
 visible = false
 margin_left = 25.9753
 margin_top = 741.634

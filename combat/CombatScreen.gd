@@ -82,7 +82,7 @@ func input_select_character():
 		select_next_char(1)
 		input_delayed = UI_DELAY
 	elif Input.is_action_just_pressed("ui_select") or Input.is_action_just_pressed("ui_up"):
-		
+		open_category_submenu(selected_ally_idx, selected_category_idx)
 		input_delayed = UI_DELAY
 	elif Input.is_action_just_pressed("ui_left"):
 		select_next_category(-1)
@@ -90,7 +90,6 @@ func input_select_character():
 	elif Input.is_action_just_pressed("ui_right"):
 		select_next_category(1)
 		input_delayed = UI_DELAY
-
 
 func select_next_char(direction):
 	var prev_selected = allies[selected_ally_idx]
@@ -101,6 +100,11 @@ func select_next_char(direction):
 	next_selected.select(selected_category_idx)
 	selected_ally_idx = new_selected_ally_idx
 
+func open_category_submenu(ally_idx, category_idx):
+	cur_input_phase = InputPhase.PLAYER_SELECT_SUBMENU
+	var ally = allies[ally_idx]
+	ally.open_category_submenu(category_idx)
+	
 
 func select_next_category(direction):
 	var cur_ally = allies[selected_ally_idx]

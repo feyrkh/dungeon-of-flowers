@@ -8,6 +8,7 @@ onready var SpFill:TextureRect = find_node("SpFill")
 onready var CombatIcons = find_node("CombatIcons")
 onready var default_position = rect_position
 onready var selected_position = rect_position - Vector2(0, 20)
+onready var categories = [find_node("IconFight"), find_node("IconDefend"), find_node("IconSkill"), find_node("IconItem")]
 
 export(Color) var selected_color = Color.white
 export(Color) var deselected_color = Color(0.8, 0.8, 0.8)
@@ -37,3 +38,6 @@ func select(category_idx):
 
 func select_category(selected_category_idx, direction):
 	return CombatIcons.select_next_category(selected_category_idx, direction)
+
+func open_category_submenu(category_idx):
+	pass

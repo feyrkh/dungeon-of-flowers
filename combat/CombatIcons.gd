@@ -1,6 +1,6 @@
 extends Control
 
-onready var categories = [find_node("IconSkill"), find_node("IconFight"), find_node("IconDefend"), find_node("IconItem")]
+onready var categories = [find_node("IconFight"), find_node("IconDefend"), find_node("IconSkill"), find_node("IconItem")]
 onready var anim = find_node("AnimationPlayer")
 onready var bouncers = [get_node("CharSwitchLeft/Bouncer"), get_node("CharSwitchRight/Bouncer")]
 
@@ -13,13 +13,13 @@ func hide():
 	self.visible = false
 
 func show(selected_idx=0):
+	select(selected_idx)
 	for bouncer in bouncers:
 		bouncer.reset()
 	
 	self.visible = true
 	anim.play_backwards("fade")
 	yield(anim, "animation_finished")
-	select(selected_idx)
 
 func select(selected_idx=0):
 	for i in range(categories.size()):

@@ -64,10 +64,10 @@ __meta__ = {
 [node name="IconFight" type="TextureRect" parent="."]
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 115.583
+margin_left = 6.58301
 margin_top = -177.259
-margin_right = 223.583
-margin_bottom = -4.25883
+margin_right = 114.583
+margin_bottom = -4.25887
 rect_scale = Vector2( 0.8, 0.8 )
 rect_pivot_offset = Vector2( 54, 173 )
 texture = ExtResource( 3 )
@@ -76,10 +76,10 @@ __meta__ = {
 }
 
 [node name="IconDefend" type="TextureRect" parent="."]
-margin_left = 224.655
+margin_left = 115.655
 margin_top = -158.188
-margin_right = 340.655
-margin_bottom = -7.18796
+margin_right = 231.655
+margin_bottom = -7.18794
 rect_scale = Vector2( 0.8, 0.8 )
 rect_pivot_offset = Vector2( 58, 151 )
 texture = ExtResource( 4 )
@@ -88,10 +88,10 @@ __meta__ = {
 }
 
 [node name="IconSkill" type="TextureRect" parent="."]
-margin_left = -0.554472
+margin_left = 233.446
 margin_top = -176.029
-margin_right = 119.446
-margin_bottom = -3.02924
+margin_right = 353.446
+margin_bottom = -3.02922
 rect_scale = Vector2( 0.8, 0.8 )
 rect_pivot_offset = Vector2( 60, 173 )
 texture = ExtResource( 2 )
@@ -139,9 +139,9 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="CharSwitchLeft/Bouncer"]
-margin_left = -36.0
+margin_left = -34.0
 margin_top = -84.0
-margin_right = 4.0
+margin_right = 6.0
 margin_bottom = -70.0
 rect_scale = Vector2( 2, 2 )
 text = "Q"

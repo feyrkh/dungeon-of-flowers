@@ -6,16 +6,20 @@ signal select_submenu_item(item_idx)
 onready var anim = find_node("AnimationPlayer")
 onready var SubmenuArrowUp = find_node("SubmenuArrowUp")
 onready var SubmenuArrowDown = find_node("SubmenuArrowDown")
-onready var SubmenuEntries = [find_node("Submenu1"), find_node("Submenu2"), find_node("Submenu3"), find_node("Submenu4"), ]
+onready var SubmenuEntries = [find_node("SubmenuEntry1"), find_node("SubmenuEntry2"), find_node("SubmenuEntry3"), find_node("SubmenuEntry4"), ]
 
 var selected_entry_idx = 0
 var selected_move_idx = 0
 var selected_page_idx = 0
 var move_entries = []
+var ally_data
 
-func setup(_move_entries):
-	self.move_entries = _move_entries
+func setup(_ally_data, _move_entries):
 	selected_entry_idx = 0
+	selected_move_idx = 0
+	selected_page_idx = 0
+	self.move_entries = _move_entries
+	render_moves()
 
 func _ready():
 	set_process(false)
@@ -32,6 +36,14 @@ func _process(delta):
 	elif Input.is_action_just_pressed("ui_accept"):
 		open_targeting_menu()
 
+func render_moves():
+	var cur_page = []
+	for i in range(4):
+		var cur = i + selected_page_idx*4
+		var move_data = null
+		if i < move_entries.size():
+			move_data = move_entries[i]
+		SubmenuEntries[i].setup(move_data)
 
 func select_next_entry(direction):
 	var new_entry_idx = selected_entry_idx + direction

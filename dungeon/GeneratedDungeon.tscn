@@ -8,7 +8,7 @@ background_energy = 0.0
 ambient_light_energy = 0.0
 ambient_light_sky_contribution = 0.0
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 2 )
 shader_param/size_x = 0.1
 shader_param/size_y = 0.5
@@ -16,7 +16,7 @@ shader_param/size_y = 0.5
 [sub_resource type="Gradient" id=3]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1 )
 
-[sub_resource type="GradientTexture" id=5]
+[sub_resource type="GradientTexture" id=4]
 gradient = SubResource( 3 )
 
 [node name="Dungeon" type="Spatial"]
@@ -42,12 +42,12 @@ __meta__ = {
 environment = SubResource( 1 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
-material = SubResource( 4 )
+material = SubResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 128.0
 rect_min_size = Vector2( 1920, 1080 )
-texture = SubResource( 5 )
+texture = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

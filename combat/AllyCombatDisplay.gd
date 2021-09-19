@@ -20,6 +20,7 @@ export(Color) var deselected_color = Color(0.8, 0.8, 0.8)
 
 var ally_data:AllyData
 var last_category_idx
+var move_lists = ["attack", "skill", "defend", "item", ]
 
 func setup(_ally_data:AllyData):
 	self.ally_data = _ally_data
@@ -64,6 +65,7 @@ func open_category_submenu(category_idx):
 	last_category_idx = category_idx
 	category_zoom_icons[category_idx].visible = true
 	CombatIcons.hide()
+	Submenu.setup(ally_data, ally_data.get_moves(move_lists[category_idx]))
 	Submenu.show()
 
 func _on_Submenu_cancel_submenu():

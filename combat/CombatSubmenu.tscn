@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://art_exports/ui_HUD/ui_btn_submenu_OFF.png" type="Texture" id=1]
 [ext_resource path="res://art_exports/ui_HUD/ui_btn_submenu_ON.png" type="Texture" id=2]
-[ext_resource path="res://art_exports/ui_HUD/ui_submenu_arrow.png" type="Texture" id=3]
 [ext_resource path="res://combat/CombatSubmenu.gd" type="Script" id=4]
 
 [sub_resource type="Animation" id=1]
@@ -18,7 +17,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -174.806, -77.7886 ), Vector2( -175.75, 20.3743 ) ]
+"values": [ Vector2( -174.806, -62 ), Vector2( -175.75, 20.3743 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Submenu2:rect_position")
@@ -30,7 +29,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -174.806, -126.789 ), Vector2( -176.694, 19.5115 ) ]
+"values": [ Vector2( -174.806, -111 ), Vector2( -176.694, 19.5115 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Submenu3:rect_position")
@@ -42,7 +41,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -174.806, -176.789 ), Vector2( -174.806, 17.211 ) ]
+"values": [ Vector2( -174.806, -162 ), Vector2( -174.806, 17.211 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Submenu4:rect_position")
@@ -54,7 +53,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -174.806, -226.789 ), Vector2( -174.806, 18.211 ) ]
+"values": [ Vector2( -174.806, -212 ), Vector2( -174.806, 18.211 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("Submenu1:modulate")
@@ -200,27 +199,6 @@ margin_bottom = 49.0
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="SubmenuArrowDown" type="TextureRect" parent="."]
-margin_left = -22.6745
-margin_top = -19.9816
-margin_right = 22.3255
-margin_bottom = 0.0184326
-texture = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SubmenuArrowUp" type="TextureRect" parent="."]
-margin_left = -22.6745
-margin_top = -241.982
-margin_right = 22.3255
-margin_bottom = -221.982
-rect_scale = Vector2( 1, -1 )
-texture = ExtResource( 3 )
-__meta__ = {
 "_edit_use_anchors_": false
 }
 

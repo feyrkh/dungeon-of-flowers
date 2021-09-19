@@ -50,10 +50,11 @@ tracks/2/keys = {
 }
 
 [node name="CombatIcons" type="Control"]
+modulate = Color( 1, 1, 1, 0 )
 margin_left = 36.0
-margin_top = 5.0
+margin_top = 152.0
 margin_right = 36.0
-margin_bottom = 5.0
+margin_bottom = 152.0
 rect_pivot_offset = Vector2( 431.667, -821.041 )
 script = ExtResource( 5 )
 __meta__ = {

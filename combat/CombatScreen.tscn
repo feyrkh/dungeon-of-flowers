@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://combat/CombatScreen.gd" type="Script" id=1]
 [ext_resource path="res://img/combat/combat-mockup-2.png" type="Texture" id=2]
+[ext_resource path="res://img/combat/combat-mockup-3.png" type="Texture" id=3]
 [ext_resource path="res://combat/AllyCombatDisplay.tscn" type="PackedScene" id=6]
 [ext_resource path="res://img/combat/combat-mockup.png" type="Texture" id=7]
 
@@ -17,6 +18,11 @@ texture = ExtResource( 7 )
 visible = false
 position = Vector2( 592.621, 746.942 )
 texture = ExtResource( 2 )
+
+[node name="combat-mockup-3" type="Sprite" parent="."]
+visible = false
+position = Vector2( 467.888, 781.387 )
+texture = ExtResource( 3 )
 
 [node name="Enemies" type="YSort" parent="."]
 position = Vector2( 411.536, 190.919 )

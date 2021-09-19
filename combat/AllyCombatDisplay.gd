@@ -13,7 +13,7 @@ onready var CombatIcons = find_node("CombatIcons")
 onready var Submenu = find_node("Submenu")
 onready var default_position = rect_position
 onready var selected_position = rect_position - Vector2(0, 20)
-onready var category_zoom_icons = [find_node("IconZoomFight"), find_node("IconZoomDefend"), find_node("IconZoomSkill"), find_node("IconZoomItem")]
+onready var category_zoom_icons = [find_node("IconZoomFight"), find_node("IconZoomSkill"), find_node("IconZoomDefend"), find_node("IconZoomItem")]
 
 export(Color) var selected_color = Color.white
 export(Color) var deselected_color = Color(0.8, 0.8, 0.8)
@@ -67,4 +67,5 @@ func open_category_submenu(category_idx):
 
 func _on_Submenu_cancel_submenu():
 	CombatIcons.show(last_category_idx)
+	category_zoom_icons[last_category_idx].visible = false
 	emit_signal("cancel_submenu")

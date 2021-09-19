@@ -56,8 +56,8 @@ func open_targeting_menu():
 
 func hide():
 	set_process(false)
-	SubmenuArrowUp.visible = false
-	SubmenuArrowDown.visible = false
+	#SubmenuArrowUp.visible = false
+	#SubmenuArrowDown.visible = false
 	anim.play("fade")
 	yield(anim, "animation_finished")
 	self.visible = false
@@ -70,6 +70,6 @@ func show():
 	self.visible = true
 	anim.play_backwards("fade")
 	yield(anim, "animation_finished")
-	SubmenuArrowUp.visible = true
-	SubmenuArrowDown.visible = true
+	#SubmenuArrowUp.visible = true
+	#SubmenuArrowDown.visible = true
 	set_process(true)

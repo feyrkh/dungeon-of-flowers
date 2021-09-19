@@ -76,12 +76,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="IconZoomFight" type="TextureRect" parent="."]
+visible = false
+margin_left = -11.8713
+margin_top = -181.761
+margin_right = 96.1287
+margin_bottom = -8.76071
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="IconZoomSkill" type="TextureRect" parent="."]
 visible = false
-margin_left = 8.05426
-margin_top = 747.867
-margin_right = 128.054
-margin_bottom = 920.867
+margin_left = -31.6085
+margin_top = -173.628
+margin_right = 88.3915
+margin_bottom = -0.628174
 texture = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -89,10 +100,10 @@ __meta__ = {
 
 [node name="IconZoomItem" type="TextureRect" parent="."]
 visible = false
-margin_left = 13.0543
-margin_top = 747.867
-margin_right = 137.054
-margin_bottom = 920.867
+margin_left = -26.6085
+margin_top = -141.628
+margin_right = 97.3915
+margin_bottom = 31.3718
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -100,22 +111,11 @@ __meta__ = {
 
 [node name="IconZoomDefend" type="TextureRect" parent="."]
 visible = false
-margin_left = 10.0543
-margin_top = 745.867
-margin_right = 126.054
-margin_bottom = 918.867
+margin_left = -29.6085
+margin_top = -167.628
+margin_right = 86.3915
+margin_bottom = 5.37183
 texture = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="IconZoomFight" type="TextureRect" parent="."]
-visible = false
-margin_left = 25.9753
-margin_top = 741.634
-margin_right = 133.975
-margin_bottom = 914.634
-texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

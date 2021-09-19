@@ -28,7 +28,7 @@ func select(selected_idx=0):
 			categories[i].rect_scale = Vector2(1, 1)
 		else:
 			categories[i].modulate = deselected_color
-			categories[i].rect_scale = Vector2(0.8, 0.8)
+			categories[i].rect_scale = Vector2(0.6, 0.6)
 	return selected_idx
 
 func select_next_category(selected_category_idx, direction):

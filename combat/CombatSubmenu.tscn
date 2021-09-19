@@ -112,10 +112,11 @@ __meta__ = {
 }
 
 [node name="Submenu1" type="TextureRect" parent="."]
-margin_left = -174.806
-margin_top = -77.7886
-margin_right = 178.194
-margin_bottom = -33.7886
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -175.75
+margin_top = 20.3743
+margin_right = 177.25
+margin_bottom = 64.3743
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -134,10 +135,11 @@ __meta__ = {
 }
 
 [node name="Submenu2" type="TextureRect" parent="."]
-margin_left = -174.806
-margin_top = -126.789
-margin_right = 178.194
-margin_bottom = -82.7886
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -176.694
+margin_top = 19.5115
+margin_right = 176.306
+margin_bottom = 63.5119
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -156,10 +158,11 @@ __meta__ = {
 }
 
 [node name="Submenu3" type="TextureRect" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 margin_left = -174.806
-margin_top = -176.789
+margin_top = 17.211
 margin_right = 178.194
-margin_bottom = -132.789
+margin_bottom = 61.211
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -178,10 +181,11 @@ __meta__ = {
 }
 
 [node name="Submenu4" type="TextureRect" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 margin_left = -174.806
-margin_top = -226.789
+margin_top = 18.211
 margin_right = 178.194
-margin_bottom = -182.789
+margin_bottom = 62.211
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -221,4 +225,5 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 2.0
 anims/fade = SubResource( 1 )

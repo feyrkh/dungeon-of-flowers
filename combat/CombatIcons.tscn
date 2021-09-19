@@ -22,7 +22,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 37, 5 ), Vector2( 37, 150 ) ]
+"values": [ Vector2( 36, 5 ), Vector2( 36, 152 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:modulate")
@@ -50,9 +50,9 @@ tracks/2/keys = {
 }
 
 [node name="CombatIcons" type="Control"]
-margin_left = 35.0
+margin_left = 36.0
 margin_top = 5.0
-margin_right = 35.0
+margin_right = 36.0
 margin_bottom = 5.0
 rect_pivot_offset = Vector2( 431.667, -821.041 )
 script = ExtResource( 5 )
@@ -70,10 +70,10 @@ texture = ExtResource( 8 )
 [node name="IconFight" type="TextureRect" parent="."]
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 6.58301
+margin_left = 5.58301
 margin_top = -177.259
-margin_right = 114.583
-margin_bottom = -4.25887
+margin_right = 113.583
+margin_bottom = -4.25885
 rect_scale = Vector2( 0.6, 0.6 )
 rect_pivot_offset = Vector2( 54, 173 )
 texture = ExtResource( 3 )

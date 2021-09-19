@@ -8,6 +8,7 @@ func _ready():
 	add_move(Util.config(MoveData.new(), {
 		"label": "Punch",
 		"name": "punch",
+		"type": "attack",
 		"base_damage": 3,
 		"damageFormat": "{player} pummels {enemy} for {damage} damage!",
 		"weakFormat": "But {enemy} shrugs off the blows...",
@@ -25,6 +26,7 @@ func _ready():
 	add_move(Util.config(MoveData.new(), {
 		"label": "Headbutt",
 		"name": "headbutt",
+		"type": "attack",
 		"base_damage": 8,
 		"damageFormat": "{player} headbutts {enemy} for {damage} damage!",
 		"weakFormat": "But {enemy} just grins at {player}!",
@@ -42,6 +44,7 @@ func _ready():
 	add_move(Util.config(MoveData.new(), {
 		"label": "Kick",
 		"name": "kick",
+		"type": "attack",
 		"base_damage": 10,
 		"damageFormat": "{player} snaps a kick into {enemy} for {damage} damage!",
 		"weakFormat": "But {enemy} knocks their leg away...",

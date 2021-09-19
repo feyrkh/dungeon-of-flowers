@@ -6,6 +6,7 @@ const Enums = preload("res://Enums.gd")
 
 var label : String = "????"
 var name : String = "????"
+var type : String = "attack"
 var hp_cost : int = 0
 var mp_cost : int = 0
 var base_damage : int = 1

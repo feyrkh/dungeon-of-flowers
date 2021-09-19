@@ -18,22 +18,23 @@ onready var category_zoom_icons = [find_node("IconZoomFight"), find_node("IconZo
 export(Color) var selected_color = Color.white
 export(Color) var deselected_color = Color(0.8, 0.8, 0.8)
 
-var allyData:AllyData
+var ally_data:AllyData
 var last_category_idx
 
-func setup(_allyData:AllyData):
-	Portrait.texture = _allyData.texture
-	self.allyData = _allyData
+func setup(_ally_data:AllyData):
+	self.ally_data = _ally_data
+	Portrait.texture = ally_data.texture
 	updateLabels()
+	CombatIcons.setup(ally_data)
 
 func _ready():
 	CombatIcons.categories.append(find_node("IconStatus"))
 
 func updateLabels():
-	HpLabel.bbcode_text = str(allyData.hp) + "/" + str(allyData.max_hp)
-	SpLabel.bbcode_text = str(allyData.sp) + "/" + str(allyData.max_sp)
-	HpFill.rect_scale.x = float(allyData.hp) / float(allyData.max_hp)
-	SpFill.rect_scale.x = float(allyData.sp) / float(allyData.max_sp)
+	HpLabel.bbcode_text = str(ally_data.hp) + "/" + str(ally_data.max_hp)
+	SpLabel.bbcode_text = str(ally_data.sp) + "/" + str(ally_data.max_sp)
+	HpFill.rect_scale.x = float(ally_data.hp) / float(ally_data.max_hp)
+	SpFill.rect_scale.x = float(ally_data.sp) / float(ally_data.max_sp)
 
 func deselect():
 	PortraitSelected.visible = false

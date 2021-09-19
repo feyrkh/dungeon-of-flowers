@@ -17,3 +17,10 @@ var stance_angle : int
 var texture : Texture
 
 var moves : Array # of MoveData
+
+func get_moves(move_type:String):
+	var result = []
+	for move in moves:
+		if move.type == move_type:
+			result.append(move)
+	return result

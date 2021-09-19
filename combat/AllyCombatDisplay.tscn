@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_fight.png" type="Texture" id=1]
 [ext_resource path="res://combat/CombatIcons.tscn" type="PackedScene" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_portrait_mask.png" type="Texture" id=13]
 [ext_resource path="res://shader/alpha_mask.shader" type="Shader" id=14]
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_status.png" type="Texture" id=15]
+[ext_resource path="res://combat/StatusIcon.gd" type="Script" id=16]
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_cursor.png" type="Texture" id=17]
 
 [sub_resource type="ShaderMaterial" id=1]
@@ -193,6 +194,7 @@ margin_right = 37.6285
 margin_bottom = 144.424
 rect_scale = Vector2( 0.8, 0.8 )
 texture_normal = ExtResource( 15 )
+script = ExtResource( 16 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

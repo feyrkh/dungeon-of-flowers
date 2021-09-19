@@ -10,6 +10,13 @@ onready var bouncers = [get_node("CharSwitchLeft/Bouncer"), get_node("CharSwitch
 export(Color) var selected_color = Color.white
 export(Color) var deselected_color = Color(0.6, 0.6, 0.6)
 
+var ally_data
+
+func setup(_ally_data):
+	self.ally_data = _ally_data
+	for category in categories:
+		category.setup(ally_data)
+
 func hide():
 	anim.play("fade")
 	yield(anim, "animation_finished")

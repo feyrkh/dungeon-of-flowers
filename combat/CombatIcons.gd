@@ -1,6 +1,7 @@
 extends Control
 
 onready var categories = [find_node("IconFight"), find_node("IconSkill"), find_node("IconDefend"), find_node("IconItem")]
+onready var category_ys = [categories[0].rect_position.y, categories[1].rect_position.y, categories[2].rect_position.y, categories[3].rect_position.y, ]
 onready var anim = find_node("AnimationPlayer")
 onready var bouncers = [get_node("CharSwitchLeft/Bouncer"), get_node("CharSwitchRight/Bouncer")]
 
@@ -25,10 +26,16 @@ func select(selected_idx=0):
 	for i in range(categories.size()):
 		if i == selected_idx:
 			categories[i].modulate = selected_color
-			categories[i].rect_scale = Vector2(1, 1)
+			categories[i].get_node("Label").visible = true
+			if i < category_ys.size():
+				categories[i].rect_position.y = category_ys[i] - 10
+			#categories[i].rect_scale = Vector2(1, 1)
 		else:
 			categories[i].modulate = deselected_color
-			categories[i].rect_scale = Vector2(0.6, 0.6)
+			categories[i].get_node("Label").visible = false
+			if i < category_ys.size():
+				categories[i].rect_position.y = category_ys[i]
+			#categories[i].rect_scale = Vector2(0.6, 0.6)
 	return selected_idx
 
 func select_next_category(selected_category_idx, direction):

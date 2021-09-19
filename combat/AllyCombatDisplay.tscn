@@ -197,4 +197,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label" type="Label" parent="IconStatus"]
+visible = false
+margin_left = 7.01542
+margin_top = -18.24
+margin_right = 47.0154
+margin_bottom = -4.24001
+text = "Status"
+
 [connection signal="cancel_submenu" from="Submenu" to="." method="_on_Submenu_cancel_submenu"]

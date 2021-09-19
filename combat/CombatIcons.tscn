@@ -81,6 +81,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label" type="Label" parent="IconFight"]
+margin_left = 5.30479
+margin_top = -30.0799
+margin_right = 45.3048
+margin_bottom = -16.0799
+rect_scale = Vector2( 2, 2 )
+text = "Fight"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="IconDefend" type="TextureRect" parent="."]
 margin_left = 185.326
 margin_top = -155.191
@@ -89,6 +100,17 @@ margin_bottom = -4.19136
 rect_scale = Vector2( 0.6, 0.6 )
 rect_pivot_offset = Vector2( 58, 151 )
 texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="IconDefend"]
+margin_left = 12.9453
+margin_top = -36.6527
+margin_right = 58.9453
+margin_bottom = -22.6527
+rect_scale = Vector2( 2, 2 )
+text = "Defend"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -105,6 +127,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label" type="Label" parent="IconSkill"]
+margin_left = 12.2841
+margin_top = -29.1592
+margin_right = 52.2841
+margin_bottom = -15.1592
+rect_scale = Vector2( 2, 2 )
+text = "Skills"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="IconItem" type="TextureRect" parent="."]
 margin_left = 286.626
 margin_top = -130.328
@@ -113,6 +146,17 @@ margin_bottom = -12.3276
 rect_scale = Vector2( 0.6, 0.6 )
 rect_pivot_offset = Vector2( 62, 118 )
 texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="IconItem"]
+margin_left = 29.2748
+margin_top = -35.9242
+margin_right = 75.2748
+margin_bottom = -21.9242
+rect_scale = Vector2( 2, 2 )
+text = "Item"
 __meta__ = {
 "_edit_use_anchors_": false
 }

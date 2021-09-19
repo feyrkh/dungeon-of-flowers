@@ -1,10 +1,16 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://combat/CombatScreen.gd" type="Script" id=1]
 [ext_resource path="res://combat/AllyCombatDisplay.tscn" type="PackedScene" id=6]
+[ext_resource path="res://img/combat/combat-mockup.png" type="Texture" id=7]
 
 [node name="CombatScreen" type="Node2D"]
 script = ExtResource( 1 )
+
+[node name="combat-mockup" type="Sprite" parent="."]
+visible = false
+position = Vector2( 962.453, 537.902 )
+texture = ExtResource( 7 )
 
 [node name="Enemies" type="YSort" parent="."]
 position = Vector2( 411.536, 190.919 )
@@ -37,22 +43,22 @@ position = Vector2( 1261.06, 375.911 )
 position = Vector2( -252.153, 350.456 )
 
 [node name="Ally1" parent="." instance=ExtResource( 6 )]
-margin_left = 181.0
-margin_top = 933.0
-margin_right = 721.0
-margin_bottom = 2013.0
+margin_left = 219.0
+margin_top = 896.0
+margin_right = 759.0
+margin_bottom = 1976.0
 
 [node name="Ally2" parent="." instance=ExtResource( 6 )]
-margin_left = 687.0
-margin_top = 933.0
-margin_right = 1227.0
-margin_bottom = 2013.0
+margin_left = 725.0
+margin_top = 896.0
+margin_right = 1265.0
+margin_bottom = 1976.0
 
 [node name="Ally3" parent="." instance=ExtResource( 6 )]
-margin_left = 1202.0
-margin_top = 933.0
-margin_right = 1742.0
-margin_bottom = 2013.0
+margin_left = 1240.0
+margin_top = 896.0
+margin_right = 1780.0
+margin_bottom = 1976.0
 
 [connection signal="enemy_turn_complete" from="." to="." method="_on_CombatScreen_enemy_turn_complete"]
 [connection signal="player_move_complete" from="." to="." method="_on_CombatScreen_player_move_complete"]

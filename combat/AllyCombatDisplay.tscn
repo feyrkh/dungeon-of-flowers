@@ -36,9 +36,9 @@ margin_bottom = 808.499
 
 [node name="Submenu" parent="." instance=ExtResource( 9 )]
 visible = false
-margin_left = 229.211
+margin_left = 294.211
 margin_top = 10.7536
-margin_right = 229.211
+margin_right = 294.211
 margin_bottom = 10.7536
 
 [node name="PortraitBG" type="TextureRect" parent="."]
@@ -186,10 +186,12 @@ __meta__ = {
 }
 
 [node name="IconStatus" type="TextureButton" parent="."]
-margin_left = -22.3715
-margin_top = 86.4207
-margin_right = 30.6285
-margin_bottom = 141.424
+modulate = Color( 0.8, 0.8, 0.8, 1 )
+margin_left = -15.3715
+margin_top = 89.4207
+margin_right = 37.6285
+margin_bottom = 144.424
+rect_scale = Vector2( 0.8, 0.8 )
 texture_normal = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false

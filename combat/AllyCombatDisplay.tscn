@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_fight.png" type="Texture" id=1]
 [ext_resource path="res://combat/CombatIcons.tscn" type="PackedScene" id=2]
@@ -18,32 +18,47 @@
 [ext_resource path="res://combat/StatusIcon.gd" type="Script" id=16]
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_cursor.png" type="Texture" id=17]
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_box_outline.png" type="Texture" id=18]
+[ext_resource path="res://combat/TargetMarker.tscn" type="PackedScene" id=19]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 14 )
 shader_param/mask_texture = ExtResource( 13 )
 
 [node name="AllyCombatDisplay" type="Control"]
-modulate = Color( 0.701961, 0.701961, 0.701961, 1 )
 script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CombatIcons" parent="." instance=ExtResource( 2 )]
+[node name="TargetMarker" parent="." instance=ExtResource( 19 )]
+visible = false
+margin_left = 220.0
+margin_top = -12.5
+margin_right = 220.0
+margin_bottom = 7.5
+
+[node name="FadeContainer" type="Control" parent="."]
+modulate = Color( 0.8, 0.8, 0.8, 1 )
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CombatIcons" parent="FadeContainer" instance=ExtResource( 2 )]
 margin_left = 81.7154
 margin_top = 808.499
 margin_right = 81.7154
 margin_bottom = 808.499
 
-[node name="Submenu" parent="." instance=ExtResource( 9 )]
+[node name="Submenu" parent="FadeContainer" instance=ExtResource( 9 )]
 visible = false
 margin_left = 294.211
 margin_top = 10.7536
 margin_right = 294.211
 margin_bottom = 10.7536
 
-[node name="PortraitBG" type="TextureRect" parent="."]
+[node name="PortraitBG" type="TextureRect" parent="FadeContainer"]
 margin_left = 4.21387
 margin_top = 14.5493
 margin_right = 465.214
@@ -53,7 +68,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Portrait" type="TextureRect" parent="."]
+[node name="Portrait" type="TextureRect" parent="FadeContainer"]
 light_mask = 524288
 material = SubResource( 1 )
 margin_left = 4.0
@@ -67,7 +82,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PortraitOutline" type="TextureRect" parent="."]
+[node name="PortraitOutline" type="TextureRect" parent="FadeContainer"]
 margin_left = 4.0
 margin_top = 16.0
 margin_right = 465.0
@@ -77,8 +92,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PortraitBGSelected" type="TextureRect" parent="."]
-visible = false
+[node name="PortraitBGSelected" type="TextureRect" parent="FadeContainer"]
 margin_left = -3.0
 margin_top = 7.0
 margin_right = 477.0
@@ -88,7 +102,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconZoomFight" type="TextureRect" parent="."]
+[node name="IconZoomFight" type="TextureRect" parent="FadeContainer"]
 visible = false
 margin_left = -11.8713
 margin_top = -181.761
@@ -99,7 +113,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconZoomSkill" type="TextureRect" parent="."]
+[node name="IconZoomSkill" type="TextureRect" parent="FadeContainer"]
 visible = false
 margin_left = -31.6085
 margin_top = -173.628
@@ -110,7 +124,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconZoomItem" type="TextureRect" parent="."]
+[node name="IconZoomItem" type="TextureRect" parent="FadeContainer"]
 visible = false
 margin_left = -26.6085
 margin_top = -141.628
@@ -121,7 +135,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconZoomDefend" type="TextureRect" parent="."]
+[node name="IconZoomDefend" type="TextureRect" parent="FadeContainer"]
 visible = false
 margin_left = -29.6085
 margin_top = -167.628
@@ -132,7 +146,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HpBar" type="TextureRect" parent="."]
+[node name="HpBar" type="TextureRect" parent="FadeContainer"]
 margin_left = 271.162
 margin_top = 28.9433
 margin_right = 424.162
@@ -142,7 +156,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HpFill" type="TextureRect" parent="HpBar"]
+[node name="HpFill" type="TextureRect" parent="FadeContainer/HpBar"]
 margin_top = 30.0
 margin_right = 150.0
 margin_bottom = 34.0
@@ -151,7 +165,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HpLabel" type="RichTextLabel" parent="HpBar"]
+[node name="HpLabel" type="RichTextLabel" parent="FadeContainer/HpBar"]
 margin_left = 37.0
 margin_top = -1.0
 margin_right = 104.0
@@ -165,7 +179,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SpBar" type="TextureRect" parent="."]
+[node name="SpBar" type="TextureRect" parent="FadeContainer"]
 margin_left = 271.162
 margin_top = 71.9433
 margin_right = 424.162
@@ -175,7 +189,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SpFill" type="TextureRect" parent="SpBar"]
+[node name="SpFill" type="TextureRect" parent="FadeContainer/SpBar"]
 margin_top = 31.0
 margin_right = 150.0
 margin_bottom = 35.0
@@ -184,7 +198,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SpLabel" type="RichTextLabel" parent="SpBar"]
+[node name="SpLabel" type="RichTextLabel" parent="FadeContainer/SpBar"]
 margin_left = 37.0
 margin_right = 99.0
 margin_bottom = 15.0
@@ -197,7 +211,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IconStatus" type="TextureButton" parent="."]
+[node name="IconStatus" type="TextureButton" parent="FadeContainer"]
 modulate = Color( 0.8, 0.8, 0.8, 1 )
 margin_left = -15.3715
 margin_top = 89.4207
@@ -210,7 +224,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="IconStatus"]
+[node name="Label" type="Label" parent="FadeContainer/IconStatus"]
 visible = false
 margin_left = -12.473
 margin_top = -22.1377
@@ -219,4 +233,16 @@ margin_bottom = -8.1377
 rect_scale = Vector2( 2, 2 )
 text = "Status"
 
-[connection signal="cancel_submenu" from="Submenu" to="." method="_on_Submenu_cancel_submenu"]
+[node name="CurrentMoveLabel" type="Label" parent="."]
+visible = false
+margin_left = 117.0
+margin_top = -121.0
+margin_right = 208.0
+margin_bottom = -94.0
+rect_scale = Vector2( 4, 4 )
+text = "attack"
+align = 1
+valign = 1
+
+[connection signal="cancel_submenu" from="FadeContainer/Submenu" to="." method="_on_Submenu_cancel_submenu"]
+[connection signal="select_submenu_item" from="FadeContainer/Submenu" to="." method="_on_Submenu_select_submenu_item"]

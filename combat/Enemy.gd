@@ -14,6 +14,9 @@ var data : EnemyData
 func setup(_data:EnemyData):
 	self.data = _data
 
+func is_alive():
+	return data.hp > 0
+
 func damage_hp(amt):
 	self.data.hp -= amt
 	print(data.label + " has "+str(data.hp)+" hp left")

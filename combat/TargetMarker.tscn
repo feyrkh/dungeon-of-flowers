@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://art_exports/ui_HUD/ui_submenu_arrow.png" type="Texture" id=1]
+[ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=2]
+
+[node name="TargetMarker" type="Control"]
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bouncer" parent="." instance=ExtResource( 2 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+bounce_vector = Vector2( 0, 20 )
+
+[node name="MarkerImg" type="TextureRect" parent="Bouncer"]
+margin_left = -22.0
+margin_top = -20.0
+margin_right = 23.0
+margin_bottom = 20.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

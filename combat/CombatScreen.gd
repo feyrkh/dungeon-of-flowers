@@ -1,22 +1,22 @@
 extends Node2D
 
-const Enemy = preload("res://combat/Enemy.tscn")
 const SkillButton = preload("res://combat/SkillButton.tscn")
 const STATUS_CATEGORY = 4
 
 var combatData : CombatData
 
-signal start_combat(combatData)
-signal start_player_turn(combatData)
-signal start_enemy_turn(combatData)
-signal player_move_selected(combatData, moveData)
-signal player_move_complete(combatData, moveData)
-signal enemy_move_selected(combatData, moveData)
-signal enemy_move_complete(combatData, moveData)
-signal enemy_turn_complete(combatData)
+signal start_combat(combat_data)
+signal start_player_turn(combat_data)
+signal start_enemy_turn(combat_data)
+signal player_move_selected(combat_data, target_enemy, move_data)
+signal player_move_complete(combat_data, target_enemy, move_data)
+signal player_turn_complete(combat_data)
+signal enemy_move_selected(combat_data, move_data)
+signal enemy_move_complete(combat_data, move_data)
+signal enemy_turn_complete(combat_data)
 signal log_msg(msg)
-signal allies_win(combatData)
-signal allies_lose(combatData)
+signal allies_win(combat_data)
+signal allies_lose(combat_data)
 
 enum InputPhase {
 	PLAYER_SELECT_CHARACTER, PLAYER_SELECT_CATEGORY, PLAYER_SELECT_SUBMENU, PLAYER_SELECT_TARGET, NO_INPUT
@@ -35,15 +35,16 @@ var input_delayed = 0
 #					   otherwise call enemy_turn_complete()
 # enemy_turn_complete() - if enemies are dead, combat_complete; otherwise start_player_turn()
 
+onready var Enemies = find_node("Enemies")
 onready var allies = [find_node("Ally1"), find_node("Ally2"), find_node("Ally3")]
 
 var selected_ally_idx = 0
 var selected_category_idx = 0
 var restore_category_idx = 0 # set when moving to the 'status' icon, so we can restore back to the previously selected item
-var targeted_enemy = []
 var selected_skill
 var accumulated_damage = 0
 var expected_damage = 0
+var active_submenu
 
 const UI_DELAY = 0.12
 
@@ -71,8 +72,6 @@ func process_input():
 			return
 		InputPhase.PLAYER_SELECT_CHARACTER:
 			input_select_character()
-		InputPhase.PLAYER_SELECT_SUBMENU:
-			input_select_submenu()
 		InputPhase.PLAYER_SELECT_TARGET:
 			input_select_target()
 
@@ -98,12 +97,17 @@ func input_select_character():
 
 func select_next_char(direction):
 	var prev_selected = allies[selected_ally_idx]
-	var new_selected_ally_idx = (selected_ally_idx + direction) % allies.size()
-	if new_selected_ally_idx < 0: new_selected_ally_idx += allies.size()
-	var next_selected = allies[new_selected_ally_idx]
-	prev_selected.deselect()
-	next_selected.select(selected_category_idx)
-	selected_ally_idx = new_selected_ally_idx
+	var new_selected_ally = null
+	for i in range(1, 3):
+		var new_selected_ally_idx = (selected_ally_idx + direction*i) % allies.size()
+		if new_selected_ally_idx < 0: new_selected_ally_idx += allies.size()
+		var next_selected = allies[new_selected_ally_idx]
+		if !next_selected.exhausted:
+			prev_selected.deselect()
+			next_selected.select(selected_category_idx)
+			selected_ally_idx = new_selected_ally_idx
+			return
+
 
 func open_category_submenu(ally_idx, category_idx):
 	if (category_idx == STATUS_CATEGORY): # status icon, up should go back to previously selected icon instead
@@ -127,10 +131,6 @@ func select_status_category():
 		restore_category_idx = selected_category_idx
 		selected_category_idx = cur_ally.select_status_category()
 	
-	
-func input_select_submenu():
-	pass
-
 func input_select_target():
 	pass
 
@@ -140,39 +140,8 @@ func render_allies():
 		allies[allyIdx].setup(allyData)
 		allyIdx += 1
 
-func add_enemy(enemyData):
-	var positionIdx = 1
-	while find_node("EnemyPos"+str(positionIdx)).get_child_count() != 0:
-		positionIdx += 1
-	var enemy = Enemy.instance(1)
-	enemy.setup(enemyData)
-	var posNode = find_node("EnemyPos"+str(positionIdx))
-	posNode.add_child(enemy)
-	positionIdx += 1
-	enemy.connect("target_button_entered", self, "_on_Enemy_target_button_entered", [enemy, enemyData])
-	enemy.connect("target_button_exited", self, "_on_Enemy_target_button_exited", [enemy, enemyData])
-	enemy.connect("target_button_pressed", self, "_on_Enemy_target_button_pressed", [enemy, enemyData])
-
 func render_enemies():
-	var enemyNames = {}
-	for enemyData in combatData.get_enemies():
-		add_enemy(enemyData)
-		enemyNames[enemyData.label] = enemyNames.get(enemyData.label, 0) + 1
-		
-	var enemyNamesList = ""
-	var counter = enemyNames.keys().size()
-	for enemyName in enemyNames.keys():
-		if enemyNames[enemyName] > 1:
-			enemyNamesList += str(enemyNames[enemyName]) + " " + enemyName+"s"
-		else:
-			enemyNamesList += enemyName
-		counter -= 1
-		if counter == 1:
-			enemyNamesList += " and "
-		elif counter > 1:
-			enemyNamesList += ", "
-	
-	emit_signal("log_msg", "Uh oh - "+combatData.get_current_ally().label+" ran into "+enemyNamesList)
+	Enemies.render_enemies(combatData.get_enemies())
 
 func enemies_all_dead():
 	return get_tree().get_nodes_in_group("enemy").size() == 0
@@ -182,7 +151,7 @@ func allies_all_dead():
 
 func mock_combat_data():
 	var cd = CombatData.new()
-	cd.allies = [mock_pharoah(), mock_hipster(), mock_shantae()]
+	cd.allies = [mock_pharoah(), mock_vega(), mock_shantae()]
 	cd.enemies = []
 	for i in randi()%5+1:
 		cd.enemies.append(EnemyList.get_enemy('random'))
@@ -279,17 +248,28 @@ func _on_CombatScreen_start_player_turn(_combatData):
 	#highlight_targeted_enemy()
 	#enable_enemy_targeting()
 
-func _on_CombatScreen_player_move_complete(_combatData, moveData):
+func _on_CombatScreen_player_move_complete(_combatData, target_enemy, move_data):
 	#unhighlight_targeted_enemy()
 	#disable_enemy_targeting()
 	if check_combat_over():
 		return
-	emit_signal("start_enemy_turn", _combatData)
+	if check_player_turn_over():
+		emit_signal("player_turn_complete", _combatData)
+		emit_signal("start_enemy_turn", _combatData)
+	else:
+		cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
+		select_next_char(1)
+
+func check_player_turn_over():
+	for ally in allies:
+		if ally != null and !ally.exhausted:
+			return false
+	return true
 
 func _on_CombatScreen_start_enemy_turn(_combatData):
-	emit_signal("log_msg", "The enemy is confused...")
+	print("log_msg", "The enemy is confused...")
 	yield(get_tree().create_timer(2), "timeout")
-	emit_signal("log_msg", "The enemy just stands there!")
+	print("log_msg", "The enemy just stands there!")
 	emit_signal("enemy_turn_complete", _combatData)
 
 func _on_CombatScreen_enemy_turn_complete(_combatData):
@@ -314,4 +294,23 @@ func check_combat_over():
 		queue_free()
 		return true
 
+func _on_Ally_select_submenu_item(submenu, move_data):
+	active_submenu = submenu
+	cur_input_phase = InputPhase.PLAYER_SELECT_TARGET
+	allies[selected_ally_idx].on_targeting_started(move_data)
+	Enemies.start_targeting(move_data)
 
+func _on_Enemies_target_cancelled():
+	active_submenu.on_targeting_cancelled()
+	allies[selected_ally_idx].on_targeting_cancelled()
+	
+func _on_Enemies_single_enemy_target_complete(target_enemy, move_data):
+	active_submenu.on_targeting_completed()
+	allies[selected_ally_idx].on_targeting_completed()
+	emit_signal("player_move_selected", combatData, target_enemy, move_data)
+
+func _on_CombatScreen_player_move_selected(combat_data, target_enemy, move_data):
+	print("Attacking ", target_enemy.name, " with skill: ", move_data.label)
+	yield(get_tree().create_timer(0.5), "timeout")
+	print("Attack complete")
+	emit_signal("player_move_complete", combat_data, target_enemy, move_data)

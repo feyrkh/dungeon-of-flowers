@@ -29,9 +29,9 @@ __meta__ = {
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 margin_left = 18.0
-margin_top = 8.0
-margin_right = 335.0
-margin_bottom = 33.0
+margin_top = 10.0
+margin_right = 338.0
+margin_bottom = 35.0
 rect_min_size = Vector2( 320, 25 )
 __meta__ = {
 "_edit_use_anchors_": false

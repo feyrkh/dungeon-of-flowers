@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://combat/EnemyPosition.gd" type="Script" id=1]
+
+[node name="EnemyPos1" type="Node2D"]
+position = Vector2( 504.793, 382.564 )
+script = ExtResource( 1 )

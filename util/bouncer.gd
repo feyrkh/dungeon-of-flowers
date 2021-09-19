@@ -3,12 +3,16 @@ extends Control
 export(Vector2) var bounce_vector
 export(float) var bounce_time = 2
 export(Curve) var ease_curve
+export(bool) var running = true
 onready var start_position = rect_position
 
 var counter = 0
 
 func _process(delta):
-	counter += delta
+	if !running: 
+		counter = 0
+	else:
+		counter += delta
 	if counter > bounce_time: 
 		counter -= bounce_time
 	var weight = counter/bounce_time

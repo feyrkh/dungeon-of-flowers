@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_fight.png" type="Texture" id=1]
 [ext_resource path="res://combat/CombatIcons.tscn" type="PackedScene" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_status.png" type="Texture" id=15]
 [ext_resource path="res://combat/StatusIcon.gd" type="Script" id=16]
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_cursor.png" type="Texture" id=17]
+[ext_resource path="res://art_exports/ui_HUD/ui_HUD_box_outline.png" type="Texture" id=18]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 14 )
@@ -52,27 +53,37 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PortraitBGSelected" type="TextureRect" parent="."]
-visible = false
-margin_left = -2.78613
-margin_top = 6.54932
-margin_right = 477.214
-margin_bottom = 135.553
-texture = ExtResource( 17 )
+[node name="Portrait" type="TextureRect" parent="."]
+light_mask = 524288
+material = SubResource( 1 )
+margin_left = 4.0
+margin_top = -14.0
+margin_right = 255.0
+margin_bottom = 161.0
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Portrait" type="TextureRect" parent="."]
-light_mask = 524288
-material = SubResource( 1 )
-margin_left = 4.21387
-margin_top = -14.0777
-margin_right = 255.214
-margin_bottom = 160.923
-texture = ExtResource( 12 )
-expand = true
-stretch_mode = 1
+[node name="PortraitOutline" type="TextureRect" parent="."]
+margin_left = 4.0
+margin_top = 16.0
+margin_right = 465.0
+margin_bottom = 126.0
+texture = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PortraitBGSelected" type="TextureRect" parent="."]
+visible = false
+margin_left = -3.0
+margin_top = 7.0
+margin_right = 477.0
+margin_bottom = 136.004
+texture = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

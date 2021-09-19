@@ -29,9 +29,9 @@ __meta__ = {
 }
 
 [node name="CombatIcons" parent="." instance=ExtResource( 2 )]
-margin_left = 39.4908
+margin_left = 81.7154
 margin_top = 808.499
-margin_right = 39.4908
+margin_right = 81.7154
 margin_bottom = 808.499
 
 [node name="Submenu" parent="." instance=ExtResource( 9 )]

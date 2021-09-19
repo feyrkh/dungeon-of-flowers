@@ -1,6 +1,6 @@
 extends Control
 
-onready var categories = [find_node("IconFight"), find_node("IconDefend"), find_node("IconSkill"), find_node("IconItem")]
+onready var categories = [find_node("IconFight"), find_node("IconSkill"), find_node("IconDefend"), find_node("IconItem")]
 onready var anim = find_node("AnimationPlayer")
 onready var bouncers = [get_node("CharSwitchLeft/Bouncer"), get_node("CharSwitchRight/Bouncer")]
 

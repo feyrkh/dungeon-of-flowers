@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_item.png" type="Texture" id=1]
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_skill.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://combat/CombatIcons.gd" type="Script" id=5]
 [ext_resource path="res://art_exports/ui_HUD/ui_submenu_arrow.png" type="Texture" id=6]
 [ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=7]
+[ext_resource path="res://img/combat/combat-mockup-2.png" type="Texture" id=8]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade"
@@ -21,7 +22,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 5 ), Vector2( 0, 149 ) ]
+"values": [ Vector2( 37, 5 ), Vector2( 37, 150 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:modulate")
@@ -49,10 +50,10 @@ tracks/2/keys = {
 }
 
 [node name="CombatIcons" type="Control"]
-margin_left = 95.7539
-margin_top = 831.548
-margin_right = 95.7539
-margin_bottom = 831.548
+margin_left = 35.0
+margin_top = 5.0
+margin_right = 35.0
+margin_bottom = 5.0
 rect_pivot_offset = Vector2( 431.667, -821.041 )
 script = ExtResource( 5 )
 __meta__ = {
@@ -61,6 +62,11 @@ __meta__ = {
 "_edit_vertical_guides_": [ 60.3019, 111.083, 562.769, 613.55 ]
 }
 
+[node name="combat-mockup-2" type="Sprite" parent="."]
+visible = false
+position = Vector2( 338.634, -132.298 )
+texture = ExtResource( 8 )
+
 [node name="IconFight" type="TextureRect" parent="."]
 anchor_right = 0.5
 anchor_bottom = 0.5
@@ -68,7 +74,7 @@ margin_left = 6.58301
 margin_top = -177.259
 margin_right = 114.583
 margin_bottom = -4.25887
-rect_scale = Vector2( 0.8, 0.8 )
+rect_scale = Vector2( 0.6, 0.6 )
 rect_pivot_offset = Vector2( 54, 173 )
 texture = ExtResource( 3 )
 __meta__ = {
@@ -76,11 +82,11 @@ __meta__ = {
 }
 
 [node name="IconDefend" type="TextureRect" parent="."]
-margin_left = 115.655
-margin_top = -158.188
-margin_right = 231.655
-margin_bottom = -7.18794
-rect_scale = Vector2( 0.8, 0.8 )
+margin_left = 185.326
+margin_top = -155.191
+margin_right = 301.326
+margin_bottom = -4.19136
+rect_scale = Vector2( 0.6, 0.6 )
 rect_pivot_offset = Vector2( 58, 151 )
 texture = ExtResource( 4 )
 __meta__ = {
@@ -88,11 +94,11 @@ __meta__ = {
 }
 
 [node name="IconSkill" type="TextureRect" parent="."]
-margin_left = 233.446
+margin_left = 85.1132
 margin_top = -176.029
-margin_right = 353.446
+margin_right = 205.114
 margin_bottom = -3.02922
-rect_scale = Vector2( 0.8, 0.8 )
+rect_scale = Vector2( 0.6, 0.6 )
 rect_pivot_offset = Vector2( 60, 173 )
 texture = ExtResource( 2 )
 __meta__ = {
@@ -100,11 +106,11 @@ __meta__ = {
 }
 
 [node name="IconItem" type="TextureRect" parent="."]
-margin_left = 354.799
-margin_top = -135.572
-margin_right = 478.799
-margin_bottom = -17.5717
-rect_scale = Vector2( 0.8, 0.8 )
+margin_left = 286.626
+margin_top = -130.328
+margin_right = 410.626
+margin_bottom = -12.3276
+rect_scale = Vector2( 0.6, 0.6 )
 rect_pivot_offset = Vector2( 62, 118 )
 texture = ExtResource( 1 )
 __meta__ = {
@@ -115,10 +121,10 @@ __meta__ = {
 anims/fade = SubResource( 1 )
 
 [node name="CharSwitchLeft" type="Control" parent="."]
-margin_left = -36.0
-margin_top = -91.0
-margin_right = 4.0
-margin_bottom = -51.0
+margin_left = -3.03726
+margin_top = -70.0237
+margin_right = 36.9627
+margin_bottom = -30.0237
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -150,10 +156,10 @@ __meta__ = {
 }
 
 [node name="CharSwitchRight" type="Control" parent="."]
-margin_left = 500.0
-margin_top = -89.0
-margin_right = 540.0
-margin_bottom = -49.0
+margin_left = 425.834
+margin_top = -69.522
+margin_right = 465.834
+margin_bottom = -29.522
 __meta__ = {
 "_edit_use_anchors_": false
 }

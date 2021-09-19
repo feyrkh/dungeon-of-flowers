@@ -199,10 +199,11 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="IconStatus"]
 visible = false
-margin_left = 7.01542
-margin_top = -18.24
-margin_right = 47.0154
-margin_bottom = -4.24001
+margin_left = -12.473
+margin_top = -22.1377
+margin_right = 27.527
+margin_bottom = -8.1377
+rect_scale = Vector2( 2, 2 )
 text = "Status"
 
 [connection signal="cancel_submenu" from="Submenu" to="." method="_on_Submenu_cancel_submenu"]

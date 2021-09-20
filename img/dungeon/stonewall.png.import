@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tuongda590x590.webp-52cd0644a11adddeab11a7d346ec0177.stex"
+path="res://.import/stonewall.png-93e09c620e0c871a4372b01e64459a7c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/tuongda590x590.webp"
-dest_files=[ "res://.import/tuongda590x590.webp-52cd0644a11adddeab11a7d346ec0177.stex" ]
+source_file="res://img/dungeon/stonewall.png"
+dest_files=[ "res://.import/stonewall.png-93e09c620e0c871a4372b01e64459a7c.stex" ]
 
 [params]
 

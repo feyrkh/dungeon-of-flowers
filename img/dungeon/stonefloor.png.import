@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tuongda590x590.png-bca333e720ce120fe4a8e1808277b37b.stex"
+path="res://.import/stonefloor.png-5064374eb6e71de0a7275f459f212aef.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/tuongda590x590.png"
-dest_files=[ "res://.import/tuongda590x590.png-bca333e720ce120fe4a8e1808277b37b.stex" ]
+source_file="res://img/dungeon/stonefloor.png"
+dest_files=[ "res://.import/stonefloor.png-5064374eb6e71de0a7275f459f212aef.stex" ]
 
 [params]
 
@@ -23,7 +23,7 @@ flags/repeat=0
 flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
-flags/srgb=2
+flags/srgb=1
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false

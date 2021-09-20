@@ -1,0 +1,8 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[sub_resource type="StreamTexture" id=6]
+flags = 16
+load_path = "res://.import/stonefloor.png-22f06eb7e4c20029d2eebfbe44a2b3ce.stex"
+
+[resource]
+albedo_texture = SubResource( 6 )

@@ -50,13 +50,13 @@ min_scale = Vector3( 1, 1, 1 )
 max_scale = Vector3( 1, 1, 1 )
 
 [node name="wallBlock" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -2.23517e-08 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0 )
 
 [node name="wallBlock2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, -2.23517e-08 )
 
 [node name="wallBlock3" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.23517e-08 )
+transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, -2.23517e-08 )
 
 [node name="Roots_2" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.58454, 2.61844, 0.198384 )

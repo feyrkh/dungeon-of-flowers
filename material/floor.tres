@@ -1,8 +1,6 @@
 [gd_resource type="SpatialMaterial" load_steps=2 format=2]
 
-[sub_resource type="StreamTexture" id=6]
-flags = 16
-load_path = "res://.import/stonefloor.png-22f06eb7e4c20029d2eebfbe44a2b3ce.stex"
+[ext_resource path="res://img/dungeon/stonefloor.png" type="Texture" id=1]
 
 [resource]
-albedo_texture = SubResource( 6 )
+albedo_texture = ExtResource( 1 )

@@ -10,6 +10,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.23517e-08 )
 [node name="wallBlock" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0 )
 
+[node name="SpotLight" type="SpotLight" parent="wallBlock"]
+transform = Transform( 1, 0, 0, 0, -0.002618, 0.999997, 0, -0.999997, -0.002618, 0, 0, -2.23517e-08 )
+spot_attenuation = 1.03526
+spot_angle = 11.7
+
 [node name="floorBlock" parent="." instance=ExtResource( 3 )]
 
 [node name="Roots" parent="." instance=ExtResource( 2 )]

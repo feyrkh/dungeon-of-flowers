@@ -62,6 +62,3 @@ transform = Transform( 0.976897, -0.979403, -0.91763, -0.443961, -1.3069, 0.9222
 
 [node name="Pink Lotus4" parent="." instance=ExtResource( 3 )]
 transform = Transform( -0.890714, -0.598152, 1.26666, -0.598379, 1.51968, 0.296854, -1.26655, -0.297303, -1.03104, -2.214, 0.0549999, 0.149 )
-
-[node name="OmniLight" type="OmniLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.984, 2.246, -1.313 )

@@ -15,33 +15,41 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Straight Corridor ",
+            "name" : "Gladius",
+            "rotation" : [
+                0,
+                0.8442502021789551,
+                0,
+                0.5359492301940918
+            ],
             "scale" : [
-                1.5,
-                0.024896282702684402,
-                1.5
+                0.09481659531593323,
+                0.09481659531593323,
+                0.09481659531593323
+            ],
+            "translation" : [
+                1.1427414417266846,
+                0,
+                0
             ]
         }
     ],
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "Material",
+            "name" : "Gladius",
             "pbrMetallicRoughness" : {
-                "baseColorFactor" : [
-                    0.800000011920929,
-                    0.800000011920929,
-                    0.800000011920929,
-                    1
-                ],
+                "baseColorTexture" : {
+                    "index" : 0
+                },
                 "metallicFactor" : 0,
-                "roughnessFactor" : 0.4000000059604645
+                "roughnessFactor" : 0.5
             }
         }
     ],
     "meshes" : [
         {
-            "name" : "Cube",
+            "name" : "Gladius",
             "primitives" : [
                 {
                     "attributes" : {
@@ -55,68 +63,87 @@
             ]
         }
     ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        }
+    ],
+    "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "Gladius UV",
+            "uri" : "Gladius%20UV.png"
+        }
+    ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 140,
+            "count" : 317,
             "max" : [
-                1,
-                122.75824737548828,
-                1.033333659172058
+                4.175563335418701,
+                0.7068726420402527,
+                0.4717628061771393
             ],
             "min" : [
-                -1,
-                -2.2583351135253906,
-                -1.033333659172058
+                -11.61301326751709,
+                -0.7068726420402527,
+                -0.47176283597946167
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 140,
+            "count" : 317,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 140,
+            "count" : 317,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 240,
+            "count" : 678,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 1680,
+            "byteLength" : 3804,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 1680,
-            "byteOffset" : 1680
+            "byteLength" : 3804,
+            "byteOffset" : 3804
         },
         {
             "buffer" : 0,
-            "byteLength" : 1120,
-            "byteOffset" : 3360
+            "byteLength" : 2536,
+            "byteOffset" : 7608
         },
         {
             "buffer" : 0,
-            "byteLength" : 480,
-            "byteOffset" : 4480
+            "byteLength" : 1356,
+            "byteOffset" : 10144
+        }
+    ],
+    "samplers" : [
+        {
+            "magFilter" : 9729,
+            "minFilter" : 9987
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 4960,
-            "uri" : "Straight_Corridor.bin"
+            "byteLength" : 11500,
+            "uri" : "Gladius.bin"
         }
     ]
 }

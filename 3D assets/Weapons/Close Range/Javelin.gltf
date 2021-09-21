@@ -15,33 +15,36 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Straight Corridor ",
+            "name" : "Javelin",
+            "rotation" : [
+                0,
+                0.4247775077819824,
+                0,
+                0.9052977561950684
+            ],
             "scale" : [
-                1.5,
-                0.024896282702684402,
-                1.5
+                0.028957443311810493,
+                0.028957443311810493,
+                0.028957443311810493
             ]
         }
     ],
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "Material",
+            "name" : "Javelin mat",
             "pbrMetallicRoughness" : {
-                "baseColorFactor" : [
-                    0.800000011920929,
-                    0.800000011920929,
-                    0.800000011920929,
-                    1
-                ],
+                "baseColorTexture" : {
+                    "index" : 0
+                },
                 "metallicFactor" : 0,
-                "roughnessFactor" : 0.4000000059604645
+                "roughnessFactor" : 0.5
             }
         }
     ],
     "meshes" : [
         {
-            "name" : "Cube",
+            "name" : "Javelin",
             "primitives" : [
                 {
                     "attributes" : {
@@ -55,68 +58,87 @@
             ]
         }
     ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        }
+    ],
+    "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "Javelin",
+            "uri" : "Javelin.png"
+        }
+    ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 140,
+            "count" : 64,
             "max" : [
-                1,
-                122.75824737548828,
-                1.033333659172058
+                1.2531325817108154,
+                34.63361358642578,
+                0.767693042755127
             ],
             "min" : [
-                -1,
-                -2.2583351135253906,
-                -1.033333659172058
+                -1.2531367540359497,
+                -34.147212982177734,
+                -0.767693042755127
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 140,
+            "count" : 64,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 140,
+            "count" : 64,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 240,
+            "count" : 90,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 1680,
+            "byteLength" : 768,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 1680,
-            "byteOffset" : 1680
+            "byteLength" : 768,
+            "byteOffset" : 768
         },
         {
             "buffer" : 0,
-            "byteLength" : 1120,
-            "byteOffset" : 3360
+            "byteLength" : 512,
+            "byteOffset" : 1536
         },
         {
             "buffer" : 0,
-            "byteLength" : 480,
-            "byteOffset" : 4480
+            "byteLength" : 180,
+            "byteOffset" : 2048
+        }
+    ],
+    "samplers" : [
+        {
+            "magFilter" : 9729,
+            "minFilter" : 9987
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 4960,
-            "uri" : "Straight_Corridor.bin"
+            "byteLength" : 2228,
+            "uri" : "Javelin.bin"
         }
     ]
 }

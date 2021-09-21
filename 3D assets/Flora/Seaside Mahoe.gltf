@@ -15,11 +15,17 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Straight Corridor ",
+            "name" : "Seaside Mahoe",
+            "rotation" : [
+                -0.7071068286895752,
+                0,
+                0,
+                0.7071068286895752
+            ],
             "scale" : [
-                1.5,
-                0.024896282702684402,
-                1.5
+                0.05806779861450195,
+                0.05806779861450195,
+                0.05806779861450195
             ]
         }
     ],
@@ -28,20 +34,17 @@
             "doubleSided" : true,
             "name" : "Material",
             "pbrMetallicRoughness" : {
-                "baseColorFactor" : [
-                    0.800000011920929,
-                    0.800000011920929,
-                    0.800000011920929,
-                    1
-                ],
+                "baseColorTexture" : {
+                    "index" : 0
+                },
                 "metallicFactor" : 0,
-                "roughnessFactor" : 0.4000000059604645
+                "roughnessFactor" : 0.5
             }
         }
     ],
     "meshes" : [
         {
-            "name" : "Cube",
+            "name" : "Plane",
             "primitives" : [
                 {
                     "attributes" : {
@@ -55,68 +58,87 @@
             ]
         }
     ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        }
+    ],
+    "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "Seaside Mahoe",
+            "uri" : "Seaside%20Mahoe.png"
+        }
+    ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 140,
+            "count" : 194,
             "max" : [
-                1,
-                122.75824737548828,
-                1.033333659172058
+                1.8078045845031738,
+                2.0499062538146973,
+                1.7019437551498413
             ],
             "min" : [
-                -1,
-                -2.2583351135253906,
-                -1.033333659172058
+                -2.100768566131592,
+                -1.9935829639434814,
+                -0.0008335113525390625
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 140,
+            "count" : 194,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 140,
+            "count" : 194,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 240,
+            "count" : 645,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 1680,
+            "byteLength" : 2328,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 1680,
-            "byteOffset" : 1680
+            "byteLength" : 2328,
+            "byteOffset" : 2328
         },
         {
             "buffer" : 0,
-            "byteLength" : 1120,
-            "byteOffset" : 3360
+            "byteLength" : 1552,
+            "byteOffset" : 4656
         },
         {
             "buffer" : 0,
-            "byteLength" : 480,
-            "byteOffset" : 4480
+            "byteLength" : 1290,
+            "byteOffset" : 6208
+        }
+    ],
+    "samplers" : [
+        {
+            "magFilter" : 9729,
+            "minFilter" : 9987
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 4960,
-            "uri" : "Straight_Corridor.bin"
+            "byteLength" : 7500,
+            "uri" : "Seaside Mahoe.bin"
         }
     ]
 }

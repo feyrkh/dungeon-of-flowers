@@ -36,6 +36,7 @@ var input_delayed = 0
 # enemy_turn_complete() - if enemies are dead, combat_complete; otherwise start_player_turn()
 
 onready var Enemies = find_node("Enemies")
+onready var MinigameContainer = find_node("MinigameContainer")
 onready var allies = [find_node("Ally1"), find_node("Ally2"), find_node("Ally3")]
 
 var selected_ally_idx = 0
@@ -311,6 +312,17 @@ func _on_Enemies_single_enemy_target_complete(target_enemy, move_data):
 
 func _on_CombatScreen_player_move_selected(combat_data, target_enemy, move_data):
 	print("Attacking ", target_enemy.name, " with skill: ", move_data.label)
+	var scene = move_data.get_attack_scene(target_enemy)
+	MinigameContainer.add_child(scene)
+	MinigameContainer.visible = true
+	scene.connect("minigame_success", target_enemy, "damage_hp")
+	scene.position = (MinigameContainer.rect_size/2)
 	yield(get_tree().create_timer(0.5), "timeout")
+	scene.start()
+	yield(scene, "minigame_complete")
 	print("Attack complete")
+	if scene.is_connected("minigame_success", target_enemy, "damage_hp"):
+		scene.disconnect("minigame_success", target_enemy, "damage_hp")
+	scene.queue_free()
+	MinigameContainer.visible = false
 	emit_signal("player_move_complete", combat_data, target_enemy, move_data)

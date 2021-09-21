@@ -16,12 +16,12 @@ export(Color) var markerInZoneColor = Color(0, 1.0, 1.0, 1.0)
 export(Color) var markerOutOfZoneColor = Color(1.0, 0, 0, 1.0)
 
 
-var markerPixelsPerSec
-var successLineStart
-var successLineEnd
-var markerResetStyleBounce
-var markerDirection
-var markerMoveStyle
+var marker_pixels_per_sec
+var success_line_start
+var success_line_end
+var marker_reset_style_bounce
+var marker_direction
+var marker_move_style
 var isStarted = false
 var markerPause = 0
 
@@ -33,24 +33,24 @@ onready var marker:Line2D = find_node("Marker")
 onready var successLineContainer:Node = find_node("SuccessLines")
 
 var config:Dictionary
-var strikesMade:int = 0
-var strikeDelay:float = 0
+var strikes_made:int = 0
+var strike_delay:float = 0
 
 func _ready():
 	if get_parent() == get_tree().root:
-		setMinigameConfig({
-			"markerMoveStyle": Enums.MarkerMoveStyle.WrapRight,
-			"markerMoveSpeed": 0.4, # percentage per second; 1 means it will take 1 second, 0.5 means it will take 2 seconds
-			"markerMoveDirection": 1, # 1 = to the right, -1 = to the left
-			"markerStartPosition": 0, # 0 - 1.0
-			"successZones": [
+		set_minigame_config({
+			"marker_move_style": Enums.marker_move_style.WrapRight,
+			"marker_move_speed": 0.4, # percentage per second; 1 means it will take 1 second, 0.5 means it will take 2 seconds
+			"marker_move_direction": 1, # 1 = to the right, -1 = to the left
+			"marker_start_position": 0, # 0 - 1.0
+			"success_zones": [
 				{"width": 0.05, "position": 0.25, "level": 1, "color": Color.green},
 				{"width": 0.03, "position": 0.525, "level": 1.5, "color": Color.orange},
 				{"width": 0.01, "position": 0.8, "level": 2, "color": Color.orangered}
 			],
-			"failureLevel": 0.5,
+			"failure_level": 0.5,
 			"strikes": 3,
-			"strikeDelay": 0.1
+			"strike_delay": 0.1
 		})
 	setupGame()
 	if get_parent() == get_tree().root:
@@ -59,15 +59,12 @@ func _ready():
 func start():
 	isStarted = true
 
-func setMinigameConfig(_config):
+func set_minigame_config(_config):
 	self.config = _config
-	if !config.has("markerMoveStyle"):
-		match randi()%4:
-			0,1: markerMoveStyle = Enums.MarkerMoveStyle.Bounce
-			2: markerMoveStyle = Enums.MarkerMoveStyle.WrapLeft
-			3: markerMoveStyle = Enums.MarkerMoveStyle.WrapRight
-		config["markerMoveStyle"] = markerMoveStyle
-	markerMoveStyle = config["markerMoveStyle"]
+	if !config.has("marker_move_style"):
+		marker_move_style = Enums.MarkerMoveStyle.WrapRight
+		config["marker_move_style"] = marker_move_style
+	marker_move_style = config["marker_move_style"]
 	
 func setupGame():
 	.setupGame()
@@ -77,7 +74,7 @@ func setupGame():
 	#successLine = get_node(successLinePath)
 	marker = get_node(markerPath)
 
-	for successLineData in config["successZones"]:
+	for successLineData in config["success_zones"]:
 		var successLine:Line2D = SuccessLine.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
 		successLineContainer.add_child(successLine)
 		var successLineWidth = successLineData["width"]
@@ -90,37 +87,37 @@ func setupGame():
 		successLine.points[2].x = successLineOffset+(successLineWidth*dangerLineLength)+dangerLine.points[0].x
 		successLine.default_color = successLineData["color"]
 	#var secondsPerBounce = rand_range(minSecondsPerBounce, maxSecondsPerBounce) -  (markerSpeedIncreasePerDifficultyLevel * difficultyLevel)
-	markerPixelsPerSec = (dangerLine.points[-1].x - dangerLine.points[0].x) * config["markerMoveSpeed"]
-	markerDirection = config["markerMoveDirection"]
-	if markerDirection == 0: 
-		markerDirection = 1
-	var markerStartPosition = (dangerLine.points[-1].x - dangerLine.points[0].x)*config["markerStartPosition"] + dangerLine.points[0].x
-	moveMarkerTo(markerStartPosition)
+	marker_pixels_per_sec = (dangerLine.points[-1].x - dangerLine.points[0].x) * config["marker_move_speed"]
+	marker_direction = config.get("marker_move_direction", 1)
+	if marker_direction == 0: 
+		marker_direction = 1
+	var marker_start_position = (dangerLine.points[-1].x - dangerLine.points[0].x)*config.get("marker_start_position", 0) + dangerLine.points[0].x
+	moveMarkerTo(marker_start_position)
 	
 func _unhandled_key_input(event):
-	if !isStarted or strikeDelay > 0 or strikesMade >= config.get("strikes", 1): 
+	if !isStarted or strike_delay > 0 or strikes_made >= config.get("strikes", 1): 
 		return
 	if event.is_action_pressed("ui_accept"):
-		strikeDelay = config.get("strikeDelay", 0)
-		strikesMade += 1
-		var successLevel = getBestSuccessZoneLevel()
+		strike_delay = config.get("strike_delay", 0)
+		strikes_made += 1
+		var successLevel = getBestSuccessZoneLevel() * config.get("base_damage", 1)
 		emit_signal("minigame_success", successLevel)
 		print("Minigame result: "+str(successLevel))
 		#setupGame()
 		get_tree().set_input_as_handled()
 		markerPause = 0.15
 		Util.shake(self, 0.15, 1)
-		if strikesMade >= config.get("strikes", 1):
+		if strikes_made >= config.get("strikes", 1):
 			end_game()
 
 func markerInsideSuccessZone():
-	return getBestSuccessZoneLevel() > config["failureLevel"]
+	return getBestSuccessZoneLevel() > config["failure_level"]
 
 func getBestSuccessZoneLevel():
-	var val = config["failureLevel"]
+	var val = config["failure_level"]
 	var markerX = marker.points[0].x
 	var markerPosPercent = (markerX - dangerLine.points[0].x)/(dangerLine.points[-1].x - dangerLine.points[0].x) # Should be between 0 and 1
-	for successLine in config["successZones"]:
+	for successLine in config["success_zones"]:
 		if markerPosPercent > successLine["position"] - successLine["width"] and markerPosPercent < successLine["position"] + successLine["width"]:
 			if successLine["level"] > val: 
 				val = successLine["level"]
@@ -143,22 +140,22 @@ func _process(delta):
 	if markerPause > 0: 
 		markerPause -= delta
 		return
-	strikeDelay = max(0, strikeDelay - delta)
-	match markerMoveStyle:
+	strike_delay = max(0, strike_delay - delta)
+	match marker_move_style:
 		Enums.MarkerMoveStyle.Bounce: processBounceMove(delta)
 		Enums.MarkerMoveStyle.WrapLeft: processWrapLeftMove(delta)
 		Enums.MarkerMoveStyle.WrapRight: processWrapRightMove(delta)
 	
 func processBounceMove(delta):
-	var newMarkerX = marker.points[0].x + (markerDirection * markerPixelsPerSec * delta)
+	var newMarkerX = marker.points[0].x + (marker_direction * marker_pixels_per_sec * delta)
 	newMarkerX = max(dangerLine.points[0].x, newMarkerX)
 	newMarkerX = min(dangerLine.points[-1].x, newMarkerX)
 	moveMarkerTo(newMarkerX)
-	if newMarkerX == dangerLine.points[0].x: markerDirection = 1
-	if newMarkerX == dangerLine.points[1].x: markerDirection = -1
+	if newMarkerX == dangerLine.points[0].x: marker_direction = 1
+	if newMarkerX == dangerLine.points[1].x: marker_direction = -1
 	
 func processWrapLeftMove(delta):
-	var newMarkerX = marker.points[0].x - (markerPixelsPerSec * delta)
+	var newMarkerX = marker.points[0].x - (marker_pixels_per_sec * delta)
 	newMarkerX = max(dangerLine.points[0].x, newMarkerX)
 	moveMarkerTo(newMarkerX)
 	if newMarkerX == dangerLine.points[0].x: #moveMarkerTo(dangerLine.points[-1].x)
@@ -173,7 +170,7 @@ func end_game():
 	queue_free() 
 	
 func processWrapRightMove(delta):
-	var newMarkerX = marker.points[0].x + (markerPixelsPerSec * delta)
+	var newMarkerX = marker.points[0].x + (marker_pixels_per_sec * delta)
 	newMarkerX = min(dangerLine.points[-1].x, newMarkerX)
 	moveMarkerTo(newMarkerX)
 	if newMarkerX == dangerLine.points[-1].x:

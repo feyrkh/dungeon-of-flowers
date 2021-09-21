@@ -6,6 +6,7 @@ const fade_amt = 0.2
 signal combat_start
 signal combat_end
 signal game_end
+signal enemy_dead(enemy)
 
 var player
 var dungeon

@@ -27,21 +27,40 @@ margin_top = 896.0
 margin_right = 1780.0
 margin_bottom = 1976.0
 
-[connection signal="enemy_turn_complete" from="." to="." method="_on_CombatScreen_enemy_turn_complete"]
+[node name="MinigameContainer" type="CenterContainer" parent="."]
+visible = false
+margin_top = 680.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="MinigameContainer"]
+margin_right = 1920.0
+margin_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 1920, 400 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.341176, 0.341176, 0.341176, 1 )
+
 [connection signal="enemy_turn_complete" from="." to="Enemies" method="_on_CombatScreen_enemy_turn_complete"]
+[connection signal="enemy_turn_complete" from="." to="." method="_on_CombatScreen_enemy_turn_complete"]
 [connection signal="player_move_complete" from="." to="." method="_on_CombatScreen_player_move_complete"]
 [connection signal="player_move_selected" from="." to="." method="_on_CombatScreen_player_move_selected"]
-[connection signal="player_turn_complete" from="." to="Ally1" method="_on_CombatScreen_player_turn_complete"]
 [connection signal="player_turn_complete" from="." to="Ally3" method="_on_CombatScreen_player_turn_complete"]
+[connection signal="player_turn_complete" from="." to="Ally1" method="_on_CombatScreen_player_turn_complete"]
 [connection signal="player_turn_complete" from="." to="Ally2" method="_on_CombatScreen_player_turn_complete"]
 [connection signal="start_combat" from="." to="." method="_on_CombatScreen_start_combat"]
-[connection signal="start_enemy_turn" from="." to="Ally1" method="_on_CombatScreen_start_enemy_turn"]
 [connection signal="start_enemy_turn" from="." to="Ally3" method="_on_CombatScreen_start_enemy_turn"]
+[connection signal="start_enemy_turn" from="." to="Ally1" method="_on_CombatScreen_start_enemy_turn"]
 [connection signal="start_enemy_turn" from="." to="Ally2" method="_on_CombatScreen_start_enemy_turn"]
-[connection signal="start_enemy_turn" from="." to="." method="_on_CombatScreen_start_enemy_turn"]
 [connection signal="start_enemy_turn" from="." to="Enemies" method="_on_CombatScreen_start_enemy_turn"]
-[connection signal="start_player_turn" from="." to="Ally1" method="_on_CombatScreen_start_player_turn"]
+[connection signal="start_enemy_turn" from="." to="." method="_on_CombatScreen_start_enemy_turn"]
 [connection signal="start_player_turn" from="." to="Ally3" method="_on_CombatScreen_start_player_turn"]
+[connection signal="start_player_turn" from="." to="Ally1" method="_on_CombatScreen_start_player_turn"]
 [connection signal="start_player_turn" from="." to="Ally2" method="_on_CombatScreen_start_player_turn"]
 [connection signal="start_player_turn" from="." to="." method="_on_CombatScreen_start_player_turn"]
 [connection signal="single_enemy_target_complete" from="Enemies" to="." method="_on_Enemies_single_enemy_target_complete"]

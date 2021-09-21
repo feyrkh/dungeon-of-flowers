@@ -24,10 +24,15 @@ func damage_hp(amt):
 	floater.set_damage(round(amt))
 	add_child(floater)
 	if amt > 0:
-		Util.shake(self, 0.2, 20)
-		yield(get_tree().create_timer(0.5), "timeout")
-		
-		
+		Util.shake(self, 0.2, 20, self, "check_death")
+
+func check_death():
+	if self.data.hp <= 0:
+		die()
+
+func die():
+	CombatMgr.emit_signal("enemy_dead", self)
+	queue_free()
 
 func _ready():
 	if !data:
@@ -58,3 +63,5 @@ func _on_Area2D_mouse_exited():
 func _on_Area2D_input_event(viewport, event, shape_idx):
 	if (event is InputEventMouseButton && event.pressed):
 		emit_signal("target_button_pressed")
+
+

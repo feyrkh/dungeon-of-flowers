@@ -17,7 +17,7 @@ static func delete_children(node):
 	for n in node.get_children():
 		n.queue_free()
 
-static func shake(node:Node2D, shakeTime:float, shakeAmt:float):
+static func shake(node:Node2D, shakeTime:float, shakeAmt:float, callback_target=null, callback_method=null):
 	if !node: 
 		return
 	if node.has_meta('shaking'):
@@ -34,6 +34,8 @@ static func shake(node:Node2D, shakeTime:float, shakeAmt:float):
 		return
 	node.position = startPos
 	node.remove_meta('shaking')
+	if callback_target and callback_method and callback_target.has_method(callback_method):
+		callback_target.call_deferred(callback_method)
 
 static func fadeout(node:Node2D, time:float):
 	if !node: 

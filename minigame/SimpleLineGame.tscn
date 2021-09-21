@@ -15,7 +15,7 @@ dangerLinePath = NodePath("DangerLine")
 markerPath = NodePath("DangerLine/Marker")
 
 [node name="DangerLine" type="Line2D" parent="."]
-position = Vector2( 476.637, -46.957 )
+position = Vector2( 0.158997, -0.375473 )
 points = PoolVector2Array( -300, 0, 300, 0 )
 width = 30.0
 default_color = Color( 0.717647, 0.592157, 0.592157, 1 )

@@ -10,55 +10,52 @@ func _ready():
 		"name": "punch",
 		"type": "attack",
 		"target": "enemy",
-		"base_damage": 3,
-		"damageFormat": "{player} pummels {enemy} for {damage} damage!",
-		"weakFormat": "But {enemy} shrugs off the blows...",
-		"strongFormat": "{enemy} reels from the punishing blows!",
-		"missFormat": "{enemy} looks puzzled as {player} misses with every punch.",
-		"strikes": 3,
-		"markerMoveSpeed": 1,
-		"successZones": [
-			{"width": 0.05, "position": 0.25, "level": 1, "color": Color.green},
-			{"width": 0.03, "position": 0.525, "level": 1.5, "color": Color.orange},
-			{"width": 0.01, "position": 0.8, "level": 2, "color": Color.orangered}
-		],
-		"failureLevel": 0.25
+		"game_scene": "simpleLineGame",
+		"game_config": {
+			"base_damage": 3,
+			"strikes": 3,
+			"marker_move_speed": 1,
+			"success_zones": [
+				{"width": 0.05, "position": 0.25, "level": 1, "color": Color.green},
+				{"width": 0.03, "position": 0.525, "level": 1.5, "color": Color.orange},
+				{"width": 0.01, "position": 0.8, "level": 2, "color": Color.orangered}
+			],
+			"failure_level": 0.25
+		}
 	}))
 	add_move(Util.config(MoveData.new(), {
 		"label": "Headbutt",
 		"name": "headbutt",
 		"type": "attack",
 		"target": "enemy",
-		"base_damage": 8,
-		"damageFormat": "{player} headbutts {enemy} for {damage} damage!",
-		"weakFormat": "But {enemy} just grins at {player}!",
-		"strongFormat": "{enemy} is seeing stars!",
-		"missFormat": "{enemy} deftly dodges the headbutt.",
-		"strikes": 1,
-		"markerMoveSpeed": 1,
-		"successZones": [
-			{"width": 0.1, "position": 0.7, "level": 1, "color": Color.green},
-			{"width": 0.05, "position": 0.7, "level": 1.5, "color": Color.orange},
-			{"width": 0.02, "position": 0.7, "level": 2, "color": Color.orangered}
-		],
-		"failureLevel": 0.25
+		"game_scene": "simpleLineGame",
+		"game_config": {
+			"strikes": 1,
+			"base_damage": 8,
+			"marker_move_speed": 1,
+			"success_zones": [
+				{"width": 0.1, "position": 0.7, "level": 1, "color": Color.green},
+				{"width": 0.05, "position": 0.7, "level": 1.5, "color": Color.orange},
+				{"width": 0.02, "position": 0.7, "level": 2, "color": Color.orangered}
+			],
+			"failure_level": 0.25
+		}
 	}))
 	add_move(Util.config(MoveData.new(), {
 		"label": "Kick",
 		"name": "kick",
 		"type": "attack",
 		"target": "enemy",
-		"base_damage": 10,
-		"damageFormat": "{player} snaps a kick into {enemy} for {damage} damage!",
-		"weakFormat": "But {enemy} knocks their leg away...",
-		"strongFormat": "{enemy} staggers back!",
-		"missFormat": "{enemy} snickers as {player} trips.",
-		"strikes": 1,
-		"markerMoveSpeed": 1.5,
-		"successZones": [
-			{"width": 0.05, "position": 0.8, "level": 2, "color": Color.orangered}
-		],
-		"failureLevel": 0.5
+		"game_scene": "simpleLineGame",
+		"game_config": {
+			"base_damage": 10,
+			"strikes": 1,
+			"marker_move_speed": 1.5,
+			"success_zones": [
+				{"width": 0.05, "position": 0.8, "level": 2, "color": Color.orangered}
+			],
+			"failure_level": 0.5
+		}
 	}))
 
 func get_move(name:String) -> MoveData:
@@ -83,10 +80,10 @@ func add_move(move:MoveData):
 #var strongFormat : String = "{enemy} is eviscerated!"
 #var strikes : int = 1 # number of times the user can click to attack
 #var strikeDelay : float = 0.05 # percentage of the strike zone you must traverse between strike attempts
-#var markerMoveSpeed : float = 0.7 # percentage of the attack zone this moves per second; 1 means it will take 1 second, 0.5 means it will take 2 seconds
-#var successZones : Array = [
+#var marker_move_speed : float = 0.7 # percentage of the attack zone this moves per second; 1 means it will take 1 second, 0.5 means it will take 2 seconds
+#var success_zones : Array = [
 #	{"width":0.05, "position":0.5, "level":1, "color":Color.green},
 #]
 
-#var failureLevel : float = 0.5 # base damage multiplier if the attacker doesn't strike, or misses
+#var failure_level : float = 0.5 # base damage multiplier if the attacker doesn't strike, or misses
 

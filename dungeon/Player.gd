@@ -33,6 +33,8 @@ func _ready():
 	transform = transform.looking_at(transform.origin + Vector3(0, 0, 1), Vector3.UP)
 	connect("move_complete", self, "_on_move_complete")
 	connect("turn_complete", self, "_on_turn_complete")
+	yield(get_tree(), "idle_frame")
+	call_deferred("update_minimap")
 	EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
 
 func _on_combat_start():

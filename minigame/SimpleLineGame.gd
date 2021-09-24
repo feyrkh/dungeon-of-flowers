@@ -165,17 +165,14 @@ func end_game():
 	if has_meta('game_ending'):
 		return
 	set_meta('game_ending', true)
-	yield(get_tree().create_timer(0.5), "timeout")
-	emit_signal("minigame_complete")
-	queue_free() 
+	emit_signal("minigame_complete", self)
 	
 func processWrapRightMove(delta):
 	var newMarkerX = marker.points[0].x + (marker_pixels_per_sec * delta)
 	newMarkerX = min(dangerLine.points[-1].x, newMarkerX)
 	moveMarkerTo(newMarkerX)
 	if newMarkerX == dangerLine.points[-1].x:
-		emit_signal("minigame_complete")
-		queue_free() 
+		emit_signal("minigame_complete", self)
 		#moveMarkerTo(dangerLine.points[0].x)
 	
 func getPowerText(powerLevel):

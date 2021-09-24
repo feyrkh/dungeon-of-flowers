@@ -5,7 +5,7 @@ const Player = preload("res://dungeon/Player.tscn")
 export var dungeon_file = "res://data/map/intro.txt"
 
 const tile_wall = preload("res://dungeon/wall.tscn")
-const tile_corridor = preload("res://dungeon/corridor.tscn")
+const tile_corridor = preload("res://dungeon/Corridor.tscn")
 const tile_torch = preload("res://dungeon/torchwall.tscn")
 
 const tiles = {

@@ -66,7 +66,7 @@ func _process(delta):
 
 	#transform.basis = transform.basis.rotated(Vector3.RIGHT, lerp_angle(0, deg2rad(359), t))
 
-func translate_time(t):
-	if t > 2: t -= 2
-	if t >= 1: t = 2-t
-	return t
+func translate_time(_t):
+	if _t > 2: _t -= 2
+	if _t >= 1: _t = 2-_t
+	return _t

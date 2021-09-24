@@ -27,10 +27,10 @@ static func shake(node:Node2D, shakeTime:float, shakeAmt:float, callback_target=
 	var startTime = OS.get_system_time_msecs()
 	var endTime = startTime + round(shakeTime*1000)
 	while OS.get_system_time_msecs() < endTime:
-		if !node: return
+		if !node or !is_instance_valid(node): return
 		node.position = startPos + Vector2(rand_range(-shakeAmt, shakeAmt), rand_range(-shakeAmt, shakeAmt))
 		yield(node.get_tree().create_timer(0.05), "timeout")
-	if !node: 
+	if !node or !is_instance_valid(node): 
 		return
 	node.position = startPos
 	node.remove_meta('shaking')

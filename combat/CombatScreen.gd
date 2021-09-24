@@ -3,13 +3,13 @@ extends Node2D
 const SkillButton = preload("res://combat/SkillButton.tscn")
 const STATUS_CATEGORY = 4
 
-var combatData : CombatData
+var combat_data : CombatData
 
 signal start_combat(combat_data)
 signal start_player_turn(combat_data)
 signal start_enemy_turn(combat_data)
 signal player_move_selected(combat_data, target_enemy, move_data)
-signal player_move_complete(combat_data, target_enemy, move_data)
+signal player_move_complete(combat_data)
 signal player_turn_complete(combat_data)
 signal enemy_move_selected(combat_data, move_data)
 signal enemy_move_complete(combat_data, move_data)
@@ -52,14 +52,14 @@ const UI_DELAY = 0.12
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
-	if (!combatData):
-		combatData = mock_combat_data()
+	if (!combat_data):
+		combat_data = mock_combat_data()
 	render_allies()
 	render_enemies()
 	#adjustStanceButton.visible = true
 	#balanceContainer.visible = false
 	input_delayed = UI_DELAY
-	emit_signal('start_combat', combatData)
+	emit_signal('start_combat', combat_data)
 
 func _process(delta):
 	if input_delayed > 0:
@@ -137,24 +137,27 @@ func input_select_target():
 
 func render_allies():
 	var allyIdx = 0
-	for allyData in combatData.allies:
+	for allyData in combat_data.allies:
 		allies[allyIdx].setup(allyData)
 		allyIdx += 1
 
 func render_enemies():
-	Enemies.render_enemies(combatData.get_enemies())
+	Enemies.render_enemies(combat_data.get_enemies())
 
 func enemies_all_dead():
-	return get_tree().get_nodes_in_group("enemy").size() == 0
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		if is_instance_valid(enemy) and enemy.data.hp > 0:
+			return false
+	return true
 
 func allies_all_dead():
-	return combatData.get_current_ally().hp <= 0
+	return combat_data.get_current_ally().hp <= 0
 
 func mock_combat_data():
 	var cd = CombatData.new()
 	cd.allies = [mock_pharoah(), mock_vega(), mock_shantae()]
 	cd.enemies = []
-	for i in randi()%5+1:
+	for i in randi()%2+1:
 		cd.enemies.append(EnemyList.get_enemy('random'))
 	return cd
 
@@ -228,16 +231,16 @@ func mock_vega():
 	]
 	return ally
 
-func _on_CombatScreen_start_combat(_combatData):
+func _on_CombatScreen_start_combat(_combat_data):
 	# todo: surprise attacks, screen effects
 	#playerInput.visible = false
 	#playerSprite.visible = false
 	yield(get_tree().create_timer(1.0), "timeout")
-	emit_signal("start_player_turn", _combatData)
+	emit_signal("start_player_turn", _combat_data)
 
 
-func _on_CombatScreen_start_player_turn(_combatData):
-	emit_signal("log_msg", "It's "+_combatData.get_current_ally().label+"'s turn!")
+func _on_CombatScreen_start_player_turn(_combat_data):
+	emit_signal("log_msg", "It's "+_combat_data.get_current_ally().label+"'s turn!")
 	cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
 	selected_ally_idx = 0
 	allies[selected_ally_idx].select(selected_category_idx)
@@ -245,56 +248,51 @@ func _on_CombatScreen_start_player_turn(_combatData):
 	#playerSprite.visible = true
 	selected_skill = null
 	#playerSprite.find_node("PlayerPulser").start()
-	#render_ally_moves(_combatData)
+	#render_ally_moves(_combat_data)
 	#highlight_targeted_enemy()
 	#enable_enemy_targeting()
 
-func _on_CombatScreen_player_move_complete(_combatData, target_enemy, move_data):
+func _on_CombatScreen_player_move_complete(_combat_data):
+	print("_on_CombatScreen_player_move_complete")
 	#unhighlight_targeted_enemy()
 	#disable_enemy_targeting()
 	if check_combat_over():
 		return
 	if check_player_turn_over():
-		emit_signal("player_turn_complete", _combatData)
-		emit_signal("start_enemy_turn", _combatData)
+		emit_signal("player_turn_complete", _combat_data)
+		emit_signal("start_enemy_turn", _combat_data)
 	else:
 		cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
 		select_next_char(1)
 
 func check_player_turn_over():
+	print("check_player_turn_over")
 	for ally in allies:
 		if ally != null and !ally.exhausted:
 			return false
 	return true
 
-func _on_CombatScreen_start_enemy_turn(_combatData):
+func _on_CombatScreen_start_enemy_turn(_combat_data):
 	print("log_msg", "The enemy is confused...")
 	yield(get_tree().create_timer(2), "timeout")
 	print("log_msg", "The enemy just stands there!")
-	emit_signal("enemy_turn_complete", _combatData)
+	emit_signal("enemy_turn_complete", _combat_data)
 
-func _on_CombatScreen_enemy_turn_complete(_combatData):
+func _on_CombatScreen_enemy_turn_complete(_combat_data):
 	yield(get_tree().create_timer(0.5), "timeout")
 	if check_combat_over():
 		return
-	emit_signal("start_player_turn", _combatData)
+	emit_signal("start_player_turn", _combat_data)
 
 func check_combat_over():
-	yield(get_tree(), "idle_frame")
+	print("check_combat_over")
 	if enemies_all_dead():
-		emit_signal("allies_win", combatData)
-		emit_signal("log_msg", "The allies win!")
-		#Util.fadeout(self, 1.5)
-		yield(get_tree().create_timer(2), "timeout")
-		queue_free()
+		emit_signal("allies_win", combat_data)
 		return true
 	elif allies_all_dead():
-		emit_signal("allies_lose", combatData)
-		emit_signal("log_msg", "The allies lost....")
-		#Util.fadeout(self, 1.5)
-		yield(get_tree().create_timer(2), "timeout")
-		queue_free()
+		emit_signal("allies_lose", combat_data)
 		return true
+	return false
 
 func _on_Ally_select_submenu_item(submenu, move_data):
 	active_submenu = submenu
@@ -309,9 +307,9 @@ func _on_Enemies_target_cancelled():
 func _on_Enemies_single_enemy_target_complete(target_enemy, move_data):
 	active_submenu.on_targeting_completed()
 	allies[selected_ally_idx].on_targeting_completed()
-	emit_signal("player_move_selected", combatData, target_enemy, move_data)
+	emit_signal("player_move_selected", combat_data, target_enemy, move_data)
 
-func _on_CombatScreen_player_move_selected(combat_data, target_enemy, move_data):
+func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data):
 	print("Attacking ", target_enemy.name, " with skill: ", move_data.label)
 	var scene = move_data.get_attack_scene(target_enemy)
 	MinigameContainer.add_child(scene)
@@ -319,11 +317,12 @@ func _on_CombatScreen_player_move_selected(combat_data, target_enemy, move_data)
 	scene.connect("minigame_success", target_enemy, "damage_hp")
 	scene.position = (MinigameContainer.rect_size/2)
 	yield(get_tree().create_timer(0.5), "timeout")
+	scene.connect("minigame_complete", self, "_on_minigame_complete")
 	scene.start()
-	yield(scene, "minigame_complete")
+
+func _on_minigame_complete(minigame_scene):
 	print("Attack complete")
-	if scene.is_connected("minigame_success", target_enemy, "damage_hp"):
-		scene.disconnect("minigame_success", target_enemy, "damage_hp")
-	scene.queue_free()
+	if is_instance_valid(minigame_scene):
+		minigame_scene.queue_free()
 	MinigameContainer.visible = false
-	emit_signal("player_move_complete", combat_data, target_enemy, move_data)
+	emit_signal("player_move_complete", combat_data)

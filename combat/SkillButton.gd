@@ -1,16 +1,16 @@
 extends Button
 
-signal skill_triggered(combatData, moveData)
+signal skill_triggered(combat_data, move_data)
 
-var combatData:CombatData
-var moveData:MoveData
+var combat_data:CombatData
+var move_data:MoveData
 
 func post_config(config):
-	text = moveData.label
+	text = move_data.label
 
 func _on_SkillButton_pressed():
-	print("Clicked on skill: "+moveData.name)
-	emit_signal("skill_triggered", combatData, moveData)
+	print("Clicked on skill: "+move_data.name)
+	emit_signal("skill_triggered", combat_data, move_data)
 
 func unhighlight():
 	modulate = Color.white

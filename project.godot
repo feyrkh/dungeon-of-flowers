@@ -62,6 +62,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+EventBus="*res://EventBus.gd"
 EnemyList="*res://combat/EnemyList.gd"
 MoveList="*res://combat/MoveList.gd"
 CombatMgr="*res://combat/CombatMgr.tscn"
@@ -188,6 +189,11 @@ select_next_char={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
+
+[layer_names]
+
+3d_physics/layer_1="can_move"
+3d_physics/layer_2="wall_metadata"
 
 [physics]
 

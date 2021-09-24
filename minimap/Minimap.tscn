@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://minimap/Minimap.gd" type="Script" id=2]
+[ext_resource path="res://img/minimap/minimap_tiles.tres" type="TileSet" id=3]
+[ext_resource path="res://img/minimap/minimap_player.png" type="Texture" id=6]
+
+[node name="Minimap" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+margin_left = 1760.0
+margin_right = 1920.0
+margin_bottom = 160.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 160, 160 )
+transparent_bg = true
+handle_input_locally = false
+disable_3d = true
+usage = 0
+render_target_update_mode = 3
+
+[node name="MinimapHandle" type="Node2D" parent="ViewportContainer/Viewport"]
+
+[node name="TileMap" type="TileMap" parent="ViewportContainer/Viewport/MinimapHandle"]
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 32, 32 )
+format = 1
+tile_data = PoolIntArray( 65537, 3, 0 )
+
+[node name="PlayerIcon" type="Sprite" parent="ViewportContainer/Viewport/MinimapHandle"]
+position = Vector2( 80, 80 )
+texture = ExtResource( 6 )

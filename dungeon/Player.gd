@@ -6,6 +6,9 @@ signal tile_move_complete
 
 const ROTATE_TIME = 0.5
 const MOVE_TIME = 0.5
+const TILE_METADATA_MASK = 2
+const EMPTY_ARRAY = []
+const UP_VECTOR = Vector3(0, 1, 0)
 
 var is_moving = false
 var start_rotation
@@ -25,10 +28,12 @@ onready var rightSensor:Area = find_node("rightSensor")
 onready var wallBumpSfx:AudioStreamPlayer = find_node("wallBumpSfx")
 onready var walkSfx:AudioStreamPlayer = find_node("walkSfx")
 
+
 func _ready():
 	transform = transform.looking_at(transform.origin + Vector3(0, 0, 1), Vector3.UP)
 	connect("move_complete", self, "_on_move_complete")
 	connect("turn_complete", self, "_on_turn_complete")
+	EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
 
 func _on_combat_start():
 	is_in_combat = true
@@ -121,6 +126,8 @@ func _process(delta):
 			#print("ended move at ", OS.get_system_time_msecs())
 			if !is_bumping:
 				emit_signal("tile_move_complete")
+				EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
+				update_minimap()
 	if target_rotation:
 		rotation_time += delta
 		if rotation_time < ROTATE_TIME:
@@ -128,6 +135,26 @@ func _process(delta):
 		else:
 			transform.basis = target_rotation
 			emit_signal("turn_complete")
+			EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
+			update_minimap()
+
+func update_minimap():
+	var tile_x = round(global_transform.origin.x/3)
+	var tile_z = round(global_transform.origin.z/3)
+	for z in range(tile_z-1, tile_z+2):
+		for x in range(tile_x-1, tile_x+2):
+			var tile_type = query_tile_metadata(x, z)
+			EventBus.emit_signal("uncovered_map_tile", x, z, tile_type)
+	EventBus.emit_signal("update_minimap")
+
+func query_tile_metadata(tile_x, tile_z):
+	var space_state = get_world().direct_space_state
+	var pos = Vector3(tile_x*3, 0, tile_z*3)
+	var result = space_state.intersect_ray(pos, pos+UP_VECTOR, EMPTY_ARRAY, TILE_METADATA_MASK, false, true)
+	print("Found tile metadata: ", result)
+	if result.has("collider"):
+		return result.get("collider").tile_name
+	return "empty"
 
 func move(dir):
 	if is_moving: 
@@ -159,3 +186,4 @@ func turn(dir):
 	start_rotation = transform.basis
 	target_rotation = transform.basis.rotated(Vector3.DOWN, deg2rad(90*dir))
 	rotation_time = 0
+

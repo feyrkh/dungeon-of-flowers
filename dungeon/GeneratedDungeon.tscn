@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://dungeon/GeneratedDungeon.gd" type="Script" id=1]
 [ext_resource path="res://shader/pixel.shader" type="Shader" id=2]
+[ext_resource path="res://minimap/Minimap.tscn" type="PackedScene" id=3]
 
 [sub_resource type="Environment" id=1]
 background_energy = 0.0
@@ -56,3 +57,5 @@ texture = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Minimap" parent="." instance=ExtResource( 3 )]

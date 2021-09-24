@@ -280,6 +280,7 @@ func _on_CombatScreen_enemy_turn_complete(_combatData):
 	emit_signal("start_player_turn", _combatData)
 
 func check_combat_over():
+	yield(get_tree(), "idle_frame")
 	if enemies_all_dead():
 		emit_signal("allies_win", combatData)
 		emit_signal("log_msg", "The allies win!")

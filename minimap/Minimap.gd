@@ -1,6 +1,6 @@
 extends Node2D
 
-const MINIMAP_OFFSET:Vector2 = Vector2(-32*2, -32*2)
+const MINIMAP_OFFSET:Vector2 = Vector2(-32*3, -32*3)
 
 onready var PlayerIcon:Sprite = find_node("PlayerIcon")
 onready var Map:TileMap = find_node("TileMap")

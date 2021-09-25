@@ -18,16 +18,29 @@ func _ready():
 	EventBus.connect("new_player_location", self, "_on_move_finish")
 	EventBus.connect("player_start_move", self, "_on_move_start")
 	EventBus.connect("player_start_turn", self, "_on_move_start")
+	CombatMgr.connect("combat_start", self, "_on_combat_start")
+	CombatMgr.connect("combat_end", self, "_on_combat_end")
+
+func _on_combat_start():
+	visible = false
+
+func _on_combat_end():
+	alpha = 0
+	target_alpha = 0
+	modulate.a = 0
+	counter = SECONDS_TO_DELAY_FADE
+	visible = true
+	set_process(true)
 
 func _on_move_finish(x, y, rot):
 	target_alpha = 1
-	print("Finished move, target_alpha=", target_alpha)
+	#print("Finished move, target_alpha=", target_alpha)
 	counter = SECONDS_TO_DELAY_FADE
 	set_process(true)
 
 func _on_move_start():
 	target_alpha = 0
-	print("Started move, target_alpha=", target_alpha)
+	#print("Started move, target_alpha=", target_alpha)
 	counter = 0
 	set_process(true)
 

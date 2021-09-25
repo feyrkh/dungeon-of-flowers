@@ -1,12 +1,15 @@
 extends Control
 class_name AllyPortraits
 
+
 onready var Allies = [find_node("Ally1"), find_node("Ally2"), find_node("Ally3")]
 
-func setup(ally_data1, ally_data2, ally_data3):
-	Allies[0].setup(ally_data1)
-	Allies[1].setup(ally_data2)
-	Allies[2].setup(ally_data3)
+func _ready():
+	setup(GameData.allies)
+
+func setup(ally_data):
+	for i in range(ally_data.size()):
+		Allies[i].setup(ally_data[i])
 
 func combat_mode():
 	for ally in Allies:

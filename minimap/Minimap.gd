@@ -11,6 +11,14 @@ func _ready():
 	EventBus.connect("uncovered_map_tile", self, "_on_uncovered_map_tile")
 	EventBus.connect("update_minimap", self, "_on_update_minimap")
 	EventBus.connect("new_player_location", self, "_on_new_player_location")
+	CombatMgr.connect("combat_start", self, "_on_combat_start")
+	CombatMgr.connect("combat_end", self, "_on_combat_end")
+
+func _on_combat_start():
+	visible = false
+
+func _on_combat_end():
+	visible = true
 
 func _on_uncovered_map_tile(x, y, tile_type):
 	var tile_id = Map.tile_set.find_tile_by_name(tile_type)

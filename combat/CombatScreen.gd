@@ -38,6 +38,7 @@ var input_delayed = 0
 onready var Enemies = find_node("Enemies")
 onready var MinigameContainer = find_node("MinigameContainer")
 onready var allies = [find_node("Ally1"), find_node("Ally2"), find_node("Ally3")]
+onready var AllyPortraits = find_node("AllyPortraits")
 
 var selected_ally_idx = 0
 var selected_category_idx = 0
@@ -60,6 +61,8 @@ func _ready():
 	#balanceContainer.visible = false
 	input_delayed = UI_DELAY
 	emit_signal('start_combat', combat_data)
+	EventBus.connect("cancel_submenu", self, "_on_Ally_cancel_submenu")
+	EventBus.connect("select_submenu_item", self, "_on_Ally_select_submenu_item")
 
 func _process(delta):
 	if input_delayed > 0:
@@ -155,81 +158,11 @@ func allies_all_dead():
 
 func mock_combat_data():
 	var cd = CombatData.new()
-	cd.allies = [mock_pharoah(), mock_vega(), mock_shantae()]
+	cd.allies = GameData.allies
 	cd.enemies = []
 	for i in randi()%2+1:
 		cd.enemies.append(EnemyList.get_enemy('random'))
 	return cd
-
-func mock_pharoah():
-	var ally = AllyData.new()
-	ally.label = "Imhotep"
-	ally.className = "Pharoah"
-	ally.max_hp = 100
-	ally.hp = 80
-	ally.sp = 20
-	ally.max_sp = 20
-	ally.balance = 100
-	ally.max_balance = 100
-	ally.texture = load("res://img/hero1.png")
-	ally.moves = [
-		MoveList.get_move('kick'),
-		MoveList.get_move('headbutt'),
-		
-	]
-	return ally
-	
-func mock_hipster():
-	var ally = AllyData.new()
-	ally.label = "Allie"
-	ally.className = "Barista"
-	ally.max_hp = 100
-	ally.hp = 80
-	ally.sp = 20
-	ally.max_sp = 20
-	ally.balance = 100
-	ally.max_balance = 100
-	ally.texture = load("res://img/hero2.jpg")
-	ally.moves = [
-		MoveList.get_move('punch'),
-		MoveList.get_move('headbutt'),
-	]
-	return ally
-	
-func mock_shantae():
-	var ally = AllyData.new()
-	ally.label = "Shantae"
-	ally.className = "Half Genie"
-	ally.max_hp = 100
-	ally.hp = 80
-	ally.sp = 20
-	ally.max_sp = 20
-	ally.balance = 100
-	ally.max_balance = 100
-	ally.texture = load("res://img/hero3.jpg")
-	ally.moves = [
-		MoveList.get_move('punch'),
-		MoveList.get_move('kick')
-	]
-	return ally
-	
-func mock_vega():
-	var ally = AllyData.new()
-	ally.label = "Vega"
-	ally.className = "Street Fighter"
-	ally.max_hp = 100
-	ally.hp = 80
-	ally.sp = 20
-	ally.max_sp = 20
-	ally.balance = 100
-	ally.max_balance = 100
-	ally.texture = load("res://img/hero4.jpg")
-	ally.moves = [
-		MoveList.get_move('punch'),
-		MoveList.get_move('kick'),
-		MoveList.get_move('headbutt'),
-	]
-	return ally
 
 func _on_CombatScreen_start_combat(_combat_data):
 	# todo: surprise attacks, screen effects

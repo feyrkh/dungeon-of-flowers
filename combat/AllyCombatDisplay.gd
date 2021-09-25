@@ -1,8 +1,5 @@
 extends Control
 
-signal cancel_submenu
-signal select_submenu_item(submenu, move_data)
-
 onready var AllyPortrait:AllyPortrait = find_node("AllyPortrait")
 
 onready var CurrentMoveLabel:Label = find_node("CurrentMoveLabel")
@@ -95,10 +92,10 @@ func on_targeting_completed():
 func _on_Submenu_cancel_submenu():
 	CombatIcons.show(last_category_idx)
 	category_zoom_icons[last_category_idx].visible = false
-	emit_signal("cancel_submenu")
+	EventBus.emit_signal("cancel_submenu")
 
 func _on_Submenu_select_submenu_item(submenu, move_data):
-	emit_signal("select_submenu_item", submenu, move_data)
+	EventBus.emit_signal("select_submenu_item", submenu, move_data)
 
 
 func _on_CombatScreen_start_player_turn(combat_data):
@@ -111,3 +108,7 @@ func _on_CombatScreen_start_enemy_turn(combat_data):
 
 func _on_CombatScreen_player_turn_complete(combat_data):
 	AllyPortrait.deselect()
+
+
+func _on_Ally_cancel_submenu():
+	pass # Replace with function body.

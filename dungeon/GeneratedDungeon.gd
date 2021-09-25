@@ -21,6 +21,8 @@ var combat_grace_period_counter:int
 var combat_chance_per_tile:float = 0.1
 var property_types:Dictionary = {}
 var randseed:int
+var combatMusic:String
+var exploreMusic:String
 
 onready var Map:Spatial = find_node("Map")
 onready var Combat:Control = find_node("Combat")
@@ -43,6 +45,15 @@ func _ready():
 	CombatMgr.register(player, self)
 	MapName.text = map_name
 	IdleHud.modulate.a = 0
+	MusicCrossFade.cross_fade("res://music/explore1.mp3", 3, true)
+	CombatMgr.connect("combat_start", self, "_on_combat_start")
+	CombatMgr.connect("combat_end", self, "_on_combat_end")
+
+func _on_combat_start():
+	MusicCrossFade.cross_fade("res://music/battle1.mp3", 3, false)
+
+func _on_combat_end():
+	MusicCrossFade.cross_fade("res://music/explore1.mp3", 3, true)
 
 func _on_player_tile_move_complete():
 	if combat_grace_period_counter > 0:
@@ -94,3 +105,8 @@ func process_map(file):
 		z += 1
 	file.close()
 
+func on_combat_start():
+	MusicCrossFade.cross_fade("res://music/combat1.mp3", 3, false)
+
+func on_combat_end():
+	MusicCrossFade.cross_fade("res://music/explore1.mp3", 3, true)

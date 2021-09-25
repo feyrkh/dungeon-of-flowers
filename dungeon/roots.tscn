@@ -37,9 +37,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.059, 0.002 )
 script = ExtResource( 2 )
 appearance_chance = 0.2
 min_scale = Vector3( 0.5, 0.5, 0.5 )
-max_scale = Vector3( 2, 2, 2 )
+max_scale = Vector3( 4, 4, 4 )
 flipped_translation = Vector3( 0, -3, 0 )
-flipped_rotation = Vector3( 180, 0, 0 )
+flipped_scale = Vector3( -1, 0, 0 )
 writhe_rotate = Vector3( 0, 0, 5 )
 writhe_scale = Vector3( 0.07, 0.07, 0.07 )
 
@@ -50,4 +50,4 @@ material/0 = null
 material/1 = null
 
 [node name="PlacementChecker" parent="." instance=ExtResource( 4 )]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0.0479999, 1.33, 2.051 )
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0.0479999, 0.71, 0.541 )

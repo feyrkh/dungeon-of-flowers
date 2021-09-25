@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://dungeon/roots_m2.material" type="Material" id=1]
 [ext_resource path="res://dungeon/DungeonProp.gd" type="Script" id=2]
 [ext_resource path="res://dungeon/roots2.material" type="Material" id=3]
+[ext_resource path="res://dungeon/PlacementChecker.tscn" type="PackedScene" id=4]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Roots"
@@ -47,3 +48,6 @@ transform = Transform( 0.0486863, 0.0584034, 0.0330323, 0.0463445, 0.000242302, 
 mesh = SubResource( 1 )
 material/0 = null
 material/1 = null
+
+[node name="PlacementChecker" parent="." instance=ExtResource( 4 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0.0479999, 1.33, 2.051 )

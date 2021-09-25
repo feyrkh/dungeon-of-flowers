@@ -5,8 +5,8 @@
 [ext_resource path="res://dungeon/roots2.tscn" type="PackedScene" id=3]
 [ext_resource path="res://dungeon/TileMetadata.gd" type="Script" id=4]
 
-[sub_resource type="SphereShape" id=1]
-radius = 0.5
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 1.2, 3, 1.4 )
 
 [node name="corridor" type="Spatial" groups=[
 "rotated",
@@ -77,5 +77,5 @@ collision_mask = 0
 script = ExtResource( 4 )
 
 [node name="CollisionShape" type="CollisionShape" parent="TileMetadata"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0 )
+transform = Transform( 1.22915, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, 0 )
 shape = SubResource( 1 )

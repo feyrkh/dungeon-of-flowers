@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://dungeon/roots2.material" type="Material" id=1]
 [ext_resource path="res://dungeon/DungeonProp.gd" type="Script" id=2]
 [ext_resource path="res://dungeon/Pink Lotus.tscn" type="PackedScene" id=3]
 [ext_resource path="res://dungeon/Blue Hibiscus.tscn" type="PackedScene" id=4]
+[ext_resource path="res://dungeon/PlacementChecker.tscn" type="PackedScene" id=5]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Cylinder"
@@ -62,3 +63,5 @@ transform = Transform( 0.976897, -0.979403, -0.91763, -0.443961, -1.3069, 0.9222
 
 [node name="Pink Lotus4" parent="." instance=ExtResource( 3 )]
 transform = Transform( -0.890714, -0.598152, 1.26666, -0.598379, 1.51968, 0.296854, -1.26655, -0.297303, -1.03104, -2.214, 0.0549999, 0.149 )
+
+[node name="PlacementChecker" parent="." instance=ExtResource( 5 )]

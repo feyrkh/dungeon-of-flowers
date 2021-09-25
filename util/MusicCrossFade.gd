@@ -72,12 +72,12 @@ func _process(delta):
 func set_next_volume(amt):
 	expected_next_volume = amt
 	next_playing.volume_db = ((amt+80) * volume_adjustment)-80
-	print("Next volume: ", amt, " (actual: ", next_playing.volume_db, ")")
+	#print("Next volume: ", amt, " (actual: ", next_playing.volume_db, ")")
 
 func set_cur_volume(amt):
 	expected_cur_volume = amt
 	cur_playing.volume_db = ((amt+80) * volume_adjustment)-80
-	print("Cur volume: ", amt, " (actual: ", cur_playing.volume_db, ")")
+	#print("Cur volume: ", amt, " (actual: ", cur_playing.volume_db, ")")
 
 func swap_players():
 	var tmp = cur_playing

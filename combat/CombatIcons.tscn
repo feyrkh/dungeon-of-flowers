@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_item.png" type="Texture" id=1]
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_skill.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=7]
 [ext_resource path="res://img/combat/combat-mockup-2.png" type="Texture" id=8]
 [ext_resource path="res://combat/MoveListIcon.gd" type="Script" id=9]
+[ext_resource path="res://font/portrait_font.tres" type="DynamicFont" id=10]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade"
@@ -58,7 +59,7 @@ margin_bottom = 5.0
 rect_pivot_offset = Vector2( 431.667, -821.041 )
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 783.0, 741.863 ],
+"_edit_horizontal_guides_": [ 783.0, 741.863, -102.644 ],
 "_edit_use_anchors_": false,
 "_edit_vertical_guides_": [ 60.3019, 111.083, 562.769, 613.55 ]
 }
@@ -71,10 +72,10 @@ texture = ExtResource( 8 )
 [node name="IconFight" type="TextureRect" parent="."]
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 5.58301
-margin_top = -177.259
-margin_right = 113.583
-margin_bottom = -4.25885
+margin_left = 6.0
+margin_top = -177.0
+margin_right = 114.0
+margin_bottom = -3.99985
 rect_scale = Vector2( 0.6, 0.6 )
 rect_pivot_offset = Vector2( 54, 173 )
 texture = ExtResource( 3 )
@@ -84,21 +85,20 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="IconFight"]
-margin_left = 5.30479
-margin_top = -30.0799
-margin_right = 45.3048
-margin_bottom = -16.0799
-rect_scale = Vector2( 2, 2 )
+margin_left = 14.0
+margin_top = -35.0
+margin_right = 69.0
+custom_fonts/font = ExtResource( 10 )
 text = "Fight"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="IconDefend" type="TextureRect" parent="."]
-margin_left = 185.326
-margin_top = -155.191
-margin_right = 301.326
-margin_bottom = -4.19136
+margin_left = 185.0
+margin_top = -155.0
+margin_right = 301.0
+margin_bottom = -4.0
 rect_scale = Vector2( 0.6, 0.6 )
 rect_pivot_offset = Vector2( 58, 151 )
 texture = ExtResource( 4 )
@@ -109,21 +109,21 @@ __meta__ = {
 skill_type = "defend"
 
 [node name="Label" type="Label" parent="IconDefend"]
-margin_left = 12.9453
-margin_top = -36.6527
-margin_right = 58.9453
-margin_bottom = -22.6527
-rect_scale = Vector2( 2, 2 )
+margin_left = 13.0
+margin_top = -57.0
+margin_right = 88.0
+margin_bottom = -22.0
+custom_fonts/font = ExtResource( 10 )
 text = "Defend"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="IconSkill" type="TextureRect" parent="."]
-margin_left = 85.1132
-margin_top = -176.029
-margin_right = 205.114
-margin_bottom = -3.02922
+margin_left = 85.0
+margin_top = -176.0
+margin_right = 205.0
+margin_bottom = -3.0
 rect_scale = Vector2( 0.6, 0.6 )
 rect_pivot_offset = Vector2( 60, 173 )
 texture = ExtResource( 2 )
@@ -134,21 +134,21 @@ __meta__ = {
 skill_type = "skill"
 
 [node name="Label" type="Label" parent="IconSkill"]
-margin_left = 12.2841
-margin_top = -29.1592
-margin_right = 52.2841
-margin_bottom = -15.1592
-rect_scale = Vector2( 2, 2 )
+margin_left = 12.0
+margin_top = -36.0
+margin_right = 68.0
+margin_bottom = -1.0
+custom_fonts/font = ExtResource( 10 )
 text = "Skills"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="IconItem" type="TextureRect" parent="."]
-margin_left = 286.626
-margin_top = -130.328
-margin_right = 410.626
-margin_bottom = -12.3276
+margin_left = 287.0
+margin_top = -130.0
+margin_right = 411.0
+margin_bottom = -11.9996
 rect_scale = Vector2( 0.6, 0.6 )
 rect_pivot_offset = Vector2( 62, 118 )
 texture = ExtResource( 1 )
@@ -159,11 +159,11 @@ __meta__ = {
 skill_type = "item"
 
 [node name="Label" type="Label" parent="IconItem"]
-margin_left = 29.2748
-margin_top = -35.9242
-margin_right = 75.2748
-margin_bottom = -21.9242
-rect_scale = Vector2( 2, 2 )
+margin_left = 30.0
+margin_top = -76.0
+margin_right = 80.0
+margin_bottom = -41.0
+custom_fonts/font = ExtResource( 10 )
 text = "Item"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -198,10 +198,10 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="CharSwitchLeft/Bouncer"]
 margin_left = -34.0
-margin_top = -84.0
+margin_top = -88.0
 margin_right = 6.0
-margin_bottom = -70.0
-rect_scale = Vector2( 2, 2 )
+margin_bottom = -53.0
+custom_fonts/font = ExtResource( 10 )
 text = "Q"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -233,11 +233,11 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="CharSwitchRight/Bouncer"]
-margin_left = -36.0
-margin_top = -84.0
-margin_right = 4.0
-margin_bottom = -70.0
-rect_scale = Vector2( 2, 2 )
+margin_left = -33.0
+margin_top = -88.0
+margin_right = 7.0
+margin_bottom = -53.0
+custom_fonts/font = ExtResource( 10 )
 text = "E"
 __meta__ = {
 "_edit_use_anchors_": false

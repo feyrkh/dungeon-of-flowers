@@ -36,6 +36,7 @@ func combat_mode():
 func explore_mode():
 	AllyPortrait.deselect()
 	modulate = selected_color
+	FadeContainer.modulate = selected_color
 	rect_position = default_position
 	find_node("IconStatus").visible = false
 

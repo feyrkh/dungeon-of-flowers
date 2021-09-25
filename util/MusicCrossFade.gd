@@ -1,6 +1,6 @@
 extends Node
 
-var MIN_VOLUME = -25
+var MIN_VOLUME = -50
 var MAX_VOLUME = 0
 
 export(NodePath) var stream_player_1_path = "CombatMusic"
@@ -23,7 +23,7 @@ var expected_next_volume = 0
 var expected_cur_volume = 0
 
 func _ready():
-	pass
+	volume_adjustment = GameData.get_setting("music_volume")
 
 func cross_fade(new_music_file, crossfade_time, new_music_saves_position=true):
 	if fading:
@@ -33,7 +33,7 @@ func cross_fade(new_music_file, crossfade_time, new_music_saves_position=true):
 	fade_counter = crossfade_time
 	next_playing.stop()
 	next_playing.stream = load(new_music_file)
-	next_playing.volume_db = ((MIN_VOLUME + 80)*volume_adjustment) - 80
+	set_next_volume(MIN_VOLUME)
 	fade_up_per_sec = (MAX_VOLUME - MIN_VOLUME)/crossfade_time
 	fade_down_per_sec = (cur_playing.volume_db - MIN_VOLUME)/crossfade_time
 	var start_position = 0.0
@@ -55,6 +55,8 @@ func _unhandled_input(event):
 		else: 
 			volume_adjustment = 0
 			cur_playing.volume_db = -80
+		GameData.update_setting("music_volume", volume_adjustment)
+		GameData.save_settings()
 
 func _process(delta):
 	set_next_volume(min(MAX_VOLUME, expected_next_volume + fade_up_per_sec * delta))
@@ -70,10 +72,12 @@ func _process(delta):
 func set_next_volume(amt):
 	expected_next_volume = amt
 	next_playing.volume_db = ((amt+80) * volume_adjustment)-80
+	print("Next volume: ", amt, " (actual: ", next_playing.volume_db, ")")
 
 func set_cur_volume(amt):
 	expected_cur_volume = amt
 	cur_playing.volume_db = ((amt+80) * volume_adjustment)-80
+	print("Cur volume: ", amt, " (actual: ", cur_playing.volume_db, ")")
 
 func swap_players():
 	var tmp = cur_playing

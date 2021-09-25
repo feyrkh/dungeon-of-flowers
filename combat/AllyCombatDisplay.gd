@@ -3,12 +3,8 @@ extends Control
 signal cancel_submenu
 signal select_submenu_item(submenu, move_data)
 
-onready var Portrait:TextureRect = find_node("Portrait")
-onready var PortraitSelected:TextureRect = find_node("PortraitBGSelected")
-onready var HpLabel:RichTextLabel = find_node("HpLabel")
-onready var SpLabel:RichTextLabel = find_node("SpLabel")
-onready var HpFill:TextureRect = find_node("HpFill")
-onready var SpFill:TextureRect = find_node("SpFill")
+onready var AllyPortrait:AllyPortrait = find_node("AllyPortrait")
+
 onready var CurrentMoveLabel:Label = find_node("CurrentMoveLabel")
 onready var FadeContainer:Control = find_node("FadeContainer")
 onready var CombatIcons = find_node("CombatIcons")
@@ -29,21 +25,25 @@ var exhausted = false
 
 func setup(_ally_data:AllyData):
 	self.ally_data = _ally_data
-	Portrait.texture = ally_data.texture
-	updateLabels()
+	AllyPortrait.setup(ally_data)
+	AllyPortrait.updateLabels()
 	CombatIcons.setup(ally_data)
 
 func _ready():
 	CombatIcons.categories.append(find_node("IconStatus"))
 
-func updateLabels():
-	HpLabel.bbcode_text = str(ally_data.hp) + "/" + str(ally_data.max_hp)
-	SpLabel.bbcode_text = str(ally_data.sp) + "/" + str(ally_data.max_sp)
-	HpFill.rect_scale.x = float(ally_data.hp) / float(ally_data.max_hp)
-	SpFill.rect_scale.x = float(ally_data.sp) / float(ally_data.max_sp)
+func combat_mode():
+	FadeContainer.modulate = selected_color
+	rect_position = default_position
+
+func explore_mode():
+	AllyPortrait.deselect()
+	modulate = selected_color
+	rect_position = default_position
+	find_node("IconStatus").visible = false
 
 func deselect():
-	PortraitSelected.visible = false
+	AllyPortrait.deselect()
 	CombatIcons.hide()
 	FadeContainer.modulate = deselected_color
 	if !exhausted:
@@ -52,7 +52,7 @@ func deselect():
 		rect_position = exhausted_position
 
 func select(category_idx):
-	PortraitSelected.visible = true
+	AllyPortrait.select()
 	CombatIcons.show(category_idx)
 	FadeContainer.modulate = selected_color
 	rect_position = selected_position
@@ -90,7 +90,7 @@ func on_targeting_completed():
 	exhausted = true
 	rect_position = exhausted_position
 	modulate = exhausted_color
-	PortraitSelected.visible = false
+	AllyPortrait.deselect()
 
 func _on_Submenu_cancel_submenu():
 	CombatIcons.show(last_category_idx)
@@ -110,4 +110,4 @@ func _on_CombatScreen_start_enemy_turn(combat_data):
 	modulate = Color.white
 
 func _on_CombatScreen_player_turn_complete(combat_data):
-	PortraitSelected.visible = false
+	AllyPortrait.deselect()

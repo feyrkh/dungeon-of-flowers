@@ -14,6 +14,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://combat/AllyData.gd"
 }, {
+"base": "Control",
+"class": "AllyPortrait",
+"language": "GDScript",
+"path": "res://dungeon/AllyPortrait.gd"
+}, {
+"base": "Control",
+"class": "AllyPortraits",
+"language": "GDScript",
+"path": "res://combat/AllyPortraits.gd"
+}, {
 "base": "Node2D",
 "class": "BaseMinigame",
 "language": "GDScript",
@@ -46,6 +56,8 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AllyData": "",
+"AllyPortrait": "",
+"AllyPortraits": "",
 "BaseMinigame": "",
 "CombatData": "",
 "Enemy": "",
@@ -66,6 +78,7 @@ EventBus="*res://EventBus.gd"
 EnemyList="*res://combat/EnemyList.gd"
 MoveList="*res://combat/MoveList.gd"
 CombatMgr="*res://combat/CombatMgr.tscn"
+GameData="*res://GameData.gd"
 
 [debug]
 

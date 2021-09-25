@@ -153,7 +153,7 @@ func query_tile_metadata(tile_x, tile_z):
 	var space_state = get_world().direct_space_state
 	var pos = Vector3(tile_x*3, 0, tile_z*3)
 	var result = space_state.intersect_ray(pos, pos+UP_VECTOR, EMPTY_ARRAY, TILE_METADATA_MASK, false, true)
-	print("Found tile metadata: ", result)
+	#print("Found tile metadata: ", result)
 	if result.has("collider"):
 		return result.get("collider").tile_name
 	return "empty"
@@ -168,6 +168,7 @@ func move(dir):
 	start_position = global_transform.origin
 	target_position = global_transform.origin + global_transform.basis.z*3 * -dir
 	move_time = 0
+	EventBus.emit_signal("player_start_move")
 
 func sidestep(dir):
 	if is_moving:
@@ -179,6 +180,7 @@ func sidestep(dir):
 	start_position = global_transform.origin
 	target_position = global_transform.origin + global_transform.basis.x*3*-dir
 	move_time = 0
+	EventBus.emit_signal("player_start_move")
 
 func turn(dir):
 	if is_moving: 
@@ -188,4 +190,5 @@ func turn(dir):
 	start_rotation = transform.basis
 	target_rotation = transform.basis.rotated(Vector3.DOWN, deg2rad(90*dir))
 	rotation_time = 0
+	EventBus.emit_signal("player_start_turn")
 

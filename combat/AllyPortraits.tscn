@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://combat/AllyPortraits.gd" type="Script" id=1]
+[ext_resource path="res://combat/AllyCombatDisplay.tscn" type="PackedScene" id=2]
+
+[node name="AllyPortraits" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ally1" parent="." instance=ExtResource( 2 )]
+margin_left = 219.0
+margin_top = 896.0
+margin_right = 759.0
+margin_bottom = 1976.0
+
+[node name="Ally2" parent="." instance=ExtResource( 2 )]
+margin_left = 725.0
+margin_top = 896.0
+margin_right = 1265.0
+margin_bottom = 1976.0
+
+[node name="Ally3" parent="." instance=ExtResource( 2 )]
+margin_left = 1240.0
+margin_top = 896.0
+margin_right = 1780.0
+margin_bottom = 1976.0

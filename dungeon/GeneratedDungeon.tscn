@@ -10,12 +10,18 @@
 [sub_resource type="Environment" id=1]
 background_energy = 0.0
 ambient_light_color = Color( 1, 1, 1, 1 )
-ambient_light_energy = 0.02
+ambient_light_energy = 0.0
 ambient_light_sky_contribution = 0.0
 fog_enabled = true
-fog_color = Color( 0.909804, 0.627451, 0.956863, 1 )
+fog_color = Color( 0.980392, 0.631373, 1, 1 )
+fog_sun_color = Color( 1, 1, 1, 1 )
+fog_height_min = 0.0
+fog_height_max = 12.0
+fog_height_curve = 2.21914
 dof_blur_far_enabled = true
 dof_blur_far_distance = 8.0
+dof_blur_far_quality = 2
+glow_bloom = 0.32
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 2 )

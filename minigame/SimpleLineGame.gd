@@ -95,7 +95,7 @@ func setupGame():
 	moveMarkerTo(marker_start_position)
 	
 func _unhandled_key_input(event):
-	if !isStarted or strike_delay > 0 or strikes_made >= config.get("strikes", 1): 
+	if !isStarted or strike_delay > 0 or strikes_made >= config.get("strikes", 1) or has_meta('game_ending'): 
 		return
 	if event.is_action_pressed("ui_accept"):
 		strike_delay = config.get("strike_delay", 0)
@@ -136,7 +136,7 @@ func setMarkerColor():
 		marker.default_color = markerOutOfZoneColor
 
 func _process(delta):
-	if !isSetup or !isStarted: return
+	if !isSetup or !isStarted or has_meta('game_ending'): return
 	if markerPause > 0: 
 		markerPause -= delta
 		return

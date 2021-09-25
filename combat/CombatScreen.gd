@@ -255,6 +255,7 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 
 func _on_minigame_complete(minigame_scene):
 	print("Attack complete")
+	yield(get_tree().create_timer(0.5), "timeout")
 	if is_instance_valid(minigame_scene):
 		minigame_scene.queue_free()
 	MinigameContainer.visible = false

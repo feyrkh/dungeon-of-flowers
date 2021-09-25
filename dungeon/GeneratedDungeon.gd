@@ -15,6 +15,7 @@ const tiles = {
 }
 
 var player
+var map_name:String = "an unknown place"
 var combat_grace_period:int = 4
 var combat_grace_period_counter:int
 var combat_chance_per_tile:float = 0.1
@@ -25,6 +26,8 @@ onready var Map:Spatial = find_node("Map")
 onready var Combat:Control = find_node("Combat")
 onready var Fader:Control = find_node("Fader")
 onready var BackgroundBlur:Control = find_node("BackgroundBlur")
+onready var MapName:Label = find_node("MapName")
+onready var IdleHud:Control = find_node("IdleHud")
 
 func _ready():
 	for prop in get_property_list():
@@ -38,6 +41,8 @@ func _ready():
 	process_map(file)
 	combat_grace_period_counter = combat_grace_period
 	CombatMgr.register(player, self)
+	MapName.text = map_name
+	IdleHud.modulate.a = 0
 
 func _on_player_tile_move_complete():
 	if combat_grace_period_counter > 0:

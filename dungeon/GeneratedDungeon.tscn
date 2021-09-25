@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://dungeon/GeneratedDungeon.gd" type="Script" id=1]
 [ext_resource path="res://shader/pixel.shader" type="Shader" id=2]
 [ext_resource path="res://minimap/Minimap.tscn" type="PackedScene" id=3]
 [ext_resource path="res://combat/AllyPortraits.tscn" type="PackedScene" id=4]
 [ext_resource path="res://dungeon/IdleHud.gd" type="Script" id=5]
+[ext_resource path="res://art_exports/ui_HUD/ui_bar_fill.png" type="Texture" id=6]
 
 [sub_resource type="Environment" id=1]
 background_energy = 0.0
@@ -63,7 +64,7 @@ __meta__ = {
 [node name="Minimap" parent="." instance=ExtResource( 3 )]
 
 [node name="IdleHud" type="Control" parent="."]
-modulate = Color( 1, 1, 1, 0 )
+modulate = Color( 1, 1, 1, 0.133333 )
 margin_right = 40.0
 margin_bottom = 40.0
 script = ExtResource( 5 )
@@ -72,3 +73,35 @@ __meta__ = {
 }
 
 [node name="AllyPortraits" parent="IdleHud" instance=ExtResource( 4 )]
+
+[node name="HeaderText" type="Control" parent="IdleHud"]
+modulate = Color( 0.933333, 0.341176, 0.984314, 1 )
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MapName" type="Label" parent="IdleHud/HeaderText"]
+margin_top = 9.0
+margin_right = 1920.0
+margin_bottom = 28.0
+text = "1st Floor"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CurrentGoal" type="Label" parent="IdleHud/HeaderText"]
+margin_top = 39.0
+margin_right = 1920.0
+margin_bottom = 56.0
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ui_bar_fill" type="Sprite" parent="IdleHud/HeaderText"]
+position = Vector2( 960, 30 )
+scale = Vector2( 2, 0.5 )
+texture = ExtResource( 6 )

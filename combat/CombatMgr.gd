@@ -14,6 +14,7 @@ signal player_move_complete(combat_data)
 signal player_turn_complete(combat_data)
 signal start_enemy_turn(combat_data)
 signal start_player_turn(combat_data)
+signal enemy_turn_complete(combat_data)
 
 var player
 var dungeon

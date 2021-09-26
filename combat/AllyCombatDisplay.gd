@@ -32,7 +32,10 @@ func _ready():
 	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
 	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
 
-func get_target(target_scatter):
+func get_shields():
+	return ally_data.get_shields()
+
+func get_target(target_scatter = 0):
 	var half_size = 180
 	var target = TargetArea.global_position
 	if target_scatter > 0:

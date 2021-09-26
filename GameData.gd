@@ -53,13 +53,13 @@ func mock_pharoah():
 	ally.hp = 80
 	ally.sp = 20
 	ally.max_sp = 20
-	ally.balance = 100
-	ally.max_balance = 100
 	ally.texture = load("res://img/hero1.png")
 	ally.moves = [
 		MoveList.get_move('kick'),
 		MoveList.get_move('headbutt'),
-		
+	]
+	ally.shields = [
+		{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -130), "scale": Vector2(0.5, 0.5)},
 	]
 	return ally
 
@@ -71,12 +71,13 @@ func mock_shantae():
 	ally.hp = 80
 	ally.sp = 20
 	ally.max_sp = 20
-	ally.balance = 100
-	ally.max_balance = 100
 	ally.texture = load("res://img/hero3.jpg")
 	ally.moves = [
 		MoveList.get_move('punch'),
 		MoveList.get_move('kick')
+	]
+	ally.shields = [
+		{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -130), "scale": Vector2(1.0, 1.0)},
 	]
 	return ally
 	
@@ -88,12 +89,14 @@ func mock_vega():
 	ally.hp = 80
 	ally.sp = 20
 	ally.max_sp = 20
-	ally.balance = 100
-	ally.max_balance = 100
 	ally.texture = load("res://img/hero4.jpg")
 	ally.moves = [
 		MoveList.get_move('punch'),
 		MoveList.get_move('kick'),
 		MoveList.get_move('headbutt'),
+	]
+	ally.shields = [
+		{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(-150, -130), "scale": Vector2(2.0, 1.0)},
+		{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(150, -130), "scale": Vector2(2.0, 1.0)},
 	]
 	return ally

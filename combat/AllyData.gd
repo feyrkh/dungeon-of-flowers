@@ -7,12 +7,7 @@ var hp : int
 var max_hp : int
 var sp : int
 var max_sp : int
-var balance : int
-var max_balance : int
-
-var stance_height : int
-var stance_sidestep : int
-var stance_angle : int
+var shields = []
 
 var texture : Texture
 
@@ -24,3 +19,6 @@ func get_moves(move_type:String):
 		if move.type == move_type:
 			result.append(move)
 	return result
+
+func get_shields():
+	return shields

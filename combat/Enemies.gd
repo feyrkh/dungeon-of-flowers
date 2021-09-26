@@ -29,6 +29,7 @@ func _ready():
 		enemy_pos.set_target_marker(marker)
 	set_process(false)
 	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
+	CombatMgr.connect("enemy_turn_complete", self, "_on_CombatScreen_enemy_turn_complete")
 
 func start_targeting(_active_move_data):
 	self.active_move_data = _active_move_data

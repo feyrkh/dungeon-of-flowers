@@ -10,7 +10,6 @@ signal player_move_selected(combat_data, target_enemy, move_data)
 
 signal enemy_move_selected(combat_data, move_data)
 signal enemy_move_complete(combat_data, move_data)
-signal enemy_turn_complete(combat_data)
 signal log_msg(msg)
 signal allies_win(combat_data)
 signal allies_lose(combat_data)
@@ -37,6 +36,7 @@ onready var MinigameContainer = find_node("MinigameContainer")
 onready var allies = [find_node("Ally1"), find_node("Ally2"), find_node("Ally3")]
 onready var AllyPortraits = find_node("AllyPortraits")
 onready var BulletContainer = find_node("BulletContainer")
+onready var ShieldContainer = find_node("ShieldContainer")
 
 var selected_ally_idx = 0
 var selected_category_idx = 0
@@ -64,6 +64,7 @@ func _ready():
 	CombatMgr.connect("new_bullet", self, "_on_new_bullet")
 	CombatMgr.connect("player_move_complete", self, "_on_CombatScreen_player_move_complete")
 	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
+	CombatMgr.connect("enemy_turn_complete", self, "_on_CombatScreen_enemy_turn_complete")
 	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
 
 func _process(delta):
@@ -209,7 +210,7 @@ func _on_CombatScreen_start_enemy_turn(_combat_data):
 	CombatMgr.emit_signal("execute_combat_intentions", AllyPortraits.get_live_allies(), Enemies.get_live_enemies())
 	while !check_enemy_turn_over():
 		yield(get_tree().create_timer(0.5), "timeout")
-	emit_signal("enemy_turn_complete", _combat_data)
+	CombatMgr.emit_signal("enemy_turn_complete", _combat_data)
 
 func _on_CombatScreen_enemy_turn_complete(_combat_data):
 	print("_on_CombatScreen_enemy_turn_complete")

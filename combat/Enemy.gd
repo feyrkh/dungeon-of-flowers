@@ -4,10 +4,6 @@ class_name Enemy
 const Weakspot = preload("res://combat/Weakspot.tscn")
 const DamageFloater = preload("res://combat/DamageFloater.tscn")
 
-const INTENTION_ATTACK_IMG = "res://art_exports/ui_HUD/ui_HUD_icon_fight.png"
-const INTENTION_DEFEND_IMG = "res://art_exports/ui_HUD/ui_HUD_icon_defend.png"
-const INTENTION_UNKNOWN_IMG = "res://art_exports/ui_HUD/ui_HUD_icon_item.png"
-
 signal target_button_pressed
 signal target_button_entered
 signal target_button_exited
@@ -27,7 +23,7 @@ func is_alive():
 func damage_hp(amt):
 	self.data.hp -= amt
 	print(data.label + " has "+str(data.hp)+" hp left")
-	var floater = DamageFloater.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+	var floater = DamageFloater.instance()
 	floater.set_damage(round(amt))
 	add_child(floater)
 	if amt > 0:
@@ -35,14 +31,7 @@ func damage_hp(amt):
 
 func decide_enemy_action():
 	intention = data.get_next_intention()
-	var intention_texture = INTENTION_UNKNOWN_IMG
-	match intention.get("type"):
-		"attack": 
-			intention_texture = INTENTION_ATTACK_IMG
-		"defend": 
-			intention_texture = INTENTION_DEFEND_IMG
-	IntentionIcon.visible = true
-	IntentionIcon.texture = load(intention_texture)
+	IntentionIcon.setup(self, intention)
 
 func check_death():
 	if self.data.hp <= 0:

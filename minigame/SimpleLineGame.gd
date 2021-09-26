@@ -76,7 +76,7 @@ func setupGame():
 	marker = get_node(markerPath)
 
 	for successLineData in config["success_zones"]:
-		var successLine:Line2D = SuccessLine.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+		var successLine:Line2D = SuccessLine.instance()
 		successLineContainer.add_child(successLine)
 		var successLineWidth = successLineData["width"]
 		var successLineOffset = dangerLineLength * successLineData["position"]
@@ -177,7 +177,7 @@ func processWrapRightMove(delta):
 	newMarkerX = min(dangerLine.points[-1].x, newMarkerX)
 	moveMarkerTo(newMarkerX)
 	if newMarkerX == dangerLine.points[-1].x:
-		emit_signal("minigame_complete", self)
+		end_game()
 		#moveMarkerTo(dangerLine.points[0].x)
 	
 func getPowerText(powerLevel):

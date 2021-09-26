@@ -24,6 +24,6 @@ func get_attack_scene(enemy):
 	if !game_prefab:
 		printerr("Missing minigame scene: ", game_scene)
 		game_prefab = MINIGAMES.get("simpleLineGame")
-	var scene = game_prefab.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+	var scene = game_prefab.instance()
 	scene.set_minigame_config(game_config)
 	return scene

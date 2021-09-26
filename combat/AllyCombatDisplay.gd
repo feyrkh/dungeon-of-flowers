@@ -25,9 +25,19 @@ func setup(_ally_data:AllyData):
 	AllyPortrait.setup(ally_data)
 	AllyPortrait.updateLabels()
 	CombatIcons.setup(ally_data)
+	CombatMgr.connect("player_turn_complete", self, "_on_CombatScreen_player_turn_complete")
+	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
+	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
 
 func _ready():
 	CombatIcons.categories.append(find_node("IconStatus"))
+
+func get_target(target_scatter):
+	var half_size = self.rect_size/2
+	var target = self.rect_global_position + half_size
+	if target_scatter > 0:
+		target += (self.rect_size*randf() - half_size)*target_scatter
+	return target
 
 func combat_mode():
 	FadeContainer.modulate = selected_color
@@ -39,6 +49,9 @@ func explore_mode():
 	FadeContainer.modulate = selected_color
 	rect_position = default_position
 	find_node("IconStatus").visible = false
+
+func is_alive():
+	return ally_data.hp > 0
 
 func deselect():
 	AllyPortrait.deselect()

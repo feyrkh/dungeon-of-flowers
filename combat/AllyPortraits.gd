@@ -22,3 +22,10 @@ func explore_mode():
 func update_labels():
 	for ally in Allies:
 		ally.update_labels()
+
+func get_live_allies():
+	var result = []
+	for ally in Allies:
+		if ally.is_alive():
+			result.append(ally)
+	return result

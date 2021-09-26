@@ -215,6 +215,7 @@ music_toggle={
 
 [layer_names]
 
+2d_physics/layer_1="bullets"
 3d_physics/layer_1="can_move"
 3d_physics/layer_2="wall_metadata"
 

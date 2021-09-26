@@ -6,11 +6,8 @@ const STATUS_CATEGORY = 4
 var combat_data : CombatData
 
 signal start_combat(combat_data)
-signal start_player_turn(combat_data)
-signal start_enemy_turn(combat_data)
 signal player_move_selected(combat_data, target_enemy, move_data)
-signal player_move_complete(combat_data)
-signal player_turn_complete(combat_data)
+
 signal enemy_move_selected(combat_data, move_data)
 signal enemy_move_complete(combat_data, move_data)
 signal enemy_turn_complete(combat_data)
@@ -39,6 +36,7 @@ onready var Enemies = find_node("Enemies")
 onready var MinigameContainer = find_node("MinigameContainer")
 onready var allies = [find_node("Ally1"), find_node("Ally2"), find_node("Ally3")]
 onready var AllyPortraits = find_node("AllyPortraits")
+onready var BulletContainer = find_node("BulletContainer")
 
 var selected_ally_idx = 0
 var selected_category_idx = 0
@@ -63,6 +61,10 @@ func _ready():
 	emit_signal('start_combat', combat_data)
 	EventBus.connect("cancel_submenu", self, "_on_Ally_cancel_submenu")
 	EventBus.connect("select_submenu_item", self, "_on_Ally_select_submenu_item")
+	CombatMgr.connect("new_bullet", self, "_on_new_bullet")
+	CombatMgr.connect("player_move_complete", self, "_on_CombatScreen_player_move_complete")
+	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
+	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
 
 func _process(delta):
 	if input_delayed > 0:
@@ -165,11 +167,12 @@ func mock_combat_data():
 	return cd
 
 func _on_CombatScreen_start_combat(_combat_data):
+	print("_on_CombatScreen_start_combat")
 	# todo: surprise attacks, screen effects
 	#playerInput.visible = false
 	#playerSprite.visible = false
 	yield(get_tree().create_timer(1.0), "timeout")
-	emit_signal("start_player_turn", _combat_data)
+	CombatMgr.emit_signal("start_player_turn", _combat_data)
 
 
 func _on_CombatScreen_start_player_turn(_combat_data):
@@ -187,8 +190,8 @@ func _on_CombatScreen_player_move_complete(_combat_data):
 	if check_combat_over():
 		return
 	if check_player_turn_over():
-		emit_signal("player_turn_complete", _combat_data)
-		emit_signal("start_enemy_turn", _combat_data)
+		CombatMgr.emit_signal("player_turn_complete", _combat_data)
+		CombatMgr.emit_signal("start_enemy_turn", _combat_data)
 	else:
 		cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
 		select_next_char(1)
@@ -201,16 +204,25 @@ func check_player_turn_over():
 	return true
 
 func _on_CombatScreen_start_enemy_turn(_combat_data):
-	print("log_msg", "The enemy is confused...")
-	yield(get_tree().create_timer(2), "timeout")
-	print("log_msg", "The enemy just stands there!")
+	print("_on_CombatScreen_start_enemy_turn")
+	yield(get_tree().create_timer(1), "timeout")
+	CombatMgr.emit_signal("execute_combat_intentions", AllyPortraits.get_live_allies(), Enemies.get_live_enemies())
+	while !check_enemy_turn_over():
+		yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("enemy_turn_complete", _combat_data)
 
 func _on_CombatScreen_enemy_turn_complete(_combat_data):
+	print("_on_CombatScreen_enemy_turn_complete")
 	yield(get_tree().create_timer(0.5), "timeout")
 	if check_combat_over():
 		return
-	emit_signal("start_player_turn", _combat_data)
+	CombatMgr.emit_signal("start_player_turn", _combat_data)
+
+func check_enemy_turn_over():
+	if enemies_all_dead():
+		return true
+	var bullets = get_tree().get_nodes_in_group("bullets")
+	return bullets.size() <= 0
 
 func check_combat_over():
 	print("check_combat_over")
@@ -223,16 +235,19 @@ func check_combat_over():
 	return false
 
 func _on_Ally_select_submenu_item(submenu, move_data):
+	print("_on_Ally_select_submenu_item")
 	active_submenu = submenu
 	cur_input_phase = InputPhase.PLAYER_SELECT_TARGET
 	allies[selected_ally_idx].on_targeting_started(move_data)
 	Enemies.start_targeting(move_data)
 
 func _on_Enemies_target_cancelled():
+	print("_on_Enemies_target_cancelled")
 	active_submenu.on_targeting_cancelled()
 	allies[selected_ally_idx].on_targeting_cancelled()
 	
 func _on_Enemies_single_enemy_target_complete(target_enemy, move_data):
+	print("_on_Enemies_single_enemy_target_complete")
 	active_submenu.on_targeting_completed()
 	allies[selected_ally_idx].on_targeting_completed()
 	emit_signal("player_move_selected", combat_data, target_enemy, move_data)
@@ -254,4 +269,7 @@ func _on_minigame_complete(minigame_scene):
 	if is_instance_valid(minigame_scene):
 		minigame_scene.queue_free()
 	MinigameContainer.visible = false
-	emit_signal("player_move_complete", combat_data)
+	CombatMgr.emit_signal("player_move_complete", combat_data)
+
+func _on_new_bullet(bullet):
+	BulletContainer.add_child(bullet)

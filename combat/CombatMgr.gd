@@ -7,6 +7,13 @@ signal combat_start
 signal combat_end
 signal game_end
 signal enemy_dead(enemy)
+signal execute_combat_intentions(allies, enemies)
+signal new_bullet(bullet)
+
+signal player_move_complete(combat_data)
+signal player_turn_complete(combat_data)
+signal start_enemy_turn(combat_data)
+signal start_player_turn(combat_data)
 
 var player
 var dungeon
@@ -22,11 +29,11 @@ func register(_player, _dungeon):
 func trigger_combat(combatConfig):
 	print("Starting combat: ", combatConfig)
 	emit_signal("combat_start")
-	var fader = PixelFader.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+	var fader = PixelFader.instance()
 	dungeon.Fader.add_child(fader)
 	fader.fade_out(fade_amt, 1)
 	yield(fader, "fade_complete")
-	combat = CombatScreen.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+	combat = CombatScreen.instance()
 	combat.combat_data = null # TODO: keep track of combat data
 	dungeon.Combat.add_child(combat)
 	fader.fade_in(fade_amt, 1)
@@ -36,7 +43,7 @@ func trigger_combat(combatConfig):
 	combat.connect("allies_lose", self, "_on_allies_lose")
 
 func close_combat():
-	var fader = PixelFader.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+	var fader = PixelFader.instance()
 	dungeon.Fader.add_child(fader)
 	fader.fade_out(fade_amt, 1)
 	combat.queue_free()

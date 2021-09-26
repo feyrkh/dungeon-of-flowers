@@ -20,5 +20,8 @@ func get_next_intention():
 		"base_damage": 0.5,
 		"attacks": 10,
 		"attacks_per_pulse": 1,
-		"switch_target_chance": 0.2
+		"target_scatter": 0,
+		"target_change_chance": 0.2,
+		"origin_scatter": 0,
+		"origin_change_chance": 1,
 	}

@@ -83,7 +83,7 @@ func process_map(file):
 		var x = 0
 		for c in content:
 			if c == "@":
-				player = Player.instance(0)
+				player = Player.instance()
 				player.transform.origin = Vector3(3*x, 0, 3*z)
 				#player.transform = player.transform.rotated(Vector3.UP, deg2rad(90))
 				add_child(player)
@@ -94,7 +94,7 @@ func process_map(file):
 				printerr("Undefined tile character in "+dungeon_file+" at ("+x+","+z+") '"+c+"'")
 				x += 1
 				continue
-			var tile:Spatial = tileScene.instance(0)
+			var tile:Spatial = tileScene.instance()
 			add_child(tile)
 			tile.transform.origin = Vector3(3*x, 0, 3*z) 
 			if tile.is_in_group("rotated"):

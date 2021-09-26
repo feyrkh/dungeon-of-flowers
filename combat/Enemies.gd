@@ -21,13 +21,14 @@ var active_move_data
 
 func _ready():
 	for enemy_pos in EnemyImages.get_children():
-		var marker = TargetMarker.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+		var marker = TargetMarker.instance()
 		marker.rect_position = enemy_pos.global_position
 		marker.rect_rotation = 180
 		marker.visible = false
 		TargetIcons.add_child(marker)
 		enemy_pos.set_target_marker(marker)
 	set_process(false)
+	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
 
 func start_targeting(_active_move_data):
 	self.active_move_data = _active_move_data
@@ -154,7 +155,7 @@ func decide_enemy_actions():
 func get_live_enemies():
 	var enemies = []
 	for pos in EnemyImages.get_children():
-		if pos.enemy != null and pos.enemy.is_alive():
+		if pos.enemy != null and is_instance_valid(pos.enemy) and pos.enemy.is_alive():
 			enemies.append(pos.enemy)
 	return enemies
 

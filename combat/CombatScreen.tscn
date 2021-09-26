@@ -11,6 +11,8 @@ script = ExtResource( 1 )
 
 [node name="AllyPortraits" parent="." instance=ExtResource( 4 )]
 
+[node name="BulletContainer" type="Node2D" parent="."]
+
 [node name="MinigameContainer" type="CenterContainer" parent="."]
 visible = false
 margin_top = 680.0
@@ -32,11 +34,7 @@ color = Color( 0.341176, 0.341176, 0.341176, 1 )
 
 [connection signal="enemy_turn_complete" from="." to="Enemies" method="_on_CombatScreen_enemy_turn_complete"]
 [connection signal="enemy_turn_complete" from="." to="." method="_on_CombatScreen_enemy_turn_complete"]
-[connection signal="player_move_complete" from="." to="." method="_on_CombatScreen_player_move_complete"]
 [connection signal="player_move_selected" from="." to="." method="_on_CombatScreen_player_move_selected"]
 [connection signal="start_combat" from="." to="." method="_on_CombatScreen_start_combat"]
-[connection signal="start_enemy_turn" from="." to="Enemies" method="_on_CombatScreen_start_enemy_turn"]
-[connection signal="start_enemy_turn" from="." to="." method="_on_CombatScreen_start_enemy_turn"]
-[connection signal="start_player_turn" from="." to="." method="_on_CombatScreen_start_player_turn"]
 [connection signal="single_enemy_target_complete" from="Enemies" to="." method="_on_Enemies_single_enemy_target_complete"]
 [connection signal="target_cancelled" from="Enemies" to="." method="_on_Enemies_target_cancelled"]

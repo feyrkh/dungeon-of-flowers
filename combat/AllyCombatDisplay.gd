@@ -23,7 +23,7 @@ var exhausted = false
 func setup(_ally_data:AllyData):
 	self.ally_data = _ally_data
 	AllyPortrait.setup(ally_data)
-	AllyPortrait.updateLabels()
+	AllyPortrait.update_labels()
 	CombatIcons.setup(ally_data)
 
 func _ready():
@@ -133,3 +133,4 @@ func _on_Ally_cancel_submenu():
 
 func _on_BulletStrikeArea_body_entered(bullet):
 	ally_data.take_damage(bullet.get_damage())
+	bullet.ally_strike(ally_data)

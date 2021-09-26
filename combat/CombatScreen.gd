@@ -284,5 +284,5 @@ func _on_new_bullet(bullet):
 func _on_attack_bullet_block():
 	AudioPlayerPool.play(bullet_block_sfx)
 
-func _on_attack_bullet_strike():
+func _on_attack_bullet_strike(ally_data):
 	AudioPlayerPool.play(bullet_strike_sfx)

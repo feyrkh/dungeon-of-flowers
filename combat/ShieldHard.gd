@@ -1,8 +1,8 @@
 extends Node2D
 
 const SCREEN_WIDTH = 1920
-const NORMAL_VELOCITY = 150
-const SPRINT_VELOCITY = 300
+const NORMAL_VELOCITY = 200
+const SPRINT_VELOCITY = 400
 
 func setup(ally, shield_data):
 	global_position = ally.get_target(0) + shield_data.get("pos", Vector2.ZERO)

@@ -41,6 +41,11 @@ func shield_block(shield):
 	velocity.y = -velocity.y
 	rot_velocity = 600 - rand_range(0, 1200)
 	fade_velocity = 1.0
+
+func ally_strike(ally_data):
+	self.velocity = Vector2.ZERO
+	self.blocked = true
+	self.fade_velocity = 1
 	
 func get_damage():
 	return damage

@@ -50,7 +50,7 @@ func mock_pharoah():
 	ally.label = "Imhotep"
 	ally.className = "Pharoah"
 	ally.max_hp = 100
-	ally.hp = 80
+	ally.hp = 100
 	ally.sp = 20
 	ally.max_sp = 20
 	ally.texture = load("res://img/hero1.png")
@@ -68,7 +68,7 @@ func mock_shantae():
 	ally.label = "Shantae"
 	ally.className = "Half Genie"
 	ally.max_hp = 100
-	ally.hp = 80
+	ally.hp = 100
 	ally.sp = 20
 	ally.max_sp = 20
 	ally.texture = load("res://img/hero3.jpg")
@@ -86,7 +86,7 @@ func mock_vega():
 	ally.label = "Vega"
 	ally.className = "Street Fighter"
 	ally.max_hp = 100
-	ally.hp = 80
+	ally.hp = 100
 	ally.sp = 20
 	ally.max_sp = 20
 	ally.texture = load("res://img/hero4.jpg")

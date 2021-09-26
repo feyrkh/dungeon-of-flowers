@@ -13,8 +13,9 @@ var ally_data:AllyData
 func setup(_ally_data:AllyData):
 	self.ally_data = _ally_data
 	Portrait.texture = ally_data.texture
+	EventBus.connect("ally_status_updated", self, "_on_ally_status_updated")
 
-func updateLabels():
+func update_labels():
 	HpLabel.text = str(ally_data.hp) + "/" + str(ally_data.max_hp)
 	SpLabel.text = str(ally_data.sp) + "/" + str(ally_data.max_sp)
 	HpFill.rect_scale.x = float(ally_data.hp) / float(ally_data.max_hp)
@@ -25,3 +26,8 @@ func deselect():
 
 func select():
 	PortraitSelected.visible = true
+
+func _on_ally_status_updated(_ally_data):
+	if self.ally_data != _ally_data:
+		return
+	update_labels()

@@ -23,34 +23,34 @@ __meta__ = {
 }
 
 [node name="EnemyPos0" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 870.793, 573.564 )
+position = Vector2( 868.793, 381.564 )
 
 [node name="EnemyPos1" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 488.793, 575.564 )
+position = Vector2( 486.793, 383.564 )
 
 [node name="EnemyPos2" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 1280.79, 575.564 )
+position = Vector2( 1278.79, 383.564 )
 
 [node name="EnemyPos3" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 154.793, 571.564 )
+position = Vector2( 152.793, 379.564 )
 
 [node name="EnemyPos4" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 1672.79, 575.564 )
+position = Vector2( 1670.79, 383.564 )
 
 [node name="EnemyPos5" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 598.793, 263.564 )
+position = Vector2( 594.793, 199.564 )
 
 [node name="EnemyPos6" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 1028.79, 263.564 )
+position = Vector2( 1024.79, 199.564 )
 
 [node name="EnemyPos7" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 220.793, 263.564 )
+position = Vector2( 216.793, 199.564 )
 
 [node name="EnemyPos8" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 1426.79, 265.564 )
+position = Vector2( 1422.79, 201.564 )
 
 [node name="EnemyPos9" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 1768.79, 257.564 )
+position = Vector2( 1764.79, 193.564 )
 
 [node name="TargetIcons" type="Node2D" parent="."]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_fight.png" type="Texture" id=1]
 [ext_resource path="res://combat/CombatIcons.tscn" type="PackedScene" id=2]
@@ -12,6 +12,9 @@
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_status.png" type="Texture" id=15]
 [ext_resource path="res://combat/StatusIcon.gd" type="Script" id=16]
 [ext_resource path="res://combat/TargetMarker.tscn" type="PackedScene" id=19]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 217.515, 58.9229 )
 
 [node name="AllyCombatDisplay" type="Control"]
 script = ExtResource( 10 )
@@ -130,5 +133,13 @@ valign = 1
 [node name="TargetArea" type="Position2D" parent="."]
 position = Vector2( 231, 71 )
 
+[node name="BulletStrikeArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BulletStrikeArea"]
+position = Vector2( 233.085, 70.5556 )
+shape = SubResource( 1 )
+
 [connection signal="cancel_submenu" from="FadeContainer/Submenu" to="." method="_on_Submenu_cancel_submenu"]
 [connection signal="select_submenu_item" from="FadeContainer/Submenu" to="." method="_on_Submenu_select_submenu_item"]
+[connection signal="body_entered" from="BulletStrikeArea" to="." method="_on_BulletStrikeArea_body_entered"]

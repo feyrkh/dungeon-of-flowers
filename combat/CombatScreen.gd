@@ -3,6 +3,9 @@ extends Node2D
 const SkillButton = preload("res://combat/SkillButton.tscn")
 const STATUS_CATEGORY = 4
 
+const bullet_block_sfx = preload("res://sound/mixkit-metallic-sword-strike-2160.wav")
+const bullet_strike_sfx = preload("res://sound/mixkit-sword-cutting-flesh-2788.wav")
+
 var combat_data : CombatData
 
 signal start_combat(combat_data)
@@ -68,6 +71,7 @@ func _ready():
 	CombatMgr.connect("enemy_turn_complete", self, "_on_CombatScreen_enemy_turn_complete")
 	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
 	CombatMgr.connect("attack_bullet_block", self, "_on_attack_bullet_block")
+	CombatMgr.connect("attack_bullet_strike", self, "_on_attack_bullet_strike")
 
 func _process(delta):
 	if input_delayed > 0:
@@ -278,4 +282,7 @@ func _on_new_bullet(bullet):
 	BulletContainer.add_child(bullet)
 
 func _on_attack_bullet_block():
-	pass
+	AudioPlayerPool.play(bullet_block_sfx)
+
+func _on_attack_bullet_strike():
+	AudioPlayerPool.play(bullet_strike_sfx)

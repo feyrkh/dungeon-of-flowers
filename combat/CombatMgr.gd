@@ -10,6 +10,7 @@ signal enemy_dead(enemy)
 signal execute_combat_intentions(allies, enemies)
 signal new_bullet(bullet)
 signal attack_bullet_block()
+signal attack_bullet_strike(ally_data)
 
 signal player_move_complete(combat_data)
 signal player_turn_complete(combat_data)

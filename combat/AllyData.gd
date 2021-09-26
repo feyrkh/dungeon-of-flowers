@@ -22,3 +22,7 @@ func get_moves(move_type:String):
 
 func get_shields():
 	return shields
+
+func take_damage(amt, type="physical"):
+	hp -= amt
+	CombatMgr.emit_signal("attack_bullet_strike", self)

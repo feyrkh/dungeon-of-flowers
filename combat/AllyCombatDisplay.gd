@@ -129,3 +129,7 @@ func _on_CombatScreen_player_turn_complete(combat_data):
 
 func _on_Ally_cancel_submenu():
 	pass # Replace with function body.
+
+
+func _on_BulletStrikeArea_body_entered(bullet):
+	ally_data.take_damage(bullet.get_damage())

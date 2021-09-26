@@ -37,6 +37,7 @@ onready var allies = [find_node("Ally1"), find_node("Ally2"), find_node("Ally3")
 onready var AllyPortraits = find_node("AllyPortraits")
 onready var BulletContainer = find_node("BulletContainer")
 onready var ShieldContainer = find_node("ShieldContainer")
+onready var AudioPlayerPool = find_node("AudioPlayerPool")
 
 var selected_ally_idx = 0
 var selected_category_idx = 0
@@ -66,6 +67,7 @@ func _ready():
 	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
 	CombatMgr.connect("enemy_turn_complete", self, "_on_CombatScreen_enemy_turn_complete")
 	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
+	CombatMgr.connect("attack_bullet_block", self, "_on_attack_bullet_block")
 
 func _process(delta):
 	if input_delayed > 0:
@@ -274,3 +276,6 @@ func _on_minigame_complete(minigame_scene):
 
 func _on_new_bullet(bullet):
 	BulletContainer.add_child(bullet)
+
+func _on_attack_bullet_block():
+	pass

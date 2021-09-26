@@ -22,5 +22,5 @@ func _on_execute_combat_intentions(allies, enemies):
 
 func _on_enemy_turn_complete(_combat_data):
 	for child in get_children():
-		visible = false
-		queue_free()
+		child.visible = false
+		child.queue_free()

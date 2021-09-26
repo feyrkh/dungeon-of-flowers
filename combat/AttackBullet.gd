@@ -4,6 +4,7 @@ var damage = 0.5
 var piercing = false
 var velocity
 var lifetime
+var blocked = false
 
 func setup(base_damage:float, intention_source, origin:Vector2, target:Vector2, reach_center_seconds:float, _lifetime:float):
 	rotation = origin.angle_to_point(target)
@@ -23,3 +24,11 @@ func _process(delta):
 		print("finishing at ", self.global_position)
 		queue_free()
 	self.global_position += velocity*delta
+
+func shield_block(shield):
+	if blocked: 
+		return
+	blocked = true
+	CombatMgr.emit_signal("attack_bullet_block")
+	velocity.y = -velocity.y
+	

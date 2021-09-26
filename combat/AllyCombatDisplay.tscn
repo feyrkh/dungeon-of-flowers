@@ -127,5 +127,8 @@ text = "attack"
 align = 1
 valign = 1
 
+[node name="TargetArea" type="Position2D" parent="."]
+position = Vector2( 231, 71 )
+
 [connection signal="cancel_submenu" from="FadeContainer/Submenu" to="." method="_on_Submenu_cancel_submenu"]
 [connection signal="select_submenu_item" from="FadeContainer/Submenu" to="." method="_on_Submenu_select_submenu_item"]

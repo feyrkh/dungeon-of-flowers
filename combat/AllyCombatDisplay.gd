@@ -10,7 +10,7 @@ onready var default_position = rect_position
 onready var selected_position = rect_position - Vector2(0, 20)
 onready var exhausted_position = rect_position - Vector2(0, -20)
 onready var category_zoom_icons = [find_node("IconZoomFight"), find_node("IconZoomSkill"), find_node("IconZoomDefend"), find_node("IconZoomItem")]
-
+onready var TargetArea:Position2D = find_node("TargetArea")
 export(Color) var selected_color = Color.white
 export(Color) var deselected_color = Color(0.9, 0.9, 0.9)
 export(Color) var exhausted_color = Color(0.7, 0.7, 0.7)
@@ -25,18 +25,18 @@ func setup(_ally_data:AllyData):
 	AllyPortrait.setup(ally_data)
 	AllyPortrait.updateLabels()
 	CombatIcons.setup(ally_data)
+
+func _ready():
+	CombatIcons.categories.append(find_node("IconStatus"))
 	CombatMgr.connect("player_turn_complete", self, "_on_CombatScreen_player_turn_complete")
 	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
 	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
 
-func _ready():
-	CombatIcons.categories.append(find_node("IconStatus"))
-
 func get_target(target_scatter):
-	var half_size = self.rect_size/2
-	var target = self.rect_global_position + half_size
+	var half_size = 180
+	var target = TargetArea.global_position
 	if target_scatter > 0:
-		target += (self.rect_size*randf() - half_size)*target_scatter
+		target.x += (half_size*2*randf() - half_size)*target_scatter
 	return target
 
 func combat_mode():

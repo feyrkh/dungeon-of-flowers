@@ -34,9 +34,9 @@ func _ready():
 	CombatMgr.connect("execute_combat_intentions", self, "on_execute_combat_intentions")
 	set_process(false)
 
-func setup(enemy, intention):
-	self.enemy = enemy
-	self.intention = intention
+func setup(_enemy, _intention):
+	self.enemy = _enemy
+	self.intention = _intention
 	var intention_texture = INTENTION_UNKNOWN_IMG
 	match intention.get("type"):
 		"attack": 
@@ -86,16 +86,16 @@ func select_target():
 		print(enemy.data.label, " targeting ", ally.ally_data.label)
 		target = ally.get_target(target_scatter)
 
-func on_execute_combat_intentions(allies, enemies):
+func on_execute_combat_intentions(_allies, _enemies):
 	print(self, ": Executing intention: ", intention)
 	self.add_to_group("bullets")
 	match intention.get("type"):
 		"attack": 
-			perform_attack(allies, enemies)
+			perform_attack(_allies, _enemies)
 
-func perform_attack(allies, enemies):
-	self.allies = allies
-	self.enemies = enemies
+func perform_attack(_allies, _enemies):
+	self.allies = _allies
+	self.enemies = _enemies
 	base_damage = intention.get("base_damage", 0.5)
 	attacks = intention.get("attacks", 1)
 	attacks_per_pulse = max(1, intention.get("attacks_per_pulse", 1))

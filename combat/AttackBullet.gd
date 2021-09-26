@@ -6,6 +6,7 @@ var velocity
 var lifetime
 
 func setup(base_damage:float, intention_source, origin:Vector2, target:Vector2, reach_center_seconds:float, lifetime:float):
+	rotation = origin.angle_to_point(target)
 	self.damage = base_damage
 	self.global_position = origin
 	self.velocity = (target - origin)/reach_center_seconds

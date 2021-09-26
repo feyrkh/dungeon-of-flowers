@@ -173,17 +173,12 @@ func _on_CombatScreen_start_combat(_combat_data):
 
 
 func _on_CombatScreen_start_player_turn(_combat_data):
-	emit_signal("log_msg", "It's "+_combat_data.get_current_ally().label+"'s turn!")
+	print("_on_CombatScreen_start_player_turn")
 	cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
 	selected_ally_idx = 0
 	allies[selected_ally_idx].select(selected_category_idx)
-	#playerInput.visible = true
-	#playerSprite.visible = true
 	selected_skill = null
-	#playerSprite.find_node("PlayerPulser").start()
-	#render_ally_moves(_combat_data)
-	#highlight_targeted_enemy()
-	#enable_enemy_targeting()
+	Enemies.decide_enemy_actions()
 
 func _on_CombatScreen_player_move_complete(_combat_data):
 	print("_on_CombatScreen_player_move_complete")

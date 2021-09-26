@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://minigame/SimpleLineGame.gd" type="Script" id=1]
+[ext_resource path="res://sound/combat-strike.mp3" type="AudioStream" id=2]
 
 [node name="SimpleLineGame" type="Node2D"]
 script = ExtResource( 1 )
@@ -29,3 +30,7 @@ default_color = Color( 0.992157, 1, 0, 1 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="StrikePlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+pitch_scale = 4.0

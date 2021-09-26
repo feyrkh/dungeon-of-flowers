@@ -120,6 +120,7 @@ func add_enemy(enemyData):
 	var enemy = Enemy.instance(1)
 	enemy.setup(enemyData)
 	var posNode = find_node("EnemyPos"+str(positionIdx))
+	posNode.set_enemy(enemy)
 	posNode.add_child(enemy)
 	positionIdx += 1
 	enemy.connect("target_button_entered", self, "_on_Enemy_target_button_entered", [enemy, enemyData])
@@ -145,6 +146,17 @@ func render_enemies(enemies):
 		elif counter > 1:
 			enemyNamesList += ", "
 
+func decide_enemy_actions():
+	var enemies = get_live_enemies()
+	for enemy in enemies:
+		enemy.decide_enemy_action()
+
+func get_live_enemies():
+	var enemies = []
+	for pos in EnemyImages.get_children():
+		if pos.enemy != null and pos.enemy.is_alive():
+			enemies.append(pos.enemy)
+	return enemies
 
 func _on_CombatScreen_start_enemy_turn(combat_data):
 	$Bouncer.running = true

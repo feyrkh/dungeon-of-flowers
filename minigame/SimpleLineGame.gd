@@ -31,6 +31,7 @@ export(NodePath) var markerPath
 onready var dangerLine:Line2D = get_node("DangerLine")
 onready var marker:Line2D = find_node("Marker")
 onready var successLineContainer:Node = find_node("SuccessLines")
+onready var StrikePlayer:AudioStreamPlayer = find_node("StrikePlayer")
 
 var config:Dictionary
 var strikes_made:int = 0
@@ -100,7 +101,11 @@ func _unhandled_key_input(event):
 	if event.is_action_pressed("ui_accept"):
 		strike_delay = config.get("strike_delay", 0)
 		strikes_made += 1
-		var successLevel = getBestSuccessZoneLevel() * config.get("base_damage", 1)
+		var bestSuccessZone = getBestSuccessZoneLevel()
+		StrikePlayer.pitch_scale = min(4, max(0.01, 1/max(0.01, bestSuccessZone)))
+		print("Strike sound pitch: ", StrikePlayer.pitch_scale)
+		StrikePlayer.play()
+		var successLevel = bestSuccessZone * config.get("base_damage", 1)
 		emit_signal("minigame_success", successLevel)
 		print("Minigame result: "+str(successLevel))
 		#setupGame()

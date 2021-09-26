@@ -4,12 +4,19 @@ class_name Enemy
 const Weakspot = preload("res://combat/Weakspot.tscn")
 const DamageFloater = preload("res://combat/DamageFloater.tscn")
 
+const INTENTION_ATTACK_IMG = "res://art_exports/ui_HUD/ui_HUD_icon_fight.png"
+const INTENTION_DEFEND_IMG = "res://art_exports/ui_HUD/ui_HUD_icon_defend.png"
+const INTENTION_UNKNOWN_IMG = "res://art_exports/ui_HUD/ui_HUD_icon_item.png"
+
 signal target_button_pressed
 signal target_button_entered
 signal target_button_exited
 
 onready var sprite = find_node('Sprite')
+onready var IntentionIcon = find_node("IntentionIcon")
+
 var data : EnemyData
+var intention
 
 func setup(_data:EnemyData):
 	self.data = _data
@@ -25,6 +32,17 @@ func damage_hp(amt):
 	add_child(floater)
 	if amt > 0:
 		Util.shake(self, 0.2, 20, self, "check_death")
+
+func decide_enemy_action():
+	intention = data.get_next_intention()
+	var intention_texture = INTENTION_UNKNOWN_IMG
+	match intention.get("type"):
+		"attack": 
+			intention_texture = INTENTION_ATTACK_IMG
+		"defend": 
+			intention_texture = INTENTION_DEFEND_IMG
+	IntentionIcon.visible = true
+	IntentionIcon.texture = load(intention_texture)
 
 func check_death():
 	if self.data.hp <= 0:

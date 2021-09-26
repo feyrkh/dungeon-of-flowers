@@ -15,8 +15,8 @@ var fading = false
 var music_positions = {}
 var cur_playing_file = ""
 var next_playing_file
-var fade_up_per_sec
-var fade_down_per_sec
+var fade_up_per_sec = 0
+var fade_down_per_sec = 0
 
 var volume_adjustment = 0
 var expected_next_volume = 0

@@ -13,3 +13,12 @@ func _init(_name:String, _max_hp:int, _img:Texture, _weakspot_offsets:Array):
 	self.hp = _max_hp
 	self.weakspot_offsets = weakspot_offsets
 	self.img = _img
+
+func get_next_intention():
+	return {
+		"type": "attack",
+		"base_damage": 0.5,
+		"attacks": 10,
+		"attacks_per_pulse": 1,
+		"switch_target_chance": 0.2
+	}

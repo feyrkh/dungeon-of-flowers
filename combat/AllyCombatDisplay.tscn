@@ -140,6 +140,9 @@ collision_layer = 0
 position = Vector2( 233.085, 70.5556 )
 shape = SubResource( 1 )
 
+[node name="DamageContainer" type="Node2D" parent="."]
+position = Vector2( 233.085, 73.0754 )
+
 [connection signal="cancel_submenu" from="FadeContainer/Submenu" to="." method="_on_Submenu_cancel_submenu"]
 [connection signal="select_submenu_item" from="FadeContainer/Submenu" to="." method="_on_Submenu_select_submenu_item"]
 [connection signal="body_entered" from="BulletStrikeArea" to="." method="_on_BulletStrikeArea_body_entered"]

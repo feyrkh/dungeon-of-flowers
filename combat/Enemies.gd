@@ -119,7 +119,7 @@ func add_enemy(enemyData):
 	var positionIdx = 0
 	while find_node("EnemyPos"+str(positionIdx)).get_child_count() != 0:
 		positionIdx += 1
-	var enemy = Enemy.instance(1)
+	var enemy = Enemy.instance()
 	enemy.setup(enemyData)
 	var posNode = find_node("EnemyPos"+str(positionIdx))
 	posNode.set_enemy(enemy)

@@ -1,6 +1,7 @@
 extends Node
 
 export(int) var max_players_in_pool = 10
+const volume_reduction = 10
 
 var players = []
 
@@ -10,7 +11,7 @@ func _ready():
 func play(stream_file, volume=0, pitch=1.0):
 	var player:AudioStreamPlayer = get_first_free_player()
 	player.pitch_scale = pitch
-	player.volume_db = volume
+	player.volume_db = volume - volume_reduction
 	if stream_file is String:
 		player.stream = load(stream_file)
 	else:

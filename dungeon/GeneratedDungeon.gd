@@ -35,12 +35,16 @@ func _ready():
 	for prop in get_property_list():
 		property_types[prop.name] = prop.type
 	var file = File.new()
-	file.open(dungeon_file, File.READ)
+	var err = file.open(dungeon_file, File.READ)
+	if err != 0:
+		printerr(dungeon_file, " : Failed to open dungeon file while loading, got error: ", err)
+		return
 	var content = file.get_line()
 	while content != "map:":
 		process_config_line(content)
 		content = file.get_line()
 	process_map(file)
+	file.close()
 	combat_grace_period_counter = combat_grace_period
 	CombatMgr.register(player, self)
 	MapName.text = map_name

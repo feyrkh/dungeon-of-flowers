@@ -16,14 +16,20 @@ func _ready():
 
 func save_settings():
 	var f = File.new()
-	f.open(settings_file, File.WRITE)
+	var err = f.open(settings_file, File.WRITE)
+	if err != 0:
+		printerr(settings_file, " : Failed to open settings file while saving, got error: ", err)
+		return
 	f.store_var(settings)
 	f.close()
 
 func load_settings():
 	var f = File.new()
 	if f.file_exists(settings_file):
-		f.open(settings_file, File.READ)
+		var err = f.open(settings_file, File.READ)
+		if err != 0:
+			printerr(settings_file, " : Failed to open settings file while loading, got error: ", err)
+			return
 		settings = f.get_var()
 		f.close()
 

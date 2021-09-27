@@ -1,5 +1,7 @@
 extends Control
 
+const DamageIndicator = preload("res://combat/DamageIndicator.tscn")
+
 onready var AllyPortrait:AllyPortrait = find_node("AllyPortrait")
 
 onready var CurrentMoveLabel:Label = find_node("CurrentMoveLabel")
@@ -11,6 +13,7 @@ onready var selected_position = rect_position - Vector2(0, 20)
 onready var exhausted_position = rect_position - Vector2(0, -20)
 onready var category_zoom_icons = [find_node("IconZoomFight"), find_node("IconZoomSkill"), find_node("IconZoomDefend"), find_node("IconZoomItem")]
 onready var TargetArea:Position2D = find_node("TargetArea")
+onready var DamageContainer = find_node("DamageContainer")
 export(Color) var selected_color = Color.white
 export(Color) var deselected_color = Color(0.9, 0.9, 0.9)
 export(Color) var exhausted_color = Color(0.7, 0.7, 0.7)
@@ -134,3 +137,5 @@ func _on_Ally_cancel_submenu():
 func _on_BulletStrikeArea_body_entered(bullet):
 	ally_data.take_damage(bullet.get_damage())
 	bullet.ally_strike(ally_data)
+	#TODO: spawn a DamageIndicator, merge them together after attack finishes
+	

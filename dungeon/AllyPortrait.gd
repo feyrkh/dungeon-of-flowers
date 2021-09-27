@@ -10,10 +10,12 @@ onready var SpFill:TextureRect = find_node("SpFill")
 
 var ally_data:AllyData
 
+func _ready():
+	EventBus.connect("ally_status_updated", self, "_on_ally_status_updated")
+
 func setup(_ally_data:AllyData):
 	self.ally_data = _ally_data
 	Portrait.texture = ally_data.texture
-	EventBus.connect("ally_status_updated", self, "_on_ally_status_updated")
 
 func update_labels():
 	HpLabel.text = str(ally_data.hp) + "/" + str(ally_data.max_hp)

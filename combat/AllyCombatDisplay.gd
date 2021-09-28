@@ -123,6 +123,7 @@ func _on_CombatScreen_start_player_turn(combat_data):
 
 
 func _on_CombatScreen_start_enemy_turn(combat_data):
+	CombatIcons.hide()
 	rect_position = default_position
 	modulate = Color.white
 

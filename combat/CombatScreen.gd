@@ -89,6 +89,9 @@ func process_input():
 			input_select_target()
 
 func input_select_character():
+	if Input.is_action_just_pressed("music_toggle"):
+		CombatMgr.emit_signal("player_turn_complete", combat_data)
+		CombatMgr.emit_signal("start_enemy_turn", combat_data)
 	if Input.is_action_just_pressed("select_prev_char"):
 		select_next_char(-1)
 		input_delayed = UI_DELAY

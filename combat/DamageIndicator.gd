@@ -35,9 +35,10 @@ func reset():
 	DamageLabel.visible = false
 	set_process(false)
 	Util.delete_children(SlashContainer)
+	if ally_data:
+		ally_data.round_stats()
 
 func take_damage(amt):
-	accumulated_damage += amt
 	var slash = DamageIndicatorSlash.instance()
 	SlashContainer.add_child(slash)
 	slash.global_position = slash_target + Vector2(rand_range(-target_extents.x, target_extents.x), rand_range(-target_extents.y, target_extents.y))

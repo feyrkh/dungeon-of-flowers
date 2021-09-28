@@ -3,15 +3,19 @@ class_name AllyData
 
 var label : String
 var className : String
-var hp : int setget set_hp
+var hp : float setget set_hp
 var max_hp : int setget set_max_hp
-var sp : int setget set_sp
+var sp : float setget set_sp
 var max_sp : int setget set_max_sp
 var shields = []
 
 var texture : Texture
 
 var moves : Array # of MoveData
+
+func round_stats():
+	hp = float(int(hp))
+	sp = float(int(sp))
 
 func set_hp(val):
 	hp = val

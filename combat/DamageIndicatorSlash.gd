@@ -27,6 +27,7 @@ func _process(delta):
 func finish_damage():
 	ally_data.hp = ally_data.hp - damage
 	damage_indicator.count_damage(damage)
+	damage = 0
 	queue_free()
 
 func set_damage(amt):

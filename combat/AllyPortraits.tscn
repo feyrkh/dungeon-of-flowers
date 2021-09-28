@@ -12,9 +12,9 @@ __meta__ = {
 }
 
 [node name="Ally1" parent="." instance=ExtResource( 2 )]
-margin_left = 219.0
+margin_left = 155.0
 margin_top = 896.0
-margin_right = 759.0
+margin_right = 695.0
 margin_bottom = 1976.0
 
 [node name="Ally2" parent="." instance=ExtResource( 2 )]
@@ -24,7 +24,7 @@ margin_right = 1265.0
 margin_bottom = 1976.0
 
 [node name="Ally3" parent="." instance=ExtResource( 2 )]
-margin_left = 1240.0
+margin_left = 1304.0
 margin_top = 896.0
-margin_right = 1780.0
+margin_right = 1844.0
 margin_bottom = 1976.0

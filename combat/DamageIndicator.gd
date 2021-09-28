@@ -2,6 +2,7 @@ extends Node2D
 
 const DamageIndicatorSlash = preload("res://combat/DamageIndicatorSlash.tscn")
 const SINK_SPEED = 20
+const FADE_SECONDS = 4
 
 export(NodePath) var slash_target_path
 export(Vector2) var target_extents
@@ -22,7 +23,7 @@ func _ready():
 
 func _process(delta):
 	if DamageLabel.modulate.a > 0:
-		DamageLabel.modulate.a -= delta/2
+		DamageLabel.modulate.a -= delta/FADE_SECONDS
 	if self.position.y == default_y:
 		return
 	else:

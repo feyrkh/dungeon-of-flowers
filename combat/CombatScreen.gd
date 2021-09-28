@@ -46,8 +46,6 @@ var selected_ally_idx = 0
 var selected_category_idx = 0
 var restore_category_idx = 0 # set when moving to the 'status' icon, so we can restore back to the previously selected item
 var selected_skill
-var accumulated_damage = 0
-var expected_damage = 0
 var active_submenu
 
 const UI_DELAY = 0.12

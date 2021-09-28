@@ -24,9 +24,7 @@ func _ready():
 func _process(delta):
 	if DamageLabel.modulate.a > 0:
 		DamageLabel.modulate.a -= delta/FADE_SECONDS
-	if self.position.y == default_y:
-		return
-	else:
+	if self.position.y != default_y:
 		self.position.y = min(self.position.y + SINK_SPEED*delta, default_y)
 	if DamageLabel.modulate.a <= 0 and self.position.y <= default_y:
 		reset()

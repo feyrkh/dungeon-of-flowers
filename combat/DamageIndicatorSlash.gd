@@ -1,6 +1,6 @@
 extends Sprite
 
-const ABSORB_SECONDS = 0.5
+const ABSORB_SECONDS = 0.3
 
 var damage_indicator
 var ally_data

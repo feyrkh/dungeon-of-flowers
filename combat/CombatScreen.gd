@@ -220,7 +220,7 @@ func _on_CombatScreen_start_enemy_turn(_combat_data):
 
 func _on_CombatScreen_enemy_turn_complete(_combat_data):
 	print("_on_CombatScreen_enemy_turn_complete")
-	yield(get_tree().create_timer(0.5), "timeout")
+	yield(get_tree().create_timer(1.2), "timeout")
 	if check_combat_over():
 		return
 	CombatMgr.emit_signal("start_player_turn", _combat_data)

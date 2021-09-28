@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://img/combat/slash.png" type="Texture" id=1]
+[ext_resource path="res://combat/DamageIndicatorSlash.gd" type="Script" id=2]
+
+[node name="slash" type="Sprite"]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 1.33002, -1.18097 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )

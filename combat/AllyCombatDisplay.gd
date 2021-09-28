@@ -1,7 +1,5 @@
 extends Control
 
-const DamageIndicator = preload("res://combat/DamageIndicator.tscn")
-
 onready var AllyPortrait:AllyPortrait = find_node("AllyPortrait")
 
 onready var CurrentMoveLabel:Label = find_node("CurrentMoveLabel")
@@ -13,7 +11,8 @@ onready var selected_position = rect_position - Vector2(0, 20)
 onready var exhausted_position = rect_position - Vector2(0, -20)
 onready var category_zoom_icons = [find_node("IconZoomFight"), find_node("IconZoomSkill"), find_node("IconZoomDefend"), find_node("IconZoomItem")]
 onready var TargetArea:Position2D = find_node("TargetArea")
-onready var DamageContainer = find_node("DamageContainer")
+onready var DamageIndicator = find_node("DamageIndicator")
+
 export(Color) var selected_color = Color.white
 export(Color) var deselected_color = Color(0.9, 0.9, 0.9)
 export(Color) var exhausted_color = Color(0.7, 0.7, 0.7)
@@ -34,6 +33,7 @@ func _ready():
 	CombatMgr.connect("player_turn_complete", self, "_on_CombatScreen_player_turn_complete")
 	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
 	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
+	CombatMgr.connect("enemy_turn_complete", self, "_on_enemy_turn_complete")
 
 func get_shields():
 	return ally_data.get_shields()
@@ -126,6 +126,9 @@ func _on_CombatScreen_start_enemy_turn(combat_data):
 	rect_position = default_position
 	modulate = Color.white
 
+func _on_enemy_turn_complete(combat_data):
+	DamageIndicator.apply_damage(ally_data)
+
 func _on_CombatScreen_player_turn_complete(combat_data):
 	AllyPortrait.deselect()
 
@@ -135,7 +138,8 @@ func _on_Ally_cancel_submenu():
 
 
 func _on_BulletStrikeArea_body_entered(bullet):
-	ally_data.take_damage(bullet.get_damage())
+	#ally_data.take_damage(bullet.get_damage())
+	CombatMgr.emit_signal("attack_bullet_strike", self)
 	bullet.ally_strike(ally_data)
-	#TODO: spawn a DamageIndicator, merge them together after attack finishes
+	DamageIndicator.take_damage(bullet.get_damage())
 	

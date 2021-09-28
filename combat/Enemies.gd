@@ -125,9 +125,6 @@ func add_enemy(enemyData):
 	posNode.set_enemy(enemy)
 	posNode.add_child(enemy)
 	positionIdx += 1
-	enemy.connect("target_button_entered", self, "_on_Enemy_target_button_entered", [enemy, enemyData])
-	enemy.connect("target_button_exited", self, "_on_Enemy_target_button_exited", [enemy, enemyData])
-	enemy.connect("target_button_pressed", self, "_on_Enemy_target_button_pressed", [enemy, enemyData])
 
 func render_enemies(enemies):
 	var enemyNames = {}

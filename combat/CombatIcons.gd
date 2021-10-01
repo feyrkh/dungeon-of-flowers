@@ -7,8 +7,6 @@ onready var category_ys = [categories[0].rect_position.y, categories[1].rect_pos
 onready var anim = find_node("AnimationPlayer")
 onready var bouncers = [get_node("CharSwitchLeft/Bouncer"), get_node("CharSwitchRight/Bouncer")]
 
-export(Color) var selected_color = Color.white
-export(Color) var deselected_color = Color(0.6, 0.6, 0.6)
 
 var ally_data
 
@@ -35,31 +33,28 @@ func show(selected_idx=0):
 	yield(anim, "animation_finished")
 
 func unhighlight_icon(i):
-	categories[i].modulate = deselected_color
-	categories[i].get_node("Label").visible = false
-	if i < category_ys.size():
-		categories[i].rect_position.y = category_ys[i]
+	categories[i].unhighlight()
 
 func select(selected_idx=0):
 	for i in range(categories.size()):
 		if i == selected_idx:
-			categories[i].modulate = selected_color
-			categories[i].get_node("Label").visible = true
-			if i < category_ys.size():
-				categories[i].rect_position.y = category_ys[i] - 10
+			categories[i].highlight()
 			#categories[i].rect_scale = Vector2(1, 1)
 		else:
 			unhighlight_icon(i)
 	return selected_idx
 
 func select_next_category(selected_category_idx, direction):
-	if (selected_category_idx+direction >= categories.size()):
-		selected_category_idx = categories.size() - 2
-	var new_category_idx = (selected_category_idx + direction) % (categories.size() - 1)
-	if new_category_idx < 0: 
-		new_category_idx += (categories.size() - 1)
-	select(new_category_idx)
-	return new_category_idx
+	for i in range(4):
+		if (selected_category_idx+direction >= categories.size()):
+			selected_category_idx = categories.size() - 2
+		var new_category_idx = (selected_category_idx + direction) % (categories.size() - 1)
+		if new_category_idx < 0: 
+			new_category_idx += (categories.size() - 1)
+		if categories[new_category_idx].is_selectable():
+			select(new_category_idx)
+			return new_category_idx
+		selected_category_idx = new_category_idx
 
 func select_no_category():
 	select(null)

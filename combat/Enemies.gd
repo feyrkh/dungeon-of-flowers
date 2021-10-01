@@ -18,9 +18,13 @@ var targeted_enemy_idx
 var targeted_ally_idx
 var active_target_type
 var active_move_data
+var original_enemy_positions = {}
+var squished_enemy_positions = {}
 
 func _ready():
 	for enemy_pos in EnemyImages.get_children():
+		original_enemy_positions[enemy_pos.name] = enemy_pos.global_position
+		squished_enemy_positions[enemy_pos.name] = enemy_pos.global_position - Vector2(enemy_pos.global_position.x/3, 0)
 		var marker = TargetMarker.instance()
 		marker.rect_position = enemy_pos.global_position
 		marker.rect_rotation = 180
@@ -156,6 +160,14 @@ func get_live_enemies():
 		if pos.enemy != null and is_instance_valid(pos.enemy) and pos.enemy.is_alive():
 			enemies.append(pos.enemy)
 	return enemies
+
+func squish_for_minigame(move_time=0.5):
+	for enemy_pos in EnemyImages.get_children():
+		enemy_pos.set_target_position(squished_enemy_positions[enemy_pos.name], move_time)
+
+func unsquish_for_minigame(move_time=0.5):
+	for enemy_pos in EnemyImages.get_children():
+		enemy_pos.set_target_position(original_enemy_positions[enemy_pos.name], move_time)
 
 func _on_CombatScreen_start_enemy_turn(combat_data):
 	$Bouncer.running = true

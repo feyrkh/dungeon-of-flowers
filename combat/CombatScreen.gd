@@ -170,7 +170,7 @@ func mock_combat_data():
 	var cd = CombatData.new()
 	cd.allies = GameData.allies
 	cd.enemies = []
-	for i in randi()%2+1:
+	for i in randi()%3+2:
 		cd.enemies.append(EnemyList.get_enemy('random'))
 	return cd
 
@@ -261,6 +261,8 @@ func _on_Enemies_single_enemy_target_complete(target_enemy, move_data):
 	emit_signal("player_move_selected", combat_data, target_enemy, move_data)
 
 func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data):
+	Enemies.squish_for_minigame(0.5)
+	MinigameContainer.squish_for_minigame(0.5)
 	print("Attacking ", target_enemy.name, " with skill: ", move_data.label)
 	var scene = move_data.get_attack_scene(target_enemy)
 	MinigameContainer.add_child(scene)
@@ -273,6 +275,8 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 
 func _on_minigame_complete(minigame_scene):
 	print("Attack complete")
+	Enemies.unsquish_for_minigame(0.5)
+	MinigameContainer.unsquish_for_minigame(0.5)
 	yield(get_tree().create_timer(0.5), "timeout")
 	if is_instance_valid(minigame_scene):
 		minigame_scene.queue_free()

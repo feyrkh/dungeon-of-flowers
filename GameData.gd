@@ -39,8 +39,10 @@ func load_settings():
 		if err != 0:
 			printerr(settings_file, " : Failed to open settings file while loading, got error: ", err)
 			return
-		settings = f.get_var()
+		var new_settings:Dictionary = f.get_var()
 		f.close()
+		for setting in new_settings.keys():
+			update_setting(setting, new_settings[setting])
 
 func update_setting(setting, val):
 	var old_value = settings.get(setting, null)

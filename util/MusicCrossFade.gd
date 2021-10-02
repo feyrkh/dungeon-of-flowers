@@ -9,7 +9,7 @@ export(float) var default_db
 onready var cur_playing:AudioStreamPlayer = find_node(stream_player_1_path)
 onready var next_playing:AudioStreamPlayer = find_node(stream_player_2_path)
 
-var fade_counter = 0
+var fade_counter:float = 0
 var seconds_to_fade = 3
 var fading = false
 var music_positions = {}
@@ -23,7 +23,15 @@ var expected_next_volume = 0
 var expected_cur_volume = 0
 
 func _ready():
-	volume_adjustment = GameData.get_setting("music_volume")
+	volume_adjustment = GameData.get_setting(GameData.MUSIC_VOLUME, 100) / 100.0
+	GameData.listen_for_setting_change(self)
+
+func on_setting_change(setting, old_val, new_val):
+	if setting == GameData.MUSIC_VOLUME:
+		volume_adjustment = GameData.get_setting(GameData.MUSIC_VOLUME, 100) / 100.0
+		set_next_volume(expected_next_volume)
+		set_cur_volume(expected_cur_volume)
+		#cur_playing.volume_db = Util.get_decibels_for_volume_percentage(new_val)
 
 func cross_fade(new_music_file, crossfade_time, new_music_saves_position=true):
 	if fading:
@@ -46,17 +54,17 @@ func cross_fade(new_music_file, crossfade_time, new_music_saves_position=true):
 	fading = true
 	set_process(true)
 
-func _unhandled_input(event):
-	if event.is_action_pressed("music_toggle"):
-		get_tree().set_input_as_handled()
-		if volume_adjustment == 0: 
-			volume_adjustment = 1.0
-			cur_playing.volume_db = 0
-		else: 
-			volume_adjustment = 0
-			cur_playing.volume_db = -80
-		GameData.update_setting("music_volume", volume_adjustment)
-		GameData.save_settings()
+#func _unhandled_input(event):
+#	if event.is_action_pressed("music_toggle"):
+#		get_tree().set_input_as_handled()
+#		if volume_adjustment == 0: 
+#			volume_adjustment = 100.0
+#			cur_playing.volume_db = 0
+#		else: 
+#			volume_adjustment = 0
+#			cur_playing.volume_db = -80
+#		GameData.update_setting("music_volume", volume_adjustment)
+#		GameData.save_settings()
 
 func _process(delta):
 	set_next_volume(min(MAX_VOLUME, expected_next_volume + fade_up_per_sec * delta))
@@ -71,12 +79,12 @@ func _process(delta):
 
 func set_next_volume(amt):
 	expected_next_volume = amt
-	next_playing.volume_db = ((amt+80) * volume_adjustment)-80
+	next_playing.volume_db = ((amt+60) * volume_adjustment)-60
 	#print("Next volume: ", amt, " (actual: ", next_playing.volume_db, ")")
 
 func set_cur_volume(amt):
 	expected_cur_volume = amt
-	cur_playing.volume_db = ((amt+80) * volume_adjustment)-80
+	cur_playing.volume_db = ((amt+60) * volume_adjustment)-60
 	#print("Cur volume: ", amt, " (actual: ", cur_playing.volume_db, ")")
 
 func swap_players():
@@ -86,3 +94,6 @@ func swap_players():
 	tmp = cur_playing_file
 	cur_playing_file = next_playing_file
 	next_playing_file = cur_playing_file
+	tmp = expected_cur_volume
+	expected_cur_volume = expected_next_volume
+	expected_next_volume = tmp

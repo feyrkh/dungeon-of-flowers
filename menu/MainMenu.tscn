@@ -1,0 +1,152 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://menu/Menu.gd" type="Script" id=1]
+[ext_resource path="res://font/default_font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://art_exports/ui_HUD/ui_submenu_arrow.png" type="Texture" id=3]
+[ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://menu/OptionMenu.tscn" type="PackedScene" id=5]
+[ext_resource path="res://font/explore_font.tres" type="DynamicFont" id=6]
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends Control
+
+func _ready():
+	MusicCrossFade.cross_fade(\"res://music/explore1.mp3\", 0.5)
+	MusicCrossFade.cross_fade(\"res://music/explore1.mp3\", 0.5)
+"
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends BaseMenuItem
+
+func menu_action(menu):
+	get_tree().change_scene(\"res://dungeon/GeneratedDungeon.tscn\")
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends BaseMenuItem
+
+var tutorial_on = true
+
+func _ready():
+	set_text()
+
+func set_text():
+	if tutorial_on:
+		self.text = \"Tutorial: On\"
+	else:
+		self.text = \"Tutorial: Off\"
+
+func toggle():
+	tutorial_on = !tutorial_on
+	set_text()
+
+func menu_increment(menu):
+	toggle()
+
+func menu_decrement(menu):
+	toggle()
+
+func menu_action(menu):
+	toggle()
+"
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends BaseMenuItem
+
+export(NodePath) var option_menu_path
+
+var option_menu
+var owning_menu
+
+func _ready():
+	option_menu = get_node(option_menu_path)
+	option_menu.pause_menu()
+
+func setup_menu(_owning_menu):
+	self.owning_menu = _owning_menu
+	option_menu.previous_menu = owning_menu
+
+func menu_action(menu):
+	owning_menu.pause_menu()
+	option_menu.resume_menu()
+"
+
+[node name="MenuRoot" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainMenu" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 500.778 ],
+"_edit_use_anchors_": false
+}
+paused_on_start = false
+
+[node name="CenterContainer" type="CenterContainer" parent="MainMenu"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/CenterContainer"]
+margin_left = 885.0
+margin_top = 483.0
+margin_right = 1035.0
+margin_bottom = 597.0
+
+[node name="Title" type="Label" parent="MainMenu/CenterContainer/VBoxContainer"]
+margin_right = 150.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0.945098, 0, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Dungeon of Flowers"
+
+[node name="NewGame" type="Label" parent="MainMenu/CenterContainer/VBoxContainer"]
+margin_top = 37.0
+margin_right = 150.0
+margin_bottom = 60.0
+custom_fonts/font = ExtResource( 2 )
+text = "New Game"
+script = SubResource( 1 )
+
+[node name="Tutorial" type="Label" parent="MainMenu/CenterContainer/VBoxContainer"]
+margin_top = 64.0
+margin_right = 150.0
+margin_bottom = 87.0
+custom_fonts/font = ExtResource( 2 )
+text = "Tutorial: Off"
+script = SubResource( 2 )
+
+[node name="Options" type="Label" parent="MainMenu/CenterContainer/VBoxContainer"]
+margin_top = 91.0
+margin_right = 150.0
+margin_bottom = 114.0
+custom_fonts/font = ExtResource( 2 )
+text = "Options"
+script = SubResource( 3 )
+option_menu_path = NodePath("../../../../OptionMenu")
+
+[node name="Arrow" parent="MainMenu" instance=ExtResource( 4 )]
+margin_left = 866.992
+margin_top = 518.399
+margin_right = 876.992
+margin_bottom = 540.399
+script = null
+
+[node name="arrow_img" type="Sprite" parent="MainMenu/Arrow"]
+rotation = -1.5708
+scale = Vector2( -0.5, 0.5 )
+texture = ExtResource( 3 )
+centered = false
+
+[node name="OptionMenu" parent="." instance=ExtResource( 5 )]
+visible = false

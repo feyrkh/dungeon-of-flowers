@@ -33,10 +33,10 @@ func finish_damage():
 func set_damage(amt):
 	damage = amt
 
-func apply_damage(ally_data, damage_indicator, _delay):
+func apply_damage(_ally_data, _damage_indicator, _delay):
 	set_process(true)
+	self.ally_data = _ally_data
+	self.damage_indicator = _damage_indicator
 	self.delay = _delay
-	self.target = damage_indicator.DamageLabel.rect_global_position + damage_indicator.DamageLabel.rect_size/2
+	self.target = _damage_indicator.DamageLabel.rect_global_position + _damage_indicator.DamageLabel.rect_size/2
 	self.speed = (target - self.global_position) / ABSORB_SECONDS
-	self.ally_data = ally_data
-	self.damage_indicator = damage_indicator

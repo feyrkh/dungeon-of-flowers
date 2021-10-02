@@ -1,13 +1,22 @@
 extends Node
 
+signal setting_updated(setting_name, old_value, new_value)
+
+const MUSIC_VOLUME = "music_volume"
+const SFX_VOLUME = "sfx_volume"
+
 var allies = []
 var world_tile_position = Vector2()
 var facing = "north"
 var settings_file = "user://settings.save"
 
 var settings = { # default settings go here
-	"music_volume": 1.0
+	MUSIC_VOLUME: 65,
+	SFX_VOLUME: 65
 }
+
+func listen_for_setting_change(listener):
+	connect("setting_updated", listener, "on_setting_change")
 
 func _ready():
 	EventBus.connect("new_player_location", self, "on_new_player_location")
@@ -34,10 +43,14 @@ func load_settings():
 		f.close()
 
 func update_setting(setting, val):
+	var old_value = settings.get(setting, null)
 	settings[setting] = val
+	if old_value != val:
+		emit_signal("setting_updated", setting, old_value, val)
+		print("Setting ", setting, "=", val)
 
-func get_setting(setting):
-	return settings.get(setting)
+func get_setting(setting, defaultVal):
+	return settings.get(setting, defaultVal)
 
 func on_new_player_location(x, y, rot_deg):
 	world_tile_position = Vector2(x, y)

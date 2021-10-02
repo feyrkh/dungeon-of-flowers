@@ -25,8 +25,9 @@ onready var forwardSensor:Area = find_node("forwardSensor")
 onready var backwardSensor:Area = find_node("backwardSensor")
 onready var leftSensor:Area = find_node("leftSensor")
 onready var rightSensor:Area = find_node("rightSensor")
-onready var wallBumpSfx:AudioStreamPlayer = find_node("wallBumpSfx")
-onready var walkSfx:AudioStreamPlayer = find_node("walkSfx")
+
+const wall_bump_sfx = preload("res://sound/thump.mp3")
+const walk_sfx = preload("res://sound/footsteps.wav")
 
 
 func _ready():
@@ -76,8 +77,8 @@ func bump_forward(dir):
 	move_multiplier = 4
 	move(0.1*dir)
 	yield(self, "move_complete")
-	wallBumpSfx.pitch_scale = randf()*0.3 + 0.85
-	wallBumpSfx.play()
+	var pitch_scale = randf()*0.3 + 0.85
+	AudioPlayerPool.play(wall_bump_sfx, pitch_scale)
 	move(-0.1*dir)
 	yield(self, "move_complete")
 	move_multiplier = 1
@@ -88,8 +89,8 @@ func bump_sideways(dir):
 	move_multiplier = 4
 	sidestep(0.1*dir)
 	yield(self, "move_complete")
-	wallBumpSfx.pitch_scale = randf()*0.3 + 0.85
-	wallBumpSfx.play()
+	var pitch_scale = randf()*0.3 + 0.85
+	AudioPlayerPool.play(wall_bump_sfx, pitch_scale)
 	sidestep(-0.1*dir)
 	yield(self, "move_complete")
 	move_multiplier = 1
@@ -163,7 +164,7 @@ func move(dir):
 		return
 	is_moving = true
 	if !is_bumping:
-		walkSfx.play()
+		AudioPlayerPool.play(walk_sfx)
 	#print("start move at ", OS.get_system_time_msecs())
 	start_position = global_transform.origin
 	target_position = global_transform.origin + global_transform.basis.z*3 * -dir
@@ -175,7 +176,7 @@ func sidestep(dir):
 		return
 	is_moving = true
 	if !is_bumping:
-		walkSfx.play()
+		AudioPlayerPool.play(walk_sfx)
 	#print("start sidestep at ", OS.get_system_time_msecs())
 	start_position = global_transform.origin
 	target_position = global_transform.origin + global_transform.basis.x*3*-dir

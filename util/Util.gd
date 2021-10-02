@@ -52,3 +52,6 @@ static func fadeout(node:Node2D, time:float):
 			return
 	node.remove_meta('fadeout')
 
+static func get_decibels_for_volume_percentage(volume_percent): # 0 - 100.0 range, usually
+	volume_percent = volume_percent / 100.0
+	return (60.0 * volume_percent) - 60 # range goes from -80 decibels (silent?) to 0 (normal) or higher (really loud)

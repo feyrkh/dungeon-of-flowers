@@ -18,15 +18,15 @@ func _process(delta):
 	if t >= 1.0:
 		set_process(false)
 
-func set_target_position(pos, move_time):
+func set_target_position(pos, _move_time):
 	set_process(true)
 	start_position = rect_global_position
 	target_position = pos
-	self.move_time = move_time
+	self.move_time = _move_time
 	self.t = 0.0
 
-func squish_for_minigame(move_time=0.5):
-	set_target_position(squished_position, move_time)
+func squish_for_minigame(_move_time=0.5):
+	set_target_position(squished_position, _move_time)
 
-func unsquish_for_minigame(move_time=0.5):
-	set_target_position(original_position, move_time)
+func unsquish_for_minigame(_move_time=0.5):
+	set_target_position(original_position, _move_time)

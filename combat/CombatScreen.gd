@@ -40,7 +40,6 @@ onready var allies = [find_node("Ally1"), find_node("Ally2"), find_node("Ally3")
 onready var AllyPortraits = find_node("AllyPortraits")
 onready var BulletContainer = find_node("BulletContainer")
 onready var ShieldContainer = find_node("ShieldContainer")
-onready var AudioPlayerPool = find_node("AudioPlayerPool")
 
 var selected_ally_idx = 0
 var selected_category_idx = 0

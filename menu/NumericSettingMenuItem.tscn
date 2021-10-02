@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://menu/NumericSettingMenuItem.gd" type="Script" id=1]
+[ext_resource path="res://font/default_font.tres" type="DynamicFont" id=2]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+margin_right = 228.0
+margin_bottom = 23.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_right = 120.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 120, 0 )
+custom_fonts/font = ExtResource( 2 )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_left = 124.0
+margin_right = 224.0
+margin_bottom = 23.0
+
+[node name="HSlider" type="HSlider" parent="CenterContainer"]
+margin_top = 3.0
+margin_right = 100.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 100, 0 )
+value = 100.0
+
+[node name="Value" type="Label" parent="."]
+margin_left = 228.0
+margin_top = 4.0
+margin_right = 228.0
+margin_bottom = 18.0
+
+[connection signal="value_changed" from="CenterContainer/HSlider" to="." method="_on_HSlider_value_changed"]

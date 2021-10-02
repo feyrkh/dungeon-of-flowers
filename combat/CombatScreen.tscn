@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://combat/CombatScreen.gd" type="Script" id=1]
 [ext_resource path="res://combat/Enemies.tscn" type="PackedScene" id=2]
 [ext_resource path="res://combat/ShieldContainer.gd" type="Script" id=3]
 [ext_resource path="res://combat/AllyPortraits.tscn" type="PackedScene" id=4]
-[ext_resource path="res://util/AudioPlayerPool.tscn" type="PackedScene" id=5]
 [ext_resource path="res://combat/MinigameContainer.gd" type="Script" id=6]
 
 [node name="CombatScreen" type="Node2D"]
@@ -37,8 +36,6 @@ rect_min_size = Vector2( 640, 1080 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0.4, 0.4, 0.4, 1 )
-
-[node name="AudioPlayerPool" parent="." instance=ExtResource( 5 )]
 
 [connection signal="player_move_selected" from="." to="." method="_on_CombatScreen_player_move_selected"]
 [connection signal="start_combat" from="." to="." method="_on_CombatScreen_start_combat"]

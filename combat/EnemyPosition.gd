@@ -22,9 +22,9 @@ func set_enemy(_enemy):
 func set_target_marker(_target_marker):
 	self.target_marker = _target_marker
 
-func set_target_position(pos, move_time):
+func set_target_position(pos, _move_time):
 	set_process(true)
 	start_position = global_position
 	target_position = pos
-	self.move_time = move_time
+	self.move_time = _move_time
 	self.t = 0.0

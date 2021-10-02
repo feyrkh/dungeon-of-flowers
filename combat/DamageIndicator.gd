@@ -44,8 +44,8 @@ func take_damage(amt):
 	slash.rotation_degrees = rand_range(0, 360)
 	slash.set_damage(amt)
 
-func apply_damage(ally_data):
-	self.ally_data = ally_data
+func apply_damage(_ally_data):
+	self.ally_data = _ally_data
 	for slash in SlashContainer.get_children():
 		slash.apply_damage(ally_data, self, randf()*0.5 + 0.1)
 	while SlashContainer.get_children().size() > 0:

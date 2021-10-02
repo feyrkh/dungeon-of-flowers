@@ -98,7 +98,7 @@ MoveList="*res://combat/MoveList.gd"
 CombatMgr="*res://combat/CombatMgr.tscn"
 GameData="*res://GameData.gd"
 MusicCrossFade="*res://util/MusicCrossFade.tscn"
-AudioPlayerPool="*res://util/AudioPlayerPool.gd"
+AudioPlayerPool="*res://util/AudioPlayerPool.tscn"
 
 [debug]
 

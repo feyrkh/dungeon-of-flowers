@@ -11,3 +11,7 @@ signal player_start_turn()
 signal cancel_submenu()
 signal select_submenu_item(submenu, move_data)
 signal ally_status_updated(ally_data)
+
+# pause menu
+signal game_paused
+signal game_unpaused

@@ -33,7 +33,7 @@ func _ready():
 		translation += (flipped_translation)
 	if writhe_trans == Vector3.ZERO and writhe_rotate == Vector3.ZERO and writhe_scale == Vector3.ZERO:
 		set_process(false)
-	
+
 func random_vector(min_vec:Vector3, max_vec:Vector3) -> Vector3:
 	return Vector3(rand_range(min_vec.x, max_vec.x), rand_range(min_vec.y, max_vec.y), rand_range(min_vec.z, max_vec.z))
 

@@ -5,6 +5,7 @@
 [ext_resource path="res://music/explore1.mp3" type="AudioStream" id=3]
 
 [node name="MusicCrossFade" type="Node"]
+pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="CombatMusic" type="AudioStreamPlayer" parent="."]

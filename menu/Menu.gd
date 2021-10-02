@@ -4,8 +4,10 @@ class_name Menu
 signal menu_paused(menu)
 signal menu_resumed(menu)
 
+const menu_item_change_sfx = preload("res://sound/mixkit-metallic-sword-strike-2160.wav")
+
 onready var Arrow = find_node("Arrow")
-export var menu_entries = ["NewGame", "Tutorial", "Options"]
+export var menu_entries = ["NewGame", "Tutorial", "Options", "Quit"]
 export var paused_on_start = true
 var selected_idx = 0
 
@@ -50,13 +52,13 @@ func _process(delta):
 		if new_selected_idx < 0: 
 			new_selected_idx += menu_entries.size()
 		select_entry(new_selected_idx)
-		AudioPlayerPool.play("res://sound/mixkit-metallic-sword-strike-2160.wav", 3.0)
+		AudioPlayerPool.play(menu_item_change_sfx, 3.0)
 	elif Input.is_action_just_pressed("ui_down"):
 		var new_selected_idx = (selected_idx + 1)%menu_entries.size()
 		if new_selected_idx < 0: 
 			new_selected_idx += menu_entries.size()
 		select_entry(new_selected_idx)
-		AudioPlayerPool.play("res://sound/mixkit-metallic-sword-strike-2160.wav", 3.0)
+		AudioPlayerPool.play(menu_item_change_sfx, 3.0)
 	elif Input.is_action_just_pressed("ui_right"):
 		if menu_entries[selected_idx].has_method("menu_increment"):
 			menu_entries[selected_idx].menu_increment(self)

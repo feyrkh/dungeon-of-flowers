@@ -1,5 +1,7 @@
 extends BaseMenuItem
 
+const menu_item_tick_sfx = "res://sound/mixkit-metallic-sword-strike-2160.wav"
+
 export(String) var setting_name = "?"
 export(int) var min_value = 0
 export(int) var max_value = 100
@@ -43,7 +45,8 @@ func adjust_value(dir, delta):
 	click_delay -= delta
 	click_held += delta
 	if click_delay <= 0:
-		AudioPlayerPool.play("res://sound/mixkit-metallic-sword-strike-2160.wav", 5.0)
+		print("tick")
+		AudioPlayerPool.play(menu_item_tick_sfx, 5.0)
 		click_delay += CLICK_DELAY
 		var increment = 1
 		if click_held >= 2:

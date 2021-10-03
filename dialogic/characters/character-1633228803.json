@@ -1,0 +1,32 @@
+{
+	"color": "#ffffffff",
+	"description": "",
+	"display_name": "",
+	"display_name_bool": false,
+	"id": "character-1633228803.json",
+	"mirror_portraits": false,
+	"name": "Grias",
+	"nickname": "",
+	"nickname_bool": false,
+	"offset_x": 0,
+	"offset_y": 0,
+	"portraits": [
+		{
+			"name": "Default",
+			"path": "res://dialogic/portraits/grias_determined.png"
+		},
+		{
+			"name": "annoyed",
+			"path": "res://dialogic/portraits/grias_annoyed.png"
+		},
+		{
+			"name": "determined",
+			"path": "res://dialogic/portraits/grias_determined.png"
+		},
+		{
+			"name": "happy",
+			"path": "res://dialogic/portraits/grias_happy.png"
+		}
+	],
+	"scale": 100
+}

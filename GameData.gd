@@ -1,6 +1,7 @@
 extends Node
 
 signal setting_updated(setting_name, old_value, new_value)
+signal state_updated(state_name, old_value, new_value)
 
 const MUSIC_VOLUME = "music_volume"
 const SFX_VOLUME = "sfx_volume"
@@ -13,6 +14,10 @@ var settings_file = "user://settings.save"
 var settings = { # default settings go here
 	MUSIC_VOLUME: 65,
 	SFX_VOLUME: 65
+}
+
+var game_state = {
+	
 }
 
 func listen_for_setting_change(listener):
@@ -51,8 +56,24 @@ func update_setting(setting, val):
 		emit_signal("setting_updated", setting, old_value, val)
 		print("Setting ", setting, "=", val)
 
+func set_setting(setting, val):
+	update_setting(setting, val)
+
 func get_setting(setting, defaultVal):
 	return settings.get(setting, defaultVal)
+
+func get_state(state_entry, default_val=null):
+	return game_state.get(state_entry, default_val)
+
+func set_state(state_entry, val):
+	update_state(state_entry, val)
+
+func update_state(state_entry, val):
+	var old_value = game_state.get(state_entry, null)
+	game_state[state_entry] = val
+	if old_value != val:
+		emit_signal("state_updated", state_entry, old_value, val)
+		print("State ", state_entry, "=", val)
 
 func on_new_player_location(x, y, rot_deg):
 	world_tile_position = Vector2(x, y)

@@ -52,6 +52,8 @@ func _ready():
 	MusicCrossFade.cross_fade("res://music/explore1.mp3", 3, true)
 	CombatMgr.connect("combat_start", self, "_on_combat_start")
 	CombatMgr.connect("combat_end", self, "_on_combat_end")
+	
+	QuestMgr.check_quest_progress()
 
 func _on_combat_start():
 	MusicCrossFade.cross_fade("res://music/battle1.mp3", 3, false)

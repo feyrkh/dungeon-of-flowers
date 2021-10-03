@@ -1,0 +1,52 @@
+{
+	"events": [
+		{
+			"background": "res://dialogic/background/cave.png",
+			"event_id": "dialogic_021",
+			"fade_duration": 0.5
+		},
+		{
+			"action": "join",
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_002",
+			"mirror": false,
+			"portrait": "determined",
+			"position": {
+				"0": false,
+				"1": false,
+				"2": true,
+				"3": false,
+				"4": false
+			}
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "determined",
+			"text": "This miasma... It can't be good for the monsters, no wonder they're going wild! Better check my equipment..."
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "determined",
+			"text": "Sword - check! Armor - check! Shield - ..."
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "annoyed",
+			"text": "Uh...I guess I left my shield behind."
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "determined",
+			"text": "No matter! Echinacea will bring it when he catches up. I'll just have to tough it out until then - this disaster is getting worse with every passing minute!"
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.2.5",
+		"file": "timeline-1633229093.json",
+		"name": "intro_1"
+	}
+}

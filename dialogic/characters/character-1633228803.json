@@ -26,6 +26,10 @@
 		{
 			"name": "happy",
 			"path": "res://dialogic/portraits/grias_happy.png"
+		},
+		{
+			"name": "defeated",
+			"path": "res://dialogic/portraits/grias - defeated.png"
 		}
 	],
 	"scale": 100

@@ -19,6 +19,7 @@ func _process(delta):
 	else:
 		move_counter += delta
 		if move_counter > ABSORB_SECONDS:
+			move_counter = -1000
 			finish_damage()
 			set_process(false)
 		else:

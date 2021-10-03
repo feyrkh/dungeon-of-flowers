@@ -21,6 +21,7 @@ script/source = "extends BaseMenuItem
 
 func menu_action(menu):
 	GameData.save_settings()
+	GameData.new_game()
 	get_tree().change_scene(\"res://dungeon/GeneratedDungeon.tscn\")
 "
 

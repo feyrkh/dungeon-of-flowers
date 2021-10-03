@@ -116,7 +116,7 @@ func select_next_char(direction):
 		var new_selected_ally_idx = (selected_ally_idx + direction*i) % allies.size()
 		if new_selected_ally_idx < 0: new_selected_ally_idx += allies.size()
 		var next_selected = allies[new_selected_ally_idx]
-		if !next_selected.exhausted:
+		if next_selected != null and is_instance_valid(next_selected) and !next_selected.exhausted:
 			prev_selected.deselect()
 			next_selected.select(selected_category_idx)
 			selected_ally_idx = new_selected_ally_idx
@@ -205,6 +205,7 @@ func _on_CombatScreen_player_move_complete(_combat_data):
 	if check_combat_over():
 		return
 	if check_player_turn_over():
+		cur_input_phase = InputPhase.NO_INPUT
 		CombatMgr.emit_signal("player_turn_complete", _combat_data)
 		CombatMgr.emit_signal("start_enemy_turn", _combat_data)
 	else:
@@ -246,8 +247,10 @@ func check_combat_over():
 		EventBus.emit_signal("enable_pause_menu")
 		return true
 	elif allies_all_dead():
+		cur_input_phase = InputPhase.NO_INPUT
 		emit_signal("allies_lose", combat_data)
 		EventBus.emit_signal("enable_pause_menu")
+		QuestMgr.play_cutscene("combat_gameover")
 		return true
 	return false
 

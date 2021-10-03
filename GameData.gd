@@ -2,6 +2,7 @@ extends Node
 
 signal setting_updated(setting_name, old_value, new_value)
 signal state_updated(state_name, old_value, new_value)
+signal dialogic_signal(arg)
 
 const MUSIC_VOLUME = "music_volume"
 const SFX_VOLUME = "sfx_volume"
@@ -29,6 +30,12 @@ func _ready():
 	EventBus.connect("new_player_location", self, "on_new_player_location")
 	new_game()
 	load_settings()
+
+func on_dialogic_signal(arg):
+	match arg:
+		"combat_gameover":
+			gameover()
+		_: emit_signal("dialogic_signal", arg)
 
 func save_settings():
 	var f = File.new()
@@ -92,6 +99,10 @@ func new_game():
 	else:
 		allies = [mock_pharoah(), mock_vega(), mock_shantae()]
 
+func gameover():
+	yield(get_tree().create_timer(1), "timeout")
+	get_tree().change_scene("res://menu/MainMenu.tscn")
+
 func mock_pharoah():
 	var ally = AllyData.new()
 	ally.label = "Imhotep"
@@ -133,7 +144,7 @@ func mock_vega():
 	ally.label = "Vega"
 	ally.className = "Street Fighter"
 	ally.max_hp = 100
-	ally.hp = 100
+	ally.hp = 10
 	ally.sp = 20
 	ally.max_sp = 20
 	ally.texture = load("res://img/hero4.jpg")
@@ -147,3 +158,5 @@ func mock_vega():
 		{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(150, -130), "scale": Vector2(2.0, 1.0)},
 	]
 	return ally
+	
+	

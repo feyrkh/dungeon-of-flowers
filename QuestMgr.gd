@@ -32,6 +32,7 @@ func play_cutscene(_cutscene_name):
 	EventBus.emit_signal("disable_pause_menu")
 	cutscene = Dialogic.start(_cutscene_name)
 	cutscene.connect("timeline_end", self, "on_timeline_end")
+	cutscene.connect("dialogic_signal", GameData, "on_dialogic_signal")
 	add_child(cutscene)
 
 func on_timeline_end(timeline_name):

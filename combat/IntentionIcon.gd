@@ -65,6 +65,8 @@ func fire_bullet(lag_time):
 		pulse_bullet_counter = attacks_per_pulse
 		select_origin()
 		select_target()
+	if target == null:
+		return
 	pulse_bullet_counter -= 1
 	attacks -= 1
 	var bullet = AttackBullet.instance()
@@ -81,6 +83,9 @@ func select_origin():
 			origin += Vector2(randf()*origin_scatter*self.texture.get_size().x*scale.x, randf()*origin_scatter*self.texture.get_size().y*scale.y)
 
 func select_target():
+	if allies.size() <= 0:
+		target = null
+		return
 	if (target_change_chance > 0 and target_change_chance > randf()) or (target == null):
 		var ally = allies[randi()%allies.size()]
 		print(enemy.data.label, " targeting ", ally.ally_data.label)

@@ -1,0 +1,33 @@
+{
+	"events": [
+		{
+			"action": "join",
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_002",
+			"mirror": false,
+			"portrait": "defeated",
+			"position": {
+				"0": false,
+				"1": false,
+				"2": true,
+				"3": false,
+				"4": false
+			}
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "No... I've failed... I'm sorry, everyone...\nI was too weak."
+		},
+		{
+			"emit_signal": "combat_gameover",
+			"event_id": "dialogic_040"
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.2.5",
+		"file": "timeline-1633289438.json",
+		"name": "combat_gameover"
+	}
+}

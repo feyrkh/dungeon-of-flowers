@@ -15,3 +15,6 @@ func setup(_move_data):
 
 func is_disabled():
 	return move_data == null
+
+func is_selectable():
+	return !is_disabled()

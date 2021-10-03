@@ -22,7 +22,7 @@ func setup(_allyData):
 		self.modulate = selected_color
 
 func is_selectable():
-	return moves.size() > 0
+	return true
 
 func unhighlight():
 	modulate = deselected_color

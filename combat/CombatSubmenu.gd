@@ -70,9 +70,13 @@ func highlight_entry(entry_idx):
 		
 		
 func open_targeting_menu():
+	var i = selected_entry_idx + selected_page_idx*4
+	if i >= move_entries.size() or i < 0:
+		return
+	var selected_entry = move_entries[i]
 	self.visible = false
 	set_process(false)
-	emit_signal("select_submenu_item", self, move_entries[selected_entry_idx + selected_page_idx*4])
+	emit_signal("select_submenu_item", self, selected_entry)
 
 func on_targeting_cancelled():
 	self.visible = true

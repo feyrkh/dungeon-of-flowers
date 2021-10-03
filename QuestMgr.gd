@@ -29,6 +29,7 @@ func play_cutscene(_cutscene_name):
 		cutscene.queue_free()
 	get_tree().paused = true
 	emit_signal("cutscene_start", _cutscene_name)
+	EventBus.emit_signal("disable_pause_menu")
 	cutscene = Dialogic.start(_cutscene_name)
 	cutscene.connect("timeline_end", self, "on_timeline_end")
 	add_child(cutscene)
@@ -36,5 +37,6 @@ func play_cutscene(_cutscene_name):
 func on_timeline_end(timeline_name):
 	print("cutscene ended: ", timeline_name)
 	emit_signal("cutscene_end", timeline_name)
+	EventBus.emit_signal("enable_pause_menu")
 	cutscene = null
 	get_tree().paused = false

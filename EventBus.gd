@@ -15,3 +15,5 @@ signal ally_status_updated(ally_data)
 # pause menu
 signal game_paused
 signal game_unpaused
+signal disable_pause_menu
+signal enable_pause_menu

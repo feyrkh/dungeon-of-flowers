@@ -109,6 +109,7 @@ func input_select_character():
 		input_delayed = UI_DELAY
 
 func select_next_char(direction):
+	EventBus.emit_signal("enable_pause_menu")
 	var prev_selected = allies[selected_ally_idx]
 	var new_selected_ally = null
 	for i in range(1, 3):
@@ -123,6 +124,7 @@ func select_next_char(direction):
 
 
 func open_category_submenu(ally_idx, category_idx):
+	EventBus.emit_signal("disable_pause_menu")
 	if (category_idx == STATUS_CATEGORY): # status icon, up should go back to previously selected icon instead
 		selected_category_idx = restore_category_idx
 		select_next_category(0)
@@ -132,13 +134,16 @@ func open_category_submenu(ally_idx, category_idx):
 		ally.open_category_submenu(category_idx)
 
 func _on_Ally_cancel_submenu():
+	EventBus.emit_signal("enable_pause_menu")
 	cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
 	
 func select_next_category(direction):
 	var cur_ally = allies[selected_ally_idx]
 	selected_category_idx = cur_ally.select_category(selected_category_idx, direction)
+	EventBus.emit_signal("enable_pause_menu")
 
 func select_status_category():
+	EventBus.emit_signal("enable_pause_menu")
 	if selected_category_idx != STATUS_CATEGORY:
 		var cur_ally = allies[selected_ally_idx]
 		restore_category_idx = selected_category_idx
@@ -235,9 +240,11 @@ func check_combat_over():
 	print("check_combat_over")
 	if enemies_all_dead():
 		emit_signal("allies_win", combat_data)
+		EventBus.emit_signal("enable_pause_menu")
 		return true
 	elif allies_all_dead():
 		emit_signal("allies_lose", combat_data)
+		EventBus.emit_signal("enable_pause_menu")
 		return true
 	return false
 

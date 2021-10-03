@@ -23,7 +23,7 @@
 			"character": "character-1633228803.json",
 			"event_id": "dialogic_001",
 			"portrait": "determined",
-			"text": "This miasma... It can't be good for the monsters, no wonder they're going wild! Better check my equipment..."
+			"text": "This [wave amp=50 freq=2]miasma[/wave]... It can't be good for the monsters, no wonder they're going wild! Better check my equipment..."
 		},
 		{
 			"character": "character-1633228803.json",

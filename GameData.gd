@@ -87,7 +87,10 @@ func on_new_player_location(x, y, rot_deg):
 		_: printerr("Unknown facing with angle ", int(round(rot_deg)))
 
 func new_game():
-	allies = [mock_pharoah(), mock_vega(), mock_shantae()]
+	if get_setting(TUTORIAL_ON):
+		allies = [null, mock_vega(), null]
+	else:
+		allies = [mock_pharoah(), mock_vega(), mock_shantae()]
 
 func mock_pharoah():
 	var ally = AllyData.new()

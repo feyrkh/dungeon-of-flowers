@@ -14,6 +14,10 @@ func _ready():
 	EventBus.connect("ally_status_updated", self, "_on_ally_status_updated")
 
 func setup(_ally_data:AllyData):
+	if _ally_data == null:
+		visible = false
+		return
+	visible = true
 	self.ally_data = _ally_data
 	Portrait.texture = ally_data.texture
 

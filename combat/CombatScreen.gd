@@ -168,7 +168,10 @@ func enemies_all_dead():
 	return true
 
 func allies_all_dead():
-	return combat_data.get_current_ally().hp <= 0
+	for ally in allies:
+		if ally != null && is_instance_valid(ally) && ally.is_alive():
+			return false
+	return true
 
 func mock_combat_data():
 	var cd = CombatData.new()
@@ -190,7 +193,7 @@ func _on_CombatScreen_start_combat(_combat_data):
 func _on_CombatScreen_start_player_turn(_combat_data):
 	print("_on_CombatScreen_start_player_turn")
 	cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
-	selected_ally_idx = 0
+	selected_ally_idx = 1
 	allies[selected_ally_idx].select(selected_category_idx)
 	selected_skill = null
 	Enemies.decide_enemy_actions()
@@ -211,7 +214,7 @@ func _on_CombatScreen_player_move_complete(_combat_data):
 func check_player_turn_over():
 	print("check_player_turn_over")
 	for ally in allies:
-		if ally != null and !ally.exhausted:
+		if ally != null and is_instance_valid(ally) and !ally.exhausted:
 			return false
 	return true
 

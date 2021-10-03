@@ -25,6 +25,8 @@ var exhausted = false
 func setup(_ally_data:AllyData):
 	self.ally_data = _ally_data
 	AllyPortrait.setup(ally_data)
+	if !ally_data:
+		return
 	AllyPortrait.update_labels()
 	CombatIcons.setup(ally_data)
 

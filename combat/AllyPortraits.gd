@@ -9,7 +9,11 @@ func _ready():
 
 func setup(ally_data):
 	for i in range(ally_data.size()):
-		Allies[i].setup(ally_data[i])
+		if ally_data[i] == null:
+			Allies[i].queue_free()
+			Allies[i] = null
+		else:
+			Allies[i].setup(ally_data[i])
 
 func combat_mode():
 	for ally in Allies:
@@ -17,15 +21,17 @@ func combat_mode():
 
 func explore_mode():
 	for ally in Allies:
-		ally.explore_mode()
+		if ally:
+			ally.explore_mode()
 
 func update_labels():
 	for ally in Allies:
-		ally.update_labels()
+		if ally:
+			ally.update_labels()
 
 func get_live_allies():
 	var result = []
 	for ally in Allies:
-		if ally.is_alive():
+		if ally and ally.is_alive():
 			result.append(ally)
 	return result

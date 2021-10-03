@@ -8,6 +8,8 @@ var menu_state = MENU_CLOSED
 
 func _ready():
 	find_node("OptionMenu").connect("goto_previous_menu", self, "on_options_menu_closed")
+	QuestMgr.connect("cutscene_start", self, "on_cutscene_start")
+	QuestMgr.connect("cutscene_end", self, "on_cutscene_end")
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
@@ -47,3 +49,9 @@ func open_option_menu():
 	
 func on_options_menu_closed(menu):
 	close_option_menu()
+
+func on_cutscene_start(cutscene_name):
+	pause_mode = Node.PAUSE_MODE_STOP
+
+func on_cutscene_end(cutscene_name):
+	pause_mode = PAUSE_MODE_PROCESS

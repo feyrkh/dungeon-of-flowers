@@ -20,25 +20,24 @@ func _ready():
 script/source = "extends BaseMenuItem
 
 func menu_action(menu):
+	GameData.save_settings()
 	get_tree().change_scene(\"res://dungeon/GeneratedDungeon.tscn\")
 "
 
 [sub_resource type="GDScript" id=3]
 script/source = "extends BaseMenuItem
 
-var tutorial_on = true
-
 func _ready():
 	set_text()
 
 func set_text():
-	if tutorial_on:
+	if GameData.get_setting(GameData.TUTORIAL_ON, true):
 		self.text = \"Tutorial: On\"
 	else:
 		self.text = \"Tutorial: Off\"
 
 func toggle():
-	tutorial_on = !tutorial_on
+	GameData.set_setting(GameData.TUTORIAL_ON, !GameData.get_setting(GameData.TUTORIAL_ON, true))
 	set_text()
 
 func menu_increment(menu):

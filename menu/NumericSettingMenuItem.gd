@@ -45,7 +45,6 @@ func adjust_value(dir, delta):
 	click_delay -= delta
 	click_held += delta
 	if click_delay <= 0:
-		print("tick")
 		AudioPlayerPool.play(menu_item_tick_sfx, 5.0)
 		click_delay += CLICK_DELAY
 		var increment = 1

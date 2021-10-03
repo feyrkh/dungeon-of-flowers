@@ -5,6 +5,7 @@ signal state_updated(state_name, old_value, new_value)
 
 const MUSIC_VOLUME = "music_volume"
 const SFX_VOLUME = "sfx_volume"
+const TUTORIAL_ON = "tutorial_on"
 
 var allies = []
 var world_tile_position = Vector2()
@@ -13,7 +14,8 @@ var settings_file = "user://settings.save"
 
 var settings = { # default settings go here
 	MUSIC_VOLUME: 65,
-	SFX_VOLUME: 65
+	SFX_VOLUME: 65,
+	TUTORIAL_ON: true
 }
 
 var game_state = {
@@ -59,7 +61,7 @@ func update_setting(setting, val):
 func set_setting(setting, val):
 	update_setting(setting, val)
 
-func get_setting(setting, defaultVal):
+func get_setting(setting, defaultVal=null):
 	return settings.get(setting, defaultVal)
 
 func get_state(state_entry, default_val=null):

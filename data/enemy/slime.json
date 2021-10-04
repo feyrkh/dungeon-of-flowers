@@ -1,0 +1,3 @@
+{"label":"Slime", "hp": 10, 
+"img": "res://img/slime.jpg",
+"intentions":["slime_attack"]}

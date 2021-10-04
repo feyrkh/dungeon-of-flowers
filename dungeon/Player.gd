@@ -37,6 +37,7 @@ func _ready():
 	yield(get_tree(), "idle_frame")
 	call_deferred("update_minimap")
 	EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
+	connect("tile_move_complete", QuestMgr, "on_tile_move_complete")
 
 func _on_combat_start():
 	is_in_combat = true

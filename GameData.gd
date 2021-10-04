@@ -7,11 +7,13 @@ signal dialogic_signal(arg)
 const MUSIC_VOLUME = "music_volume"
 const SFX_VOLUME = "sfx_volume"
 const TUTORIAL_ON = "tutorial_on"
+const STEP_COUNTER = "step_counter"
 
 var allies = []
 var world_tile_position = Vector2()
 var facing = "north"
 var settings_file = "user://settings.save"
+var cur_dungeon = "res://data/map/intro.txt"
 
 var settings = { # default settings go here
 	MUSIC_VOLUME: 65,
@@ -94,10 +96,13 @@ func on_new_player_location(x, y, rot_deg):
 		_: printerr("Unknown facing with angle ", int(round(rot_deg)))
 
 func new_game():
-	if get_setting(TUTORIAL_ON):
+	set_state(TUTORIAL_ON, get_setting(TUTORIAL_ON))
+	if get_state(TUTORIAL_ON):
 		allies = [null, mock_vega(), null]
+		cur_dungeon = "res://data/map/intro.txt"
 	else:
 		allies = [mock_pharoah(), mock_vega(), mock_shantae()]
+		cur_dungeon = "res://data/map/floor1.txt"
 
 func gameover():
 	yield(get_tree().create_timer(1), "timeout")

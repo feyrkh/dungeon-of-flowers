@@ -2,8 +2,6 @@ extends Spatial
 
 const Player = preload("res://dungeon/Player.tscn")
 
-export var dungeon_file = "res://data/map/intro.txt"
-
 const tile_wall = preload("res://dungeon/wall.tscn")
 const tile_corridor = preload("res://dungeon/Corridor.tscn")
 const tile_torch = preload("res://dungeon/torchwall.tscn")
@@ -35,9 +33,9 @@ func _ready():
 	for prop in get_property_list():
 		property_types[prop.name] = prop.type
 	var file = File.new()
-	var err = file.open(dungeon_file, File.READ)
+	var err = file.open(GameData.cur_dungeon, File.READ)
 	if err != 0:
-		printerr(dungeon_file, " : Failed to open dungeon file while loading, got error: ", err)
+		printerr(GameData.cur_dungeon, " : Failed to open dungeon file while loading, got error: ", err)
 		return
 	var content = file.get_line()
 	while content != "map:":
@@ -62,11 +60,13 @@ func _on_combat_end():
 	MusicCrossFade.cross_fade("res://music/explore1.mp3", 3, true)
 
 func _on_player_tile_move_complete():
+	if !QuestMgr.can_enter_combat():
+		return
 	if combat_grace_period_counter > 0:
 		combat_grace_period_counter -= 1
 	else:
 		if combat_chance_per_tile >= randf():
-			CombatMgr.trigger_combat("combat config")
+			CombatMgr.trigger_combat(null)
 			combat_grace_period_counter = combat_grace_period
 
 func process_config_line(line:String):
@@ -97,7 +97,7 @@ func process_map(file):
 			if tileScene is Array:
 				tileScene = tileScene[randi()%tileScene.size()]
 			if tileScene == null:
-				printerr("Undefined tile character in "+dungeon_file+" at ("+x+","+z+") '"+c+"'")
+				printerr("Undefined tile character in "+GameData.cur_dungeon+" at ("+x+","+z+") '"+c+"'")
 				x += 1
 				continue
 			var tile:Spatial = tileScene.instance()

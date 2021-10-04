@@ -5,7 +5,7 @@ signal cutscene_end
 
 var INTRO = "intro"
 var INTRO_INTRODUCED_GRIAS = "intro_1"
-var INTRO_INTRODUCED_ECHINACEA = "intro_2"
+var INTRO_FIRST_COMBAT = "intro_2"
 
 var cutscene
 
@@ -16,13 +16,21 @@ func check_quest_progress():
 	if check_introduction(): return
 
 func check_introduction():
-	if !GameData.get_setting(GameData.TUTORIAL_ON):
+	if !GameData.get_state(GameData.TUTORIAL_ON):
 		return false
-	if GameData.get_setting(INTRO, 0) == 0:
-		play_cutscene(INTRO_INTRODUCED_GRIAS)
-		yield(cutscene, "timeline_end")
-		GameData.set_state(INTRO, INTRO_INTRODUCED_GRIAS)
-		return true
+	match GameData.get_state(INTRO, 0):
+		0:
+			play_cutscene(INTRO_INTRODUCED_GRIAS)
+			yield(cutscene, "timeline_end")
+			GameData.set_state(INTRO, INTRO_INTRODUCED_GRIAS)
+			return true
+		INTRO_INTRODUCED_GRIAS: 
+			if GameData.get_state(GameData.STEP_COUNTER, 0) == 4:
+				play_cutscene(INTRO_FIRST_COMBAT)
+				yield(cutscene, "timeline_end")
+				GameData.set_state(INTRO, INTRO_FIRST_COMBAT)
+				CombatMgr.trigger_combat("tutorial")
+				return true
 
 func play_cutscene(_cutscene_name):
 	if cutscene and is_instance_valid(cutscene):
@@ -41,3 +49,12 @@ func on_timeline_end(timeline_name):
 	EventBus.emit_signal("enable_pause_menu")
 	cutscene = null
 	get_tree().paused = false
+
+func can_enter_combat():
+	if GameData.get_state(GameData.TUTORIAL_ON, false) and str(GameData.get_state(INTRO)) != INTRO_FIRST_COMBAT:
+		return false
+	return true
+
+func on_tile_move_complete():
+	GameData.set_state("step_counter", GameData.get_state("step_counter", 0)+1)
+	check_quest_progress()

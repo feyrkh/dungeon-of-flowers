@@ -39,7 +39,7 @@ func die():
 
 func _ready():
 	if !data:
-		data = EnemyData.new("Furry Guy", 30, preload("res://img/monster1.jpg"), [])
+		data = EnemyData.new("Furry Guy", 30, preload("res://img/monster1.jpg"))
 	sprite.texture = data.img
 
 func highlight():

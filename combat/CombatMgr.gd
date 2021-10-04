@@ -29,15 +29,15 @@ func register(_player, _dungeon):
 	connect("combat_end", player, "_on_combat_end")
 	player.connect("tile_move_complete", dungeon, "_on_player_tile_move_complete")
 
-func trigger_combat(combatConfig):
-	print("Starting combat: ", combatConfig)
+func trigger_combat(combat_config_file):
+	print("Starting combat: ", combat_config_file)
 	emit_signal("combat_start")
 	var fader = PixelFader.instance()
 	dungeon.Fader.add_child(fader)
 	fader.fade_out(fade_amt, 1)
 	yield(fader, "fade_complete")
 	combat = CombatScreen.instance()
-	combat.combat_data = null # TODO: keep track of combat data
+	combat.combat_data = generate_combat_data(combat_config_file)
 	dungeon.Combat.add_child(combat)
 	fader.fade_in(fade_amt, 1)
 	yield(fader, "fade_complete")
@@ -53,6 +53,14 @@ func close_combat():
 	fader.fade_in(fade_amt, 1)
 	yield(fader, "fade_complete")
 	fader.queue_free()
+
+func generate_combat_data(combat_config_file):
+	var combat_data := CombatData.new()
+	if combat_config_file != null:
+		combat_data.load_from(combat_config_file)
+	else:
+		combat_data.load_from("default")
+	return combat_data
 
 func _on_allies_win(combat_data):
 	close_combat()

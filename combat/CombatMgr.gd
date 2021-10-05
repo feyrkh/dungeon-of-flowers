@@ -18,6 +18,9 @@ signal start_enemy_turn(combat_data)
 signal start_player_turn(combat_data)
 signal enemy_turn_complete(combat_data)
 
+signal show_battle_header(text)
+signal hide_battle_header()
+
 var player
 var dungeon
 var combat

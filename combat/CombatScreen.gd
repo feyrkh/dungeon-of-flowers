@@ -275,8 +275,13 @@ func _on_Enemies_single_enemy_target_complete(target_enemy, move_data):
 func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data):
 	Enemies.squish_for_minigame(0.5)
 	MinigameContainer.squish_for_minigame(0.5)
-	print("Attacking ", target_enemy.name, " with skill: ", move_data.label)
+	print("Attacking ", target_enemy.data.label, " with skill: ", move_data.label)
+	match move_data.type:
+		"attack":
+			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].ally_data.label+" is attacking "+target_enemy.data.label+"!")
+	
 	var scene = move_data.get_attack_scene(target_enemy)
+	$"ActionVignette/AnimationPlayer".play("fade_in")
 	MinigameContainer.add_child(scene)
 	MinigameContainer.visible = true
 	scene.connect("minigame_success", target_enemy, "damage_hp")
@@ -287,6 +292,8 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 
 func _on_minigame_complete(minigame_scene):
 	print("Attack complete")
+	$"ActionVignette/AnimationPlayer".play_backwards("fade_in")
+	CombatMgr.emit_signal("hide_battle_header")
 	Enemies.unsquish_for_minigame(0.5)
 	MinigameContainer.unsquish_for_minigame(0.5)
 	yield(get_tree().create_timer(0.5), "timeout")

@@ -98,10 +98,10 @@ func on_new_player_location(x, y, rot_deg):
 func new_game():
 	set_state(TUTORIAL_ON, get_setting(TUTORIAL_ON))
 	if get_state(TUTORIAL_ON):
-		allies = [null, mock_vega(), null]
+		allies = [null, mock_grias(), null]
 		cur_dungeon = "res://data/map/intro.txt"
 	else:
-		allies = [mock_pharoah(), mock_vega(), mock_shantae()]
+		allies = [mock_pharoah(), mock_grias(), mock_shantae()]
 		cur_dungeon = "res://data/map/floor1.txt"
 
 func gameover():
@@ -144,10 +144,10 @@ func mock_shantae():
 	]
 	return ally
 	
-func mock_vega():
+func mock_grias():
 	var ally = AllyData.new()
-	ally.label = "Vega"
-	ally.className = "Street Fighter"
+	ally.label = "Grias"
+	ally.className = "Knight"
 	ally.max_hp = 100
 	ally.hp = 10
 	ally.sp = 20

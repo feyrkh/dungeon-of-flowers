@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://minigame/attackRing/AttackRingGame.gd" type="Script" id=1]
 [ext_resource path="res://art_exports/ui_battle/ui_action_ring_cursor02.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://art_exports/ui_battle/ui_action_ring02.png" type="Texture" id=6]
 [ext_resource path="res://art_exports/ui_battle/ui_action_ring03.png" type="Texture" id=7]
 [ext_resource path="res://art_exports/ui_battle/ui_action_ring_mask.png" type="Texture" id=8]
+[ext_resource path="res://minigame/attackRing/Cursor.gd" type="Script" id=9]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -16,6 +17,9 @@ animations = [ {
 "name": "default",
 "speed": 8.0
 } ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 2.23607
 
 [node name="AttackRingGame" type="Node2D"]
 script = ExtResource( 1 )
@@ -38,11 +42,23 @@ texture = ExtResource( 3 )
 centered = false
 
 [node name="Cursor" type="Sprite" parent="Shaker"]
+modulate = Color( 0.835294, 0.12549, 0.415686, 1 )
 position = Vector2( 293, 36 )
 texture = ExtResource( 2 )
+script = ExtResource( 9 )
+
+[node name="Area2D" type="Area2D" parent="Shaker/Cursor"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shaker/Cursor/Area2D"]
+shape = SubResource( 2 )
 
 [node name="Light2D" type="Light2D" parent="Shaker"]
 position = Vector2( 295, 295 )
 texture = ExtResource( 8 )
 mode = 3
 range_item_cull_mask = 2
+
+[connection signal="area_entered" from="Shaker/Cursor/Area2D" to="Shaker/Cursor" method="_on_Area2D_area_entered"]
+[connection signal="area_exited" from="Shaker/Cursor/Area2D" to="Shaker/Cursor" method="_on_Area2D_area_exited"]

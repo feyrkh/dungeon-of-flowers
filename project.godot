@@ -289,6 +289,7 @@ sprint={
 
 2d_physics/layer_1="bullets"
 3d_physics/layer_1="can_move"
+2d_physics/layer_2="minigame1"
 3d_physics/layer_2="wall_metadata"
 
 [physics]

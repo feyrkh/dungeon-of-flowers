@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://minigame/attackRing/Target.gd" type="Script" id=1]
+[ext_resource path="res://minigame/attackRing/TargetArea.gd" type="Script" id=2]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.5, 1 )
@@ -26,7 +27,7 @@ position = Vector2( 0, 3.09944e-06 )
 scale = Vector2( 1, 2 )
 points = PoolVector2Array( -23, 0, 0, 0, 23, 0 )
 width = 33.0
-default_color = Color( 1, 0.898039, 0.956863, 1 )
+default_color = Color( 0.615686, 0.305882, 0.45098, 1 )
 gradient = SubResource( 1 )
 
 [node name="HiDmg" type="Line2D" parent="."]
@@ -36,3 +37,26 @@ scale = Vector2( 1, 2 )
 points = PoolVector2Array( -5, 0, 5, 0 )
 width = 33.0
 default_color = Color( 1, 0.898039, 0.956863, 1 )
+
+[node name="LowArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 2 )
+multiplier = 0.5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LowArea"]
+
+[node name="MedArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MedArea"]
+
+[node name="HiArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 2 )
+multiplier = 1.5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HiArea"]

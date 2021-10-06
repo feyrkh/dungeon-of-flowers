@@ -30,13 +30,10 @@ func _ready():
 
 func setup(seconds_to_complete):
 	degrees_per_second = (end_degrees - start_degrees)/seconds_to_complete
-	targets = [Target.instance(),Target.instance(),Target.instance(),Target.instance(),Target.instance()]
-	targets[0].setup(1, 10, 30)
-	var offset = 45
-	for target in targets:
-		Targets.add_child(target)
-		place_at(target, -180 + offset)
-		offset += 45
+	var offset = 0.125
+	for i in range(6):
+		add_target(offset, rand_range(1, 5), rand_range(10, 20), rand_range(25, 40))
+		offset += 0.125
 
 func _process(delta):
 	if !started:
@@ -67,3 +64,10 @@ func perform_attack():
 func place_at(obj, degrees):
 	obj.position = center + endpoint.rotated(deg2rad(degrees))
 	obj.rotation_degrees = degrees
+
+func add_target(line_pos, hi_width, med_width, low_width):
+	var degree_pos = (line_pos * (end_degrees - start_degrees)) + start_degrees
+	var new_target = Target.instance()
+	new_target.setup(hi_width, med_width, low_width)
+	Targets.add_child(new_target)
+	place_at(new_target, degree_pos)

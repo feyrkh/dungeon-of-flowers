@@ -1,19 +1,14 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://shader/alpha_mask.shader" type="Shader" id=1]
+[ext_resource path="res://shader/alpha_mask.tres" type="Material" id=1]
 [ext_resource path="res://art_exports/ui_HUD/ui_bar_fill.png" type="Texture" id=2]
 [ext_resource path="res://art_exports/ui_HUD/ui_bar_SP.png" type="Texture" id=3]
 [ext_resource path="res://art_exports/ui_HUD/ui_bar_HP.png" type="Texture" id=4]
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_box_BG.png" type="Texture" id=5]
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_portrait_idle01.png" type="Texture" id=6]
-[ext_resource path="res://art_exports/ui_HUD/ui_HUD_portrait_mask.png" type="Texture" id=7]
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_cursor.png" type="Texture" id=8]
 [ext_resource path="res://art_exports/ui_HUD/ui_HUD_box_outline.png" type="Texture" id=9]
 [ext_resource path="res://font/portrait_font.tres" type="DynamicFont" id=10]
-
-[sub_resource type="ShaderMaterial" id=1]
-shader = ExtResource( 1 )
-shader_param/mask_texture = ExtResource( 7 )
 
 [node name="AllyPortrait" type="Control"]
 margin_right = 40.0
@@ -34,7 +29,7 @@ __meta__ = {
 
 [node name="Portrait" type="TextureRect" parent="."]
 light_mask = 524288
-material = SubResource( 1 )
+material = ExtResource( 1 )
 margin_left = 4.0
 margin_top = -14.0
 margin_right = 255.0

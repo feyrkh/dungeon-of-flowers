@@ -6,6 +6,7 @@ const Target = preload("res://minigame/attackRing/Target.tscn")
 const SHAKE_SIZE = 3
 const SHAKE_INTERVAL = 0.05
 
+const cursor_strike = preload("res://sound/mixkit-sword-cutting-flesh-2788.wav")
 
 onready var Cursor = find_node("Cursor")
 onready var Targets = find_node("Targets")
@@ -52,13 +53,17 @@ func _process(delta):
 		pause_time -= delta
 		return
 	if Input.is_action_just_pressed("ui_accept"):
-		pause_time = 0.5
-		shake_time = 0.5
+		perform_attack()
 	cur_degrees += delta * degrees_per_second
 	if cur_degrees >= end_degrees:
 		cur_degrees -= (end_degrees - start_degrees)
 	place_at(Cursor, cur_degrees)
 
+func perform_attack():
+	pause_time = 0.5
+	shake_time = 0.5
+	AudioPlayerPool.play(cursor_strike)
+	
 func place_at(obj, degrees):
 	obj.position = center + endpoint.rotated(deg2rad(degrees))
 	obj.rotation_degrees = degrees

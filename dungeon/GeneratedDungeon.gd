@@ -6,6 +6,8 @@ const tile_wall = preload("res://dungeon/wall.tscn")
 const tile_corridor = preload("res://dungeon/Corridor.tscn")
 const tile_torch = preload("res://dungeon/torchwall.tscn")
 
+const start_combat_sfx = preload("res://sound/mixkit-medieval-show-fanfare-announcement-226.wav")
+
 const tiles = {
 	"#": [tile_torch, tile_wall],
 	" ": tile_corridor,
@@ -55,6 +57,7 @@ func _ready():
 
 func _on_combat_start():
 	MusicCrossFade.cross_fade("res://music/battle1.mp3", 3, false)
+	AudioPlayerPool.play(start_combat_sfx)
 
 func _on_combat_end():
 	MusicCrossFade.cross_fade("res://music/explore1.mp3", 3, true)
@@ -110,9 +113,3 @@ func process_map(file):
 		content = file.get_line()
 		z += 1
 	file.close()
-
-func on_combat_start():
-	MusicCrossFade.cross_fade("res://music/combat1.mp3", 3, false)
-
-func on_combat_end():
-	MusicCrossFade.cross_fade("res://music/explore1.mp3", 3, true)

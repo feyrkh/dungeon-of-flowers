@@ -6,6 +6,8 @@ const STATUS_CATEGORY = 4
 const bullet_block_sfx = preload("res://sound/mixkit-metallic-sword-strike-2160.wav")
 const bullet_strike_sfx = preload("res://sound/mixkit-sword-cutting-flesh-2788.wav")
 
+const end_combat_sfx = preload("res://sound/mixkit-winning-notification-2018.wav")
+
 var combat_data : CombatData
 
 signal start_combat(combat_data)
@@ -244,7 +246,8 @@ func check_enemy_turn_over():
 func check_combat_over():
 	print("check_combat_over")
 	if enemies_all_dead():
-		yield(get_tree().create_timer(1.0), "timeout")
+		AudioPlayerPool.play(end_combat_sfx);
+		yield(get_tree().create_timer(0.5), "timeout")
 		emit_signal("allies_win", combat_data)
 		EventBus.emit_signal("enable_pause_menu")
 		return true
@@ -283,7 +286,7 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].ally_data.label+" is attacking "+target_enemy.data.label+"!")
 			
 			var scene = move_data.get_attack_scene(allies[selected_ally_idx], target_enemy)
-			$"ActionVignette/AnimationPlayer".play("fade_in")
+			$"ActionVignette/AnimationPlayer".play("fade_in");
 			MinigameContainer.add_child(scene)
 			MinigameContainer.visible = true
 			var MinigameCenter = scene.find_node("MinigameCenter")

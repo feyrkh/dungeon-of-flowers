@@ -6,6 +6,8 @@ const STATUS_CATEGORY = 4
 const bullet_block_sfx = preload("res://sound/mixkit-metallic-sword-strike-2160.wav")
 const bullet_strike_sfx = preload("res://sound/mixkit-sword-cutting-flesh-2788.wav")
 
+const end_combat_sfx = preload("res://sound/mixkit-winning-notification-2018.wav")
+
 var combat_data : CombatData
 
 signal start_combat(combat_data)
@@ -40,6 +42,7 @@ onready var allies = [find_node("Ally1"), find_node("Ally2"), find_node("Ally3")
 onready var AllyPortraits = find_node("AllyPortraits")
 onready var BulletContainer = find_node("BulletContainer")
 onready var ShieldContainer = find_node("ShieldContainer")
+onready var MinigameDesiredCenter = find_node("MinigameCenter")
 
 var selected_ally_idx = 0
 var selected_category_idx = 0
@@ -243,6 +246,8 @@ func check_enemy_turn_over():
 func check_combat_over():
 	print("check_combat_over")
 	if enemies_all_dead():
+		AudioPlayerPool.play(end_combat_sfx);
+		yield(get_tree().create_timer(0.5), "timeout")
 		emit_signal("allies_win", combat_data)
 		EventBus.emit_signal("enable_pause_menu")
 		return true
@@ -279,20 +284,33 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 	match move_data.type:
 		"attack":
 			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].ally_data.label+" is attacking "+target_enemy.data.label+"!")
-	
-	var scene = move_data.get_attack_scene(target_enemy)
-	$"ActionVignette/AnimationPlayer".play("fade_in")
-	MinigameContainer.add_child(scene)
-	MinigameContainer.visible = true
-	scene.connect("minigame_success", target_enemy, "damage_hp")
-	scene.position = (MinigameContainer.rect_size/2)
-	yield(get_tree().create_timer(0.5), "timeout")
-	scene.connect("minigame_complete", self, "_on_minigame_complete")
-	scene.start()
+			
+			var scene = move_data.get_attack_scene(allies[selected_ally_idx], target_enemy)
+			$"ActionVignette/AnimationPlayer".play("fade_in");
+			MinigameContainer.add_child(scene)
+			MinigameContainer.visible = true
+			var MinigameCenter = scene.find_node("MinigameCenter")
+			if MinigameCenter:
+				var offset = MinigameCenter.position - MinigameDesiredCenter.position
+				scene.position -= offset
+			else:
+				scene.position = (MinigameContainer.rect_size/2)
+			scene.connect("minigame_success", target_enemy, "damage_hp")
+			yield(get_tree().create_timer(0.5), "timeout")
+			scene.connect("minigame_complete", self, "_on_attack_minigame_complete")
+			scene.start()
+		_: 
+			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].ally_data.label+" is confused...unknown skill type!")
+			yield(get_tree().create_timer(2), "timeout")
+			CombatMgr.emit_signal("player_move_complete", combat_data)
+			CombatMgr.emit_signal("hide_battle_header")
+			CombatMgr.emit_signal("player_move_complete", combat_data)
 
-func _on_minigame_complete(minigame_scene):
+func _on_attack_minigame_complete(minigame_scene):
 	print("Attack complete")
 	$"ActionVignette/AnimationPlayer".play_backwards("fade_in")
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		enemy.apply_damage()
 	CombatMgr.emit_signal("hide_battle_header")
 	Enemies.unsquish_for_minigame(0.5)
 	MinigameContainer.unsquish_for_minigame(0.5)

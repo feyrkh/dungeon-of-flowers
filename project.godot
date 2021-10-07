@@ -135,7 +135,6 @@ QuestMgr="*res://QuestMgr.gd"
 [debug]
 
 settings/fps/force_fps=60
-settings/stdout/print_fps=true
 gdscript/warnings/unused_variable=false
 gdscript/warnings/unused_argument=false
 gdscript/warnings/unused_signal=false
@@ -289,6 +288,7 @@ sprint={
 
 2d_physics/layer_1="bullets"
 3d_physics/layer_1="can_move"
+2d_physics/layer_2="minigame1"
 3d_physics/layer_2="wall_metadata"
 
 [physics]

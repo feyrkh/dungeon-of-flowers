@@ -1,5 +1,7 @@
 extends Node2D
 
+signal all_damage_applied
+
 const DamageIndicatorSlash = preload("res://combat/DamageIndicatorSlash.tscn")
 const SINK_SPEED = 20
 const FADE_SECONDS = 4
@@ -19,7 +21,7 @@ var accumulated_damage = 0
 
 func _ready():
 	reset()
-	slash_target = get_node(slash_target_path).global_position
+	slash_target = get_node(slash_target_path)
 
 func _process(delta):
 	if DamageLabel.modulate.a > 0:
@@ -40,17 +42,20 @@ func reset():
 func take_damage(amt):
 	var slash = DamageIndicatorSlash.instance()
 	SlashContainer.add_child(slash)
-	slash.global_position = slash_target + Vector2(rand_range(-target_extents.x, target_extents.x), rand_range(-target_extents.y, target_extents.y))
+	slash.global_position = slash_target.global_position + Vector2(rand_range(-target_extents.x, target_extents.x), rand_range(-target_extents.y, target_extents.y))
 	slash.rotation_degrees = rand_range(0, 360)
 	slash.set_damage(amt)
 
 func apply_damage(_ally_data):
+	var damage_total = 0
 	self.ally_data = _ally_data
 	for slash in SlashContainer.get_children():
+		damage_total = slash.damage
 		slash.apply_damage(ally_data, self, randf()*0.5 + 0.1)
 	while SlashContainer.get_children().size() > 0:
 		yield(get_tree().create_timer(0.1), "timeout")
 	set_process(true)
+	emit_signal("all_damage_applied", damage_total)
 
 func count_damage(amt):
 	DamageLabel.visible = true

@@ -7,6 +7,10 @@ var max_hp : int
 var img : Texture
 var intentions = []
 
+var dodge = 100 # decrease total size of low targets
+var defend = 100 # decrease size of med targets
+var resist = 100 # decrease size of crit targets
+
 func _init(_name:String="???", _max_hp:int=10, _img:Texture=null):
 	self.label = _name
 	self.max_hp = _max_hp
@@ -23,6 +27,12 @@ func load_from(data):
 	self.max_hp = data.hp
 	self.img = load(data.img)
 	self.intentions = data.intentions
+	self.dodge = data.dodge
+	self.defend = data.defend
+	self.resist = data.resist
+	if !self.dodge: self.dodge = 100
+	if !self.defend: self.defend = 100
+	if !self.resist: self.resist = 100
 	if !self.intentions:
 		self.intentions = []
 	for i in range(self.intentions.size()):
@@ -47,3 +57,6 @@ func get_next_intention():
 		}
 	else:
 		return intentions[rand_range(0, intentions.size())]
+
+func round_stats():
+	hp = float(int(hp))

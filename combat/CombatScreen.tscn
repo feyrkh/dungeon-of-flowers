@@ -10,7 +10,7 @@
 [ext_resource path="res://img/combat/combat-mockup.png" type="Texture" id=8]
 [ext_resource path="res://art_exports/ui_battle/ui_action_vignette.png" type="Texture" id=9]
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=1]
 resource_name = "fade_in"
 length = 0.5
 tracks/0/type = "value"
@@ -42,14 +42,13 @@ func on_hide_battle_header():
 	$AnimationPlayer.play_backwards(\"slide_in\")
 "
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=3]
 size = 30
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 7 )
 
-[sub_resource type="Animation" id=3]
-resource_name = "slide_in"
+[sub_resource type="Animation" id=4]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -66,6 +65,10 @@ tracks/0/keys = {
 
 [node name="CombatScreen" type="Node2D"]
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 540.0 ],
+"_edit_vertical_guides_": [ 2240.0 ]
+}
 
 [node name="Enemies" parent="." instance=ExtResource( 2 )]
 
@@ -81,7 +84,7 @@ texture = ExtResource( 9 )
 centered = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ActionVignette"]
-anims/fade_in = SubResource( 4 )
+anims/fade_in = SubResource( 1 )
 
 [node name="AllyPortraits" parent="." instance=ExtResource( 4 )]
 
@@ -100,7 +103,7 @@ margin_left = -329.0
 margin_top = -67.0
 margin_right = -168.0
 margin_bottom = -25.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "Action Phase"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -111,7 +114,7 @@ margin_left = -351.0
 margin_top = -26.0
 margin_right = 325.0
 margin_bottom = 16.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "Grias is attacking!"
 align = 2
 __meta__ = {
@@ -119,7 +122,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BattleHeader"]
-anims/slide_in = SubResource( 3 )
+anims/slide_in = SubResource( 4 )
 
 [node name="MinigameContainer" type="CenterContainer" parent="."]
 margin_left = 1920.0
@@ -130,6 +133,9 @@ script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="MinigameCenter" type="Position2D" parent="MinigameContainer"]
+position = Vector2( 320, 540 )
 
 [connection signal="player_move_selected" from="." to="." method="_on_CombatScreen_player_move_selected"]
 [connection signal="start_combat" from="." to="." method="_on_CombatScreen_start_combat"]

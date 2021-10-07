@@ -55,3 +55,9 @@ static func fadeout(node:Node2D, time:float):
 static func get_decibels_for_volume_percentage(volume_percent): # 0 - 100.0 range, usually
 	volume_percent = volume_percent / 100.0
 	return (60.0 * volume_percent) - 60 # range goes from -80 decibels (silent?) to 0 (normal) or higher (really loud)
+
+func get_areas_at_position(source:Node2D):
+	var target_areas = source.get_world_2d().direct_space_state.intersect_point(source.global_position, 32, [], 2, false, true)
+	print("On top of ", target_areas.size(), " targets")
+	for target in target_areas:
+		print("  mult: ", target["collider"].multiplier)

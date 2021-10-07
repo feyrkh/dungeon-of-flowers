@@ -9,11 +9,16 @@ const Target = preload("res://minigame/attackRing/Target.tscn")
 const SHAKE_SIZE = 3
 const SHAKE_INTERVAL = 0.05
 const SHAKE_TIME = 0.5
+const MISS_PHRASE = ["Miss - speed up!", "Oops - speed up!", "Whiff - speed up!", ]
+const WEAK_PHRASE = ["Weak hit!", "Glancing blow!", "Nicked 'em!", ]
+const MED_PHRASE = ["Solid hit!", "Struck a blow!", "Nice shot!", ]
+const CRIT_PHRASE = ["CRIT!", "Critical hit!", "WHAM!", "POW!", ]
 
 const cursor_miss = preload("res://sound/mixkit-air-in-a-hit-2161.wav")
 const cursor_weak = preload("res://sound/mixkit-metallic-sword-strike-2160.wav")
 const cursor_strike = preload("res://sound/thump.mp3")
 const cursor_critical = preload("res://sound/mixkit-sword-cutting-flesh-2788.wav")
+const HitPhrase = preload("res://combat/HitPhrase.tscn")
 
 onready var Cursor = find_node("Cursor")
 onready var Targets = find_node("Targets")
@@ -27,6 +32,7 @@ var started = false
 var pause_time = 0
 var shake_time = 0
 var shake_counter = 0
+var cooldown_time = 0
 
 var targets = []
 
@@ -80,9 +86,13 @@ func _physics_process(delta):
 	if pause_time > 0:
 		pause_time -= delta
 		return
-	if Input.is_action_just_pressed("ui_accept"):
-		perform_attack()
-		return
+	if cooldown_time > 0:
+		cooldown_time -= delta
+	else:
+		if Input.is_action_just_pressed("ui_accept"):
+			perform_attack()
+			cooldown_time = 0.1
+			return
 	cur_degrees += delta * degrees_per_second
 	if cur_degrees >= end_degrees:
 		emit_signal("minigame_complete", self)
@@ -97,21 +107,32 @@ func _physics_process(delta):
 func perform_attack():
 	pause_time = SHAKE_TIME
 	shake_time = SHAKE_TIME
-	var multiplier = Cursor.get_highest_multiplier()
+	var multiplier = Cursor.get_highest_multiplier(true)
 	if multiplier < 0.25:
 		AudioPlayerPool.play(cursor_miss)
 		apply_handicap(0.1)
+		attack_text(MISS_PHRASE)
+		degrees_per_second *= 1.3
 	elif multiplier < 0.75:
 		AudioPlayerPool.play(cursor_weak)
 		apply_handicap(0.05)
 		emit_signal("minigame_success", ceil(multiplier * damage))
+		attack_text(WEAK_PHRASE)
 	elif multiplier < 1.25:
 		AudioPlayerPool.play(cursor_strike)
 		emit_signal("minigame_success", ceil(multiplier * damage))
+		attack_text(MED_PHRASE)
 	else:
 		AudioPlayerPool.play(cursor_critical)
 		apply_handicap(-0.075)
 		emit_signal("minigame_success", ceil(multiplier * damage))
+		attack_text(CRIT_PHRASE)
+
+func attack_text(phrase_array):
+	var phrase = HitPhrase.instance()
+	$HitPhrases.add_child(phrase)
+	phrase.rect_global_position = $MinigameCenter.global_position + Vector2(0, 200)
+	phrase.setup(phrase_array[randi()%phrase_array.size()])
 
 func apply_handicap(amt):
 	GameData.set_state(GameData.ATTACK_RING_HANDICAP, max(-2, min(2, amt + GameData.get_state(GameData.ATTACK_RING_HANDICAP, 0))))

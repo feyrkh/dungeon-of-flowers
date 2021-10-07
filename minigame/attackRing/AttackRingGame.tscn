@@ -37,7 +37,6 @@ texture = ExtResource( 4 )
 
 [node name="ui_action_ring" type="AnimatedSprite" parent="Shaker"]
 frames = SubResource( 1 )
-frame = 1
 playing = true
 centered = false
 
@@ -73,6 +72,13 @@ range_item_cull_mask = 2
 
 [node name="MinigameCenter" type="Position2D" parent="."]
 position = Vector2( 295, 295 )
+
+[node name="HitPhrases" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="area_entered" from="Shaker/Cursor/Area2D" to="Shaker/Cursor" method="_on_Area2D_area_entered"]
 [connection signal="area_exited" from="Shaker/Cursor/Area2D" to="Shaker/Cursor" method="_on_Area2D_area_exited"]

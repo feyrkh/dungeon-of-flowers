@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://minigame/attackRing/AttackRingGame.gd" type="Script" id=1]
 [ext_resource path="res://art_exports/ui_battle/ui_action_ring_cursor02.png" type="Texture" id=2]
@@ -9,7 +9,13 @@
 [ext_resource path="res://art_exports/ui_battle/ui_action_ring03.png" type="Texture" id=7]
 [ext_resource path="res://art_exports/ui_battle/ui_action_ring_mask.png" type="Texture" id=8]
 [ext_resource path="res://minigame/attackRing/Cursor.gd" type="Script" id=9]
-[ext_resource path="res://img/minimap/minimap_miasma2.png" type="Texture" id=10]
+[ext_resource path="res://font/NOTOSANS-REGULAR.TTF" type="DynamicFontData" id=10]
+[ext_resource path="res://art_exports/ui_battle/ui_button_A.png" type="Texture" id=11]
+
+[sub_resource type="DynamicFont" id=3]
+size = 18
+extra_spacing_bottom = -6
+font_data = ExtResource( 10 )
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -35,6 +41,24 @@ __meta__ = {
 position = Vector2( 295, 341 )
 texture = ExtResource( 4 )
 
+[node name="TutorialLabel" type="Label" parent="Shaker"]
+margin_left = 101.0
+margin_top = 270.0
+margin_right = 488.0
+margin_bottom = 330.0
+rect_pivot_offset = Vector2( 194, 0 )
+custom_fonts/font = SubResource( 3 )
+text = "Press      when the cursor touches the 
+strike zone center to deal maximum damage."
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ui_button_A" type="Sprite" parent="Shaker/TutorialLabel"]
+position = Vector2( 93, 16 )
+texture = ExtResource( 11 )
+
 [node name="ui_action_ring" type="AnimatedSprite" parent="Shaker"]
 frames = SubResource( 1 )
 playing = true
@@ -51,11 +75,6 @@ modulate = Color( 0.835294, 0.12549, 0.415686, 1 )
 position = Vector2( 293, 36 )
 texture = ExtResource( 2 )
 script = ExtResource( 9 )
-
-[node name="QueryPoint" type="Sprite" parent="Shaker/Cursor"]
-position = Vector2( 8.19564e-06, -1.04308e-06 )
-scale = Vector2( 0.125, 0.125 )
-texture = ExtResource( 10 )
 
 [node name="Area2D" type="Area2D" parent="Shaker/Cursor"]
 collision_layer = 0

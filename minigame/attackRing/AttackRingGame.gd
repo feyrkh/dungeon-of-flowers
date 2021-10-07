@@ -23,6 +23,7 @@ const HitPhrase = preload("res://combat/HitPhrase.tscn")
 onready var Cursor = find_node("Cursor")
 onready var Targets = find_node("Targets")
 onready var Shaker = find_node("Shaker")
+onready var TutorialLabel = find_node("TutorialLabel")
 
 var start_degrees = -176.71791262
 var end_degrees = 176.71791262
@@ -33,6 +34,7 @@ var pause_time = 0
 var shake_time = 0
 var shake_counter = 0
 var cooldown_time = 0
+var text_alpha = 1.0
 
 var targets = []
 
@@ -59,6 +61,7 @@ func set_minigame_config(game_config, ally, enemy):
 
 func setup(seconds_to_complete):
 	Util.delete_children(Targets)
+	text_alpha = 1.0
 	degrees_per_second = (end_degrees - start_degrees)/seconds_to_complete
 	if game_config == null:
 		var offset = 0.125
@@ -75,6 +78,9 @@ func setup(seconds_to_complete):
 func _physics_process(delta):
 	if !started:
 		return
+	if text_alpha > 0.3:
+		text_alpha -= delta/3
+		TutorialLabel.modulate.a = text_alpha
 	if shake_time > 0:
 		shake_counter += delta
 		shake_time -= delta

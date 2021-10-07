@@ -9,7 +9,7 @@ var intentions = []
 
 var dodge = 100 # decrease total size of low targets
 var defend = 100 # decrease size of med targets
-var parry = 100 # decrease size of crit targets
+var resist = 100 # decrease size of crit targets
 
 func _init(_name:String="???", _max_hp:int=10, _img:Texture=null):
 	self.label = _name
@@ -29,10 +29,10 @@ func load_from(data):
 	self.intentions = data.intentions
 	self.dodge = data.dodge
 	self.defend = data.defend
-	self.parry = data.parry
+	self.resist = data.resist
 	if !self.dodge: self.dodge = 100
 	if !self.defend: self.defend = 100
-	if !self.parry: self.parry = 100
+	if !self.resist: self.resist = 100
 	if !self.intentions:
 		self.intentions = []
 	for i in range(self.intentions.size()):

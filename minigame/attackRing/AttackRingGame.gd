@@ -61,7 +61,7 @@ func setup(seconds_to_complete):
 			offset += 0.125
 	else:
 		for target_data in game_config["targets"]:
-			target_data["hi"] = max(0, target_data["hi"] * (ally.ally_data.precision/float(enemy.data.parry)))
+			target_data["hi"] = max(0, target_data["hi"] * (ally.ally_data.precision/float(enemy.data.resist)))
 			target_data["med"] = max(1, target_data["med"] * (ally.ally_data.strength/float(enemy.data.defend)))
 			target_data["low"] = max(5, target_data["low"] * (ally.ally_data.agility/float(enemy.data.dodge)))
 			add_target(target_data["offset"], target_data["hi"], target_data["med"], target_data["low"])

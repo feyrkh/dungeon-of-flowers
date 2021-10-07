@@ -2,5 +2,5 @@
 "img": "res://img/slime.jpg",
 "dodge": 50,
 "defend": 50,
-"parry": 50,
+"resist": 50,
 "intentions":["slime_attack"]}

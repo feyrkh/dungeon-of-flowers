@@ -9,6 +9,10 @@ var sp : float setget set_sp
 var max_sp : int setget set_max_sp
 var shields = []
 
+var agility = 100 # likely to hit (low damage range increase)
+var strength = 100 # likely to penetrate armor (medium damage range increase)
+var precision = 100 # likely to get critical hit (high damage range increase)
+
 var texture : Texture
 
 var moves : Array # of MoveData

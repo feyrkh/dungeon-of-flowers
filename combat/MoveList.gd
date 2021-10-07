@@ -10,17 +10,14 @@ func _ready():
 		"name": "punch",
 		"type": "attack",
 		"target": "enemy",
-		"game_scene": "simpleLineGame",
+		"game_scene": "attackRing",
 		"game_config": {
-			"base_damage": 3,
-			"strikes": 3,
-			"marker_move_speed": 1,
-			"success_zones": [
-				{"width": 0.05, "position": 0.25, "level": 1, "color": Color.green},
-				{"width": 0.03, "position": 0.525, "level": 1.5, "color": Color.orange},
-				{"width": 0.01, "position": 0.8, "level": 2, "color": Color.orangered}
-			],
-			"failure_level": 0.25
+			"damage": 20/3,
+			"targets": [
+				{"offset": 0.3, "hi": 1, "med": 20, "low": 25},
+				{"offset": 0.6, "hi": 1, "med": 20, "low": 25},
+				{"offset": 0.9, "hi": 1, "med": 20, "low": 25},
+			]
 		}
 	}))
 	add_move(Util.config(MoveData.new(), {
@@ -28,17 +25,12 @@ func _ready():
 		"name": "headbutt",
 		"type": "attack",
 		"target": "enemy",
-		"game_scene": "simpleLineGame",
+		"game_scene": "attackRing",
 		"game_config": {
-			"strikes": 1,
-			"base_damage": 8,
-			"marker_move_speed": 1,
-			"success_zones": [
-				{"width": 0.1, "position": 0.7, "level": 1, "color": Color.green},
-				{"width": 0.05, "position": 0.7, "level": 1.5, "color": Color.orange},
-				{"width": 0.02, "position": 0.7, "level": 2, "color": Color.orangered}
-			],
-			"failure_level": 0.25
+			"damage": 20,
+			"targets": [
+				{"offset": 0.8, "hi": 8, "med": 9, "low": 25},
+			]
 		}
 	}))
 	add_move(Util.config(MoveData.new(), {
@@ -46,15 +38,13 @@ func _ready():
 		"name": "kick",
 		"type": "attack",
 		"target": "enemy",
-		"game_scene": "simpleLineGame",
+		"game_scene": "attackRing",
 		"game_config": {
-			"base_damage": 10,
-			"strikes": 1,
-			"marker_move_speed": 1.5,
-			"success_zones": [
-				{"width": 0.05, "position": 0.8, "level": 2, "color": Color.orangered}
-			],
-			"failure_level": 0.5
+			"damage": 20/2,
+			"targets": [
+				{"offset": 0.6, "hi": 5, "med": 15, "low": 20},
+				{"offset": 0.8, "hi": 5, "med": 15, "low": 20},
+			]
 		}
 	}))
 

@@ -8,6 +8,7 @@ const MUSIC_VOLUME = "music_volume"
 const SFX_VOLUME = "sfx_volume"
 const TUTORIAL_ON = "tutorial_on"
 const STEP_COUNTER = "step_counter"
+const ATTACK_RING_HANDICAP = "hcap_atk_ring"
 
 var allies = []
 var world_tile_position = Vector2()

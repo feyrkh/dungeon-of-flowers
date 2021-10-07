@@ -244,6 +244,7 @@ func check_enemy_turn_over():
 func check_combat_over():
 	print("check_combat_over")
 	if enemies_all_dead():
+		yield(get_tree().create_timer(1.0), "timeout")
 		emit_signal("allies_win", combat_data)
 		EventBus.emit_signal("enable_pause_menu")
 		return true
@@ -293,7 +294,7 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 				scene.position = (MinigameContainer.rect_size/2)
 			scene.connect("minigame_success", target_enemy, "damage_hp")
 			yield(get_tree().create_timer(0.5), "timeout")
-			scene.connect("minigame_complete", self, "_on_minigame_complete")
+			scene.connect("minigame_complete", self, "_on_attack_minigame_complete")
 			scene.start()
 		_: 
 			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].ally_data.label+" is confused...unknown skill type!")
@@ -302,9 +303,11 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 			CombatMgr.emit_signal("hide_battle_header")
 			CombatMgr.emit_signal("player_move_complete", combat_data)
 
-func _on_minigame_complete(minigame_scene):
+func _on_attack_minigame_complete(minigame_scene):
 	print("Attack complete")
 	$"ActionVignette/AnimationPlayer".play_backwards("fade_in")
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		enemy.apply_damage()
 	CombatMgr.emit_signal("hide_battle_header")
 	Enemies.unsquish_for_minigame(0.5)
 	MinigameContainer.unsquish_for_minigame(0.5)

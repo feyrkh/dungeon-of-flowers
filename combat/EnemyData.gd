@@ -57,3 +57,6 @@ func get_next_intention():
 		}
 	else:
 		return intentions[rand_range(0, intentions.size())]
+
+func round_stats():
+	hp = float(int(hp))

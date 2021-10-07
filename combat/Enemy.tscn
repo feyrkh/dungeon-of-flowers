@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://img/monster1.jpg" type="Texture" id=1]
 [ext_resource path="res://combat/Weakspot.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://util/Pulser.tscn" type="PackedScene" id=4]
 [ext_resource path="res://combat/IntentionIcon.tscn" type="PackedScene" id=5]
 [ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=6]
+[ext_resource path="res://combat/DamageIndicator.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 85.9084
@@ -49,6 +50,13 @@ ease_curve = SubResource( 2 )
 
 [node name="IntentionIcon" parent="Bouncer" instance=ExtResource( 5 )]
 
-[connection signal="input_event" from="Area2D" to="." method="_on_Area2D_input_event"]
-[connection signal="mouse_entered" from="Area2D" to="." method="_on_Area2D_mouse_entered"]
-[connection signal="mouse_exited" from="Area2D" to="." method="_on_Area2D_mouse_exited"]
+[node name="DamageIndicator" parent="." instance=ExtResource( 7 )]
+position = Vector2( 119.604, -32.6813 )
+slash_target_path = NodePath("../SlashTarget")
+target_extents = Vector2( 100, 100 )
+
+[node name="SlashTarget" type="Position2D" parent="."]
+position = Vector2( 0.768707, -129.539 )
+__meta__ = {
+"_gizmo_extents_": 100.0
+}

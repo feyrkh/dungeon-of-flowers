@@ -20,10 +20,11 @@ func check_introduction():
 		return false
 	match GameData.get_state(INTRO, 0):
 		0:
-			play_cutscene(INTRO_INTRODUCED_GRIAS)
-			yield(cutscene, "timeline_end")
-			GameData.set_state(INTRO, INTRO_INTRODUCED_GRIAS)
-			return true
+			if GameData.get_state(GameData.STEP_COUNTER, 0) == 1:
+				play_cutscene(INTRO_INTRODUCED_GRIAS)
+				yield(cutscene, "timeline_end")
+				GameData.set_state(INTRO, INTRO_INTRODUCED_GRIAS)
+				return true
 		INTRO_INTRODUCED_GRIAS: 
 			if GameData.get_state(GameData.STEP_COUNTER, 0) == 4:
 				play_cutscene(INTRO_FIRST_COMBAT)

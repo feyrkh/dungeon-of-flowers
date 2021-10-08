@@ -103,7 +103,7 @@ func _physics_process(delta):
 	if cur_degrees >= end_degrees:
 		emit_signal("minigame_complete", self)
 		if get_parent() == get_tree().root:
-			setup(4 + max(-2, min(2, GameData.get_state(GameData.ATTACK_RING_HANDICAP, 0))))
+			setup(6 + max(-2, min(2, GameData.get_state(GameData.ATTACK_RING_HANDICAP, 0))))
 			cur_degrees -= (end_degrees - start_degrees)
 		else:
 			started = false

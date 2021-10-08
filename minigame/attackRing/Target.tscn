@@ -1,11 +1,12 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://minigame/attackRing/Target.gd" type="Script" id=1]
 [ext_resource path="res://minigame/attackRing/TargetArea.gd" type="Script" id=2]
+[ext_resource path="res://img/combat/target_zone.png" type="Texture" id=3]
 
-[sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0, 0.5, 1 )
-colors = PoolColorArray( 0.615686, 0.305882, 0.45098, 1, 1, 0.898039, 0.956863, 1, 0.615686, 0.305882, 0.45098, 1 )
+[sub_resource type="CanvasItemMaterial" id=2]
+
+[sub_resource type="ShaderMaterial" id=1]
 
 [node name="Target" type="Node2D"]
 script = ExtResource( 1 )
@@ -13,30 +14,25 @@ __meta__ = {
 "_edit_horizontal_guides_": [ -30.0, 30.0 ]
 }
 
-[node name="LowDmg" type="Line2D" parent="."]
+[node name="LowDmg" type="Sprite" parent="."]
+modulate = Color( 0.333333, 0.184314, 0.25098, 1 )
 light_mask = 2
-position = Vector2( 0, 3.09944e-06 )
-scale = Vector2( 1, 2 )
-points = PoolVector2Array( -33, 0, 33, 0 )
-width = 33.0
-default_color = Color( 0.333333, 0.184314, 0.25098, 1 )
+material = SubResource( 2 )
+scale = Vector2( 0.781, 3 )
+texture = ExtResource( 3 )
 
-[node name="MedDmg" type="Line2D" parent="."]
+[node name="MedDmg" type="Sprite" parent="."]
+modulate = Color( 0.615686, 0.305882, 0.45098, 1 )
 light_mask = 2
-position = Vector2( 0, 3.09944e-06 )
-scale = Vector2( 1, 2 )
-points = PoolVector2Array( -23, 0, 0, 0, 23, 0 )
-width = 33.0
-default_color = Color( 0.615686, 0.305882, 0.45098, 1 )
-gradient = SubResource( 1 )
+material = SubResource( 1 )
+scale = Vector2( 0.256, 3 )
+texture = ExtResource( 3 )
 
-[node name="HiDmg" type="Line2D" parent="."]
+[node name="HiDmg" type="Sprite" parent="."]
+modulate = Color( 1, 0.898039, 0.956863, 1 )
 light_mask = 2
-position = Vector2( 0, 3.09944e-06 )
-scale = Vector2( 1, 2 )
-points = PoolVector2Array( -5, 0, 5, 0 )
-width = 33.0
-default_color = Color( 1, 0.898039, 0.956863, 1 )
+scale = Vector2( 0.031, 3 )
+texture = ExtResource( 3 )
 
 [node name="LowArea" type="Area2D" parent="."]
 collision_layer = 2

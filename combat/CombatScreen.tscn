@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://combat/CombatScreen.gd" type="Script" id=1]
 [ext_resource path="res://combat/Enemies.tscn" type="PackedScene" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://img/ui/ui_btn_pc_LEFT.tscn" type="PackedScene" id=15]
 [ext_resource path="res://img/ui/ui_btn_pc_RIGHT.tscn" type="PackedScene" id=16]
 [ext_resource path="res://img/ui/PausedTutorialTip.gd" type="Script" id=17]
+[ext_resource path="res://util/DelayedTooltip.gd" type="Script" id=18]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
@@ -241,6 +242,7 @@ width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="AttackMinigame" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
 margin_left = 845.0
 margin_top = 560.0
 margin_right = 1305.0
@@ -273,6 +275,33 @@ scale = Vector2( 1, 0.725581 )
 points = PoolVector2Array( 1068, 600.897, 1359, 837.949 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="EnemyAttack" type="MarginContainer" parent="Tutorial"]
+margin_left = 1070.0
+margin_top = 521.0
+margin_right = 1577.0
+margin_bottom = 646.0
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+delay = 2.5
+delayed_tutorial = "EnemyAttack_Delayed"
+
+[node name="EnemyAttack_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
+margin_left = 1070.0
+margin_top = 521.0
+margin_right = 1577.0
+margin_bottom = 646.0
+script = ExtResource( 17 )
+
+[node name="Label" parent="Tutorial/EnemyAttack_Delayed" instance=ExtResource( 12 )]
+margin_right = 500.0
+margin_bottom = 118.0
+text = "The enemies are attacking! Grias left her shield
+behind and won't be able to block right now.
+Stay tough!"
 
 [connection signal="player_move_selected" from="." to="." method="_on_CombatScreen_player_move_selected"]
 [connection signal="start_combat" from="." to="." method="_on_CombatScreen_start_combat"]

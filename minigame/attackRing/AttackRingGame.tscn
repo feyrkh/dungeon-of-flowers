@@ -61,7 +61,6 @@ texture = ExtResource( 11 )
 
 [node name="ui_action_ring" type="AnimatedSprite" parent="Shaker"]
 frames = SubResource( 1 )
-frame = 1
 playing = true
 centered = false
 

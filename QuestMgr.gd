@@ -50,6 +50,10 @@ func check_combat_introduction():
 				EventBus.emit_signal("show_tutorial", "TargetEnemy", false)
 			elif combat_phase == "attack_minigame":
 				EventBus.emit_signal("show_tutorial", "AttackMinigame", true)
+			#elif combat_phase == "enemy_take_damage":
+			#	EventBus.emit_signal("show_tutorial", "EnemyTakeDamage", false)
+			elif combat_phase == "enemy_turn":
+				EventBus.emit_signal("show_tutorial", "EnemyAttack", false)
 				GameData.set_state(INTRO, INTRO_FIRST_COMBAT_FINISH)
 			else:
 				EventBus.emit_signal("hide_tutorial")

@@ -230,6 +230,7 @@ func check_player_turn_over():
 func _on_CombatScreen_start_enemy_turn(_combat_data):
 	print("_on_CombatScreen_start_enemy_turn")
 	yield(get_tree().create_timer(1), "timeout")
+	QuestMgr.combat_phase = "enemy_turn"
 	CombatMgr.emit_signal("execute_combat_intentions", AllyPortraits.get_live_allies(), Enemies.get_live_enemies())
 	while !check_enemy_turn_over():
 		yield(get_tree().create_timer(0.5), "timeout")
@@ -320,6 +321,7 @@ func _on_attack_minigame_complete(minigame_scene):
 	$"ActionVignette/AnimationPlayer".play_backwards("fade_in")
 	for enemy in get_tree().get_nodes_in_group("enemy"):
 		enemy.apply_damage()
+	QuestMgr.combat_phase = "enemy_take_damage"
 	CombatMgr.emit_signal("hide_battle_header")
 	Enemies.unsquish_for_minigame(0.5)
 	MinigameContainer.unsquish_for_minigame(0.5)

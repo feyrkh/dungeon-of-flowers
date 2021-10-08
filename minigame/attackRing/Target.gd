@@ -3,22 +3,12 @@ extends Node2D
 var low_width = 33
 var med_width = 23
 var hi_width = 5
+var already_cleared = false
 
 func _ready():
-	var med_colors = PoolColorArray($MedDmg.gradient.colors)
-	var med_offsets = $MedDmg.gradient.offsets
-	$MedDmg.gradient = Gradient.new()
-	$MedDmg.gradient.colors = med_colors
-	$MedDmg.gradient.offsets = med_offsets
-	#for i in range($MedDmg.gradient.colors.size()):
-	#	var c = $MedDmg.gradient.colors[i] 
-	#	$MedDmg.gradient.colors[i] = Color(c.r, c.g, c.b)
-	$LowDmg.points[0].x = -low_width
-	$LowDmg.points[-1].x = low_width
-	$MedDmg.points[0].x = -med_width
-	$MedDmg.points[-1].x = med_width
-	$HiDmg.points[0].x = -hi_width
-	$HiDmg.points[-1].x = hi_width
+	$LowDmg.scale.x = calc_width(low_width)
+	$MedDmg.scale.x = calc_width(med_width)
+	$HiDmg.scale.x = calc_width(hi_width)
 	var lowArea := $LowArea
 	lowArea.target_color = Color.white 
 	#lowArea.target_color = $LowDmg.default_color
@@ -35,19 +25,30 @@ func _ready():
 	hiArea.get_node("CollisionShape2D").shape = RectangleShape2D.new()
 	hiArea.get_node("CollisionShape2D").shape.extents = Vector2(hi_width, 33)
 
+func calc_width(pixels):
+	return pixels/14
+	
+
 func setup(hi, med, low):
 	self.hi_width = hi 
 	self.med_width = med 
 	self.low_width = low 
 
-func clear_target():
+func clear_target(max_multiplier):
+	if already_cleared:
+		return
+	already_cleared = true
+	var low_gray = $LowDmg.modulate.gray()
+	var hi_gray = $HiDmg.modulate.gray()
+	if max_multiplier != $LowArea.multiplier:
+		#$LowDmg.default_color = Color(low_gray, low_gray, low_gray)
+		$LowDmg.modulate = Color.transparent
+	if max_multiplier != $MedArea.multiplier:
+		$MedDmg.modulate = Color.transparent
+	if max_multiplier != $HiArea.multiplier:
+		#$HiDmg.default_color = Color(hi_gray, hi_gray, hi_gray)
+		$HiDmg.modulate = Color.transparent
+		
 	$LowArea.multiplier = 0
 	$MedArea.multiplier = 0
 	$HiArea.multiplier = 0
-	var low_gray = $LowDmg.default_color.gray()
-	var hi_gray = $HiDmg.default_color.gray()
-	$LowDmg.default_color = Color(low_gray, low_gray, low_gray)
-	for i in range($MedDmg.gradient.colors.size()):
-		var med_gray = $MedDmg.gradient.colors[i].gray()
-		$MedDmg.gradient.colors[i] = Color(med_gray, med_gray, med_gray)
-	$HiDmg.default_color = Color(hi_gray, hi_gray, hi_gray)

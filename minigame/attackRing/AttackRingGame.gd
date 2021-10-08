@@ -44,7 +44,7 @@ var enemy
 var damage = 10
 
 func _ready():
-	setup(4 + GameData.get_state(GameData.ATTACK_RING_HANDICAP, 0))
+	setup(6 + GameData.get_state(GameData.ATTACK_RING_HANDICAP, 0))
 	place_at(Cursor, start_degrees)
 	yield(get_tree().create_timer(0.5), "timeout")
 	if get_parent() == get_tree().root:

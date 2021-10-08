@@ -1,4 +1,5 @@
 extends Control
+class_name Tutorial
 
 var tutorial_paused = false
 

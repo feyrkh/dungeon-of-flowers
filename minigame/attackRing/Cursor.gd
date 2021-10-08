@@ -25,9 +25,15 @@ func get_highest_multiplier(clear_target):
 			max_multiplier = area.multiplier
 			max_area = area
 	if clear_target and max_area:
-		max_area.clear_target()
+		max_area.clear_target(max_multiplier)
 	return max_multiplier
 
 func _on_Area2D_area_exited(area):
+	var left_strike_zone = true
 	in_areas.erase(area)
+	for in_area in in_areas:
+		if in_area.get_parent() == area.get_parent():
+			left_strike_zone = false
+	if left_strike_zone:
+		area.get_parent().clear_target(-1)
 	update_color()

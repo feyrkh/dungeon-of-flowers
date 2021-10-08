@@ -110,18 +110,28 @@ __meta__ = {
 }
 
 [node name="SubmenuEntry1" parent="." instance=ExtResource( 3 )]
-margin_top = -212.0
-margin_bottom = -168.0
+modulate = Color( 1, 1, 1, 0 )
+margin_top = 18.211
+margin_bottom = 62.211
 
 [node name="SubmenuEntry2" parent="." instance=ExtResource( 3 )]
-margin_top = -162.0
-margin_bottom = -118.0
+modulate = Color( 1, 1, 1, 0 )
+margin_top = 17.211
+margin_bottom = 61.211
 
 [node name="SubmenuEntry3" parent="." instance=ExtResource( 3 )]
-margin_top = -111.0
-margin_bottom = -67.0
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -176.694
+margin_top = 19.5115
+margin_right = 176.306
+margin_bottom = 63.5115
 
 [node name="SubmenuEntry4" parent="." instance=ExtResource( 3 )]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -175.75
+margin_top = 20.3743
+margin_right = 177.25
+margin_bottom = 64.3743
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 2.0

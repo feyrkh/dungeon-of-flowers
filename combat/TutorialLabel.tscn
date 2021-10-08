@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://font/portrait_font.tres" type="DynamicFont" id=1]
+
+[node name="Label" type="Label"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 263.0
+margin_bottom = 42.0
+custom_fonts/font = ExtResource( 1 )
+text = "Press (A) to select Attack"

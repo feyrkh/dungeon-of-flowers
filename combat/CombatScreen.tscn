@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://combat/CombatScreen.gd" type="Script" id=1]
 [ext_resource path="res://combat/Enemies.tscn" type="PackedScene" id=2]
@@ -9,6 +9,14 @@
 [ext_resource path="res://font/NOTOSANS-CONDENSEDMEDIUM.TTF" type="DynamicFontData" id=7]
 [ext_resource path="res://img/combat/combat-mockup.png" type="Texture" id=8]
 [ext_resource path="res://art_exports/ui_battle/ui_action_vignette.png" type="Texture" id=9]
+[ext_resource path="res://combat/TutorialTip.tscn" type="PackedScene" id=10]
+[ext_resource path="res://img/ui/ui_button_A.tscn" type="PackedScene" id=11]
+[ext_resource path="res://combat/TutorialLabel.tscn" type="PackedScene" id=12]
+[ext_resource path="res://combat/Tutorial.gd" type="Script" id=13]
+[ext_resource path="res://img/ui/ui_btn_pc_ESC.tscn" type="PackedScene" id=14]
+[ext_resource path="res://img/ui/ui_btn_pc_LEFT.tscn" type="PackedScene" id=15]
+[ext_resource path="res://img/ui/ui_btn_pc_RIGHT.tscn" type="PackedScene" id=16]
+[ext_resource path="res://img/ui/PausedTutorialTip.gd" type="Script" id=17]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
@@ -136,6 +144,135 @@ __meta__ = {
 
 [node name="MinigameCenter" type="Position2D" parent="MinigameContainer"]
 position = Vector2( 320, 540 )
+
+[node name="Tutorial" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectCategory" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
+margin_left = 741.0
+margin_top = 574.0
+margin_right = 1077.0
+margin_bottom = 623.0
+
+[node name="Label" parent="Tutorial/SelectCategory" instance=ExtResource( 12 )]
+margin_right = 329.0
+text = "Press     to select an Attack skill"
+
+[node name="ui_button_A" parent="Tutorial/SelectCategory/Label" instance=ExtResource( 11 )]
+position = Vector2( 67, 20 )
+
+[node name="Line2D" type="Line2D" parent="Tutorial/SelectCategory"]
+position = Vector2( -741, -406.056 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 815, 622, 811, 789.788 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="SelectSlashSkill" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
+margin_left = 760.0
+margin_top = 519.0
+margin_right = 1128.0
+margin_bottom = 568.0
+
+[node name="Label" parent="Tutorial/SelectSlashSkill" instance=ExtResource( 12 )]
+margin_right = 361.0
+text = "Press     to select attack with Slash"
+
+[node name="ui_button_A" parent="Tutorial/SelectSlashSkill/Label" instance=ExtResource( 11 )]
+position = Vector2( 67, 20 )
+
+[node name="Line2D" type="Line2D" parent="Tutorial/SelectSlashSkill"]
+position = Vector2( -740, -435 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 922, 668.506, 922, 802.115 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="WrongCategory" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
+margin_left = 715.0
+margin_top = 520.0
+margin_right = 1195.0
+margin_bottom = 569.0
+
+[node name="Label" parent="Tutorial/WrongCategory" instance=ExtResource( 12 )]
+margin_right = 473.0
+text = "Press     to go back and select the Fight menu"
+
+[node name="ui_btn_pc_ESC" parent="Tutorial/WrongCategory/Label" instance=ExtResource( 14 )]
+
+[node name="TargetEnemy" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
+margin_left = 455.0
+margin_top = 580.0
+margin_right = 915.0
+margin_bottom = 629.0
+
+[node name="Label" parent="Tutorial/TargetEnemy" instance=ExtResource( 12 )]
+margin_right = 453.0
+text = "Target an enemy with        , confirm with      "
+
+[node name="ui_button_A" parent="Tutorial/TargetEnemy/Label" instance=ExtResource( 11 )]
+position = Vector2( 431, 21 )
+
+[node name="ui_btn_pc_LEFT" parent="Tutorial/TargetEnemy/Label" instance=ExtResource( 15 )]
+
+[node name="ui_btn_pc_RIGHT" parent="Tutorial/TargetEnemy/Label" instance=ExtResource( 16 )]
+
+[node name="Line2D" type="Line2D" parent="Tutorial/TargetEnemy"]
+position = Vector2( -740, -435 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 1068, 600.897, 1121, 339.038 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="Line2D2" type="Line2D" parent="Tutorial/TargetEnemy"]
+position = Vector2( -740, -435 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 835, 600.897, 741, 340.417 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="AttackMinigame" parent="Tutorial" instance=ExtResource( 10 )]
+margin_left = 845.0
+margin_top = 560.0
+margin_right = 1305.0
+margin_bottom = 799.0
+script = ExtResource( 17 )
+
+[node name="Label" parent="Tutorial/AttackMinigame" instance=ExtResource( 12 )]
+margin_right = 453.0
+margin_bottom = 232.0
+text = "Play the minigame to strike the enemy!
+Take note of the instructions, and try to
+press      when the cursor hits the center of
+the strike zone for max damage.
+Missing will throw you off balance and 
+make the next strike harder, so be careful!"
+
+[node name="ui_button_A" parent="Tutorial/AttackMinigame/Label" instance=ExtResource( 11 )]
+position = Vector2( 71, 96 )
+
+[node name="Line2D" type="Line2D" parent="Tutorial/AttackMinigame"]
+position = Vector2( -606, -370 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 1068, 600.897, 1128, 365.224 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="Line2D2" type="Line2D" parent="Tutorial/AttackMinigame"]
+position = Vector2( -606, -370 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 1068, 600.897, 1359, 837.949 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [connection signal="player_move_selected" from="." to="." method="_on_CombatScreen_player_move_selected"]
 [connection signal="start_combat" from="." to="." method="_on_CombatScreen_start_combat"]

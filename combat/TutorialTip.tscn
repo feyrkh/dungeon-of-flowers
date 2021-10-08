@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://util/Pulser.tscn" type="PackedScene" id=1]
+
+[node name="TutorialContainer" type="PanelContainer"]
+margin_right = 14.0
+margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Pulser" parent="." instance=ExtResource( 1 )]
+pause_mode = 2
+enabled = true

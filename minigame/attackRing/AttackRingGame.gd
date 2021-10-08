@@ -53,10 +53,10 @@ func _ready():
 func start():
 	started = true
 
-func set_minigame_config(game_config, ally, enemy):
-	self.game_config = game_config.duplicate(true)
-	self.ally = ally
-	self.enemy = enemy
+func set_minigame_config(_game_config, _ally, _enemy):
+	self.game_config = _game_config.duplicate(true)
+	self.ally = _ally
+	self.enemy = _enemy
 	self.damage = self.game_config.get("damage", 10)
 
 func setup(seconds_to_complete):
@@ -78,7 +78,7 @@ func setup(seconds_to_complete):
 func _physics_process(delta):
 	if !started:
 		return
-	if text_alpha > 0.3:
+	if text_alpha > 0.2:
 		text_alpha -= delta/3
 		TutorialLabel.modulate.a = text_alpha
 	if shake_time > 0:

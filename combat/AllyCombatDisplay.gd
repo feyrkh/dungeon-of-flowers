@@ -94,6 +94,7 @@ func open_category_submenu(category_idx):
 	CombatIcons.hide()
 	Submenu.setup(ally_data, ally_data.get_moves(move_lists[category_idx]))
 	Submenu.show()
+	QuestMgr.skill_menu_open = move_lists[category_idx]
 
 func on_targeting_started(move_data):
 	CurrentMoveLabel.visible = true
@@ -115,6 +116,7 @@ func _on_Submenu_cancel_submenu():
 	CombatIcons.show(last_category_idx)
 	category_zoom_icons[last_category_idx].visible = false
 	EventBus.emit_signal("cancel_submenu")
+	QuestMgr.skill_menu_open = null
 
 func _on_Submenu_select_submenu_item(submenu, move_data):
 	EventBus.emit_signal("select_submenu_item", submenu, move_data)

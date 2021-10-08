@@ -11,6 +11,8 @@ signal player_start_turn()
 signal cancel_submenu()
 signal select_submenu_item(submenu, move_data)
 signal ally_status_updated(ally_data)
+signal show_tutorial(tip_name, pause)
+signal hide_tutorial()
 
 # pause menu
 signal game_paused

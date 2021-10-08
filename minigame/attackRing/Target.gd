@@ -35,10 +35,10 @@ func _ready():
 	hiArea.get_node("CollisionShape2D").shape = RectangleShape2D.new()
 	hiArea.get_node("CollisionShape2D").shape.extents = Vector2(hi_width, 33)
 
-func setup(hi_width, med_width, low_width):
-	self.hi_width = hi_width
-	self.med_width = med_width
-	self.low_width = low_width
+func setup(hi, med, low):
+	self.hi_width = hi 
+	self.med_width = med 
+	self.low_width = low 
 
 func clear_target():
 	$LowArea.multiplier = 0

@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://util/TutorialTipResume.gd" type="Script" id=1]
+[ext_resource path="res://img/ui/ui_button_A.tscn" type="PackedScene" id=2]
+[ext_resource path="res://combat/TutorialLabel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://util/Pulser.tscn" type="PackedScene" id=4]
+[ext_resource path="res://art_exports/ui_HUD/ui_bar_fill.png" type="Texture" id=5]
+
+[node name="TutorialTipResume" type="PanelContainer"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1689.0
+margin_bottom = -1031.0
+rect_pivot_offset = Vector2( 115, 0 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" parent="." instance=ExtResource( 3 )]
+modulate = Color( 1, 1, 1, 0.00392157 )
+margin_right = 224.0
+text = "(press     to continue)"
+
+[node name="ui_button_A" parent="Label" instance=ExtResource( 2 )]
+position = Vector2( 75, 20 )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 224.0
+margin_bottom = 42.0
+
+[node name="FillBar" type="TextureRect" parent="CenterContainer"]
+margin_left = 33.0
+margin_top = 15.0
+margin_right = 183.0
+margin_bottom = 19.0
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Pulser" parent="." instance=ExtResource( 4 )]

@@ -21,6 +21,7 @@ signal enemy_turn_complete(combat_data)
 signal show_battle_header(text)
 signal hide_battle_header()
 
+var is_in_combat = false
 var player
 var dungeon
 var combat
@@ -34,6 +35,7 @@ func register(_player, _dungeon):
 
 func trigger_combat(combat_config_file):
 	print("Starting combat: ", combat_config_file)
+	is_in_combat = true
 	emit_signal("combat_start")
 	var fader = PixelFader.instance()
 	dungeon.Fader.add_child(fader)
@@ -56,6 +58,8 @@ func close_combat():
 	fader.fade_in(fade_amt, 1)
 	yield(fader, "fade_complete")
 	fader.queue_free()
+	QuestMgr.combat_phase = "combat_ended"
+	is_in_combat = false
 
 func generate_combat_data(combat_config_file):
 	var combat_data := CombatData.new()

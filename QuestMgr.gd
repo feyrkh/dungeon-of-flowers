@@ -6,11 +6,24 @@ signal cutscene_end
 var INTRO = "intro"
 var INTRO_INTRODUCED_GRIAS = "intro_1"
 var INTRO_FIRST_COMBAT = "intro_2"
+var INTRO_FIRST_COMBAT_FINISH = "intro_3"
 
 var cutscene
+var combat_phase setget set_combat_phase
+var skill_menu_open setget set_skill_menu_open
 
 func _ready():
 	self.pause_mode = PAUSE_MODE_PROCESS
+
+func set_combat_phase(phase):
+	combat_phase = phase
+	print("Quest combat_phase: ", combat_phase)
+	check_quest_progress()
+
+func set_skill_menu_open(val):
+	skill_menu_open = val
+	print("Quest skill_menu_open: ", val)
+	check_quest_progress()
 
 func check_quest_progress():
 	if check_introduction(): return
@@ -18,6 +31,30 @@ func check_quest_progress():
 func check_introduction():
 	if !GameData.get_state(GameData.TUTORIAL_ON):
 		return false
+	if CombatMgr.is_in_combat:
+		return check_combat_introduction()
+	else:
+		return check_noncombat_introduction()
+
+func check_combat_introduction():
+	match GameData.get_state(INTRO, 0):
+		INTRO_FIRST_COMBAT:
+			if combat_phase == "select_character":
+				EventBus.emit_signal("show_tutorial", "SelectCategory", false)
+			elif combat_phase == "open_submenu":
+				if skill_menu_open == "attack": 
+					EventBus.emit_signal("show_tutorial", "SelectSlashSkill", false)
+				else:
+					EventBus.emit_signal("show_tutorial", "WrongCategory", false)
+			elif combat_phase == "target_enemy":
+				EventBus.emit_signal("show_tutorial", "TargetEnemy", false)
+			elif combat_phase == "attack_minigame":
+				EventBus.emit_signal("show_tutorial", "AttackMinigame", true)
+				GameData.set_state(INTRO, INTRO_FIRST_COMBAT_FINISH)
+			else:
+				EventBus.emit_signal("hide_tutorial")
+
+func check_noncombat_introduction():
 	match GameData.get_state(INTRO, 0):
 		0:
 			if GameData.get_state(GameData.STEP_COUNTER, 0) == 1:

@@ -98,8 +98,11 @@ func input_select_character():
 	elif Input.is_action_just_pressed("select_next_char"):
 		select_next_char(1)
 		input_delayed = UI_DELAY
-	elif Input.is_action_just_pressed("ui_select") or Input.is_action_just_pressed("ui_up"):
-		open_category_submenu(selected_ally_idx, selected_category_idx)
+	elif Input.is_action_just_pressed("ui_select"): # see below if you change!!!
+		open_category_submenu(selected_ally_idx, selected_category_idx, true)
+		input_delayed = UI_DELAY
+	elif Input.is_action_just_pressed("ui_up"): # see above if you change!!!
+		open_category_submenu(selected_ally_idx, selected_category_idx, false)
 		input_delayed = UI_DELAY
 	elif Input.is_action_just_pressed("ui_left"):
 		select_next_category(-1)
@@ -126,16 +129,17 @@ func select_next_char(direction):
 			return
 
 
-func open_category_submenu(ally_idx, category_idx):
+func open_category_submenu(ally_idx, category_idx, open_only):
 	EventBus.emit_signal("disable_pause_menu")
-	if (category_idx == STATUS_CATEGORY): # status icon, up should go back to previously selected icon instead
+	if (!open_only and category_idx == STATUS_CATEGORY): # status icon, up should go back to previously selected icon instead
 		selected_category_idx = restore_category_idx
 		select_next_category(0)
 	else:
 		cur_input_phase = InputPhase.PLAYER_SELECT_SUBMENU
 		var ally = allies[ally_idx]
 		ally.open_category_submenu(category_idx)
-
+		QuestMgr.combat_phase = "open_submenu"
+		
 func _on_Ally_cancel_submenu():
 	EventBus.emit_signal("enable_pause_menu")
 	cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
@@ -200,6 +204,7 @@ func _on_CombatScreen_start_player_turn(_combat_data):
 	allies[selected_ally_idx].select(selected_category_idx)
 	selected_skill = null
 	Enemies.decide_enemy_actions()
+	QuestMgr.combat_phase = "select_character"
 
 func _on_CombatScreen_player_move_complete(_combat_data):
 	print("_on_CombatScreen_player_move_complete")
@@ -265,11 +270,13 @@ func _on_Ally_select_submenu_item(submenu, move_data):
 	cur_input_phase = InputPhase.PLAYER_SELECT_TARGET
 	allies[selected_ally_idx].on_targeting_started(move_data)
 	Enemies.start_targeting(move_data)
+	QuestMgr.combat_phase = "target_enemy"
 
 func _on_Enemies_target_cancelled():
 	print("_on_Enemies_target_cancelled")
 	active_submenu.on_targeting_cancelled()
 	allies[selected_ally_idx].on_targeting_cancelled()
+	QuestMgr.combat_phase = "open_submenu"
 	
 func _on_Enemies_single_enemy_target_complete(target_enemy, move_data):
 	print("_on_Enemies_single_enemy_target_complete")
@@ -278,6 +285,7 @@ func _on_Enemies_single_enemy_target_complete(target_enemy, move_data):
 	emit_signal("player_move_selected", combat_data, target_enemy, move_data)
 
 func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data):
+	QuestMgr.combat_phase = "opening_minigame"
 	Enemies.squish_for_minigame(0.5)
 	MinigameContainer.squish_for_minigame(0.5)
 	print("Attacking ", target_enemy.data.label, " with skill: ", move_data.label)
@@ -299,6 +307,7 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 			yield(get_tree().create_timer(0.5), "timeout")
 			scene.connect("minigame_complete", self, "_on_attack_minigame_complete")
 			scene.start()
+			QuestMgr.combat_phase = "attack_minigame"
 		_: 
 			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].ally_data.label+" is confused...unknown skill type!")
 			yield(get_tree().create_timer(2), "timeout")

@@ -27,6 +27,7 @@ func _process(delta):
 		hide()
 		yield(anim, "animation_finished")
 		emit_signal("cancel_submenu")
+		QuestMgr.combat_phase = "select_character"
 	elif Input.is_action_just_pressed("ui_down"):
 		select_next_entry(1)
 	elif Input.is_action_just_pressed("ui_up"):
@@ -77,9 +78,11 @@ func open_targeting_menu():
 	self.visible = false
 	set_process(false)
 	emit_signal("select_submenu_item", self, selected_entry)
+	QuestMgr.combat_phase = "target_enemy"
 
 func on_targeting_cancelled():
 	self.visible = true
+	QuestMgr.combat_phase = "open_submenu"
 	set_process(true)
 
 func on_targeting_completed():

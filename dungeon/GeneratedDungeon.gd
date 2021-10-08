@@ -56,7 +56,7 @@ func _ready():
 	QuestMgr.check_quest_progress()
 
 func _on_combat_start():
-	MusicCrossFade.cross_fade("res://music/battle1.mp3", 3, false)
+	MusicCrossFade.cross_fade("res://music/battle1.ogg", 3, false)
 	AudioPlayerPool.play(start_combat_sfx)
 
 func _on_combat_end():

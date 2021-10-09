@@ -1,10 +1,10 @@
 extends Spatial
 
+export(float) var appearance_chance = 0.1
 export(Vector3) var min_translation = Vector3.ZERO
 export(Vector3) var max_translation = Vector3.ZERO
 export(Vector3) var min_rotation_degrees = Vector3.ZERO
 export(Vector3) var max_rotation_degrees = Vector3.ZERO
-export(float) var appearance_chance = 0.1
 export(Vector3) var min_scale = Vector3.ONE
 export(Vector3) var max_scale = Vector3.ONE
 export(Vector3) var flipped_translation = Vector3.ZERO

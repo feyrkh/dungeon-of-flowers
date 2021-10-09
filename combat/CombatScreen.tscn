@@ -250,7 +250,6 @@ width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="AttackMinigame" parent="Tutorial" instance=ExtResource( 10 )]
-visible = false
 margin_left = 845.0
 margin_top = 560.0
 margin_right = 1305.0
@@ -273,14 +272,14 @@ position = Vector2( 71, 96 )
 [node name="Line2D" type="Line2D" parent="Tutorial/AttackMinigame"]
 position = Vector2( -606, -370 )
 scale = Vector2( 1, 0.725581 )
-points = PoolVector2Array( 1068, 600.897, 1128, 365.224 )
+points = PoolVector2Array( 1067, 602.276, 1230, 187.436 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="Line2D2" type="Line2D" parent="Tutorial/AttackMinigame"]
 position = Vector2( -606, -370 )
 scale = Vector2( 1, 0.725581 )
-points = PoolVector2Array( 1068, 600.897, 1359, 837.949 )
+points = PoolVector2Array( 1067, 600.898, 1362, 837.949 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 

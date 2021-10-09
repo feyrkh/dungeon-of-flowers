@@ -58,7 +58,8 @@ func _ready():
 		# Hack for testing quest stuff without loading a full game
 		CombatMgr.is_in_combat = true
 		GameData.set_state(GameData.TUTORIAL_ON, true)
-		GameData.set_state(QuestMgr.INTRO, QuestMgr.INTRO_SECOND_COMBAT)
+		#GameData.set_state(QuestMgr.INTRO, QuestMgr.INTRO_SECOND_COMBAT)
+		GameData.set_state(QuestMgr.INTRO, QuestMgr.INTRO_FIRST_COMBAT)
 	randomize()
 	if (!combat_data):
 		combat_data = mock_combat_data()

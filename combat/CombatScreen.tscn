@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://combat/CombatScreen.gd" type="Script" id=1]
 [ext_resource path="res://combat/Enemies.tscn" type="PackedScene" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://art_exports/ui_battle/ui_battle_header.png" type="Texture" id=5]
 [ext_resource path="res://combat/MinigameContainer.gd" type="Script" id=6]
 [ext_resource path="res://font/NOTOSANS-CONDENSEDMEDIUM.TTF" type="DynamicFontData" id=7]
-[ext_resource path="res://img/combat/combat-mockup.png" type="Texture" id=8]
 [ext_resource path="res://art_exports/ui_battle/ui_action_vignette.png" type="Texture" id=9]
 [ext_resource path="res://combat/TutorialTip.tscn" type="PackedScene" id=10]
 [ext_resource path="res://img/ui/ui_button_A.tscn" type="PackedScene" id=11]
@@ -81,16 +80,14 @@ __meta__ = {
 
 [node name="Enemies" parent="." instance=ExtResource( 2 )]
 
-[node name="combat-mockup" type="Sprite" parent="."]
-visible = false
-texture = ExtResource( 8 )
-centered = false
-
 [node name="ActionVignette" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 593, 0 )
 texture = ExtResource( 9 )
 centered = false
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ActionVignette"]
 anims/fade_in = SubResource( 1 )
@@ -99,13 +96,22 @@ anims/fade_in = SubResource( 1 )
 
 [node name="ShieldContainer" type="Node2D" parent="."]
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="BulletContainer" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="BattleHeader" type="Sprite" parent="."]
 position = Vector2( -364, 87 )
 texture = ExtResource( 5 )
 script = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Label" type="Label" parent="BattleHeader"]
 margin_left = -329.0
@@ -140,6 +146,7 @@ margin_bottom = 1080.0
 rect_min_size = Vector2( 640, 1080 )
 script = ExtResource( 6 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -151,6 +158,7 @@ margin_right = 40.0
 margin_bottom = 40.0
 script = ExtResource( 13 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -277,6 +285,7 @@ width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="EnemyAttack" type="MarginContainer" parent="Tutorial"]
+visible = false
 margin_left = 1070.0
 margin_top = 521.0
 margin_right = 1577.0
@@ -302,6 +311,44 @@ margin_bottom = 118.0
 text = "The enemies are attacking! Grias left her shield
 behind and won't be able to block right now.
 Stay tough!"
+
+[node name="UsingShield" type="MarginContainer" parent="Tutorial"]
+visible = false
+margin_left = 1070.0
+margin_top = 521.0
+margin_right = 1577.0
+margin_bottom = 646.0
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+delay = 1.0
+delayed_tutorial = "UsingShield_Delayed"
+
+[node name="UsingShield_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
+margin_left = 1070.0
+margin_top = 521.0
+margin_right = 1577.0
+margin_bottom = 646.0
+script = ExtResource( 17 )
+
+[node name="Label" parent="Tutorial/UsingShield_Delayed" instance=ExtResource( 12 )]
+margin_right = 500.0
+margin_bottom = 270.0
+text = "The enemies are attacking Echinacea!
+Luckily Grias has her shield now. Use     
+to slide Grias' shield over to protect him.
+Blocking attacks will throw Grias off balance,
+reducing her shield's effectiveness.
+Don't worry - she'll recover over time, or
+can use the Defensive Stance skill in a pinch."
+
+[node name="ui_btn_pc_LEFT" parent="Tutorial/UsingShield_Delayed/Label" instance=ExtResource( 15 )]
+position = Vector2( 402, 56 )
+
+[node name="ui_btn_pc_RIGHT" parent="Tutorial/UsingShield_Delayed/Label" instance=ExtResource( 16 )]
+position = Vector2( 421, 56 )
 
 [connection signal="player_move_selected" from="." to="." method="_on_CombatScreen_player_move_selected"]
 [connection signal="start_combat" from="." to="." method="_on_CombatScreen_start_combat"]

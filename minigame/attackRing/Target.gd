@@ -38,15 +38,11 @@ func clear_target(max_multiplier):
 	if already_cleared:
 		return
 	already_cleared = true
-	var low_gray = $LowDmg.modulate.gray()
-	var hi_gray = $HiDmg.modulate.gray()
 	if max_multiplier != $LowArea.multiplier:
-		#$LowDmg.default_color = Color(low_gray, low_gray, low_gray)
 		$LowDmg.modulate = Color.transparent
 	if max_multiplier != $MedArea.multiplier:
 		$MedDmg.modulate = Color.transparent
 	if max_multiplier != $HiArea.multiplier:
-		#$HiDmg.default_color = Color(hi_gray, hi_gray, hi_gray)
 		$HiDmg.modulate = Color.transparent
 		
 	$LowArea.multiplier = 0

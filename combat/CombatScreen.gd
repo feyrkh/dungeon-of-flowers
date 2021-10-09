@@ -54,6 +54,11 @@ const UI_DELAY = 0.12
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if get_tree().root == get_parent():
+		# Hack for testing quest stuff without loading a full game
+		CombatMgr.is_in_combat = true
+		GameData.set_state(GameData.TUTORIAL_ON, true)
+		GameData.set_state(QuestMgr.INTRO, QuestMgr.INTRO_SECOND_COMBAT)
 	randomize()
 	if (!combat_data):
 		combat_data = mock_combat_data()
@@ -72,6 +77,7 @@ func _ready():
 	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
 	CombatMgr.connect("attack_bullet_block", self, "_on_attack_bullet_block")
 	CombatMgr.connect("attack_bullet_strike", self, "_on_attack_bullet_strike")
+	CombatMgr.connect("enemy_dead", self, "_on_enemy_dead")
 
 func _process(delta):
 	if input_delayed > 0:
@@ -248,6 +254,9 @@ func check_enemy_turn_over():
 		return true
 	var bullets = get_tree().get_nodes_in_group("bullets")
 	return bullets.size() <= 0
+
+func _on_enemy_dead(enemy):
+	check_combat_over()
 
 func check_combat_over():
 	print("check_combat_over")

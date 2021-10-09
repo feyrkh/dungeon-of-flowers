@@ -58,6 +58,10 @@ func check_combat_introduction():
 				GameData.set_state(INTRO, INTRO_SECOND_COMBAT)
 			else:
 				EventBus.emit_signal("hide_tutorial")
+		INTRO_SECOND_COMBAT:
+			if combat_phase == "enemy_turn":
+				EventBus.emit_signal("show_tutorial", "UsingShield", false)
+
 
 func check_noncombat_introduction():
 	match GameData.get_state(INTRO, 0):

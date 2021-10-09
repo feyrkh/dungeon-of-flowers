@@ -42,7 +42,7 @@ func _ready():
 		"game_config": {
 			"damage": 20/2,
 			"targets": [
-				{"offset": 0.7, "hi": 5, "med": 15, "low": 20},
+				{"offset": 0.4, "hi": 5, "med": 15, "low": 20},
 				{"offset": 0.8, "hi": 5, "med": 15, "low": 20},
 			]
 		}

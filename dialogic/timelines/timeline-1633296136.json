@@ -18,7 +18,7 @@
 			"action": "join",
 			"character": "character-1633296081.json",
 			"event_id": "dialogic_002",
-			"mirror": false,
+			"mirror": true,
 			"portrait": "",
 			"position": {
 				"0": false,
@@ -38,7 +38,7 @@
 			"action": "join",
 			"character": "character-1633296438.json",
 			"event_id": "dialogic_002",
-			"mirror": true,
+			"mirror": false,
 			"portrait": "",
 			"position": {
 				"0": true,

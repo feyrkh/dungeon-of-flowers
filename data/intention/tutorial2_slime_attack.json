@@ -1,0 +1,7 @@
+{"type":"attack",
+"base_damage": 0.5,
+"attacks": 3,
+"attacks_per_pulse": 3,
+"target_scatter": 0,
+"target_change_chance": 0,
+"force_target": 0}

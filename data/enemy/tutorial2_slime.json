@@ -1,0 +1,6 @@
+{"label":"Slime", "hp": 2, 
+"img": "res://img/slime.jpg",
+"dodge": 50,
+"defend": 50,
+"resist": 50,
+"intentions":["tutorial2_slime_attack"],}

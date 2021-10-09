@@ -1,0 +1,95 @@
+{
+	"events": [
+		{
+			"action": "join",
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_002",
+			"mirror": false,
+			"portrait": "",
+			"position": {
+				"0": true,
+				"1": false,
+				"2": false,
+				"3": false,
+				"4": false
+			}
+		},
+		{
+			"action": "join",
+			"character": "character-1633755724.json",
+			"event_id": "dialogic_002",
+			"mirror": true,
+			"portrait": "",
+			"position": {
+				"0": false,
+				"1": false,
+				"2": true,
+				"3": false,
+				"4": false
+			}
+		},
+		{
+			"character": "character-1633755724.json",
+			"event_id": "dialogic_001",
+			"portrait": "worried",
+			"text": "Grias, you forgot your shield again. Your career will end in tears if you keep rushing off unprepared, mark my words!"
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "annoyed",
+			"text": "Tch! The slimes are pushovers, I just fought two of them and it was [i]fine[/i]. Besides, what does a floriculturist know about knighting? "
+		},
+		{
+			"character": "character-1633755724.json",
+			"event_id": "dialogic_001",
+			"portrait": "annoyed",
+			"text": "Enough to know it's not called \"knighting\"."
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "annoyed",
+			"text": "Knightfulness...beknightitude...the knight life...you know what I mean!"
+		},
+		{
+			"action": "join",
+			"character": "character-1633296081.json",
+			"event_id": "dialogic_002",
+			"mirror": true,
+			"portrait": "",
+			"position": {
+				"0": false,
+				"1": false,
+				"2": false,
+				"3": true,
+				"4": false
+			}
+		},
+		{
+			"action": "join",
+			"character": "character-1633296438.json",
+			"event_id": "dialogic_002",
+			"mirror": true,
+			"portrait": "",
+			"position": {
+				"0": false,
+				"1": false,
+				"2": false,
+				"3": false,
+				"4": true
+			}
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "determined",
+			"text": "Behind you, Chin!"
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.2.5",
+		"file": "timeline-1633755843.json",
+		"name": "intro_3"
+	}
+}

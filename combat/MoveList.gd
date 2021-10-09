@@ -21,28 +21,28 @@ func _ready():
 		}
 	}))
 	add_move(Util.config(MoveData.new(), {
-		"label": "Headbutt",
-		"name": "headbutt",
+		"label": "Thump",
+		"name": "thump",
 		"type": "attack",
 		"target": "enemy",
 		"game_scene": "attackRing",
 		"game_config": {
-			"damage": 20,
+			"damage": 6,
 			"targets": [
-				{"offset": 0.8, "hi": 8, "med": 9, "low": 25},
+				{"offset": 0.8, "hi": 1, "med": 9, "low": 25},
 			]
 		}
 	}))
 	add_move(Util.config(MoveData.new(), {
-		"label": "Kick",
-		"name": "kick",
+		"label": "Slash",
+		"name": "slash",
 		"type": "attack",
 		"target": "enemy",
 		"game_scene": "attackRing",
 		"game_config": {
 			"damage": 20/2,
 			"targets": [
-				{"offset": 0.6, "hi": 5, "med": 15, "low": 20},
+				{"offset": 0.7, "hi": 5, "med": 15, "low": 20},
 				{"offset": 0.8, "hi": 5, "med": 15, "low": 20},
 			]
 		}

@@ -88,6 +88,8 @@ func select_target():
 		return
 	if (target_change_chance > 0 and target_change_chance > randf()) or (target == null):
 		var ally = allies[randi()%allies.size()]
+		if intention.get("force_target") != null:
+			ally = allies[intention.get("force_target")]
 		print(enemy.data.label, " targeting ", ally.ally_data.label)
 		target = ally.get_target(target_scatter)
 

@@ -1,0 +1,28 @@
+{
+	"color": "#ffffffff",
+	"description": "",
+	"display_name": "",
+	"display_name_bool": false,
+	"id": "character-1633755724.json",
+	"mirror_portraits": false,
+	"name": "Echinacea",
+	"nickname": "",
+	"nickname_bool": false,
+	"offset_x": 0,
+	"offset_y": -267,
+	"portraits": [
+		{
+			"name": "Default",
+			"path": "res://dialogic/portraits/chin - worried.png"
+		},
+		{
+			"name": "worried",
+			"path": "res://dialogic/portraits/chin - worried.png"
+		},
+		{
+			"name": "annoyed",
+			"path": "res://dialogic/portraits/chin - annoyed.png"
+		}
+	],
+	"scale": 100
+}

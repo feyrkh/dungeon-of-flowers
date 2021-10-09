@@ -99,31 +99,30 @@ func on_new_player_location(x, y, rot_deg):
 func new_game():
 	set_state(TUTORIAL_ON, get_setting(TUTORIAL_ON))
 	if get_state(TUTORIAL_ON):
-		allies = [null, mock_grias(), null]
+		allies = [null, new_char_grias(), null]
 		cur_dungeon = "res://data/map/intro.txt"
 	else:
-		allies = [mock_pharoah(), mock_grias(), mock_shantae()]
+		allies = [new_char_echincea(), new_char_grias(), mock_shantae()]
 		cur_dungeon = "res://data/map/floor1.txt"
 
 func gameover():
 	yield(get_tree().create_timer(1), "timeout")
 	get_tree().change_scene("res://menu/MainMenu.tscn")
 
-func mock_pharoah():
+func new_char_echincea():
 	var ally = AllyData.new()
-	ally.label = "Imhotep"
-	ally.className = "Pharoah"
+	ally.label = "Echincea"
+	ally.className = "Floriculturist"
 	ally.max_hp = 100
 	ally.hp = 100
 	ally.sp = 20
 	ally.max_sp = 20
 	ally.texture = load("res://img/hero1.png")
 	ally.moves = [
-		MoveList.get_move('kick'),
-		MoveList.get_move('headbutt'),
+		MoveList.get_move('thump'),
 	]
 	ally.shields = [
-		{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -130), "scale": Vector2(0.5, 0.5)},
+		#{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -130), "scale": Vector2(0.5, 0.5)},
 	]
 	return ally
 
@@ -137,15 +136,13 @@ func mock_shantae():
 	ally.max_sp = 20
 	ally.texture = load("res://img/hero3.jpg")
 	ally.moves = [
-		MoveList.get_move('punch'),
-		MoveList.get_move('kick')
 	]
 	ally.shields = [
-		{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -130), "scale": Vector2(1.0, 1.0)},
+		#{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -130), "scale": Vector2(1.0, 1.0)},
 	]
 	return ally
 	
-func mock_grias():
+func new_char_grias():
 	var ally = AllyData.new()
 	ally.label = "Grias"
 	ally.className = "Knight"
@@ -155,9 +152,7 @@ func mock_grias():
 	ally.max_sp = 20
 	ally.texture = load("res://img/hero4.jpg")
 	ally.moves = [
-		MoveList.get_move('punch'),
-		MoveList.get_move('kick'),
-		MoveList.get_move('headbutt'),
+		MoveList.get_move('slash'),
 	]
 	ally.shields = [
 		#{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(-150, -130), "scale": Vector2(2.0, 1.0)},

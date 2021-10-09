@@ -6,7 +6,8 @@ signal cutscene_end
 var INTRO = "intro"
 var INTRO_INTRODUCED_GRIAS = "intro_1"
 var INTRO_FIRST_COMBAT = "intro_2"
-var INTRO_FIRST_COMBAT_FINISH = "intro_3"
+var INTRO_SECOND_COMBAT = "intro_3"
+var INTRO_COMPLETE = "intro_complete"
 
 var cutscene
 var combat_phase setget set_combat_phase
@@ -54,7 +55,7 @@ func check_combat_introduction():
 			#	EventBus.emit_signal("show_tutorial", "EnemyTakeDamage", false)
 			elif combat_phase == "enemy_turn":
 				EventBus.emit_signal("show_tutorial", "EnemyAttack", false)
-				GameData.set_state(INTRO, INTRO_FIRST_COMBAT_FINISH)
+				GameData.set_state(INTRO, INTRO_SECOND_COMBAT)
 			else:
 				EventBus.emit_signal("hide_tutorial")
 
@@ -68,11 +69,19 @@ func check_noncombat_introduction():
 				return true
 		INTRO_INTRODUCED_GRIAS: 
 			if GameData.get_state(GameData.STEP_COUNTER, 0) == 4:
+				GameData.set_state(GameData.STEP_COUNTER, 0)
 				play_cutscene(INTRO_FIRST_COMBAT)
 				yield(cutscene, "timeline_end")
 				GameData.set_state(INTRO, INTRO_FIRST_COMBAT)
 				CombatMgr.trigger_combat("tutorial")
 				return true
+		INTRO_SECOND_COMBAT:
+			if GameData.get_state(GameData.STEP_COUNTER, 0) == 6:
+				play_cutscene(INTRO_SECOND_COMBAT)
+				yield(cutscene, "timeline_end")
+				GameData.allies[0] = GameData.new_char_echincea()
+				GameData.allies[1].shields = [{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -130), "scale": Vector2(1.0, 1.0)}]
+				CombatMgr.trigger_combat("tutorial2")
 
 func play_cutscene(_cutscene_name):
 	if cutscene and is_instance_valid(cutscene):

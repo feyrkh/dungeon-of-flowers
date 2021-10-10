@@ -31,6 +31,11 @@ func menu_action(menu):
 [sub_resource type="GDScript" id=4]
 script/source = "extends BaseMenuItem
 
+var f : File = File.new()
+
+func get_disabled():
+	return f.file_exists(\"user://savegame1.sav\")
+	
 func menu_action(menu):
 	print(\"Loading...\")
 	print(\"Loaded: \", GameData.load_game(\"user://savegame1.sav\"))

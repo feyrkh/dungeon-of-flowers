@@ -30,7 +30,7 @@ script/source = "extends BaseMenuItem
 
 func menu_action(menu):
 	print(\"Loading...\")
-	print(\"Loaded: \", GameData.load_game(\"savegame1.sav\"))
+	print(\"Loaded: \", GameData.load_game(\"user://savegame1.sav\"))
 	
 "
 

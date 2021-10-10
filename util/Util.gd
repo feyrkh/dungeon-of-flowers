@@ -1,17 +1,48 @@
 extends Object
 class_name Util
 
+const IGNORE_FIELD_NAMES = ["Reference", "script", "Script Variables"]
+
 static func config(obj, c):
 	var props = obj.get_property_list()
 	var propNames = {}
+	var propTypes = {}
 	for prop in props:
 		propNames[prop.name] = true
+		propTypes[prop.name] = prop.type
 	for fieldName in c.keys():
 		if propNames.has(fieldName):
-			obj.set(fieldName, c[fieldName])
+			if propTypes[fieldName] == TYPE_OBJECT:
+				print("Couldn't restore object: ", fieldName)
+			else:
+				obj.set(fieldName, c[fieldName])
 	if obj.has_method("post_config"):
 		obj.post_config(c)
 	return obj
+
+static func to_config(obj):
+	var props = obj.get_property_list()
+	var result = {}
+	for prop in props:
+		if IGNORE_FIELD_NAMES.find(prop.name) >= 0:
+			continue
+		result[prop.name] = to_config_field(obj, prop)
+
+	return result
+
+static func to_config_field(obj, prop):
+	if prop["type"] == TYPE_OBJECT:
+		return to_config(obj.get(prop.name))
+	if prop["type"] == TYPE_ARRAY:
+		var arr = []
+		for entry in obj.get(prop.name):
+			if entry is Object:
+				arr.append(to_config(entry))
+			else:
+				arr.append(entry)
+		return arr
+	else:
+		return obj.get(prop.name)
 
 static func delete_children(node):
 	for n in node.get_children():

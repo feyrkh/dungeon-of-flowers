@@ -1,5 +1,15 @@
 extends Node
 
+# save game handling
+signal pre_new_game()
+signal post_new_game()
+signal finalize_new_game()
+signal pre_save_game()
+signal post_save_game()
+signal pre_load_game()
+signal post_load_game()
+signal finalize_load_game()
+
 # exploration
 signal uncovered_map_tile(map_x, map_y, tile_type)
 signal update_minimap() # redraw dirty quadrants

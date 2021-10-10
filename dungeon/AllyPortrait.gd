@@ -19,7 +19,7 @@ func setup(_ally_data:AllyData):
 		return
 	visible = true
 	self.ally_data = _ally_data
-	Portrait.texture = ally_data.texture
+	Portrait.texture = load(ally_data.texture)
 
 func update_labels():
 	HpLabel.text = str(int(ally_data.hp)) + "/" + str(int(ally_data.max_hp))

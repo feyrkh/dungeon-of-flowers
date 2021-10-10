@@ -1,0 +1,15 @@
+{
+		"label": "Punch",
+		"name": "punch",
+		"type": "attack",
+		"target": "enemy",
+		"game_scene": "attackRing",
+		"game_config": {
+			"damage": 6.33,
+			"targets": [
+				{"offset": 0.3, "hi": 2, "med": 20, "low": 25},
+				{"offset": 0.6, "hi": 2, "med": 20, "low": 25},
+				{"offset": 0.9, "hi": 2, "med": 20, "low": 25},
+			]
+		}
+	}

@@ -31,13 +31,27 @@ const walk_sfx = preload("res://sound/footsteps.wav")
 
 
 func _ready():
-	transform = transform.looking_at(transform.origin + Vector3(0, 0, 1), Vector3.UP)
+	EventBus.connect("pre_new_game", self, "on_pre_new_game")
+	EventBus.connect("finalize_new_game", self, "on_finalize_new_game")
+	EventBus.connect("post_load_game", self, "on_post_load_game")
+	EventBus.connect("finalize_load_game", self, "on_finalize_load_game")
 	connect("move_complete", self, "_on_move_complete")
 	connect("turn_complete", self, "_on_turn_complete")
-	yield(get_tree(), "idle_frame")
+	connect("tile_move_complete", QuestMgr, "on_tile_move_complete")
+
+func on_pre_new_game():
+	transform = transform.looking_at(transform.origin + Vector3(0, 0, 1), Vector3.UP)
+
+func on_finalize_new_game():
 	call_deferred("update_minimap")
 	EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
-	connect("tile_move_complete", QuestMgr, "on_tile_move_complete")
+
+
+func on_post_load_game():
+	pass
+	
+func on_finalize_load_game():
+	pass
 
 func _on_combat_start():
 	is_in_combat = true
@@ -132,7 +146,7 @@ func _process(delta):
 				emit_signal("tile_move_complete")
 				EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
 				update_minimap()
-	if target_rotation:
+	if target_rotation != null:
 		rotation_time += delta
 		if rotation_time < ROTATE_TIME:
 			transform.basis = start_rotation.slerp(target_rotation, rotation_time/ROTATE_TIME)

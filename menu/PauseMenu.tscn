@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://menu/Menu.gd" type="Script" id=1]
 [ext_resource path="res://font/default_font.tres" type="DynamicFont" id=2]
@@ -9,7 +9,7 @@
 [ext_resource path="res://menu/PauseMenu.gd" type="Script" id=7]
 [ext_resource path="res://menu/ExitGame.gd" type="Script" id=8]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 script/source = "extends BaseMenuItem
 
 func menu_action(menu):
@@ -17,6 +17,27 @@ func menu_action(menu):
 "
 
 [sub_resource type="GDScript" id=3]
+script/source = "extends BaseMenuItem
+
+func get_disabled():
+	return CombatMgr.is_in_combat
+
+func menu_action(menu):
+	print(\"Saving...\")
+	print(\"Saved: \", GameData.save_game(\"savegame1.sav\"))
+	menu.get_parent().close_pause_menu()
+"
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends BaseMenuItem
+
+func menu_action(menu):
+	print(\"Loading...\")
+	print(\"Loaded: \", GameData.load_game(\"savegame1.sav\"))
+	menu.get_parent().close_pause_menu()
+"
+
+[sub_resource type="GDScript" id=2]
 script/source = "extends BaseMenuItem
 
 export(NodePath) var option_menu_path
@@ -46,7 +67,6 @@ __meta__ = {
 }
 
 [node name="PauseMenu" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -54,7 +74,7 @@ __meta__ = {
 "_edit_horizontal_guides_": [ 500.778 ],
 "_edit_use_anchors_": false
 }
-menu_entries = [ "Resume", "Options", "Exit" ]
+menu_entries = [ "Resume", "SaveGame", "LoadGame", "Options", "Exit" ]
 
 [node name="CenterContainer" type="CenterContainer" parent="PauseMenu"]
 margin_right = 1920.0
@@ -65,9 +85,9 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/CenterContainer"]
 margin_left = 885.0
-margin_top = 483.0
+margin_top = 456.0
 margin_right = 1035.0
-margin_bottom = 597.0
+margin_bottom = 624.0
 
 [node name="Title" type="Label" parent="PauseMenu/CenterContainer/VBoxContainer"]
 margin_right = 150.0
@@ -83,21 +103,37 @@ margin_right = 150.0
 margin_bottom = 60.0
 custom_fonts/font = ExtResource( 2 )
 text = "Resume Game"
-script = SubResource( 2 )
+script = SubResource( 1 )
 
-[node name="Options" type="Label" parent="PauseMenu/CenterContainer/VBoxContainer"]
+[node name="SaveGame" type="Label" parent="PauseMenu/CenterContainer/VBoxContainer"]
 margin_top = 64.0
 margin_right = 150.0
 margin_bottom = 87.0
 custom_fonts/font = ExtResource( 2 )
-text = "Options"
+text = "Save Game"
 script = SubResource( 3 )
+
+[node name="LoadGame" type="Label" parent="PauseMenu/CenterContainer/VBoxContainer"]
+margin_top = 91.0
+margin_right = 150.0
+margin_bottom = 114.0
+custom_fonts/font = ExtResource( 2 )
+text = "Load Game"
+script = SubResource( 4 )
+
+[node name="Options" type="Label" parent="PauseMenu/CenterContainer/VBoxContainer"]
+margin_top = 118.0
+margin_right = 150.0
+margin_bottom = 141.0
+custom_fonts/font = ExtResource( 2 )
+text = "Options"
+script = SubResource( 2 )
 option_menu_path = NodePath("../../../../OptionMenu")
 
 [node name="Exit" type="Label" parent="PauseMenu/CenterContainer/VBoxContainer"]
-margin_top = 37.0
+margin_top = 145.0
 margin_right = 150.0
-margin_bottom = 60.0
+margin_bottom = 168.0
 custom_fonts/font = ExtResource( 2 )
 text = "Exit"
 script = ExtResource( 8 )

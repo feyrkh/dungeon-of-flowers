@@ -32,6 +32,29 @@ onready var MapName:Label = find_node("MapName")
 onready var IdleHud:Control = find_node("IdleHud")
 
 func _ready():
+	EventBus.connect("post_new_game", self, "on_post_new_game")
+	EventBus.connect("finalize_new_game", self, "on_finalize_new_game")
+	EventBus.connect("post_load_game", self, "on_post_load_game")
+	EventBus.connect("finalize_load_game", self, "on_finalize_load_game")
+	CombatMgr.connect("combat_start", self, "_on_combat_start")
+	CombatMgr.connect("combat_end", self, "_on_combat_end")
+
+func on_post_load_game():
+	load_from_file()
+	player.global_transform.origin = Vector3(GameData.world_tile_position.x*3, 0, GameData.world_tile_position.y*3)
+	player.rotation_degrees.y = GameData.player_rotation
+
+func on_finalize_load_game():
+	pass
+	
+func on_post_new_game():
+	load_from_file()
+	
+func on_finalize_new_game():
+	QuestMgr.check_quest_progress()
+	
+func load_from_file():
+	GameData.set_rand_seed()
 	for prop in get_property_list():
 		property_types[prop.name] = prop.type
 	var file = File.new()
@@ -50,11 +73,9 @@ func _ready():
 	MapName.text = map_name
 	IdleHud.modulate.a = 0
 	MusicCrossFade.cross_fade("res://music/explore1.mp3", 3, true)
-	CombatMgr.connect("combat_start", self, "_on_combat_start")
-	CombatMgr.connect("combat_end", self, "_on_combat_end")
-	
-	QuestMgr.check_quest_progress()
 
+
+	
 func _on_combat_start():
 	MusicCrossFade.cross_fade("res://music/battle1.ogg", 3, false)
 	AudioPlayerPool.play(start_combat_sfx)
@@ -85,7 +106,6 @@ func process_config_line(line:String):
 			_: printerr("Unexpected property type: ", property_types.get(chunks[0]))
 	
 func process_map(file):
-	rand_seed(randseed)
 	var z = 0
 	var content = file.get_line()
 	while content != "":

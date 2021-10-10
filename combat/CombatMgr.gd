@@ -32,6 +32,14 @@ func register(_player, _dungeon):
 	connect("combat_start", player, "_on_combat_start")
 	connect("combat_end", player, "_on_combat_end")
 	player.connect("tile_move_complete", dungeon, "_on_player_tile_move_complete")
+	EventBus.connect("pre_save_game", self, "on_pre_save_game")
+	EventBus.connect("post_load_game", self, "on_post_load_game")
+
+func on_pre_save_game():
+	GameData.set_state("CMGR_is_in_combat", is_in_combat)
+
+func on_post_load_game():
+	is_in_combat = GameData.get_state("CMGR_is_in_combat")
 
 func trigger_combat(combat_config_file):
 	print("Starting combat: ", combat_config_file)

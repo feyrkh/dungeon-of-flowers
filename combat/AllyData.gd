@@ -13,9 +13,23 @@ var agility = 100 # likely to hit (low damage range increase)
 var strength = 100 # likely to penetrate armor (medium damage range increase)
 var precision = 100 # likely to get critical hit (high damage range increase)
 
-var texture : Texture
+var texture : String
 
 var moves : Array # of MoveData
+
+func save_data():
+	var data = Util.to_config(self)
+	return data
+
+func load_data(data:Dictionary):
+	Util.config(self, data)
+
+func post_config(c):
+	for i in moves.size():
+		var move_config = moves[i]
+		var move_obj = MoveData.new()
+		Util.config(move_obj, move_config)
+		moves[i] = move_obj
 
 func round_stats():
 	hp = float(int(hp))

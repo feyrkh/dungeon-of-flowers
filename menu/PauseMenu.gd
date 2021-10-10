@@ -10,6 +10,7 @@ func _ready():
 	find_node("OptionMenu").connect("goto_previous_menu", self, "on_options_menu_closed")
 	EventBus.connect("disable_pause_menu", self, "on_disable_pause_menu")
 	EventBus.connect("enable_pause_menu", self, "on_enable_pause_menu")
+	$PauseMenu.visible = false
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):

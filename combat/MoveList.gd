@@ -5,51 +5,29 @@ var unknownMove
 
 func _ready():
 	unknownMove = MoveData.new()
-	add_move(Util.config(MoveData.new(), {
-		"label": "Punch",
-		"name": "punch",
-		"type": "attack",
-		"target": "enemy",
-		"game_scene": "attackRing",
-		"game_config": {
-			"damage": 20/3,
-			"targets": [
-				{"offset": 0.3, "hi": 2, "med": 20, "low": 25},
-				{"offset": 0.6, "hi": 2, "med": 20, "low": 25},
-				{"offset": 0.9, "hi": 2, "med": 20, "low": 25},
-			]
-		}
-	}))
-	add_move(Util.config(MoveData.new(), {
-		"label": "Thump",
-		"name": "thump",
-		"type": "attack",
-		"target": "enemy",
-		"game_scene": "attackRing",
-		"game_config": {
-			"damage": 6,
-			"targets": [
-				{"offset": 0.8, "hi": 1, "med": 9, "low": 25},
-			]
-		}
-	}))
-	add_move(Util.config(MoveData.new(), {
-		"label": "Slash",
-		"name": "slash",
-		"type": "attack",
-		"target": "enemy",
-		"game_scene": "attackRing",
-		"game_config": {
-			"damage": 20/2,
-			"targets": [
-				{"offset": 0.4, "hi": 5, "med": 15, "low": 20},
-				{"offset": 0.8, "hi": 5, "med": 15, "low": 20},
-			]
-		}
-	}))
+	EventBus.connect("pre_new_game", self, "on_pre_new_game")
+	EventBus.connect("pre_save_game", self, "on_pre_save_game")
+	EventBus.connect("post_load_game", self, "on_post_load_game")
+
+func on_pre_new_game():
+	pass
+
+func on_pre_save_game():
+	GameData.set_state("__MoveList", moves)
+
+func on_post_load_game():
+	moves = GameData.get_state("__MoveList", moves)
 
 func get_move(name:String) -> MoveData:
-	return moves.get(name, unknownMove)
+	var move_data = moves.get(name)
+	if !move_data:
+		var move_json = DialogicResources.load_json("res://data/move/"+name+".json")
+		if move_json.size() == 0:
+			move_data = unknownMove
+		else:
+			move_data = MoveData.new()
+			Util.config(move_data, move_json)
+	return move_data
 
 func add_move(move:MoveData):
 	if moves.has(move.name):

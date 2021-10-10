@@ -5,6 +5,8 @@ signal menu_paused(menu)
 signal menu_resumed(menu)
 
 const menu_item_change_sfx = preload("res://sound/mixkit-metallic-sword-strike-2160.wav")
+const menu_item_action_sfx = preload("res://sound/mixkit-sword-cutting-flesh-2788.wav")
+const menu_item_disabled_sfx = preload("res://sound/thump.mp3")
 
 onready var Arrow = find_node("Arrow")
 export var menu_entries = ["NewGame", "Tutorial", "Options", "Quit"]
@@ -27,6 +29,9 @@ func pause_menu():
 	visible = false
 
 func resume_menu():
+	for i in range(menu_entries.size()):
+		if i != selected_idx and menu_entries[i].has_method("menu_deselected"):
+			menu_entries[i].menu_deselected(self)
 	set_process(true)
 	visible = true
 
@@ -61,11 +66,17 @@ func _process(delta):
 		AudioPlayerPool.play(menu_item_change_sfx, 3.0)
 	elif Input.is_action_just_pressed("ui_right"):
 		if menu_entries[selected_idx].has_method("menu_increment"):
+			if menu_entries[selected_idx].increment_sfx: AudioPlayerPool.play(menu_item_action_sfx, 1.0)
 			menu_entries[selected_idx].menu_increment(self)
 	elif Input.is_action_just_pressed("ui_left"):
 		if menu_entries[selected_idx].has_method("menu_decrement"):
+			if menu_entries[selected_idx].increment_sfx: AudioPlayerPool.play(menu_item_action_sfx, 1.0)
 			menu_entries[selected_idx].menu_decrement(self)
 	elif Input.is_action_just_pressed("ui_accept"):
 		if menu_entries[selected_idx].has_method("menu_action"):
-			menu_entries[selected_idx].menu_action(self)
+			if menu_entries[selected_idx].disabled:
+				AudioPlayerPool.play(menu_item_disabled_sfx, 1.0)
+			else:
+				AudioPlayerPool.play(menu_item_action_sfx, 1.0)
+				menu_entries[selected_idx].menu_action(self)
 			

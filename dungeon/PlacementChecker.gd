@@ -1,11 +1,15 @@
 extends Area
 
 var placement_good = false
+onready var delay = (hash(name) % 5000)/5000.0 + 1.0
 
 func _ready():
 	connect("area_entered", self, "_on_PlacementChecker_area_entered")
 
 func _process(_delta):
+	delay -= _delta
+	if delay > 0:
+		return
 	if placement_good:
 		call_deferred("queue_free")
 	else:

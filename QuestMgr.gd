@@ -15,6 +15,16 @@ var skill_menu_open setget set_skill_menu_open
 
 func _ready():
 	self.pause_mode = PAUSE_MODE_PROCESS
+	EventBus.connect("pre_save_game", self, "on_pre_save_game")
+	EventBus.connect("post_load_game", self, "on_post_load_game")
+
+func on_pre_save_game():
+	GameData.set_state("QMGR_combat_phase", combat_phase)
+	GameData.set_state("QMGR_skill_menu_open", skill_menu_open)
+
+func on_post_load_game():
+	combat_phase = GameData.get_state("QMGR_combat_phase")
+	skill_menu_open = GameData.get_state("QMGR_skill_menu_open")
 
 func set_combat_phase(phase):
 	combat_phase = phase

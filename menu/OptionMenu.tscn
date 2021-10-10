@@ -41,12 +41,14 @@ margin_right = 1074.0
 margin_bottom = 578.0
 
 [node name="MusicVolume" parent="CenterContainer/VBoxContainer" instance=ExtResource( 5 )]
+increment_sfx = false
 setting_name = "music_volume"
 label = "Music Volume"
 
 [node name="SfxVolume" parent="CenterContainer/VBoxContainer" instance=ExtResource( 5 )]
 margin_top = 27.0
 margin_bottom = 50.0
+increment_sfx = false
 setting_name = "sfx_volume"
 label = "SFX Volume"
 

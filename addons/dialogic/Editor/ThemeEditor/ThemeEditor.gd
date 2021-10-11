@@ -68,8 +68,10 @@ onready var n : Dictionary = {
 	'theme_action_key': $"VBoxContainer/TabContainer/Dialog Box/Column3/GridContainer/BoxContainer/ActionOptionButton",
 	'theme_background_color_visible': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer2/CheckBox",
 	'theme_background_color': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer2/ColorPickerButton",
-	'theme_text_margin': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer/TextOffsetV",
-	'theme_text_margin_h': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer/TextOffsetH",
+	'theme_text_margin_l': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer/TextOffsetLeft",
+	'theme_text_margin_r': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer/TextOffsetRight",
+	'theme_text_margin_u': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer/TextOffsetTop",
+	'theme_text_margin_d': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer/TextOffsetBottom",
 	'size_w': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer4/BoxSizeW",
 	'size_h': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer4/BoxSizeH", 
 	'bottom_gap': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer5/BottomGap",
@@ -348,8 +350,10 @@ func load_theme(filename):
 	n['theme_text_shadow_color'].color = Color(theme.get_value('text', 'shadow_color', '#9e000000'))
 	n['theme_shadow_offset_x'].value = theme.get_value('text', 'shadow_offset', Vector2(2,2)).x
 	n['theme_shadow_offset_y'].value = theme.get_value('text', 'shadow_offset', Vector2(2,2)).y
-	n['theme_text_margin'].value = theme.get_value('text', 'margin', Vector2(20, 10)).x
-	n['theme_text_margin_h'].value = theme.get_value('text', 'margin', Vector2(20, 10)).y
+	n['theme_text_margin_l'].value = theme.get_value('text', 'margin_ul', Vector2(20, 10)).x
+	n['theme_text_margin_u'].value = theme.get_value('text', 'margin_ul', Vector2(20, 10)).y
+	n['theme_text_margin_r'].value = theme.get_value('text', 'margin_dr', Vector2(20, 10)).x
+	n['theme_text_margin_d'].value = theme.get_value('text', 'margin_dr', Vector2(20, 10)).y
 	n['alignment'].text = theme.get_value('text', 'alignment', 'Left')
 	match n['alignment'].text:
 		'Left':
@@ -625,11 +629,16 @@ func _on_ShadowOffset_value_changed(_value) -> void:
 func _on_TextMargin_value_changed(value) -> void:
 	if loading:
 		return
-	var final_vector = Vector2(
-		n['theme_text_margin'].value,
-		n['theme_text_margin_h'].value
+	var up_left = Vector2(
+		n['theme_text_margin_l'].value,
+		n['theme_text_margin_u'].value
 	)
-	DialogicResources.set_theme_value(current_theme, 'text', 'margin', final_vector)
+	var down_right = Vector2(
+		n['theme_text_margin_r'].value,
+		n['theme_text_margin_d'].value
+	)
+	DialogicResources.set_theme_value(current_theme, 'text', 'margin_ul', up_left)
+	DialogicResources.set_theme_value(current_theme, 'text', 'margin_dr', down_right)
 	_on_PreviewButton_pressed() # Refreshing the preview
 
 

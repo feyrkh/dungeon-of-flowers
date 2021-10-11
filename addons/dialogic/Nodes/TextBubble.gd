@@ -113,11 +113,12 @@ func load_theme(theme: ConfigFile):
 	theme_text_speed = text_speed
 
 	# Margin
-	var text_margin = theme.get_value('text', 'margin', Vector2(20, 10))
-	text_label.set('margin_left', text_margin.x)
-	text_label.set('margin_right', text_margin.x * -1)
-	text_label.set('margin_top', text_margin.y)
-	text_label.set('margin_bottom', text_margin.y * -1)
+	var text_margin_ul = theme.get_value('text', 'margin_ul', Vector2(20, 10))
+	var text_margin_dr = theme.get_value('text', 'margin_dr', Vector2(20, 10))
+	text_label.set('margin_left', text_margin_ul.x)
+	text_label.set('margin_right', -text_margin_dr.x)
+	text_label.set('margin_top', text_margin_ul.y)
+	text_label.set('margin_bottom', -text_margin_dr.y)
 
 	# Backgrounds
 	$TextureRect.texture = DialogicUtil.path_fixer_load(theme.get_value('background','image', "res://addons/dialogic/Example Assets/backgrounds/background-2.png"))

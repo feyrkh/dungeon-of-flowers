@@ -3,6 +3,8 @@ extends Node
 signal cutscene_start
 signal cutscene_end
 
+const BG_CHAR = preload("res://dialogic/BgChar.tscn")
+
 var INTRO = "intro"
 var INTRO_INTRODUCED_GRIAS = "intro_1"
 var INTRO_FIRST_COMBAT = "intro_2"
@@ -10,11 +12,14 @@ var INTRO_SECOND_COMBAT = "intro_3"
 var INTRO_COMPLETE = "intro_complete"
 
 var cutscene
+var cutscene_bg_chars 
 var combat_phase setget set_combat_phase
 var skill_menu_open setget set_skill_menu_open
 
 func _ready():
 	self.pause_mode = PAUSE_MODE_PROCESS
+	cutscene_bg_chars = Node2D.new()
+	add_child(cutscene_bg_chars)
 	EventBus.connect("pre_save_game", self, "on_pre_save_game")
 	EventBus.connect("post_load_game", self, "on_post_load_game")
 
@@ -106,14 +111,30 @@ func play_cutscene(_cutscene_name):
 	cutscene = Dialogic.start(_cutscene_name)
 	cutscene.connect("timeline_end", self, "on_timeline_end")
 	cutscene.connect("dialogic_signal", GameData, "on_dialogic_signal")
+	cutscene.connect("dialogic_signal", self, "on_dialogic_signal")
 	add_child(cutscene)
 
 func on_timeline_end(timeline_name):
 	print("cutscene ended: ", timeline_name)
+	Util.delete_children(cutscene_bg_chars)
 	emit_signal("cutscene_end", timeline_name)
 	EventBus.emit_signal("enable_pause_menu")
 	cutscene = null
 	get_tree().paused = false
+
+func on_dialogic_signal(val:String):
+	# char_join$res://img/slime.jpg$sneakleft$0.5$300
+	# char_join$<img path>$<move style>$<number of image widths to move>$<offset height pixels>
+	if val.begins_with("char_join"):
+		var bits = val.split("$")
+		var new_char = BG_CHAR.instance()
+		var offset_y = int(bits[4])
+		new_char.img_path = bits[1]
+		new_char.pos = bits[2]
+		new_char.pos_offset = Vector2(0, -offset_y)
+		new_char.target_position_offset_widths = float(bits[3])
+		cutscene_bg_chars.add_child(new_char)
+
 
 func can_enter_combat():
 	if GameData.get_state(GameData.TUTORIAL_ON, false) and str(GameData.get_state(INTRO)) != INTRO_FIRST_COMBAT:

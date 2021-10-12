@@ -147,8 +147,8 @@ func focus():
 
 func focusout():
 	var alpha = 1
-	if single_portrait_mode:
-		alpha = 0
+	#if single_portrait_mode:
+	#	alpha = 0
 	if not fading_out:
 		tween_modulate(modulate, Color(0.5,0.5,0.5, alpha))
 		var _parent = get_parent()

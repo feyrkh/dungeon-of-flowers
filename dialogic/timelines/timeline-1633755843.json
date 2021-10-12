@@ -5,7 +5,7 @@
 			"character": "character-1633755724.json",
 			"event_id": "dialogic_002",
 			"mirror": false,
-			"portrait": "worried",
+			"portrait": "",
 			"position": {
 				"0": true,
 				"1": false,
@@ -15,18 +15,8 @@
 			}
 		},
 		{
-			"action": "join",
-			"character": "character-1633228803.json",
-			"event_id": "dialogic_002",
-			"mirror": false,
-			"portrait": "",
-			"position": {
-				"0": true,
-				"1": false,
-				"2": false,
-				"3": false,
-				"4": false
-			}
+			"emit_signal": "char_join$res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png$right$0$0",
+			"event_id": "dialogic_040"
 		},
 		{
 			"character": "character-1633755724.json",
@@ -51,6 +41,10 @@
 			"event_id": "dialogic_001",
 			"portrait": "annoyed",
 			"text": "Knightfulness...beknightitude...the knight life...you know what I mean!"
+		},
+		{
+			"emit_signal": "char_join$res://img/slime.jpg$sneakleft$0.75$330",
+			"event_id": "dialogic_040"
 		},
 		{
 			"character": "character-1633228803.json",

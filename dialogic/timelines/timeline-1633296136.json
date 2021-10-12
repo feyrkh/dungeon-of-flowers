@@ -15,10 +15,18 @@
 			}
 		},
 		{
+			"emit_signal": "char_join$res://img/slime.jpg$sneakright$3$330",
+			"event_id": "dialogic_040"
+		},
+		{
 			"character": "character-1633228803.json",
 			"event_id": "dialogic_001",
 			"portrait": "happy",
 			"text": "A slime, how cute! He looks just like my old pet Slimbo! But...this one has the eyes of a killer!"
+		},
+		{
+			"emit_signal": "char_join$res://img/slime.jpg$sneakleft$0.75$330",
+			"event_id": "dialogic_040"
 		},
 		{
 			"character": "character-1633228803.json",

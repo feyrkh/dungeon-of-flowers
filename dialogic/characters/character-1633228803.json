@@ -9,27 +9,27 @@
 	"nickname": "",
 	"nickname_bool": false,
 	"offset_x": 0,
-	"offset_y": -267,
+	"offset_y": 0,
 	"portraits": [
 		{
 			"name": "Default",
-			"path": "res://dialogic/portraits/grias_determined.png"
+			"path": "res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png"
 		},
 		{
 			"name": "annoyed",
-			"path": "res://dialogic/portraits/grias_annoyed.png"
+			"path": "res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png"
 		},
 		{
 			"name": "determined",
-			"path": "res://dialogic/portraits/grias_determined.png"
+			"path": "res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png"
 		},
 		{
 			"name": "happy",
-			"path": "res://dialogic/portraits/grias_happy.png"
+			"path": "res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png"
 		},
 		{
 			"name": "defeated",
-			"path": "res://dialogic/portraits/grias - defeated.png"
+			"path": "res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png"
 		}
 	],
 	"scale": 100

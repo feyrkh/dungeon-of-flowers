@@ -7,25 +7,11 @@
 			"mirror": false,
 			"portrait": "",
 			"position": {
-				"0": false,
-				"1": false,
-				"2": true,
-				"3": false,
-				"4": false
-			}
-		},
-		{
-			"action": "join",
-			"character": "character-1633296081.json",
-			"event_id": "dialogic_002",
-			"mirror": true,
-			"portrait": "",
-			"position": {
-				"0": false,
+				"0": true,
 				"1": false,
 				"2": false,
 				"3": false,
-				"4": true
+				"4": false
 			}
 		},
 		{
@@ -33,20 +19,6 @@
 			"event_id": "dialogic_001",
 			"portrait": "happy",
 			"text": "A slime, how cute! He looks just like my old pet Slimbo! But...this one has the eyes of a killer!"
-		},
-		{
-			"action": "join",
-			"character": "character-1633296438.json",
-			"event_id": "dialogic_002",
-			"mirror": false,
-			"portrait": "",
-			"position": {
-				"0": true,
-				"1": false,
-				"2": false,
-				"3": false,
-				"4": false
-			}
 		},
 		{
 			"character": "character-1633228803.json",

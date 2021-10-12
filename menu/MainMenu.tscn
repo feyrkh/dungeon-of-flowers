@@ -31,7 +31,8 @@ script/source = "extends BaseMenuItem
 var f : File = File.new()
 
 func get_disabled():
-	return f.file_exists(\"user://savegame1.sav\")
+	print(\"save file exists: \", f.file_exists(\"user://savegame1.sav\"))
+	return !f.file_exists(\"user://savegame1.sav\")
 
 func menu_action(menu):
 	print(\"Loading...\")

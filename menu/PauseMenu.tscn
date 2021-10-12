@@ -16,7 +16,7 @@ func menu_action(menu):
 	menu.get_parent().close_pause_menu()
 "
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=2]
 script/source = "extends BaseMenuItem
 
 func get_disabled():
@@ -28,13 +28,13 @@ func menu_action(menu):
 	menu.get_parent().close_pause_menu()
 "
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=3]
 script/source = "extends BaseMenuItem
 
 var f : File = File.new()
 
 func get_disabled():
-	return f.file_exists(\"user://savegame1.sav\")
+	return !f.file_exists(\"user://savegame1.sav\")
 	
 func menu_action(menu):
 	print(\"Loading...\")
@@ -42,7 +42,7 @@ func menu_action(menu):
 	menu.get_parent().close_pause_menu()
 "
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=4]
 script/source = "extends BaseMenuItem
 
 export(NodePath) var option_menu_path
@@ -116,7 +116,7 @@ margin_right = 150.0
 margin_bottom = 87.0
 custom_fonts/font = ExtResource( 2 )
 text = "Save Game"
-script = SubResource( 3 )
+script = SubResource( 2 )
 
 [node name="LoadGame" type="Label" parent="PauseMenu/CenterContainer/VBoxContainer"]
 margin_top = 91.0
@@ -124,7 +124,7 @@ margin_right = 150.0
 margin_bottom = 114.0
 custom_fonts/font = ExtResource( 2 )
 text = "Load Game"
-script = SubResource( 4 )
+script = SubResource( 3 )
 
 [node name="Options" type="Label" parent="PauseMenu/CenterContainer/VBoxContainer"]
 margin_top = 118.0
@@ -132,7 +132,7 @@ margin_right = 150.0
 margin_bottom = 141.0
 custom_fonts/font = ExtResource( 2 )
 text = "Options"
-script = SubResource( 2 )
+script = SubResource( 4 )
 option_menu_path = NodePath("../../../../OptionMenu")
 
 [node name="Exit" type="Label" parent="PauseMenu/CenterContainer/VBoxContainer"]

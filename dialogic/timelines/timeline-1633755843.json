@@ -2,10 +2,10 @@
 	"events": [
 		{
 			"action": "join",
-			"character": "character-1633228803.json",
+			"character": "character-1633755724.json",
 			"event_id": "dialogic_002",
 			"mirror": false,
-			"portrait": "",
+			"portrait": "worried",
 			"position": {
 				"0": true,
 				"1": false,
@@ -16,14 +16,14 @@
 		},
 		{
 			"action": "join",
-			"character": "character-1633755724.json",
+			"character": "character-1633228803.json",
 			"event_id": "dialogic_002",
-			"mirror": true,
+			"mirror": false,
 			"portrait": "",
 			"position": {
-				"0": false,
+				"0": true,
 				"1": false,
-				"2": true,
+				"2": false,
 				"3": false,
 				"4": false
 			}
@@ -51,34 +51,6 @@
 			"event_id": "dialogic_001",
 			"portrait": "annoyed",
 			"text": "Knightfulness...beknightitude...the knight life...you know what I mean!"
-		},
-		{
-			"action": "join",
-			"character": "character-1633296081.json",
-			"event_id": "dialogic_002",
-			"mirror": true,
-			"portrait": "",
-			"position": {
-				"0": false,
-				"1": false,
-				"2": false,
-				"3": true,
-				"4": false
-			}
-		},
-		{
-			"action": "join",
-			"character": "character-1633296438.json",
-			"event_id": "dialogic_002",
-			"mirror": true,
-			"portrait": "",
-			"position": {
-				"0": false,
-				"1": false,
-				"2": false,
-				"3": false,
-				"4": true
-			}
 		},
 		{
 			"character": "character-1633228803.json",

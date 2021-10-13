@@ -9,19 +9,19 @@
 	"nickname": "",
 	"nickname_bool": false,
 	"offset_x": 0,
-	"offset_y": -267,
+	"offset_y": 0,
 	"portraits": [
 		{
 			"name": "Default",
-			"path": "res://dialogic/portraits/chin - worried.png"
+			"path": "res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png"
 		},
 		{
 			"name": "worried",
-			"path": "res://dialogic/portraits/chin - worried.png"
+			"path": "res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png"
 		},
 		{
 			"name": "annoyed",
-			"path": "res://dialogic/portraits/chin - annoyed.png"
+			"path": "res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png"
 		}
 	],
 	"scale": 100

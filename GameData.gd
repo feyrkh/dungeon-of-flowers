@@ -104,6 +104,7 @@ func load_game(save_file):
 	EventBus.emit_signal("finalize_load_game")
 	return true
 
+
 func on_dialogic_signal(arg):
 	match arg:
 		"combat_gameover":

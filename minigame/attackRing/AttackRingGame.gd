@@ -44,7 +44,7 @@ var enemy
 var damage = 10
 
 func _ready():
-	setup(4 + GameData.get_state(GameData.ATTACK_RING_HANDICAP, 0))
+	setup(3 + GameData.get_state(GameData.ATTACK_RING_HANDICAP, 0))
 	place_at(Cursor, start_degrees)
 	yield(get_tree().create_timer(0.5), "timeout")
 	if get_parent() == get_tree().root:
@@ -103,7 +103,7 @@ func _physics_process(delta):
 	if cur_degrees >= end_degrees:
 		emit_signal("minigame_complete", self)
 		if get_parent() == get_tree().root:
-			setup(4 + max(-2, min(2, GameData.get_state(GameData.ATTACK_RING_HANDICAP, 0))))
+			setup(3 + max(-2, min(2, GameData.get_state(GameData.ATTACK_RING_HANDICAP, 0))))
 			cur_degrees -= (end_degrees - start_degrees)
 		else:
 			started = false

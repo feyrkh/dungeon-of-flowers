@@ -12,12 +12,12 @@
 [ext_resource path="res://font/NOTOSANS-REGULAR.TTF" type="DynamicFontData" id=10]
 [ext_resource path="res://art_exports/ui_battle/ui_button_A.png" type="Texture" id=11]
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=1]
 size = 18
 extra_spacing_bottom = -6
 font_data = ExtResource( 10 )
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ],
 "loop": true,
@@ -25,7 +25,7 @@ animations = [ {
 "speed": 8.0
 } ]
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=3]
 radius = 2.23607
 
 [node name="AttackRingGame" type="Node2D"]
@@ -47,7 +47,7 @@ margin_top = 270.0
 margin_right = 488.0
 margin_bottom = 330.0
 rect_pivot_offset = Vector2( 194, 0 )
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 1 )
 text = "Press      when the cursor touches the 
 strike zone center to deal maximum damage."
 align = 1
@@ -60,7 +60,8 @@ position = Vector2( 93, 16 )
 texture = ExtResource( 11 )
 
 [node name="ui_action_ring" type="AnimatedSprite" parent="Shaker"]
-frames = SubResource( 1 )
+frames = SubResource( 2 )
+frame = 2
 playing = true
 centered = false
 
@@ -81,7 +82,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shaker/Cursor/Area2D"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="Light2D" type="Light2D" parent="Shaker"]
 position = Vector2( 295, 295 )

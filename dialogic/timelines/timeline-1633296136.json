@@ -22,17 +22,37 @@
 			"character": "character-1633228803.json",
 			"event_id": "dialogic_001",
 			"portrait": "happy",
-			"text": "A slime, how cute! He looks just like my old pet Slimbo! But...this one has the eyes of a killer!"
+			"text": "A slime, how cute! He looks just like my old pet Slimjim! But...this one has the eyes of a killer!"
 		},
 		{
 			"emit_signal": "char_join$res://img/slime.jpg$sneakleft$0.75$330",
 			"event_id": "dialogic_040"
 		},
 		{
+			"action": "join",
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_002",
+			"mirror": true,
+			"portrait": "annoyed",
+			"position": {
+				"0": true,
+				"1": false,
+				"2": false,
+				"3": false,
+				"4": false
+			}
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "annoyed",
+			"text": "?!?!"
+		},
+		{
 			"character": "character-1633228803.json",
 			"event_id": "dialogic_001",
 			"portrait": "determined",
-			"text": "I'm surrounded...nothing for it but to fight. Sorry, Slimbo..."
+			"text": "I'm surrounded...nothing for it but to fight. Sorry, Slimjim..."
 		}
 	],
 	"metadata": {

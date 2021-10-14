@@ -1,4 +1,4 @@
-extends Node2D
+extends KinematicBody2D
 
 var damage = 0.5
 var piercing = false
@@ -33,9 +33,14 @@ func _process(delta):
 		if self.modulate.a <= 0:
 			self.lifetime = 0
 
+func disable_collision():
+	self.collision_layer = 0
+	self.collision_mask = 0
+
 func shield_block(shield):
 	if blocked: 
 		return
+	disable_collision()
 	blocked = true
 	CombatMgr.emit_signal("attack_bullet_block")
 	velocity.y = -velocity.y
@@ -43,6 +48,7 @@ func shield_block(shield):
 	fade_velocity = 1.0
 
 func ally_strike(ally_data):
+	disable_collision()
 	self.velocity = Vector2.ZERO
 	self.blocked = true
 	self.fade_velocity = 1

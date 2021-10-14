@@ -29,6 +29,7 @@ animations = [ {
 radius = 2.23607
 
 [node name="AttackRingGame" type="Node2D"]
+position = Vector2( -48, 0 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 295.0 ],

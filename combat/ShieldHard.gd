@@ -15,6 +15,7 @@ func setup(ally, shield_data):
 	global_position = ally.get_target(0) + shield_data.get("pos", Vector2.ZERO)
 	scale = shield_data.get("scale", Vector2.ONE)
 	normal_y = global_position.y
+	get_weakness()
 
 func _physics_process(delta):
 	if global_position.y > normal_y:
@@ -34,11 +35,15 @@ func _physics_process(delta):
 	elif global_position.x > SCREEN_WIDTH:
 		global_position.x -= SCREEN_WIDTH
 
+func get_weakness():
+	var weakness_ratio = float(shield_data.get("soaked_hits", 0)) / shield_data.get("max_hits", 8)
+	self.modulate = Color(1.0, 1.0-weakness_ratio, 1.0-weakness_ratio)
+	return weakness_ratio
 
 func _on_Area2D_body_entered(bullet:Node2D):
 	bullet.shield_block(self)
-	shield_data["soaked_hits"] = min(shield_data.get("max_hits", 5), shield_data.get("soaked_hits", 0)+1)
-	var weakness_ratio = float(shield_data.get("soaked_hits", 0)) / shield_data.get("max_hits", 5)
+	shield_data["soaked_hits"] = min(shield_data.get("max_hits", 8), shield_data.get("soaked_hits", 0)+1)
+	var weakness_ratio = get_weakness()
 	var offset_dir = bullet.global_position.x < global_position.x
 	if !offset_dir: offset_dir = -1
 	else: offset_dir = 1

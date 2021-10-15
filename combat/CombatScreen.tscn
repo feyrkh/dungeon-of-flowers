@@ -353,3 +353,5 @@ position = Vector2( 421, 56 )
 [connection signal="start_combat" from="." to="." method="_on_CombatScreen_start_combat"]
 [connection signal="single_enemy_target_complete" from="Enemies" to="." method="_on_Enemies_single_enemy_target_complete"]
 [connection signal="target_cancelled" from="Enemies" to="." method="_on_Enemies_target_cancelled"]
+[connection signal="self_target_complete" from="AllyPortraits" to="." method="_on_AllyPortraits_self_target_complete"]
+[connection signal="target_cancelled" from="AllyPortraits" to="." method="_on_AllyPortraits_target_cancelled"]

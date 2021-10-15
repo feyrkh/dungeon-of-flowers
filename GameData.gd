@@ -169,14 +169,19 @@ func on_new_player_location(x, y, rot_deg):
 		90: facing = "west"
 		_: printerr("Unknown facing with angle ", int(round(rot_deg)))
 
+func setup_allies():
+	if get_state(TUTORIAL_ON):
+		allies = [null, new_char_grias(), null]
+	else:
+		allies = [new_char_echincea(), new_char_grias(), mock_shantae()]
+
 func new_game():
 	EventBus.emit_signal("pre_new_game")
 	set_state(TUTORIAL_ON, get_setting(TUTORIAL_ON))	
+	setup_allies()
 	if get_state(TUTORIAL_ON):
-		allies = [null, new_char_grias(), null]
 		cur_dungeon = "res://data/map/intro.txt"
 	else:
-		allies = [new_char_echincea(), new_char_grias(), mock_shantae()]
 		cur_dungeon = "res://data/map/floor1.txt"
 	get_tree().change_scene("res://dungeon/GeneratedDungeon.tscn")
 	yield(get_tree(), "idle_frame")
@@ -232,6 +237,7 @@ func new_char_grias():
 	ally.texture = "res://img/hero4.jpg"
 	ally.moves = [
 		MoveList.get_move('slash'),
+		MoveList.get_move("defensive_stance"),
 	]
 	ally.shields = [
 		#{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(-150, -130), "scale": Vector2(2.0, 1.0)},

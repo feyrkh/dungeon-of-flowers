@@ -57,12 +57,11 @@ func _ready():
 	if get_tree().root == get_parent():
 		# Hack for testing quest stuff without loading a full game
 		CombatMgr.is_in_combat = true
-		GameData.set_state(GameData.TUTORIAL_ON, true)
+		GameData.set_state(GameData.TUTORIAL_ON, false)
 		#GameData.set_state(QuestMgr.INTRO, QuestMgr.INTRO_SECOND_COMBAT)
 		GameData.set_state(QuestMgr.INTRO, QuestMgr.INTRO_FIRST_COMBAT)
-	randomize()
-	if (!combat_data):
 		combat_data = mock_combat_data()
+	randomize()
 	render_allies()
 	render_enemies()
 	#adjustStanceButton.visible = true
@@ -190,6 +189,7 @@ func allies_all_dead():
 
 func mock_combat_data():
 	var cd = CombatData.new()
+	GameData.setup_allies()
 	cd.allies = GameData.allies
 	cd.enemies = []
 	for i in randi()%3+2:
@@ -281,11 +281,18 @@ func _on_Ally_select_submenu_item(submenu, move_data):
 	active_submenu = submenu
 	cur_input_phase = InputPhase.PLAYER_SELECT_TARGET
 	allies[selected_ally_idx].on_targeting_started(move_data)
-	Enemies.start_targeting(move_data)
+	Enemies.start_targeting(move_data, allies[selected_ally_idx])
+	AllyPortraits.start_targeting(move_data, allies[selected_ally_idx])
 	QuestMgr.combat_phase = "target_enemy"
 
 func _on_Enemies_target_cancelled():
 	print("_on_Enemies_target_cancelled")
+	active_submenu.on_targeting_cancelled()
+	allies[selected_ally_idx].on_targeting_cancelled()
+	QuestMgr.combat_phase = "open_submenu"
+	
+func _on_AllyPortraits_target_cancelled():
+	print("_on_AllyPortraits_target_cancelled")
 	active_submenu.on_targeting_cancelled()
 	allies[selected_ally_idx].on_targeting_cancelled()
 	QuestMgr.combat_phase = "open_submenu"
@@ -296,17 +303,23 @@ func _on_Enemies_single_enemy_target_complete(target_enemy, move_data):
 	allies[selected_ally_idx].on_targeting_completed()
 	emit_signal("player_move_selected", combat_data, target_enemy, move_data)
 
+func _on_AllyPortraits_self_target_complete(target_ally, move_data):
+	print("_on_AllyPortraits_self_target_complete")
+	active_submenu.on_targeting_completed()
+	allies[selected_ally_idx].on_targeting_completed()
+	emit_signal("player_move_selected", combat_data, target_ally, move_data)
+
 func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data):
 	QuestMgr.combat_phase = "opening_minigame"
 	Enemies.squish_for_minigame(0.5)
 	MinigameContainer.squish_for_minigame(0.5)
+	$"ActionVignette/AnimationPlayer".play("fade_in")
 	print("Attacking ", target_enemy.data.label, " with skill: ", move_data.label)
 	match move_data.type:
 		"attack":
-			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].ally_data.label+" is attacking "+target_enemy.data.label+"!")
+			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is attacking "+target_enemy.data.label+"!")
 			
 			var scene = move_data.get_attack_scene(allies[selected_ally_idx], target_enemy)
-			$"ActionVignette/AnimationPlayer".play("fade_in");
 			MinigameContainer.add_child(scene)
 			MinigameContainer.visible = true
 			var MinigameCenter = scene.find_node("MinigameCenter")
@@ -321,11 +334,9 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 			scene.start()
 			QuestMgr.combat_phase = "attack_minigame"
 		_: 
-			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].ally_data.label+" is confused...unknown skill type!")
+			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is confused...unknown skill type!")
 			yield(get_tree().create_timer(2), "timeout")
-			CombatMgr.emit_signal("player_move_complete", combat_data)
-			CombatMgr.emit_signal("hide_battle_header")
-			CombatMgr.emit_signal("player_move_complete", combat_data)
+			_on_ally_minigame_complete(null)
 
 func _on_attack_minigame_complete(minigame_scene):
 	print("Attack complete")
@@ -342,6 +353,18 @@ func _on_attack_minigame_complete(minigame_scene):
 	MinigameContainer.visible = false
 	CombatMgr.emit_signal("player_move_complete", combat_data)
 
+func _on_ally_minigame_complete(minigame_scene):
+	print("Ally move complete")
+	$"ActionVignette/AnimationPlayer".play_backwards("fade_in")
+	QuestMgr.combat_phase = "apply_ally_buff"
+	CombatMgr.emit_signal("hide_battle_header")
+	Enemies.unsquish_for_minigame(0.5)
+	yield(get_tree().create_timer(0.5), "timeout")
+	if is_instance_valid(minigame_scene):
+		minigame_scene.queue_free()
+	MinigameContainer.visible = false
+	CombatMgr.emit_signal("player_move_complete", combat_data)
+
 func _on_new_bullet(bullet):
 	BulletContainer.add_child(bullet)
 
@@ -350,3 +373,6 @@ func _on_attack_bullet_block():
 
 func _on_attack_bullet_strike(ally_data):
 	AudioPlayerPool.play(bullet_strike_sfx)
+
+
+

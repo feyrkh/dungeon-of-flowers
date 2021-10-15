@@ -90,7 +90,7 @@ func select_target():
 		var ally = allies[randi()%allies.size()]
 		if intention.get("force_target") != null:
 			ally = allies[intention.get("force_target")]
-		print(enemy.data.label, " targeting ", ally.ally_data.label)
+		print(enemy.data.label, " targeting ", ally.data.label)
 		target = ally.get_target(target_scatter)
 
 func on_execute_combat_intentions(_allies, _enemies):

@@ -1,0 +1,9 @@
+{
+	"label": "Defensive Stance",
+	"type": "defend",
+	"name": "defensive_stance",
+	"target": "self",
+	"game_scene": "stackingTower",
+	"game_config": {
+	}
+}

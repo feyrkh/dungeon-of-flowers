@@ -35,20 +35,20 @@ func _ready():
 	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
 	CombatMgr.connect("enemy_turn_complete", self, "_on_CombatScreen_enemy_turn_complete")
 
-func start_targeting(_active_move_data):
-	self.active_move_data = _active_move_data
-	active_target_type = active_move_data.target
-	match active_target_type:
+func start_targeting(_active_move_data, cur_ally):
+	match _active_move_data.target:
 		"enemy": 
 			retarget_last_targeted_enemy()
 		"all_enemies": printerr(active_target_type+" not implemented yet")
 		"random_enemy": printerr(active_target_type+" not implemented yet")
-		"ally": printerr(active_target_type+" not implemented yet")
-		"all_allies": printerr(active_target_type+" not implemented yet")
-		"self": printerr(active_target_type+" not implemented yet")
+		"ally": return # do nothing, Enemies class doesn't care about ally targeting
+		"all_allies": return # do nothing, Enemies class doesn't care about ally targeting
+		"self": return # do nothing, Enemies class doesn't care about ally targeting
 		_: 
 			printerr(active_target_type+" unexpected move target type")
 			return
+	self.active_move_data = _active_move_data
+	active_target_type = active_move_data.target
 	set_process(true)
 
 func stop_targeting():

@@ -17,18 +17,18 @@ export(Color) var selected_color = Color.white
 export(Color) var deselected_color = Color(0.9, 0.9, 0.9)
 export(Color) var exhausted_color = Color(0.7, 0.7, 0.7)
 
-var ally_data:AllyData
+var data:AllyData
 var last_category_idx
 var move_lists = ["attack", "skill", "defend", "item", ]
 var exhausted = false
 
-func setup(_ally_data:AllyData):
-	self.ally_data = _ally_data
-	AllyPortrait.setup(ally_data)
-	if !ally_data:
+func setup(_data:AllyData):
+	self.data = _data
+	AllyPortrait.setup(data)
+	if !data:
 		return
 	AllyPortrait.update_labels()
-	CombatIcons.setup(ally_data)
+	CombatIcons.setup(data)
 
 func _ready():
 	CombatIcons.categories.append(find_node("IconStatus"))
@@ -38,7 +38,7 @@ func _ready():
 	CombatMgr.connect("enemy_turn_complete", self, "_on_enemy_turn_complete")
 
 func get_shields():
-	return ally_data.get_shields()
+	return data.get_shields()
 
 func get_target(target_scatter = 0):
 	var half_size = 180
@@ -59,7 +59,7 @@ func explore_mode():
 	find_node("IconStatus").visible = false
 
 func is_alive():
-	return ally_data.hp > 0
+	return data.hp > 0
 
 func deselect():
 	AllyPortrait.deselect()
@@ -92,7 +92,7 @@ func open_category_submenu(category_idx):
 	last_category_idx = category_idx
 	category_zoom_icons[category_idx].visible = true
 	CombatIcons.hide()
-	Submenu.setup(ally_data, ally_data.get_moves(move_lists[category_idx]))
+	Submenu.setup(data, data.get_moves(move_lists[category_idx]))
 	Submenu.show()
 	QuestMgr.skill_menu_open = move_lists[category_idx]
 
@@ -132,7 +132,7 @@ func _on_CombatScreen_start_enemy_turn(combat_data):
 	modulate = Color.white
 
 func _on_enemy_turn_complete(combat_data):
-	DamageIndicator.apply_damage(ally_data)
+	DamageIndicator.apply_damage(data)
 
 func _on_CombatScreen_player_turn_complete(combat_data):
 	AllyPortrait.deselect()
@@ -143,8 +143,8 @@ func _on_Ally_cancel_submenu():
 
 
 func _on_BulletStrikeArea_body_entered(bullet):
-	#ally_data.take_damage(bullet.get_damage())
+	#data.take_damage(bullet.get_damage())
 	CombatMgr.emit_signal("attack_bullet_strike", self)
-	bullet.ally_strike(ally_data)
+	bullet.ally_strike(data)
 	DamageIndicator.take_damage(bullet.get_damage())
 	

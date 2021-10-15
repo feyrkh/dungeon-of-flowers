@@ -99,7 +99,7 @@ func check_noncombat_introduction():
 				play_cutscene(INTRO_SECOND_COMBAT)
 				yield(cutscene, "timeline_end")
 				GameData.allies[0] = GameData.new_char_echincea()
-				GameData.allies[1].shields = [{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -130), "scale": Vector2(1.0, 1.0)}]
+				GameData.allies[1].shields = [{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -160), "scale": Vector2(2.0, 2.0)}]
 				CombatMgr.trigger_combat("tutorial2")
 
 func play_cutscene(_cutscene_name):

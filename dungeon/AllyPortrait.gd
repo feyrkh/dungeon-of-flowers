@@ -8,24 +8,23 @@ onready var SpLabel:Label = find_node("SpLabel")
 onready var HpFill:TextureRect = find_node("HpFill")
 onready var SpFill:TextureRect = find_node("SpFill")
 
-var ally_data:AllyData
-
+var data:AllyData
 func _ready():
 	EventBus.connect("ally_status_updated", self, "_on_ally_status_updated")
 
-func setup(_ally_data:AllyData):
-	if _ally_data == null:
+func setup(_data:AllyData):
+	if _data == null:
 		visible = false
 		return
 	visible = true
-	self.ally_data = _ally_data
-	Portrait.texture = load(ally_data.texture)
+	self.data = _data
+	Portrait.texture = load(data.texture)
 
 func update_labels():
-	HpLabel.text = str(int(ally_data.hp)) + "/" + str(int(ally_data.max_hp))
-	SpLabel.text = str(int(ally_data.sp)) + "/" + str(int(ally_data.max_sp))
-	HpFill.rect_scale.x = float(ally_data.hp) / float(ally_data.max_hp)
-	SpFill.rect_scale.x = float(ally_data.sp) / float(ally_data.max_sp)
+	HpLabel.text = str(int(data.hp)) + "/" + str(int(data.max_hp))
+	SpLabel.text = str(int(data.sp)) + "/" + str(int(data.max_sp))
+	HpFill.rect_scale.x = float(data.hp) / float(data.max_hp)
+	SpFill.rect_scale.x = float(data.sp) / float(data.max_sp)
 
 func deselect():
 	PortraitSelected.visible = false
@@ -33,7 +32,7 @@ func deselect():
 func select():
 	PortraitSelected.visible = true
 
-func _on_ally_status_updated(_ally_data):
-	if self.ally_data != _ally_data:
+func _on_ally_status_updated(_data):
+	if self.data != _data:
 		return
 	update_labels()

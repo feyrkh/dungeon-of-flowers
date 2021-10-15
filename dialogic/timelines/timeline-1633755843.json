@@ -15,7 +15,21 @@
 			}
 		},
 		{
-			"emit_signal": "char_join$res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png$right$0$0",
+			"action": "join",
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_002",
+			"mirror": true,
+			"portrait": "",
+			"position": {
+				"0": false,
+				"1": false,
+				"2": false,
+				"3": false,
+				"4": true
+			}
+		},
+		{
+			"emit_signal": "NOPE_char_join$res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png$right$0$0",
 			"event_id": "dialogic_040"
 		},
 		{

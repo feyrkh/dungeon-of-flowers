@@ -3,7 +3,8 @@ class_name MoveData
 
 const MINIGAMES = {
 	"simpleLineGame": preload("res://minigame/SimpleLineGame.tscn"),
-	"attackRing": preload("res://minigame/attackRing/AttackRingGame.tscn")
+	"attackRing": preload("res://minigame/attackRing/AttackRingGame.tscn"),
+	"stackingTower": preload("res://minigame/stackingTower/StackingTowerGame.tscn"),
 }
 const Enums = preload("res://Enums.gd")
 
@@ -19,11 +20,11 @@ var base_heal_mp : int = 0
 var game_scene: String
 var game_config : Dictionary
 
-func get_attack_scene(ally, enemy):
+func get_move_scene(source, target):
 	var game_prefab = MINIGAMES.get(game_scene)
 	if !game_prefab:
 		printerr("Missing minigame scene: ", game_scene)
 		game_prefab = MINIGAMES.get("simpleLineGame")
 	var scene = game_prefab.instance()
-	scene.set_minigame_config(game_config, ally, enemy)
+	scene.set_minigame_config(game_config, source, target)
 	return scene

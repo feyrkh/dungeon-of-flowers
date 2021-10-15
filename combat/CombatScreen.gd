@@ -318,8 +318,7 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 	match move_data.type:
 		"attack":
 			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is attacking "+target_enemy.data.label+"!")
-			
-			var scene = move_data.get_attack_scene(allies[selected_ally_idx], target_enemy)
+			var scene = move_data.get_move_scene(allies[selected_ally_idx], target_enemy)
 			MinigameContainer.add_child(scene)
 			MinigameContainer.visible = true
 			var MinigameCenter = scene.find_node("MinigameCenter")
@@ -329,10 +328,25 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 			else:
 				scene.position = (MinigameContainer.rect_size/2)
 			scene.connect("minigame_success", target_enemy, "damage_hp")
-			yield(get_tree().create_timer(0.5), "timeout")
 			scene.connect("minigame_complete", self, "_on_attack_minigame_complete")
+			yield(get_tree().create_timer(0.5), "timeout")
 			scene.start()
 			QuestMgr.combat_phase = "attack_minigame"
+		"defend":
+			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is defending!")
+			var scene = move_data.get_move_scene(allies[selected_ally_idx], target_enemy)
+			MinigameContainer.add_child(scene)
+			MinigameContainer.visible = true
+			var MinigameCenter = scene.find_node("MinigameCenter")
+			if MinigameCenter:
+				var offset = MinigameCenter.position - MinigameDesiredCenter.position
+				scene.position -= offset
+			else:
+				scene.position = (MinigameContainer.rect_size/2)
+			scene.connect("minigame_complete", self, "_on_ally_minigame_complete")
+			yield(get_tree().create_timer(0.5), "timeout")
+			scene.start()
+			QuestMgr.combat_phase = "defend_minigame"
 		_: 
 			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is confused...unknown skill type!")
 			yield(get_tree().create_timer(2), "timeout")

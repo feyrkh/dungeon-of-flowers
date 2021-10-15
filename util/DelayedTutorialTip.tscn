@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://util/DelayedTooltip.gd" type="Script" id=1]
+
+[node name="FirstTimeTooltip" type="MarginContainer"]
+pause_mode = 2
+margin_left = -166.0
+margin_top = 231.0
+margin_right = 341.0
+margin_bottom = 356.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+delay = 2.5
+delayed_tutorial = "FirstTimeTooltip_Delayed"

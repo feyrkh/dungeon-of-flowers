@@ -3,6 +3,7 @@
 [ext_resource path="res://util/Pulser.tscn" type="PackedScene" id=1]
 
 [node name="TutorialContainer" type="PanelContainer"]
+pause_mode = 2
 margin_right = 14.0
 margin_bottom = 14.0
 __meta__ = {

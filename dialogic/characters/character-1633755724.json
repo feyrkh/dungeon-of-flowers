@@ -6,8 +6,8 @@
 	"id": "character-1633755724.json",
 	"mirror_portraits": false,
 	"name": "Echinacea",
-	"nickname": "",
-	"nickname_bool": false,
+	"nickname": "Chin",
+	"nickname_bool": true,
 	"offset_x": 0,
 	"offset_y": 0,
 	"portraits": [

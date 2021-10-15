@@ -25,16 +25,28 @@
 			"text": "Grias, you forgot your shield again. Your career will end in tears if you keep rushing off unprepared, mark my words!"
 		},
 		{
+			"event_id": "dialogic_024",
+			"set_theme": "theme-1634319603.cfg"
+		},
+		{
 			"character": "character-1633228803.json",
 			"event_id": "dialogic_001",
 			"portrait": "annoyed",
 			"text": "Tch! The slimes are pushovers, I just fought two of them and it was [i]fine.[/i] Besides, what does a floriculturist know about knighting? "
 		},
 		{
+			"event_id": "dialogic_024",
+			"set_theme": "theme-1634317032.cfg"
+		},
+		{
 			"character": "character-1633755724.json",
 			"event_id": "dialogic_001",
 			"portrait": "annoyed",
 			"text": "Enough to know it's not called \"knighting\"."
+		},
+		{
+			"event_id": "dialogic_024",
+			"set_theme": "theme-1634319603.cfg"
 		},
 		{
 			"character": "character-1633228803.json",

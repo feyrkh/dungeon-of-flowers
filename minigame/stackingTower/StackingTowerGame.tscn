@@ -23,7 +23,7 @@ __meta__ = {
 [node name="DangerZone" parent="." instance=ExtResource( 8 )]
 
 [node name="MinigameCenter" type="Position2D" parent="."]
-position = Vector2( 295, 501 )
+position = Vector2( 295, 540 )
 
 [node name="Tutorial" type="Control" parent="."]
 script = ExtResource( 6 )

@@ -38,6 +38,7 @@ position = Vector2( 362, 167 )
 texture = ExtResource( 3 )
 
 [node name="TextureOverlay" type="Sprite" parent="ViewportContainer/Viewport"]
+modulate = Color( 1, 1, 1, 0.780392 )
 light_mask = 16
 position = Vector2( 366, 165 )
 texture = ExtResource( 1 )

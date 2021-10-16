@@ -29,10 +29,6 @@
 			}
 		},
 		{
-			"emit_signal": "NOPE_char_join$res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png$right$0$0",
-			"event_id": "dialogic_040"
-		},
-		{
 			"character": "character-1633755724.json",
 			"event_id": "dialogic_001",
 			"portrait": "worried",
@@ -46,7 +42,7 @@
 			"character": "character-1633228803.json",
 			"event_id": "dialogic_001",
 			"portrait": "annoyed",
-			"text": "Tch! The slimes are pushovers, I just fought two of them and it was [i]fine.[/i] Besides, what does a floriculturist know about knighting? "
+			"text": "Tch! The puddles  are pushovers, I just fought two of them and it was [i]fine.[/i] Besides, what does a floriculturist know about knighting? "
 		},
 		{
 			"event_id": "dialogic_024",
@@ -69,7 +65,7 @@
 			"text": "Knightfulness...beknightitude...the knight life...you know what I mean!"
 		},
 		{
-			"emit_signal": "char_join$res://img/slime.jpg$sneakleft$0.75$330",
+			"emit_signal": "char_join$enemy_puddle$sneakleft$0.75$330",
 			"event_id": "dialogic_040"
 		},
 		{

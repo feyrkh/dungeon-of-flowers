@@ -1,5 +1,5 @@
-{"label":"Slime", "hp": 10, 
-"img": "res://img/slime.jpg",
+{"label":"Puddle", "hp": 10, 
+"img": "res://art_exports/characters/enemy_puddle.png",
 "dodge": 50,
 "defend": 50,
 "resist": 50,

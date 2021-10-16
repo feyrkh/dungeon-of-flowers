@@ -13,7 +13,7 @@
 	"portraits": [
 		{
 			"name": "Default",
-			"path": "res://img/monster3.jpg"
+			"path": "res://art_exports/characters/enemy_puddle.png"
 		}
 	],
 	"scale": 100

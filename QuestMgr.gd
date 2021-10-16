@@ -124,13 +124,15 @@ func on_timeline_end(timeline_name):
 	get_tree().paused = false
 
 func on_dialogic_signal(val:String):
-	# char_join$res://img/slime.jpg$sneakleft$0.5$300
+	# char_join$res://art_exports/characters/enemy_puddle.png$sneakleft$0.5$300
 	# char_join$<img path>$<move style>$<number of image widths to move>$<offset height pixels>
 	if val.begins_with("char_join"):
 		var bits = val.split("$")
 		var new_char = BG_CHAR.instance()
 		var offset_y = int(bits[4])
 		new_char.img_path = bits[1]
+		if !new_char.img_path.begins_with("res:"):
+			new_char.img_path = "res://art_exports/characters/"+new_char.img_path+".png"
 		new_char.pos = bits[2]
 		new_char.pos_offset = Vector2(0, -offset_y)
 		new_char.target_position_offset_widths = float(bits[3])

@@ -3,7 +3,12 @@ extends Node2D
 signal minigame_success(successAmount)
 signal minigame_complete
 
+const StackItem = preload("res://art_exports/ui_HUD/ui_HUD_icon_defend.png")
+
 var started
+var dropping = true
+var side_speed = 100
+var down_speed = 300
 
 func _ready():
 	yield(get_tree().create_timer(0.5), "timeout")

@@ -17,6 +17,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0 )
 [node name="SpotLight" type="SpotLight" parent="wallBlock"]
 transform = Transform( 1, 0, 0, 0, -0.002618, 0.999997, 0, -0.999997, -0.002618, 0, -0.7, -2.23517e-08 )
 light_energy = 2.22
+light_cull_mask = 4293918721
 spot_range = 5.5
 spot_attenuation = 1.03526
 spot_angle = 11.7

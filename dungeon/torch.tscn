@@ -17,6 +17,7 @@ appearance_chance = 0.2
 
 [node name="OmniLight" type="OmniLight" parent="." index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0126945, 0.424651, 0.457529 )
+light_cull_mask = 4293918721
 script = ExtResource( 3 )
 min_energy = 2.0
 max_energy = 3.0

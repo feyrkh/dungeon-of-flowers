@@ -60,6 +60,8 @@ onready var n : Dictionary = {
 	# Dialog box
 	'background_texture_button_visible': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer3/CheckBox",
 	'theme_background_image': $"VBoxContainer/TabContainer/Dialog Box/Column/GridContainer/HBoxContainer3/BackgroundTextureButton",
+	'background_scene_button_visible': find_node('BackgroundSceneVisible'),
+	'theme_background_scene': find_node('BackgroundSceneButton'),
 	'theme_next_image': $"VBoxContainer/TabContainer/Dialog Box/Column2/GridContainer/NextIndicatorButton",
 	'next_indicator_scale': $"VBoxContainer/TabContainer/Dialog Box/Column2/GridContainer/HBoxContainer7/IndicatorScale",
 	'next_indicator_offset_x': $"VBoxContainer/TabContainer/Dialog Box/Column2/GridContainer/HBoxContainer2/NextOffsetX",
@@ -187,6 +189,7 @@ func _ready() -> void:
 	# Dialog Box tab
 	n['theme_background_color_visible'].connect('toggled', self, '_on_generic_checkbox', ['background', 'use_color'])
 	n['background_texture_button_visible'].connect('toggled', self, '_on_generic_checkbox', ['background', 'use_image'])
+	n['background_scene_button_visible'].connect('toggled', self, '_on_generic_checkbox', ['background', 'use_scene'])
 	n['background_modulation'].connect('toggled', self, '_on_generic_checkbox', ['background', 'modulation'])
 	n['background_full_width'].connect('toggled', self, '_on_generic_checkbox', ['background', 'full_width'])
 	n['animation_show_time'].connect('value_changed', self, '_on_generic_value_change', ['animation', 'show_time'])
@@ -283,7 +286,9 @@ func load_theme(filename):
 	
 	# Background
 	n['theme_background_image'].text = DialogicResources.get_filename_from_path(theme.get_value('background', 'image', default_background))
+	n['theme_background_scene'].text = DialogicResources.get_filename_from_path(theme.get_value('background', 'scene', ''))
 	n['background_texture_button_visible'].pressed = theme.get_value('background', 'use_image', true)
+	n['background_scene_button_visible'].pressed = theme.get_value('background', 'use_scene', false)
 	n['theme_background_color'].color = Color(theme.get_value('background', 'color', '#ff000000'))
 	n['theme_background_color_visible'].pressed = theme.get_value('background', 'use_color', false)
 	n['theme_next_image'].text = DialogicResources.get_filename_from_path(theme.get_value('next_indicator', 'image', 'res://addons/dialogic/Example Assets/next-indicator/next-indicator.png'))
@@ -656,6 +661,8 @@ func _on_BackgroundTextureButton_pressed() -> void:
 	editor_reference.godot_dialog_connect(self, "_on_background_selected")
 
 
+
+
 func _on_background_selected(path, target) -> void:
 	if loading:
 		return
@@ -663,7 +670,17 @@ func _on_background_selected(path, target) -> void:
 	n['theme_background_image'].text = DialogicResources.get_filename_from_path(path)
 	_on_PreviewButton_pressed() # Refreshing the preview
 
+func _on_BackgroundScene_pressed():
+	editor_reference.godot_dialog("*.tscn")
+	editor_reference.godot_dialog_connect(self, "_on_background_scene_selected")
 
+func _on_background_scene_selected(path, target) -> void:
+	if loading:
+		return
+	DialogicResources.set_theme_value(current_theme, 'background','scene', path)
+	n['theme_background_scene'].text = DialogicResources.get_filename_from_path(path)
+	_on_PreviewButton_pressed() # Refreshing the preview
+	
 func _on_FlipTexture_toggled(button_pressed):
 	if loading:
 		return

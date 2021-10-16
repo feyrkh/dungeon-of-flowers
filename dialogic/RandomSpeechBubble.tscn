@@ -1,74 +1,55 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://art_exports/ui_dialog/ui_speechbubble_texture.png" type="Texture" id=1]
 [ext_resource path="res://art_exports/ui_dialog/ui_speechbubble_mask.png" type="Texture" id=2]
 [ext_resource path="res://art_exports/ui_dialog/ui_speechbubble.png" type="Texture" id=3]
 [ext_resource path="res://dialogic/RandomSpeechBubble.gd" type="Script" id=4]
-[ext_resource path="res://font/dialog_font.tres" type="DynamicFont" id=5]
-[ext_resource path="res://font/dialog_name_font.tres" type="DynamicFont" id=6]
-
-[sub_resource type="CanvasItemMaterial" id=1]
 
 [node name="PaperBubble" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = -1204.0
+margin_bottom = -758.0
+rect_min_size = Vector2( 716, 322 )
+rect_pivot_offset = Vector2( 358, 0 )
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="ui_speechbubble" type="Sprite" parent="."]
-light_mask = 0
-position = Vector2( 362, 167 )
-texture = ExtResource( 3 )
-
-[node name="TextureOverlay" type="Sprite" parent="."]
-light_mask = 2
-material = SubResource( 1 )
-position = Vector2( 366, 165 )
-texture = ExtResource( 1 )
-region_enabled = true
-region_rect = Rect2( 0, 0, 700, 300 )
-
-[node name="Light2D" type="Light2D" parent="."]
-light_mask = 2
-position = Vector2( 362, 166 )
-texture = ExtResource( 2 )
-mode = 3
-range_item_cull_mask = 2
+allow_flip_h = false
+allow_flip_v = false
 
 [node name="PaperMoveTimer" type="Timer" parent="."]
 wait_time = 0.3
 autostart = true
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+margin_right = 716.0
+margin_bottom = 322.0
 
-[node name="Label2" type="Label" parent="Node2D"]
-margin_left = 82.0
-margin_top = -1.0
-margin_right = 2002.0
-margin_bottom = 191.0
-custom_fonts/font = ExtResource( 6 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "Grias"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 716, 322 )
+own_world = true
+transparent_bg = true
 
-[node name="Label" type="Label" parent="Node2D"]
-margin_left = 87.0
-margin_top = 92.0
-margin_right = 2007.0
-margin_bottom = 128.0
-custom_fonts/font = ExtResource( 5 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "Lorem ipsum dolor sit amet, consectetur 
-adipiscing elit, sed do eiusmod tempor incididunt
- ut labore et dolore magna aliqua. Ut enim ad 
-minim veniam, quis nostrud exercitation ullamco
- laboris nisi ut aliquip ex ea commodo consequat. "
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="ui_speechbubble" type="Sprite" parent="ViewportContainer/Viewport"]
+light_mask = 0
+position = Vector2( 362, 167 )
+texture = ExtResource( 3 )
+
+[node name="TextureOverlay" type="Sprite" parent="ViewportContainer/Viewport"]
+light_mask = 16
+position = Vector2( 366, 165 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 700, 300 )
+
+[node name="Light2D" type="Light2D" parent="ViewportContainer/Viewport"]
+light_mask = 0
+position = Vector2( 362, 166 )
+texture = ExtResource( 2 )
+mode = 3
+range_item_cull_mask = 16
+shadow_item_cull_mask = 0
 
 [connection signal="timeout" from="PaperMoveTimer" to="." method="_on_Timer_timeout"]

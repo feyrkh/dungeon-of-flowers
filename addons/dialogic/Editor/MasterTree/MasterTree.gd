@@ -738,7 +738,7 @@ func _on_autosave_timeout():
 	save_current_resource()
 
 func save_current_resource():
-	if editor_reference.visible: #Only save if the editor is open
+	if editor_reference and editor_reference.visible: #Only save if the editor is open
 		var item: TreeItem = get_selected()
 		var metadata: Dictionary
 		if item != null:

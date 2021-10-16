@@ -24,15 +24,19 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
+margin_left = 960.0
+margin_top = 1080.0
+margin_right = 960.0
+margin_bottom = 1080.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextBubble" parent="." instance=ExtResource( 1 )]
-margin_left = -358.0
-margin_top = -972.0
-margin_right = 358.0
-margin_bottom = -650.0
+margin_left = 602.0
+margin_top = 108.0
+margin_right = 1318.0
+margin_bottom = 430.0
 
 [node name="Options" type="VBoxContainer" parent="."]
 margin_left = 960.0

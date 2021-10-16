@@ -124,14 +124,26 @@ func resize_main():
 			pos_x = get_parent().rect_global_position.x
 		$TextBubble/TextureRect.rect_global_position.x = pos_x
 		$TextBubble/ColorRect.rect_global_position.x = pos_x
+		$TextBubble/BackgroundScene.rect_global_position.x = pos_x
 		$TextBubble/TextureRect.rect_size.x = reference.x
 		$TextBubble/ColorRect.rect_size.x = reference.x
+		$TextBubble/BackgroundScene.rect_size.x = reference.x
 	else:
 		$TextBubble/TextureRect.rect_global_position.x = $TextBubble.rect_global_position.x
 		$TextBubble/ColorRect.rect_global_position.x = $TextBubble.rect_global_position.x
+		$TextBubble/BackgroundScene.rect_global_position.x = $TextBubble.rect_global_position.x
 		$TextBubble/TextureRect.rect_size.x = $TextBubble.rect_size.x
 		$TextBubble/ColorRect.rect_size.x = $TextBubble.rect_size.x
-		$TextBubble/TextureRect.flip_h = current_theme.get_value('background', 'flip', false)
+		$TextBubble/BackgroundScene.rect_size.x = $TextBubble.rect_size.x
+	
+	$TextBubble/TextureRect.flip_h = current_theme.get_value('background', 'flip', false)
+
+			
+	#if $TextBubble/BackgroundScene.has_method('set_background_flip'): 
+#		if current_theme.get_value('background', 'flip', false):
+#			$TextBubble/BackgroundScene.set_background_flip(true)
+#		else:
+#			$TextBubble/BackgroundScene.set_background_flip(false)
 		
 	var background = get_node_or_null('Background')
 	if background != null:

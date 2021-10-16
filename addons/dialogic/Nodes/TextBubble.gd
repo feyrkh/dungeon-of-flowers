@@ -122,8 +122,17 @@ func load_theme(theme: ConfigFile):
 
 	# Backgrounds
 	var bg = DialogicUtil.path_fixer_load(theme.get_value('background','image', "res://addons/dialogic/Example Assets/backgrounds/background-2.png"))
-	if bg is Texture:
-		$TextureRect.texture = bg
+	$TextureRect.texture = bg
+	
+	for child in $BackgroundScene.get_children():
+		child.queue_free()
+	if theme.get_value('background', 'use_scene', true):
+		var bg_scene = load(theme.get_value('background', 'scene'))
+		if bg_scene:
+			bg_scene = bg_scene.instance()
+			if bg_scene.has_method('set_background_flip'):
+				bg_scene.set_background_flip(theme.get_value('background', 'flip', false))
+			$BackgroundScene.add_child(bg_scene)
 	$ColorRect.color = Color(theme.get_value('background','color', "#ff000000"))
 
 	if theme.get_value('background', 'modulation', false):
@@ -133,6 +142,7 @@ func load_theme(theme: ConfigFile):
 
 	$ColorRect.visible = theme.get_value('background', 'use_color', false)
 	$TextureRect.visible = theme.get_value('background', 'use_image', true)
+	$BackgroundScene.visible = theme.get_value('background', 'use_scene', false)
 
 	# Next image
 	$NextIndicatorContainer.rect_position = Vector2(0,0)

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/puddle01.png-95eee1ea6413a9fd7afe1443d2ebff23.stex"
+path="res://.import/enemy_puddle.png-c14fa4cb3a428912f10cdc5b63ac1107.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art_exports/characters/puddle01.png"
-dest_files=[ "res://.import/puddle01.png-95eee1ea6413a9fd7afe1443d2ebff23.stex" ]
+source_file="res://art_exports/characters/enemy_puddle.png"
+dest_files=[ "res://.import/enemy_puddle.png-c14fa4cb3a428912f10cdc5b63ac1107.stex" ]
 
 [params]
 

@@ -2,17 +2,27 @@
 	"events": [
 		{
 			"action": "join",
-			"character": "character-1633755724.json",
+			"character": "character-1633228803.json",
 			"event_id": "dialogic_002",
 			"mirror": false,
 			"portrait": "",
 			"position": {
-				"0": true,
+				"0": false,
 				"1": false,
 				"2": false,
 				"3": false,
-				"4": false
+				"4": true
 			}
+		},
+		{
+			"event_id": "dialogic_024",
+			"set_theme": "theme-1634319603.cfg"
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "What's that? I hear someone coming!"
 		},
 		{
 			"action": "join",
@@ -27,6 +37,24 @@
 				"3": false,
 				"4": true
 			}
+		},
+		{
+			"action": "join",
+			"character": "character-1633755724.json",
+			"event_id": "dialogic_002",
+			"mirror": false,
+			"portrait": "",
+			"position": {
+				"0": true,
+				"1": false,
+				"2": false,
+				"3": false,
+				"4": false
+			}
+		},
+		{
+			"event_id": "dialogic_024",
+			"set_theme": "theme-1634317032.cfg"
 		},
 		{
 			"character": "character-1633755724.json",

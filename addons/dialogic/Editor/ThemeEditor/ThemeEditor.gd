@@ -664,6 +664,12 @@ func _on_background_selected(path, target) -> void:
 	_on_PreviewButton_pressed() # Refreshing the preview
 
 
+func _on_FlipTexture_toggled(button_pressed):
+	if loading:
+		return
+	DialogicResources.set_theme_value(current_theme, 'background','flip', button_pressed)
+	_on_PreviewButton_pressed() # Refreshing the preview
+
 func _on_ColorPicker_Background_texture_modulation_color_changed(color) -> void:
 	if loading:
 		return
@@ -1035,3 +1041,4 @@ func update_audio_bus_option_buttons():
 			n['typing_sfx_audio_bus'].add_item(bus_name)
 			if bus_name == theme.get_value('typing_sfx', 'audio_bus', "Master"):
 				n['typing_sfx_audio_bus'].select(i)
+

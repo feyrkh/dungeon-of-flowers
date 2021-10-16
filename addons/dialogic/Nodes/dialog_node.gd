@@ -131,7 +131,8 @@ func resize_main():
 		$TextBubble/ColorRect.rect_global_position.x = $TextBubble.rect_global_position.x
 		$TextBubble/TextureRect.rect_size.x = $TextBubble.rect_size.x
 		$TextBubble/ColorRect.rect_size.x = $TextBubble.rect_size.x
-	
+		$TextBubble/TextureRect.flip_h = current_theme.get_value('background', 'flip', false)
+		
 	var background = get_node_or_null('Background')
 	if background != null:
 		background.rect_size = reference

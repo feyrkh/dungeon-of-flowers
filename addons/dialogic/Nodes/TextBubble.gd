@@ -121,7 +121,9 @@ func load_theme(theme: ConfigFile):
 	text_label.set('margin_bottom', -text_margin_dr.y)
 
 	# Backgrounds
-	$TextureRect.texture = DialogicUtil.path_fixer_load(theme.get_value('background','image', "res://addons/dialogic/Example Assets/backgrounds/background-2.png"))
+	var bg = DialogicUtil.path_fixer_load(theme.get_value('background','image', "res://addons/dialogic/Example Assets/backgrounds/background-2.png"))
+	if bg is Texture:
+		$TextureRect.texture = bg
 	$ColorRect.color = Color(theme.get_value('background','color', "#ff000000"))
 
 	if theme.get_value('background', 'modulation', false):

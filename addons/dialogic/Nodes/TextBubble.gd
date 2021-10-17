@@ -127,6 +127,10 @@ func load_theme(theme: ConfigFile):
 		var child = $BackgroundScene.get_children()[0]
 		child.queue_free()
 	if theme.get_value('background', 'use_scene', true):
+		flip_scene = 1
+		float_progress = 0.5
+		if theme.get_value('background', 'flip', false):
+			flip_scene = -1
 		var bg_scene = load(theme.get_value('background', 'scene'))
 		if bg_scene:
 			bg_scene = bg_scene.instance()
@@ -270,3 +274,13 @@ func _ready():
 	reset()
 	$WritingTimer.connect("timeout", self, "_on_writing_timer_timeout")
 	text_label.meta_underlined = false
+	
+	
+var float_progress
+var flip_scene
+const FLOAT_AMT = 40
+func _process(delta):
+	
+	if float_progress > 0:
+		float_progress -= delta
+		self.rect_position.x -= FLOAT_AMT * delta * flip_scene

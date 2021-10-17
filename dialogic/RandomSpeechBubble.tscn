@@ -78,7 +78,7 @@ shader_param/fade_color_2_width = 0.3
 shader_param/fade_color_3 = Color( 1, 1, 1, 1 )
 shader_param/fade_color_3_width = 0.4
 shader_param/duration = 0.25
-shader_param/progress = 0.0
+shader_param/progress = 1.02895
 shader_param/mask = SubResource( 2 )
 
 [node name="PaperBubble" type="MarginContainer"]

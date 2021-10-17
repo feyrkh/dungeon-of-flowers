@@ -2,7 +2,6 @@ tool
 extends MarginContainer
 
 const SHADER_DURATION = 0.25
-
 signal dialog_box_destroyed()
 
 var texture_size:Vector2

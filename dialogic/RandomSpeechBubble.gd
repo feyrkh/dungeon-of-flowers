@@ -16,7 +16,6 @@ func _ready():
 	texture_size = $ViewportContainer/Viewport/Container/TextureOverlay.texture.get_size()
 	texture_rect = $ViewportContainer/Viewport/Container/TextureOverlay.region_rect.size
 	valid_range = texture_size - texture_rect
-	$ViewportContainer/Viewport/Container/ui_speechbubble.material.set_shader_param("progress", 0.0)
 	load_dialog_box()
 
 func _process(delta):
@@ -26,7 +25,9 @@ func _process(delta):
 		set_process(false)
 
 func load_dialog_box():
-	$ViewportContainer/Viewport/Container/ui_speechbubble.set_material($ViewportContainer/Viewport/Container/ui_speechbubble.get_material().duplicate(true))
+	$ViewportContainer/Viewport/Container/ui_speechbubble.set_material(load("res://shader/mask_transition.material").duplicate(true))
+	fade_in_progress = 0
+	$ViewportContainer/Viewport/Container/ui_speechbubble.material.set_shader_param("progress", 0.0)
 	$ViewportContainer/Viewport/Container/ui_speechbubble.material.set_shader_param("duration", SHADER_DURATION)
 	set_process(true)
 

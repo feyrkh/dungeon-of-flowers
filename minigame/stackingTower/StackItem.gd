@@ -4,6 +4,7 @@ signal stack_collide(dropped_item, stack_item)
 signal dangerzone_collide(dropped_item)
 
 const STACK_ITEM_FRAGMENT = preload("res://minigame/stackingTower/StackItemFragment.tscn")
+const MAX_OVERHANG = 45
 
 var collide_type = "stackitem"
 var allow_collide = true
@@ -26,8 +27,8 @@ func land_on_stack(top_left:Vector2, top_right:Vector2):
 	print("----")
 	print("tl: ", top_left, " tr: ", top_right)
 	global_position.y = top_left.y - $ColorRect.get_global_rect().size.y * scale.y
-	var left_overhang = top_left.x - global_position.x
-	var right_overhang = ($ColorRect.rect_global_position.x + $ColorRect.rect_size.x * scale.x) - top_right.x
+	var left_overhang = min(MAX_OVERHANG, top_left.x - global_position.x)
+	var right_overhang = min(MAX_OVERHANG, ($ColorRect.rect_global_position.x + $ColorRect.rect_size.x * scale.x) - top_right.x)
 	print("RGP.x: ", $ColorRect.rect_global_position.x, "; RS: ", $ColorRect.rect_size.x * scale.x, "; TR: ", top_right.x, "; ROH: ", right_overhang)
 	if left_overhang > 0:
 		$ColorRect.rect_size.x = $ColorRect.rect_size.x - left_overhang/scale.x

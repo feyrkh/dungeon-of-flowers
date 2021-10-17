@@ -6,11 +6,14 @@ signal minigame_complete
 const StackItem = preload("res://minigame/stackingTower/StackItem.tscn")
 const MIN_STACK_Y = 800
 const STACK_SINK_PER_SECOND = 400
+const ALPHA_SINK_PER_SECOND = 0.3
 const DANGER_ZONE_OFFSET = 30
 
 onready var Dropper = find_node("Dropper")
 onready var Stack = find_node("Stack")
 onready var DangerZone = find_node("DangerZone")
+onready var HighScoreLine = find_node("HighScoreLine")
+onready var TargetGuide = find_node("TargetGuide")
 var cur_item = null
 
 var started
@@ -18,12 +21,19 @@ var path_seconds = 3.0
 var down_speed = 900
 var top_of_stack_y
 var state = "starting"
+var target_alpha = 0.8
+
+var source
+var target
+var game_config
 
 func _ready():
+	top_of_stack_y = find_node("StackItem").global_position.y
+	update_target_guide(find_node("StackItem"))
 	yield(get_tree().create_timer(0.5), "timeout")
 	if get_parent() == get_tree().root:
+		set_minigame_config({}, null, null)
 		start(false)
-	top_of_stack_y = find_node("StackItem").global_position.y
 
 func start(with_tutorial=true):
 	if with_tutorial and !GameData.get_state("ST_inst", false):
@@ -33,6 +43,9 @@ func start(with_tutorial=true):
 func _physics_process(delta):
 	if !started: 
 		return
+	HighScoreLine.position.y = top_of_stack_y
+	if TargetGuide.modulate.a > target_alpha:
+		TargetGuide.modulate.a = max(target_alpha, TargetGuide.modulate.a - delta*ALPHA_SINK_PER_SECOND)
 	if top_of_stack_y < MIN_STACK_Y:
 		var sink_amt = min(delta * STACK_SINK_PER_SECOND, MIN_STACK_Y - top_of_stack_y)
 		top_of_stack_y += sink_amt
@@ -73,18 +86,25 @@ func drop_item():
 	cur_item.connect("stack_collide", self, "on_stack_collide")
 	cur_item.connect("dangerzone_collide", self, "on_dangerzone_collide")
 	path_seconds = path_seconds * 0.9
+	target_alpha = max(0, TargetGuide.modulate.a * 0.6)
 
 func on_stack_collide(dropped_item, stack_item:Area2D):
 	var stack_rect:CollisionShape2D = stack_item.find_node("CollisionShape2D")
 	var top_left = stack_rect.global_position - Vector2(stack_rect.shape.extents.x*dropped_item.scale.x, stack_rect.shape.extents.y*dropped_item.scale.y)
 	var top_right = top_left + Vector2(stack_rect.shape.extents.x*2*dropped_item.scale.x, 0)
 	dropped_item.land_on_stack(top_left, top_right)
+	update_target_guide(dropped_item)
 	top_of_stack_y = dropped_item.global_position.y
 	state = "starting"
-	
+
+func update_target_guide(dropped_item):
+	TargetGuide.rect_position.x = dropped_item.global_position.x
+	TargetGuide.rect_size.x = dropped_item.find_node("ColorRect").rect_size.x * dropped_item.scale.x
 
 func on_dangerzone_collide(dropped_item):
 	state = "ending"
 
-func set_minigame_config(game_config, source, target):
-	pass
+func set_minigame_config(_game_config, _source, _target):
+	source = _source
+	target = _target
+	game_config = _game_config

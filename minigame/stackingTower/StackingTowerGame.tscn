@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://minigame/stackingTower/StackingTowerGame.gd" type="Script" id=1]
 [ext_resource path="res://img/ui/PausedTutorialTip.gd" type="Script" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://combat/Tutorial.gd" type="Script" id=6]
 [ext_resource path="res://minigame/stackingTower/StackItem.tscn" type="PackedScene" id=7]
 [ext_resource path="res://minigame/stackingTower/DangerZone.tscn" type="PackedScene" id=8]
+
+[sub_resource type="CanvasItemMaterial" id=2]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -30,10 +32,26 @@ __meta__ = {
 
 [node name="DangerZone" parent="." instance=ExtResource( 8 )]
 
+[node name="TargetGuide" type="ColorRect" parent="."]
+margin_left = 1.0
+margin_top = 71.0
+margin_right = 41.0
+margin_bottom = 192.0
+color = Color( 0.219608, 1, 0, 0.513726 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="MinigameCenter" type="Position2D" parent="."]
 position = Vector2( 295, 540 )
 
 [node name="MovableBoard" type="Node2D" parent="."]
+
+[node name="HighScoreLine" type="Line2D" parent="MovableBoard"]
+material = SubResource( 2 )
+points = PoolVector2Array( 0, 0, 586, 0 )
+width = 1.0
+default_color = Color( 0.4, 0.501961, 1, 1 )
 
 [node name="Stack" type="Node2D" parent="MovableBoard"]
 

@@ -7,16 +7,12 @@
 			"mirror": false,
 			"portrait": "",
 			"position": {
-				"0": false,
+				"0": true,
 				"1": false,
 				"2": false,
 				"3": false,
-				"4": true
+				"4": false
 			}
-		},
-		{
-			"event_id": "dialogic_024",
-			"set_theme": "theme-1634319603.cfg"
 		},
 		{
 			"character": "character-1633228803.json",
@@ -26,7 +22,7 @@
 		},
 		{
 			"action": "join",
-			"character": "character-1633228803.json",
+			"character": "character-1633755724.json",
 			"event_id": "dialogic_002",
 			"mirror": true,
 			"portrait": "",
@@ -39,22 +35,8 @@
 			}
 		},
 		{
-			"action": "join",
-			"character": "character-1633755724.json",
-			"event_id": "dialogic_002",
-			"mirror": false,
-			"portrait": "",
-			"position": {
-				"0": true,
-				"1": false,
-				"2": false,
-				"3": false,
-				"4": false
-			}
-		},
-		{
 			"event_id": "dialogic_024",
-			"set_theme": "theme-1634317032.cfg"
+			"set_theme": "theme-1634319603.cfg"
 		},
 		{
 			"character": "character-1633755724.json",
@@ -64,7 +46,7 @@
 		},
 		{
 			"event_id": "dialogic_024",
-			"set_theme": "theme-1634319603.cfg"
+			"set_theme": "theme-1634317032.cfg"
 		},
 		{
 			"character": "character-1633228803.json",
@@ -74,7 +56,7 @@
 		},
 		{
 			"event_id": "dialogic_024",
-			"set_theme": "theme-1634317032.cfg"
+			"set_theme": "theme-1634319603.cfg"
 		},
 		{
 			"character": "character-1633755724.json",
@@ -84,7 +66,7 @@
 		},
 		{
 			"event_id": "dialogic_024",
-			"set_theme": "theme-1634319603.cfg"
+			"set_theme": "theme-1634317032.cfg"
 		},
 		{
 			"character": "character-1633228803.json",
@@ -93,7 +75,7 @@
 			"text": "Knightfulness...beknightitude...the knight life...you know what I mean!"
 		},
 		{
-			"emit_signal": "char_join$enemy_puddle$sneakleft$0.75$330",
+			"emit_signal": "char_join$enemy_puddle$sneakright$0.75$330",
 			"event_id": "dialogic_040"
 		},
 		{

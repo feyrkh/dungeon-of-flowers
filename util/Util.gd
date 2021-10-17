@@ -48,6 +48,13 @@ static func delete_children(node):
 	for n in node.get_children():
 		n.queue_free()
 
+static func delay_call(node:Node, t:float, method_name:String):
+	var timer := Timer.new()
+	timer.autostart = true
+	timer.wait_time = t
+	node.add_child(timer)
+	timer.connect("timeout", node, method_name)
+	
 static func shake(node:Node2D, shakeTime:float, shakeAmt:float, callback_target=null, callback_method=null):
 	if !node: 
 		return

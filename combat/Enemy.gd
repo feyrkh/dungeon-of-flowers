@@ -16,6 +16,7 @@ func _ready():
 		data = EnemyData.new("Furry Guy", 30, preload("res://img/monster1.jpg"))
 	sprite.texture = data.img
 	$DamageIndicator.connect("all_damage_applied", self, "_on_all_damage_applied")
+	$Sprite.set_material($Sprite.get_material().duplicate(true))
 
 func setup(_data:EnemyData):
 	self.data = _data
@@ -49,8 +50,9 @@ func check_death():
 
 func die():
 	CombatMgr.emit_signal("enemy_dead", self)
-	queue_free()
-	
+	$Sprite.material.set_shader_param("start_time", OS.get_ticks_msec() / 1000.0)
+	Util.delay_call(self, $Sprite.material.get_shader_param("duration")+0.5, "queue_free")
+
 func highlight():
 	find_node("Pulser").start()
 

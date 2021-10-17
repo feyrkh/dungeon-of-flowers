@@ -9,9 +9,9 @@
 [ext_resource path="res://minigame/stackingTower/StackItem.tscn" type="PackedScene" id=7]
 [ext_resource path="res://minigame/stackingTower/DangerZone.tscn" type="PackedScene" id=8]
 
-[sub_resource type="CanvasItemMaterial" id=2]
+[sub_resource type="CanvasItemMaterial" id=1]
 
-[sub_resource type="Curve2D" id=1]
+[sub_resource type="Curve2D" id=2]
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 0, 58, 0, 0, 0, 0, 515, 58, 0, 0, 0, 0, 0, 58 )
 }
@@ -55,7 +55,7 @@ __meta__ = {
 [node name="MovableBoard" type="Node2D" parent="."]
 
 [node name="HighScoreLine" type="Line2D" parent="MovableBoard"]
-material = SubResource( 2 )
+material = SubResource( 1 )
 points = PoolVector2Array( 0, 0, 586, 0 )
 width = 1.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
@@ -67,7 +67,7 @@ position = Vector2( 281, 1043 )
 
 [node name="Path2D" type="Path2D" parent="MovableBoard"]
 position = Vector2( 0, -56 )
-curve = SubResource( 1 )
+curve = SubResource( 2 )
 
 [node name="Dropper" type="PathFollow2D" parent="MovableBoard/Path2D"]
 position = Vector2( 0, 58 )
@@ -95,7 +95,6 @@ delay = 0.0
 
 [node name="FirstTimeTooltip_Delayed" parent="Tutorial" instance=ExtResource( 4 )]
 visible = false
-modulate = Color( 1.83687, 1.83687, 1.83687, 1 )
 margin_left = -170.0
 margin_top = 231.0
 margin_right = 431.0

@@ -1015,7 +1015,7 @@ func load_theme(filename):
 		input_next = theme_input
 
 	
-	$TextBubble.load_theme(theme)
+	var instant_load = $TextBubble.load_theme(theme)
 	
 	$DefinitionInfo.load_theme(theme)
 	return theme

@@ -123,8 +123,8 @@ func load_theme(theme: ConfigFile):
 	# Backgrounds
 	var bg = DialogicUtil.path_fixer_load(theme.get_value('background','image', "res://addons/dialogic/Example Assets/backgrounds/background-2.png"))
 	$TextureRect.texture = bg
-	
-	for child in $BackgroundScene.get_children():
+	if $BackgroundScene.get_child_count() != 0:
+		var child = $BackgroundScene.get_children()[0]
 		child.queue_free()
 	if theme.get_value('background', 'use_scene', true):
 		var bg_scene = load(theme.get_value('background', 'scene'))
@@ -133,6 +133,7 @@ func load_theme(theme: ConfigFile):
 			if bg_scene.has_method('set_background_flip'):
 				bg_scene.set_background_flip(theme.get_value('background', 'flip', false))
 			$BackgroundScene.add_child(bg_scene)
+
 	$ColorRect.color = Color(theme.get_value('background','color', "#ff000000"))
 
 	if theme.get_value('background', 'modulation', false):
@@ -239,7 +240,8 @@ func start_text_timer():
 		text_label.visible_characters = -1
 		_handle_text_completed()
 	else:
-		$WritingTimer.start(text_speed)
+		Util.delay_call($WritingTimer, 0.3, "start", [text_speed])
+		#$WritingTimer.start(text_speed)
 		_finished = false
 
 func _handle_text_completed():

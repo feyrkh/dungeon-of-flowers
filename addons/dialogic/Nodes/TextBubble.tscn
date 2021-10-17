@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://addons/dialogic/Example Assets/Fonts/DefaultFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://addons/dialogic/Example Assets/backgrounds/background-2.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://addons/dialogic/Example Assets/Sound Effects/Keyboard Noises/typing3.wav" type="AudioStream" id=8]
 [ext_resource path="res://addons/dialogic/Example Assets/Sound Effects/Keyboard Noises/typing4.wav" type="AudioStream" id=9]
 [ext_resource path="res://addons/dialogic/Example Assets/Sound Effects/Keyboard Noises/typing5.wav" type="AudioStream" id=10]
+[ext_resource path="res://shader/mask_transition.material" type="Material" id=11]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 0 )
@@ -57,6 +58,7 @@ bg_color = Color( 1, 1, 1, 0 )
 expand_margin_left = 10.0
 
 [node name="TextBubble" type="Control"]
+material = ExtResource( 11 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5

@@ -1,3 +1,4 @@
+tool
 extends Node
 
 export(bool) var enabled = false

@@ -14,6 +14,7 @@ onready var Stack = find_node("Stack")
 onready var DangerZone = find_node("DangerZone")
 onready var HighScoreLine = find_node("HighScoreLine")
 onready var TargetGuide = find_node("TargetGuide")
+onready var AimGuide = find_node("AimGuide")
 var cur_item = null
 
 var started
@@ -32,7 +33,17 @@ func _ready():
 	update_target_guide(find_node("StackItem"))
 	yield(get_tree().create_timer(0.5), "timeout")
 	if get_parent() == get_tree().root:
-		set_minigame_config({}, null, null)
+		set_minigame_config({
+			"rewards": [
+				"shield size ++",
+				"shield speed ++",
+				"sturdiness +5",
+				"team armor +1",
+				"stamina regen",
+				"shields +1",
+			],
+			"rewardInterval": 1.8
+		}, null, null)
 		start(false)
 
 func start(with_tutorial=true):
@@ -57,8 +68,10 @@ func _physics_process(delta):
 		Dropper.unit_offset = 0
 		cur_item = StackItem.instance()
 		Dropper.add_child(cur_item)
-		cur_item.position = Dropper.position
+		#cur_item.position = Dropper.position
 		state = "moving"
+		#TargetGuide.visible = true
+		AimGuide.visible = true
 		return
 	if state == "moving":
 		Dropper.unit_offset =  min(1.0, Dropper.unit_offset + delta / path_seconds)
@@ -86,20 +99,24 @@ func drop_item():
 	cur_item.connect("stack_collide", self, "on_stack_collide")
 	cur_item.connect("dangerzone_collide", self, "on_dangerzone_collide")
 	path_seconds = path_seconds * 0.9
-	target_alpha = max(0, TargetGuide.modulate.a * 0.6)
+	target_alpha = max(0, TargetGuide.modulate.a - 0.3)
+	TargetGuide.visible = false
+	AimGuide.modulate.a = max(0, AimGuide.modulate.a - 0.33)
+	AimGuide.visible = false
 
 func on_stack_collide(dropped_item, stack_item:Area2D):
 	var stack_rect:CollisionShape2D = stack_item.find_node("CollisionShape2D")
 	var top_left = stack_rect.global_position - Vector2(stack_rect.shape.extents.x*dropped_item.scale.x, stack_rect.shape.extents.y*dropped_item.scale.y)
 	var top_right = top_left + Vector2(stack_rect.shape.extents.x*2*dropped_item.scale.x, 0)
 	dropped_item.land_on_stack(top_left, top_right)
-	update_target_guide(dropped_item)
+	#update_target_guide(dropped_item)
 	top_of_stack_y = dropped_item.global_position.y
 	state = "starting"
 
 func update_target_guide(dropped_item):
-	TargetGuide.rect_position.x = dropped_item.global_position.x
+	TargetGuide.rect_position.x = dropped_item.find_node("ColorRect").rect_global_position.x
 	TargetGuide.rect_size.x = dropped_item.find_node("ColorRect").rect_size.x * dropped_item.scale.x
+	#TargetGuide.rect_size.x = dropped_item.find_node("ColorRect").rect_size.x * dropped_item.scale.x
 
 func on_dangerzone_collide(dropped_item):
 	state = "ending"

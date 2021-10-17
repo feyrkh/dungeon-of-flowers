@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://minigame/stackingTower/StackingTowerGame.gd" type="Script" id=1]
 [ext_resource path="res://img/ui/PausedTutorialTip.gd" type="Script" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://combat/Tutorial.gd" type="Script" id=6]
 [ext_resource path="res://minigame/stackingTower/StackItem.tscn" type="PackedScene" id=7]
 [ext_resource path="res://minigame/stackingTower/DangerZone.tscn" type="PackedScene" id=8]
-[ext_resource path="res://util/Pulser.tscn" type="PackedScene" id=9]
 
 [sub_resource type="CanvasItemMaterial" id=2]
 
@@ -16,6 +15,12 @@
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 0, 58, 0, 0, 0, 0, 515, 58, 0, 0, 0, 0, 0, 58 )
 }
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.981818 ), 0.0, 0.0, 0, 0, Vector2( 0.98524, 0.290909 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=4]
+colors = PoolColorArray( 0.101961, 1, 0, 0.658824, 1, 1, 1, 0 )
 
 [node name="StackingTowerGame" type="Node2D"]
 script = ExtResource( 1 )
@@ -33,20 +38,19 @@ __meta__ = {
 
 [node name="DangerZone" parent="." instance=ExtResource( 8 )]
 
+[node name="MinigameCenter" type="Position2D" parent="."]
+position = Vector2( 295, 540 )
+
 [node name="TargetGuide" type="ColorRect" parent="."]
-margin_left = 1.0
-margin_top = 71.0
-margin_right = 41.0
-margin_bottom = 192.0
+visible = false
+modulate = Color( 1.00216, 1.00216, 1.00216, 1 )
+margin_top = 2.0
+margin_right = 40.0
+margin_bottom = 123.0
 color = Color( 0.219608, 1, 0, 0.513726 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Pulser" parent="TargetGuide" instance=ExtResource( 9 )]
-
-[node name="MinigameCenter" type="Position2D" parent="."]
-position = Vector2( 295, 540 )
 
 [node name="MovableBoard" type="Node2D" parent="."]
 
@@ -71,6 +75,14 @@ rotation = -9.71501e-07
 rotate = false
 cubic_interp = false
 
+[node name="AimGuide" type="Line2D" parent="MovableBoard/Path2D/Dropper"]
+modulate = Color( 1, 1, 1, 0.741176 )
+points = PoolVector2Array( 37.5, 75, 37.5, 1080 )
+width = 75.0
+width_curve = SubResource( 3 )
+default_color = Color( 0.4, 0.501961, 1, 1 )
+gradient = SubResource( 4 )
+
 [node name="Tutorial" type="Control" parent="."]
 script = ExtResource( 6 )
 __meta__ = {
@@ -83,6 +95,7 @@ delay = 0.0
 
 [node name="FirstTimeTooltip_Delayed" parent="Tutorial" instance=ExtResource( 4 )]
 visible = false
+modulate = Color( 1.83687, 1.83687, 1.83687, 1 )
 margin_left = -170.0
 margin_top = 231.0
 margin_right = 431.0

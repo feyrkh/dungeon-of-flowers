@@ -13,7 +13,7 @@ var intention
 
 func _ready():
 	if !data:
-		data = EnemyData.new("Furry Guy", 30, preload("res://img/monster1.jpg"))
+		data = EnemyData.new("Puddle", 30, preload("res://art_exports/characters/enemy_puddle.png"))
 	sprite.texture = data.img
 	$DamageIndicator.connect("all_damage_applied", self, "_on_all_damage_applied")
 	$Sprite.set_material($Sprite.get_material().duplicate(true))

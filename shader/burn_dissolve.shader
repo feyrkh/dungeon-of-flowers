@@ -11,9 +11,10 @@ uniform int OCTAVES = 6;
 // values that need to be set from a script
 uniform float start_time = 99999999.0;
 uniform float duration = 1.0;
+uniform float offset = 0.1;
 
 float rand(vec2 coord){
-	return fract(sin(dot(coord, vec2(12.9898, 78.233)))* 43758.5453123);
+	return fract(sin(dot(coord, vec2(12.9898+offset, 78.233+offset)))* 43758.5453123);
 }
 
 float noise(vec2 coord){

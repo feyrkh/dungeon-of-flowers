@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_defend.png" type="Texture" id=1]
+[ext_resource path="res://minigame/stackingTower/stackingBlock.png" type="Texture" id=1]
 [ext_resource path="res://minigame/stackingTower/StackItem.gd" type="Script" id=2]
+
+[sub_resource type="CanvasItemMaterial" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 75, 75 )
@@ -11,19 +13,25 @@ scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 2 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_left = -75.0
-margin_top = -75.0
-margin_right = 75.0
-margin_bottom = 75.0
+margin_right = 150.0
+margin_bottom = 150.0
+color = Color( 0.968627, 0.215686, 0.215686, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ui_HUD_icon_defend" type="Sprite" parent="."]
-position = Vector2( -4, 4 )
+[node name="Img" type="Sprite" parent="."]
+material = SubResource( 2 )
 texture = ExtResource( 1 )
+centered = false
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2( 75, 75 )
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+modulate = Color( 0, 0.109804, 1, 1 )
 shape = SubResource( 1 )
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]

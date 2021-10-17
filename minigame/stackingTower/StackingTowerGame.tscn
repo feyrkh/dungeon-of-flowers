@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://minigame/stackingTower/StackingTowerGame.gd" type="Script" id=1]
 [ext_resource path="res://img/ui/PausedTutorialTip.gd" type="Script" id=2]
@@ -9,8 +9,16 @@
 [ext_resource path="res://minigame/stackingTower/StackItem.tscn" type="PackedScene" id=7]
 [ext_resource path="res://minigame/stackingTower/DangerZone.tscn" type="PackedScene" id=8]
 
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 58, 0, 0, 0, 0, 515, 58, 0, 0, 0, 0, 0, 58 )
+}
+
 [node name="StackingTowerGame" type="Node2D"]
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_vertical_guides_": [ 281.0, 356.0 ]
+}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 586.0
@@ -24,6 +32,23 @@ __meta__ = {
 
 [node name="MinigameCenter" type="Position2D" parent="."]
 position = Vector2( 295, 540 )
+
+[node name="MovableBoard" type="Node2D" parent="."]
+
+[node name="Stack" type="Node2D" parent="MovableBoard"]
+
+[node name="StackItem" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
+position = Vector2( 281, 1043 )
+
+[node name="Path2D" type="Path2D" parent="MovableBoard"]
+position = Vector2( 0, -56 )
+curve = SubResource( 1 )
+
+[node name="Dropper" type="PathFollow2D" parent="MovableBoard/Path2D"]
+position = Vector2( 0, 58 )
+rotation = -9.71501e-07
+rotate = false
+cubic_interp = false
 
 [node name="Tutorial" type="Control" parent="."]
 script = ExtResource( 6 )
@@ -49,6 +74,3 @@ margin_bottom = 118.0
 text = "Shields will move from left to right along the top
 of the game board, then back again. Hit the button 
 to drop the shield, and make the highest tower you can!"
-
-[node name="StackItem" parent="." instance=ExtResource( 7 )]
-position = Vector2( 281, 1043 )

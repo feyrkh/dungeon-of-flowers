@@ -72,7 +72,7 @@ func drop_item():
 	Dropper.unit_offset = 0
 	cur_item.connect("stack_collide", self, "on_stack_collide")
 	cur_item.connect("dangerzone_collide", self, "on_dangerzone_collide")
-	path_seconds = path_seconds * 0.8
+	path_seconds = path_seconds * 0.9
 
 func on_stack_collide(dropped_item, stack_item:Area2D):
 	var stack_rect:CollisionShape2D = stack_item.find_node("CollisionShape2D")

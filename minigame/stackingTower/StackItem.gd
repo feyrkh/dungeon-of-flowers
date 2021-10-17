@@ -3,6 +3,8 @@ extends Node2D
 signal stack_collide(dropped_item, stack_item)
 signal dangerzone_collide(dropped_item)
 
+const STACK_ITEM_FRAGMENT = preload("res://minigame/stackingTower/StackItemFragment.tscn")
+
 var collide_type = "stackitem"
 var allow_collide = true
 
@@ -31,9 +33,17 @@ func land_on_stack(top_left:Vector2, top_right:Vector2):
 		$ColorRect.rect_size.x = $ColorRect.rect_size.x - left_overhang/scale.x
 		$ColorRect.rect_position.x = $ColorRect.rect_position.x + left_overhang/scale.x
 		print("Before: l-oh: ", left_overhang, " extents.x: ", $Area2D/CollisionShape2D.shape.extents.x, " pos.x: ", $Area2D.position.x)
+		var frag = STACK_ITEM_FRAGMENT.instance()
+		get_parent().add_child(frag)
+		frag.global_position = global_position
+		frag.left_fragment(left_overhang)
 	if right_overhang > 0:
 		print("Before: r-oh: ", right_overhang, " extents.x: ", $Area2D/CollisionShape2D.shape.extents.x, " pos.x: ", $Area2D.position.x)
 		$ColorRect.rect_size.x = $ColorRect.rect_size.x - right_overhang/scale.x
+		var frag = STACK_ITEM_FRAGMENT.instance()
+		get_parent().add_child(frag)
+		frag.global_position = global_position
+		frag.right_fragment(right_overhang)
 	$Area2D/CollisionShape2D.shape.extents.x = ($ColorRect.rect_size.x/2)
 	$Area2D.global_position = $ColorRect.rect_global_position + $ColorRect.rect_size*scale.x/2
 	print("After: l-oh: ", left_overhang, " extents.x: ", $Area2D/CollisionShape2D.shape.extents.x, " pos.x: ", $Area2D.position.x)

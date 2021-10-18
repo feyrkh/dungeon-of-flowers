@@ -13,6 +13,7 @@ var max_x = 999
 var max_y = 0
 
 func _ready():
+	visible = false
 	EventBus.connect("uncovered_map_tile", self, "_on_uncovered_map_tile")
 	EventBus.connect("update_minimap", self, "_on_update_minimap")
 	EventBus.connect("hide_minimap", self, "_on_hide_minimap")
@@ -69,6 +70,7 @@ func _on_post_load():
 	var tiles = GameData.get_state("_saved_minimap", [])
 	for t in tiles:
 		Map.set_cell(t[0], t[1], t[2])
+	visible = true
 
 func _on_finalize_load():
 	_on_new_player_location(GameData.world_tile_position.x, GameData.world_tile_position.y, GameData.player_rotation)

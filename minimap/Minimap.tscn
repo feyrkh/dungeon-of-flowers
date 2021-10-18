@@ -5,10 +5,10 @@
 [ext_resource path="res://img/minimap/minimap_tiles.tres" type="TileSet" id=3]
 [ext_resource path="res://img/minimap/minimap_player.png" type="Texture" id=6]
 
-[sub_resource type="CanvasItemMaterial" id=2]
+[sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
 
-[sub_resource type="CanvasItemMaterial" id=1]
+[sub_resource type="CanvasItemMaterial" id=2]
 blend_mode = 1
 
 [node name="Minimap" type="Node2D"]
@@ -34,7 +34,7 @@ render_target_update_mode = 3
 [node name="MinimapHandle" type="Node2D" parent="ViewportContainer/Viewport"]
 
 [node name="TileMap" type="TileMap" parent="ViewportContainer/Viewport/MinimapHandle"]
-material = SubResource( 2 )
+material = SubResource( 1 )
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 32, 32 )
 format = 1
@@ -45,6 +45,6 @@ scale = Vector2( 7.5, 7.5 )
 texture = ExtResource( 1 )
 
 [node name="PlayerIcon" type="Sprite" parent="ViewportContainer/Viewport/MinimapHandle"]
-material = SubResource( 1 )
+material = SubResource( 2 )
 position = Vector2( 112, 112 )
 texture = ExtResource( 6 )

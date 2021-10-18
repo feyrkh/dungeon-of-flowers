@@ -109,6 +109,7 @@ func play_cutscene(_cutscene_name):
 	get_tree().paused = true
 	emit_signal("cutscene_start", _cutscene_name)
 	EventBus.emit_signal("disable_pause_menu")
+	EventBus.emit_signal("hide_minimap")
 	cutscene = Dialogic.start(_cutscene_name)
 	cutscene.connect("timeline_end", self, "on_timeline_end")
 	cutscene.connect("dialogic_signal", GameData, "on_dialogic_signal")
@@ -120,6 +121,7 @@ func on_timeline_end(timeline_name):
 	Util.delete_children(cutscene_bg_chars)
 	emit_signal("cutscene_end", timeline_name)
 	EventBus.emit_signal("enable_pause_menu")
+	EventBus.emit_signal("show_minimap")
 	cutscene = null
 	get_tree().paused = false
 

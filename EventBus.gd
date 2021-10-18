@@ -13,6 +13,8 @@ signal finalize_load_game()
 # exploration
 signal uncovered_map_tile(map_x, map_y, tile_type)
 signal update_minimap() # redraw dirty quadrants
+signal hide_minimap()
+signal show_minimap()
 signal new_player_location(map_x, map_y, rot_deg)
 signal player_start_move()
 signal player_start_turn()

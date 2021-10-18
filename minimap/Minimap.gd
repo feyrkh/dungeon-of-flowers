@@ -15,6 +15,8 @@ var max_y = 0
 func _ready():
 	EventBus.connect("uncovered_map_tile", self, "_on_uncovered_map_tile")
 	EventBus.connect("update_minimap", self, "_on_update_minimap")
+	EventBus.connect("hide_minimap", self, "_on_hide_minimap")
+	EventBus.connect("show_minimap", self, "_on_show_minimap")
 	EventBus.connect("new_player_location", self, "_on_new_player_location")
 	EventBus.connect("pre_save_game", self, "_on_pre_save")
 	EventBus.connect("post_load_game", self, "_on_post_load")
@@ -26,6 +28,12 @@ func _on_combat_start():
 	visible = false
 
 func _on_combat_end():
+	visible = true
+
+func _on_hide_minimap():
+	visible = false
+
+func _on_show_minimap():
 	visible = true
 
 func _on_uncovered_map_tile(x, y, tile_type):

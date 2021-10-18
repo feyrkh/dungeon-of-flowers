@@ -144,7 +144,7 @@ func _process(delta):
 			#print("ended move at ", OS.get_system_time_msecs())
 			if !is_bumping:
 				emit_signal("tile_move_complete")
-				EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
+				#EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
 				update_minimap()
 	if target_rotation != null:
 		rotation_time += delta
@@ -153,7 +153,7 @@ func _process(delta):
 		else:
 			transform.basis = target_rotation
 			emit_signal("turn_complete")
-			EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
+			#EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
 			update_minimap()
 
 func update_minimap():
@@ -183,6 +183,7 @@ func move(dir):
 	#print("start move at ", OS.get_system_time_msecs())
 	start_position = global_transform.origin
 	target_position = global_transform.origin + global_transform.basis.z*3 * -dir
+	EventBus.emit_signal("new_player_location", target_position.x/3, target_position.z/3, rad2deg(global_transform.basis.get_euler().y))
 	move_time = 0
 	EventBus.emit_signal("player_start_move")
 
@@ -195,6 +196,7 @@ func sidestep(dir):
 	#print("start sidestep at ", OS.get_system_time_msecs())
 	start_position = global_transform.origin
 	target_position = global_transform.origin + global_transform.basis.x*3*-dir
+	EventBus.emit_signal("new_player_location", target_position.x/3, target_position.z/3, rad2deg(global_transform.basis.get_euler().y))
 	move_time = 0
 	EventBus.emit_signal("player_start_move")
 
@@ -205,6 +207,7 @@ func turn(dir):
 	#print("start rotate at ", OS.get_system_time_msecs())
 	start_rotation = transform.basis
 	target_rotation = transform.basis.rotated(Vector3.DOWN, deg2rad(90*dir))
+	EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(target_rotation.get_euler().y))
 	rotation_time = 0
 	EventBus.emit_signal("player_start_turn")
 

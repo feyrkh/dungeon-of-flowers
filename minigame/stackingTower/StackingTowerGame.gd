@@ -16,6 +16,7 @@ onready var DangerZone = find_node("DangerZone")
 onready var HighScoreLine = find_node("HighScoreLine")
 onready var TargetGuide = find_node("TargetGuide")
 onready var AimGuide = find_node("AimGuide")
+onready var BonusTracks = find_node("BonusTracks")
 var cur_item = null
 
 var started
@@ -36,18 +37,50 @@ func _ready():
 	update_target_guide(find_node("StackItem"))
 	yield(get_tree().create_timer(0.5), "timeout")
 	if get_parent() == get_tree().root:
+		randomize()
 		set_minigame_config({
-			"rewards": [
-				"shield size ++",
-				"shield speed ++",
-				"sturdiness +5",
-				"team armor +1",
-				"stamina regen",
-				"shields +1",
-			],
-			"rewardInterval": 1.8
+			"tracks": {
+				"shield_speed": [
+					{"type": "shield_speed", "amt": 0.11},
+					{"type": "shield_speed", "amt": 0.2},
+					{"type": "shield_speed", "amt": 0.2},
+					{"type": "shield_dash", "amt": 1},
+					{"type": "shield_speed", "amt": 0.2},
+					{"type": "shield_speed", "amt": 0.2},
+					{"type": "shield_speed", "amt": 0.1},
+				],
+				"shield_strength": [
+					{"type": "shield_strength", "amt": 2},
+					{"type": "shield_strength", "amt": 3},
+					{"type": "shield_strength", "amt": 5},
+					{"type": "shield_strength", "amt": 5},
+					{"type": "shield_strength", "amt": 5},
+					{"type": "shield_strength", "amt": 5},
+					{"type": "shield_strength", "amt": 1},
+				],
+				"shield_size": [
+					{"type": "shield_size", "amt": 0.1},
+					{"type": "shield_size", "amt": 0.1},
+					{"type": "shield_size", "amt": 0.1},
+					{"type": "bonus_shield", "amt": 1},
+					{"type": "shield_size", "amt": 0.05},
+					{"type": "shield_size", "amt": 0.05},
+					{"type": "shield_size", "amt": 0.05},
+					{"type": "bonus_shield", "amt": 1},
+					{"type": "shield_size", "amt": 0.05},
+				],
+			},
 		}, null, null)
 		start(false)
+	var bonus_types = ["shield_speed", "shield_strength", "shield_size"]
+	bonus_types.shuffle()
+	find_node('StackItem').bonus_type = bonus_types[0]
+	find_node('StackItem2').bonus_type = bonus_types[1]
+	find_node('StackItem3').bonus_type = bonus_types[2]
+	find_node('BonusTrack').setup(game_config["tracks"][bonus_types[0]], 75)
+	find_node('BonusTrack2').setup(game_config["tracks"][bonus_types[1]], 75)
+	find_node('BonusTrack3').setup(game_config["tracks"][bonus_types[2]], 75)
+	find_node('BonusTrack').update_label_tracks()
 	for child in Stack.get_children():
 		tops[child.bonus_type] = child.global_position.y
 	danger_zone_target = 1079
@@ -71,6 +104,7 @@ func _physics_process(delta):
 		Stack.position.y += sink_amt
 		DangerZone.rect_global_position.y += sink_amt
 		danger_zone_target += sink_amt
+		BonusTracks.position.y += sink_amt
 		for k in tops.keys():
 			tops[k] += sink_amt
 	#if DangerZone.rect_global_position.y > top_of_stack_y + DANGER_ZONE_OFFSET:

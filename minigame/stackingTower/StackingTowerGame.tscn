@@ -66,15 +66,15 @@ default_color = Color( 0.4, 0.501961, 1, 1 )
 position = Vector2( 0, 1080 )
 
 [node name="StackItem" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
-position = Vector2( 281, -75 )
+position = Vector2( 265, -75 )
 bonus_type = "shield_size"
 
 [node name="StackItem2" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
-position = Vector2( 92.13, -75 )
+position = Vector2( 84.13, -75 )
 bonus_type = "shield_speed"
 
 [node name="StackItem3" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
-position = Vector2( 460.962, -75 )
+position = Vector2( 444.962, -75 )
 bonus_type = "shield_strength"
 
 [node name="Path2D" type="Path2D" parent="MovableBoard"]
@@ -96,9 +96,9 @@ default_color = Color( 0.4, 0.501961, 1, 1 )
 gradient = SubResource( 4 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = 301.674
+margin_left = 285.674
 margin_top = 1024.51
-margin_right = 351.674
+margin_right = 335.674
 margin_bottom = 1064.51
 text = "Shield
 Size"
@@ -107,9 +107,9 @@ __meta__ = {
 }
 
 [node name="Label2" type="Label" parent="."]
-margin_left = 110.125
+margin_left = 102.125
 margin_top = 1029.84
-margin_right = 160.125
+margin_right = 152.125
 margin_bottom = 1069.84
 text = "Shield
 Speed"
@@ -118,9 +118,9 @@ __meta__ = {
 }
 
 [node name="Label3" type="Label" parent="."]
-margin_left = 477.873
+margin_left = 461.873
 margin_top = 1026.51
-margin_right = 530.873
+margin_right = 514.873
 margin_bottom = 1066.51
 text = "Shield
 Strength"
@@ -140,7 +140,7 @@ delay = 0.0
 
 [node name="FirstTimeTooltip_Delayed" parent="Tutorial" instance=ExtResource( 4 )]
 visible = false
-modulate = Color( 1.03576, 1.03576, 1.03576, 1 )
+modulate = Color( 1.62358, 1.62358, 1.62358, 1 )
 margin_left = -170.0
 margin_top = 231.0
 margin_right = 431.0

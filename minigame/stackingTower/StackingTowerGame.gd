@@ -41,7 +41,7 @@ func _ready():
 		set_minigame_config({
 			"tracks": {
 				"shield_speed": [
-					{"type": "shield_speed", "amt": 0.11},
+					{"type": "shield_speed", "amt": 0.1},
 					{"type": "shield_speed", "amt": 0.2},
 					{"type": "shield_speed", "amt": 0.2},
 					{"type": "shield_dash", "amt": 1},

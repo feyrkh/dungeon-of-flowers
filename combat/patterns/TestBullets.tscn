@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://combat/patterns/BulletPattern.gd" type="Script" id=1]
+[ext_resource path="res://combat/AllyCombatDisplay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://combat/patterns/flat_half_curve.tres" type="Curve" id=3]
+[ext_resource path="res://combat/patterns/flat_1_curve.tres" type="Curve" id=4]
+[ext_resource path="res://combat/patterns/TestBullets.gd" type="Script" id=5]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 1 ), 0.0, -0.856199, 0, 0 ]
+
+[node name="TestBullets" type="Node2D"]
+position = Vector2( 978, 241 )
+script = ExtResource( 5 )
+
+[node name="BulletPattern" type="Node2D" parent="."]
+script = ExtResource( 1 )
+num_bullets = 30
+attack_time = 1.0
+bullet_timing = SubResource( 1 )
+bullet_target = ExtResource( 3 )
+bullet_speed = ExtResource( 4 )
+bullet_origin_scene = "res://combat/patterns/bulpat_point.tscn"
+
+[node name="AllyCombatDisplay" parent="." instance=ExtResource( 2 )]
+margin_left = -252.0
+margin_top = 684.0
+margin_right = -252.0
+margin_bottom = 684.0
+
+[connection signal="attack_complete" from="BulletPattern" to="." method="_on_BulletPattern_attack_complete"]

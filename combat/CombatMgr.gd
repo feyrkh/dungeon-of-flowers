@@ -26,6 +26,8 @@ var player
 var dungeon
 var combat
 
+var bullet_timing_cache = {}
+
 func register(_player, _dungeon):
 	self.player = _player
 	self.dungeon = _dungeon
@@ -84,3 +86,12 @@ func _on_allies_win(combat_data):
 func _on_allies_lose(combat_data):
 	close_combat()
 	emit_signal("game_end")
+
+func get_bullet_timing_total(timing_curve:Curve):
+	if !bullet_timing_cache.has(timing_curve):
+		var total = 0.0
+		for i in range(0, 100):
+			total += timing_curve.interpolate(i*0.01)
+		bullet_timing_cache[timing_curve] = total
+	return bullet_timing_cache[timing_curve]
+	

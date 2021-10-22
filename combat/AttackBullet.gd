@@ -5,7 +5,7 @@ var piercing = false
 var velocity
 var rot_velocity = 0
 var fade_velocity = 0
-var lifetime
+var lifetime = 10
 var blocked = false
 
 func setup(base_damage:float, intention_source, origin:Vector2, target:Vector2, reach_center_seconds:float, _lifetime:float):
@@ -20,7 +20,7 @@ func setup(base_damage:float, intention_source, origin:Vector2, target:Vector2, 
 	#debug_line.width = 1
 	#get_parent().add_child(debug_line)
 
-func _process(delta):
+func _physics_process(delta):
 	lifetime -= delta
 	if lifetime <= 0:
 		print("finishing at ", self.global_position)
@@ -55,3 +55,7 @@ func ally_strike(ally_data):
 	
 func get_damage():
 	return damage
+
+func setup_bullet_motion(origin_pos, target_pos, speed):
+	self.global_position = origin_pos
+	self.velocity = (target_pos - origin_pos).normalized() * speed

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 1 )
+}
+
+[node name="Path2D" type="Path2D"]
+position = Vector2( -199, 1 )
+curve = SubResource( 1 )
+__meta__ = {
+"_edit_vertical_guides_": [ 401.0 ]
+}

@@ -343,6 +343,7 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 				scene.position -= offset
 			else:
 				scene.position = (MinigameContainer.rect_size/2)
+			scene.connect("minigame_success", target_enemy, "defend_action")
 			scene.connect("minigame_complete", self, "_on_ally_minigame_complete")
 			yield(get_tree().create_timer(0.5), "timeout")
 			scene.start()

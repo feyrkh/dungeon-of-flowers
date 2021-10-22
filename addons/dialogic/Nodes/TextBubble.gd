@@ -244,7 +244,7 @@ func start_text_timer():
 		text_label.visible_characters = -1
 		_handle_text_completed()
 	else:
-		Util.delay_call($WritingTimer, 0.3, "start", [text_speed])
+		Util.delay_call(0.3, $WritingTimer, "start", [text_speed])
 		#$WritingTimer.start(text_speed)
 		_finished = false
 
@@ -276,11 +276,10 @@ func _ready():
 	text_label.meta_underlined = false
 	
 	
-var float_progress
+var float_progress = 0
 var flip_scene
 const FLOAT_AMT = 40
 func _process(delta):
-	
 	if float_progress > 0:
 		float_progress -= delta
 		self.rect_position.x -= FLOAT_AMT * delta * flip_scene

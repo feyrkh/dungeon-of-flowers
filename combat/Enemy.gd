@@ -51,7 +51,7 @@ func check_death():
 func die():
 	CombatMgr.emit_signal("enemy_dead", self)
 	$Sprite.material.set_shader_param("start_time", OS.get_ticks_msec() / 1000.0)
-	Util.delay_call(self, $Sprite.material.get_shader_param("duration")+0.5, "queue_free")
+	Util.delay_call($Sprite.material.get_shader_param("duration")+0.5, self, "queue_free")
 
 func highlight():
 	find_node("Pulser").start()

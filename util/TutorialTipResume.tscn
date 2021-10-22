@@ -2,7 +2,7 @@
 
 [ext_resource path="res://util/TutorialTipResume.gd" type="Script" id=1]
 [ext_resource path="res://img/ui/ui_button_A.tscn" type="PackedScene" id=2]
-[ext_resource path="res://combat/TutorialLabel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://util/TutorialLabel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://util/Pulser.tscn" type="PackedScene" id=4]
 [ext_resource path="res://art_exports/ui_HUD/ui_bar_fill.png" type="Texture" id=5]
 

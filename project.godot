@@ -92,7 +92,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "Tutorial",
 "language": "GDScript",
-"path": "res://combat/Tutorial.gd"
+"path": "res://util/Tutorial.gd"
 }, {
 "base": "PanelContainer",
 "class": "TutorialTipResume",

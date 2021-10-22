@@ -20,11 +20,11 @@ var base_heal_mp : int = 0
 var game_scene: String
 var game_config : Dictionary
 
-func get_move_scene(source, target):
+func get_move_scene(_source, _target):
 	var game_prefab = MINIGAMES.get(game_scene)
 	if !game_prefab:
 		printerr("Missing minigame scene: ", game_scene)
 		game_prefab = MINIGAMES.get("simpleLineGame")
 	var scene = game_prefab.instance()
-	scene.set_minigame_config(game_config, source, target)
+	scene.set_minigame_config(game_config, _source, _target)
 	return scene

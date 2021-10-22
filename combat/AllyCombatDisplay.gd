@@ -37,6 +37,14 @@ func _ready():
 	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
 	CombatMgr.connect("enemy_turn_complete", self, "_on_enemy_turn_complete")
 
+func defend_action(config):
+	match config.get("action"):
+		"shield": update_shields(config)
+		_: printerr("Unknown defend_action: ", config)
+
+func update_shields(config):
+	data.update_shields(config)
+
 func get_shields():
 	return data.get_shields()
 
@@ -124,6 +132,11 @@ func _on_Submenu_select_submenu_item(submenu, move_data):
 
 func _on_CombatScreen_start_player_turn(combat_data):
 	exhausted = false
+	var remaining_shields = []
+	for shield in data.shields:
+		if shield.get("shield_damage") < shield.get("shield_strength"):
+			remaining_shields.append(shield)
+	data.shields = remaining_shields
 
 
 func _on_CombatScreen_start_enemy_turn(combat_data):

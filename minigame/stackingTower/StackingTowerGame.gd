@@ -7,7 +7,8 @@ const StackItem = preload("res://minigame/stackingTower/StackItem.tscn")
 const MIN_STACK_Y = 800
 const STACK_SINK_PER_SECOND = 400
 const ALPHA_SINK_PER_SECOND = 0.3
-const DANGER_ZONE_OFFSET = 30+75
+const BLOCK_HEIGHT = 75
+const DANGER_ZONE_OFFSET = 30+BLOCK_HEIGHT
 const DANGER_ZONE_INCREASE = 70
 
 onready var Dropper = find_node("Dropper")
@@ -39,8 +40,10 @@ func _ready():
 	if get_parent() == get_tree().root:
 		randomize()
 		set_minigame_config({
+			"action": "shield",
 			"tracks": {
 				"shield_speed": [
+					{"type": "shield_speed", "amt": 1},
 					{"type": "shield_speed", "amt": 0.1},
 					{"type": "shield_speed", "amt": 0.2},
 					{"type": "shield_speed", "amt": 0.2},
@@ -50,6 +53,7 @@ func _ready():
 					{"type": "shield_speed", "amt": 0.1},
 				],
 				"shield_strength": [
+					{"type": "shield_strength", "amt": 1},
 					{"type": "shield_strength", "amt": 2},
 					{"type": "shield_strength", "amt": 3},
 					{"type": "shield_strength", "amt": 5},
@@ -59,6 +63,7 @@ func _ready():
 					{"type": "shield_strength", "amt": 1},
 				],
 				"shield_size": [
+					{"type": "shield_size", "amt": 1},
 					{"type": "shield_size", "amt": 0.1},
 					{"type": "shield_size", "amt": 0.1},
 					{"type": "shield_size", "amt": 0.1},
@@ -77,12 +82,15 @@ func _ready():
 	find_node('StackItem').bonus_type = bonus_types[0]
 	find_node('StackItem2').bonus_type = bonus_types[1]
 	find_node('StackItem3').bonus_type = bonus_types[2]
-	find_node('BonusTrack').setup(game_config["tracks"][bonus_types[0]], 75)
-	find_node('BonusTrack2').setup(game_config["tracks"][bonus_types[1]], 75)
-	find_node('BonusTrack3').setup(game_config["tracks"][bonus_types[2]], 75)
+	find_node('BonusTrack').setup(bonus_types[0], game_config["tracks"][bonus_types[0]], BLOCK_HEIGHT)
+	find_node('BonusTrack2').setup(bonus_types[1], game_config["tracks"][bonus_types[1]], BLOCK_HEIGHT)
+	find_node('BonusTrack3').setup(bonus_types[2], game_config["tracks"][bonus_types[2]], BLOCK_HEIGHT)
 	find_node('BonusTrack').update_label_tracks()
 	for child in Stack.get_children():
 		tops[child.bonus_type] = child.global_position.y
+	find_node('BonusTrack').check_earned(1080-BLOCK_HEIGHT)
+	find_node('BonusTrack2').check_earned(1080-BLOCK_HEIGHT)
+	find_node('BonusTrack3').check_earned(1080-BLOCK_HEIGHT)
 	danger_zone_target = 1079
 		
 func start(with_tutorial=true):
@@ -138,8 +146,20 @@ func _physics_process(delta):
 		return
 	if state == "ending":
 		set_process(false)
-		yield(get_tree().create_timer(0.5), "timeout")
+		Util.delay_call(0.5, self, "finish_game")
+		state = "ended"
+
+func finish_game():
+		emit_signal("minigame_success", get_earned_bonuses())
 		emit_signal("minigame_complete", self)
+
+func get_earned_bonuses():
+	var result = {"action": game_config.get("action")}
+	for bonus_track in BonusTracks.get_children():
+		var cur_track = bonus_track.get_earned_bonuses()
+		for k in cur_track.keys():
+			result[k] = result.get(k, 0) + cur_track[k]
+	return result
 
 func get_stacks_above_danger():
 	var result = 0
@@ -152,6 +172,7 @@ func drop_item():
 	state = "drop"
 	cur_item.global_position.x = round(cur_item.global_position.x)
 	var pos = cur_item.global_position
+	print("Moving child ", cur_item.name, " from dropper to stack")
 	Dropper.remove_child(cur_item)
 	Stack.add_child(cur_item)
 	cur_item.global_position = pos
@@ -175,6 +196,8 @@ func on_stack_collide(dropped_item, stack_item:Area2D):
 	var old_top = tops.get(stack_item.get_parent().bonus_type, 1800)
 	if dropped_item.global_position.y <= old_top:
 		tops[stack_item.get_parent().bonus_type] = dropped_item.global_position.y;
+	for track in BonusTracks.get_children():
+		track.check_earned(tops[track.bonus_type])
 	#if dropped_item.global_position.y < top_of_stack_y:
 	top_of_stack_y = dropped_item.global_position.y
 	state = "starting"

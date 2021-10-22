@@ -1,4 +1,4 @@
-extends PanelContainer
+extends Control
 
 onready var TutorialTipResume = load("res://util/TutorialTipResume.tscn")
 

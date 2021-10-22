@@ -61,6 +61,25 @@ func get_moves(move_type:String):
 func get_shields():
 	return shields
 
+func update_shields(config):
+	shields = []
+	var positions
+	var one_shield = {
+		"shield_strength": config.get("shield_strength", 1),
+		"shield_speed": config.get("shield_speed", 1),
+	}
+	var y = -200
+	match config.get("bonus_shield", 1):
+		1: positions = [Vector2(0, y)]
+		2: positions = [Vector2(-100, y), Vector2(100, y)]
+		3: positions = [Vector2(0, y), Vector2(-200, y), Vector2(200, y)]
+		4: positions = [Vector2(-100, y), Vector2(100, y), Vector2(-300, y), Vector2(300, y)]
+		_: positions = [Vector2(0, y), Vector2(-200, y), Vector2(200, y), Vector2(-400, y), Vector2(400, y)]
+	for position in positions:
+		var new_shield = one_shield.duplicate()
+		new_shield["pos"] = position
+		shields.append(new_shield)
+
 func take_damage(amt, type="physical"):
 	pass
 

@@ -1,5 +1,7 @@
 extends Node2D
 
+const EARN_COLOR = Color.magenta
+
 var bonus_type
 var bonus_amt
 var earned = false
@@ -18,5 +20,8 @@ func get_label_desc():
 		"bonus_shield": return "Bonus Shield"
 		_: return bonus_type+" +"+str(bonus_amt)
 
-func check_earned():
-	pass
+func check_earned(tower_global_y):
+	if tower_global_y < global_position.y:
+		modulate = EARN_COLOR
+		earned = true
+	return earned

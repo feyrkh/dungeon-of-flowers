@@ -1,11 +1,11 @@
 [gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://minigame/stackingTower/StackingTowerGame.gd" type="Script" id=1]
-[ext_resource path="res://img/ui/PausedTutorialTip.gd" type="Script" id=2]
+[ext_resource path="res://util/PausedTutorialTip.gd" type="Script" id=2]
 [ext_resource path="res://util/DelayedTutorialTip.tscn" type="PackedScene" id=3]
-[ext_resource path="res://combat/TutorialTip.tscn" type="PackedScene" id=4]
-[ext_resource path="res://combat/TutorialLabel.tscn" type="PackedScene" id=5]
-[ext_resource path="res://combat/Tutorial.gd" type="Script" id=6]
+[ext_resource path="res://util/TutorialTip.tscn" type="PackedScene" id=4]
+[ext_resource path="res://util/TutorialLabel.tscn" type="PackedScene" id=5]
+[ext_resource path="res://util/Tutorial.gd" type="Script" id=6]
 [ext_resource path="res://minigame/stackingTower/StackItem.tscn" type="PackedScene" id=7]
 [ext_resource path="res://minigame/stackingTower/DangerZone.tscn" type="PackedScene" id=8]
 [ext_resource path="res://minigame/stackingTower/BonusTrack.gd" type="Script" id=9]
@@ -67,12 +67,12 @@ default_color = Color( 0.4, 0.501961, 1, 1 )
 position = Vector2( 0, 1080 )
 
 [node name="StackItem" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
-position = Vector2( 265, -75 )
-bonus_type = "shield_size"
-
-[node name="StackItem2" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
 position = Vector2( 84.13, -75 )
 bonus_type = "shield_speed"
+
+[node name="StackItem2" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
+position = Vector2( 265, -75 )
+bonus_type = "shield_size"
 
 [node name="StackItem3" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
 position = Vector2( 444.962, -75 )
@@ -120,18 +120,68 @@ __meta__ = {
 visible = false
 delay = 0.0
 
-[node name="FirstTimeTooltip_Delayed" parent="Tutorial" instance=ExtResource( 4 )]
-visible = false
-modulate = Color( 1.02864, 1.02864, 1.02864, 1 )
-margin_left = -170.0
-margin_top = 231.0
-margin_right = 431.0
-margin_bottom = 356.0
+[node name="FirstTimeTooltip_Delayed" type="Control" parent="Tutorial"]
+margin_left = -362.0
+margin_top = 254.0
+margin_right = -362.0
+margin_bottom = 254.0
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Label" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 5 )]
+[node name="FirstTimeTooltip_Msg1" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
+margin_left = -262.0
+margin_top = -126.0
+margin_right = 339.0
+margin_bottom = -1.0
+
+[node name="Label" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg1" instance=ExtResource( 5 )]
 margin_right = 594.0
 margin_bottom = 118.0
 text = "Shields will move from left to right along the top
 of the game board, then back again. Hit the button 
 to drop the shield, and make the highest tower you can!"
+
+[node name="Line2D" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg1"]
+position = Vector2( -740, -435 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 1068, 600.897, 1389, 478.237 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="FirstTimeTooltip_Msg2" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
+margin_left = 354.0
+margin_top = 265.0
+margin_right = 955.0
+margin_bottom = 466.0
+
+[node name="Label" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg2" instance=ExtResource( 5 )]
+margin_right = 594.0
+margin_bottom = 194.0
+text = "Each pillar gives your defense different bonuses. 
+Spread your efforts evenly or focus, but keep in mind
+that the danger zone is constantly rising - if you neglect
+one pillar then you can't change your mind once
+it sinks beneath the waves!"
+
+[node name="Line2D" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg2"]
+position = Vector2( -740, -435 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 1046, 876.539, 872, 1265.19 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="Line2D2" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg2"]
+position = Vector2( -740, -435 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 1048, 877.917, 1048, 1265.19 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="Line2D3" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg2"]
+position = Vector2( -740, -435 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 1048, 876.539, 1233, 1267.95 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )

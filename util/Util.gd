@@ -48,7 +48,7 @@ static func delete_children(node):
 	for n in node.get_children():
 		n.queue_free()
 
-static func delay_call(node:Node, t:float, method_name:String, args:Array=[]):
+static func delay_call(t:float, node:Node, method_name:String, args:Array=[]):
 	var timer := Timer.new()
 	timer.autostart = true
 	timer.wait_time = t

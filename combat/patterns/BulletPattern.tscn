@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://combat/patterns/BulletPattern.gd" type="Script" id=1]
+[ext_resource path="res://combat/patterns/flat_half_curve.tres" type="Curve" id=2]
+[ext_resource path="res://combat/patterns/flat_1_curve.tres" type="Curve" id=3]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0 ]
+
+[node name="BulletPattern" type="Node2D"]
+position = Vector2( -3, 0 )
+script = ExtResource( 1 )
+num_bullets = 30
+attack_time = 1.0
+bullet_timing = SubResource( 2 )
+bullet_target = ExtResource( 2 )
+bullet_speed = ExtResource( 3 )
+bullet_origin_scene = "res://combat/patterns/bulpat_point.tscn"

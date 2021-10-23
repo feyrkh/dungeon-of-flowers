@@ -2,13 +2,15 @@
 
 [ext_resource path="res://combat/patterns/BulletPattern.gd" type="Script" id=1]
 [ext_resource path="res://combat/AllyCombatDisplay.tscn" type="PackedScene" id=2]
-[ext_resource path="res://combat/patterns/flat_half_curve.tres" type="Curve" id=3]
 [ext_resource path="res://combat/patterns/flat_1_curve.tres" type="Curve" id=4]
 [ext_resource path="res://combat/patterns/TestBullets.gd" type="Script" id=5]
 [ext_resource path="res://art_exports/characters/enemy_puddle.png" type="Texture" id=6]
 
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0 ]
+
 [sub_resource type="Curve" id=1]
-_data = [ Vector2( 0, 1 ), 0.0, -0.0574283, 0, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
 
 [node name="TestBullets" type="Node2D"]
 position = Vector2( 978, 241 )
@@ -23,8 +25,8 @@ position = Vector2( -3, 0 )
 script = ExtResource( 1 )
 num_bullets = 30
 attack_time = 1.0
-bullet_timing = SubResource( 1 )
-bullet_target = ExtResource( 3 )
+bullet_timing = SubResource( 2 )
+bullet_target = SubResource( 1 )
 bullet_speed = ExtResource( 4 )
 bullet_origin_scene = "res://combat/patterns/bulpat_point.tscn"
 

@@ -6,17 +6,18 @@
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=2]
-_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
+_data = [ Vector2( 0.00772201, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.50193, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=3]
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.372727 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0.023166, 0.0636363 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="BulletPattern" type="Node2D"]
 position = Vector2( -3, 0 )
 script = ExtResource( 1 )
-num_bullets = 30
+num_bullets = 3
 attack_time = 1.0
+max_speed = 700.0
 bullet_timing = SubResource( 1 )
 bullet_target = SubResource( 2 )
 bullet_speed = SubResource( 3 )
-bullet_origin_scene = "res://combat/patterns/bulpat_line.tscn"
+bullet_origin_scene = "res://combat/patterns/bulpat_point.tscn"

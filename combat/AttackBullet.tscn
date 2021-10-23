@@ -10,6 +10,7 @@ height = 29.3392
 [node name="AttackBullet" type="KinematicBody2D" groups=[
 "bullets",
 ]]
+rotation = -1.5708
 script = ExtResource( 2 )
 
 [node name="ui_HUD_icon_fight" type="Sprite" parent="."]

@@ -28,7 +28,6 @@ var origin_curve_center:Vector2
 
 func _ready():
 	curve_offset = 0
-	timing_accum = 0
 	bullet_origin = load(bullet_origin_scene).instance()
 	add_child(bullet_origin)
 	if bullet_origin.get_child_count() > 0:
@@ -51,6 +50,10 @@ func _ready():
 	var bullet_timing_total = CombatMgr.get_bullet_timing_total(bullet_timing)
 	timing_accum_per_bullet = bullet_timing_total / num_bullets
 	next_bullet_fired_at = timing_accum_per_bullet
+	timing_accum = next_bullet_fired_at/2
+	set_physics_process(false)
+
+func start_attack():
 	set_physics_process(true)
 
 func _physics_process(delta):
@@ -66,8 +69,10 @@ func _physics_process(delta):
 func fire_bullet(curve_offset):
 	origin_follow.unit_offset = curve_offset
 	var origin_pos = origin_follow.global_position - origin_curve_center
-	var target_pos = global_target_point + Vector2((bullet_target.interpolate(curve_offset) * target_width), 0)
+	var target_x = (bullet_target.interpolate(curve_offset) * target_width)
+	var target_pos = global_target_point + Vector2(target_x, 0)
 	var speed = bullet_speed.interpolate(curve_offset) * (max_speed - min_speed) + min_speed
+	print("Firing at ", curve_offset, "; x=", target_x, "; speed=", speed)
 	var bullet = bullet_prototype.instance()
 	add_child(bullet)
 	bullet.setup_bullet_motion(origin_pos, target_pos, speed)

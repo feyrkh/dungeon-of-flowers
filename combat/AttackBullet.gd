@@ -24,7 +24,7 @@ func setup(base_damage:float, intention_source, origin:Vector2, target:Vector2, 
 func _physics_process(delta):
 	lifetime -= delta
 	if lifetime <= 0:
-		print("finishing at ", self.global_position)
+		#print("finishing at ", self.global_position)
 		queue_free()
 	self.global_position += velocity*delta
 	if rot_velocity != null:

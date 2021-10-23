@@ -10,7 +10,7 @@ onready var bullets_per_enemy = $BulletPattern.num_bullets
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$BulletPattern.global_target_point = $AllyCombatDisplay.rect_global_position + Vector2(50, 0)
+	$BulletPattern.global_target_point = $AllyPortraits/Ally2.rect_global_position + Vector2(50, 0)
 	$BulletPattern.target_width = 400
 	$Label.text = "Enemies: 1\nBullets: %d" % bullets_per_enemy
 	update_bullet_count()

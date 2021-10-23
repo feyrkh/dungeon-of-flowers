@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://combat/patterns/BulletPattern.gd" type="Script" id=1]
-[ext_resource path="res://combat/AllyCombatDisplay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://combat/AllyPortraits.tscn" type="PackedScene" id=2]
 [ext_resource path="res://font/explore_font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://combat/patterns/TestBullets.gd" type="Script" id=5]
 [ext_resource path="res://art_exports/characters/enemy_puddle.png" type="Texture" id=6]
@@ -12,7 +12,7 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=2]
 bake_resolution = 400
-_data = [ Vector2( 0.00772201, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.50193, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
 
 [sub_resource type="Curve" id=3]
 bake_resolution = 400
@@ -21,7 +21,6 @@ _data = [ Vector2( 0.023166, 0.0636363 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 
 [node name="TestBullets" type="Node2D"]
 position = Vector2( 978, 241 )
 script = ExtResource( 5 )
-multiplier = 130
 
 [node name="enemy_puddle" type="Sprite" parent="."]
 position = Vector2( -18, -45 )
@@ -38,11 +37,11 @@ bullet_target = SubResource( 2 )
 bullet_speed = SubResource( 3 )
 bullet_origin_scene = "res://combat/patterns/bulpat_point.tscn"
 
-[node name="AllyCombatDisplay" parent="." instance=ExtResource( 2 )]
-margin_left = -252.0
-margin_top = 684.0
-margin_right = -252.0
-margin_bottom = 684.0
+[node name="AllyPortraits" parent="." instance=ExtResource( 2 )]
+margin_left = -978.0
+margin_top = -241.0
+margin_right = -938.0
+margin_bottom = -201.0
 
 [node name="Label" type="Label" parent="."]
 margin_left = 270.0

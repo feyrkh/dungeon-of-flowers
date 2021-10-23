@@ -7,30 +7,30 @@
 [ext_resource path="res://art_exports/characters/enemy_puddle.png" type="Texture" id=6]
 
 [sub_resource type="Curve" id=1]
+max_value = 4.0
 bake_resolution = 400
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 1.05455 ), 0.0, 0.0, 0, 0, Vector2( 0.388889, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.444444, 4 ), 0.0, 0.0, 0, 0, Vector2( 0.755556, 4 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=2]
 bake_resolution = 400
-_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
+_data = [ Vector2( 0, 0.427684 ), 0.0, 0.111747, 0, 0, Vector2( 0.0944444, 0.436775 ), 0.0, 0.0, 0, 0, Vector2( 0.0944444, 0.645866 ), 0.0, 0.0, 0, 0, Vector2( 0.15, 0.636775 ), 0.0, 0.0, 0, 0, Vector2( 0.15, 0.445866 ), 0.0, 0.0, 0, 0, Vector2( 0.255556, 0.436775 ), 0.0, 0.0, 0, 0, Vector2( 0.266667, 0.636775 ), 0.0, 0.0, 0, 0, Vector2( 0.316667, 0.636797 ), 0.0, 0.0, 0, 0, Vector2( 0.322222, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.688889, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=3]
 bake_resolution = 400
-_data = [ Vector2( 0.023166, 0.0636363 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.927873 ), 0.0, 0.000731131, 0, 0, Vector2( 0.516667, 0.925017 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0522894 ), -0.0389613, 0.0, 0, 0 ]
 
 [node name="TestBullets" type="Node2D"]
 position = Vector2( 978, 241 )
 script = ExtResource( 5 )
 
 [node name="enemy_puddle" type="Sprite" parent="."]
-position = Vector2( -18, -45 )
+position = Vector2( -18, -44.5 )
 texture = ExtResource( 6 )
 
 [node name="BulletPattern" type="Node2D" parent="."]
 position = Vector2( -3, 0 )
 script = ExtResource( 1 )
-num_bullets = 3
-attack_time = 1.0
+attack_time = 3.0
 max_speed = 700.0
 bullet_timing = SubResource( 1 )
 bullet_target = SubResource( 2 )

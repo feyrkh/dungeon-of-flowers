@@ -72,7 +72,7 @@ func fire_bullet(curve_offset):
 	var target_x = (bullet_target.interpolate(curve_offset) * target_width)
 	var target_pos = global_target_point + Vector2(target_x, 0)
 	var speed = bullet_speed.interpolate(curve_offset) * (max_speed - min_speed) + min_speed
-	print("Firing at ", curve_offset, "; x=", target_x, "; speed=", speed)
+	#print("Firing at ", curve_offset, "; x=", target_x, "; speed=", speed)
 	var bullet = bullet_prototype.instance()
 	add_child(bullet)
 	bullet.setup_bullet_motion(origin_pos, target_pos, speed)

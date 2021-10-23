@@ -19,4 +19,4 @@ attack_time = 1.0
 bullet_timing = SubResource( 1 )
 bullet_target = SubResource( 2 )
 bullet_speed = SubResource( 3 )
-bullet_origin_scene = "res://combat/patterns/bulpat_point.tscn"
+bullet_origin_scene = "res://combat/patterns/bulpat_line.tscn"

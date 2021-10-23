@@ -12,7 +12,7 @@ export(Curve) var bullet_speed;
 export(String) var bullet_origin_scene;
 export(String) var bullet_scene = "res://combat/AttackBullet.tscn";
 
-var bullet_origin:Path2D;
+var bullet_origin;
 var bullet_prototype:PackedScene;
 var bullets = []
 var origin_follow:PathFollow2D
@@ -24,12 +24,26 @@ var timing_accum_per_bullet # How much weighted timing value we need to accumula
 							#Calculated by summing the value of every point of the curve at 1% intervals (0.01s * attack_time), then dividing by number of bullets
 var timing_accum	# How much weighted time has passed 
 var next_bullet_fired_at # The weighted time at which the next bullet will be fired
+var origin_curve_center:Vector2
 
 func _ready():
 	curve_offset = 0
 	timing_accum = 0
 	bullet_origin = load(bullet_origin_scene).instance()
 	add_child(bullet_origin)
+	if bullet_origin.get_child_count() > 0:
+		bullet_origin = bullet_origin.get_child(0)
+	var min_x = 0
+	var max_x = 0
+	var min_y = 0
+	var max_y = 0
+	for p in bullet_origin.curve.get_baked_points():
+		if p.x < min_x: min_x = p.x
+		if p.y < min_y: min_y = p.y
+		if p.x > max_x: max_x = p.x
+		if p.y > max_y: max_y = p.y
+	origin_curve_center = Vector2(round((max_x-min_x)/2+min_x), round((max_y-min_y)/2+min_y))
+		
 	bullet_origin.position = Vector2.ZERO
 	bullet_prototype = load(bullet_scene)
 	origin_follow = PathFollow2D.new()
@@ -51,7 +65,7 @@ func _physics_process(delta):
 
 func fire_bullet(curve_offset):
 	origin_follow.unit_offset = curve_offset
-	var origin_pos = origin_follow.global_position 
+	var origin_pos = origin_follow.global_position - origin_curve_center
 	var target_pos = global_target_point + Vector2((bullet_target.interpolate(curve_offset) * target_width), 0)
 	var speed = bullet_speed.interpolate(curve_offset) * (max_speed - min_speed) + min_speed
 	var bullet = bullet_prototype.instance()

@@ -20,6 +20,9 @@ func _ready():
 
 func _on_BulletPattern_attack_complete():
 	yield(get_tree().create_timer(3), "timeout")
+	
+	for child in $BulletPattern.get_children():
+		child.queue_free()
 	$BulletPattern._ready()
 
 

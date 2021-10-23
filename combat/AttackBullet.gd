@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name AttackBullet
 
 var damage = 0.5
 var piercing = false

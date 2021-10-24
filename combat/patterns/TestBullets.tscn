@@ -7,8 +7,9 @@
 [ext_resource path="res://art_exports/characters/enemy_puddle.png" type="Texture" id=6]
 
 [sub_resource type="Curve" id=1]
+max_value = 4.0
 bake_resolution = 400
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 1.05455 ), 0.0, 0.0, 0, 0, Vector2( 0.388889, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.444444, 4 ), 0.0, 0.0, 0, 0, Vector2( 0.755556, 4 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=2]
 bake_resolution = 400
@@ -23,7 +24,7 @@ position = Vector2( 978, 241 )
 script = ExtResource( 5 )
 
 [node name="enemy_puddle" type="Sprite" parent="."]
-position = Vector2( -18, -45 )
+position = Vector2( -18, -44.5 )
 texture = ExtResource( 6 )
 
 [node name="BulletPattern" type="Node2D" parent="."]

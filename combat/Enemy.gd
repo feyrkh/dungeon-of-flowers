@@ -85,7 +85,7 @@ func check_death():
 			var sprite = $Followers.get_child(i)
 			empty_positions.append(sprite.position)
 			brightness.append(sprite.modulate)
-			destroy_sprite(sprite)
+			destroy_sprite(sprite, i)
 		
 		var cur_pos = data.dead_followers
 		while cur_pos < MAX_FOLLOWER_COUNT and cur_pos < $Followers.get_child_count() and empty_positions.size() > 0:
@@ -120,8 +120,8 @@ func die():
 	queue_free()
 	CombatMgr.emit_signal("enemy_dead", self)
 
-func destroy_sprite(sprite):
-	sprite.material.set_shader_param("start_time", OS.get_ticks_msec() / 1000.0)
+func destroy_sprite(sprite, sprites_destroyed):
+	sprite.material.set_shader_param("start_time", OS.get_ticks_msec() / 1000.0 + sprites_destroyed*0.2)
 	CombatMgr.emit_signal("combat_animation", sprite.material.get_shader_param("duration")+0.5)
 	Util.delay_call(sprite.material.get_shader_param("duration")+0.5, sprite, "queue_free")
 

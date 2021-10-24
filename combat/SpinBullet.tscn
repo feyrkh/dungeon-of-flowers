@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://art_exports/ui_HUD/ui_HUD_icon_fight.png" type="Texture" id=1]
+[ext_resource path="res://art_exports/ui_battle/ui_bullet02.png" type="Texture" id=1]
 [ext_resource path="res://combat/AttackBullet.gd" type="Script" id=2]
 
 [sub_resource type="GDScript" id=1]

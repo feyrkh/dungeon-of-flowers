@@ -22,8 +22,9 @@ func _ready():
 func setup(_data:EnemyData, _spread_factor=1.0):
 	self.data = _data
 	self.spread_factor = _spread_factor
-	if data.group_count > 1:
-		setup_group()
+	if data.group_count < 1:
+		data.group_count = 1
+	setup_group()
 
 const PLACEMENTS = [
 	{"pos": Vector2(0, 0), "color": Color(1, 1, 1), "fade_delay": 0.01},

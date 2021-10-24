@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://combat/patterns/BulletPattern.gd" type="Script" id=1]
+
+[sub_resource type="Curve" id=1]
+max_value = 10.0
+bake_resolution = 400
+_data = [ Vector2( 0, 8.85347 ), 0.0, 0.0, 0, 0, Vector2( 0.0836653, 8.39892 ), 0.0, 0.0, 0, 0, Vector2( 0.0896414, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.189243, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.191235, 7.48983 ), 0.0, 0.0, 0, 0, Vector2( 0.2749, 7.94438 ), 0.0, 0.0, 0, 0, Vector2( 0.2749, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.713147, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.717131, 6 ), 0.0, 0.0, 0, 0, Vector2( 0.958167, 6.04342 ), 0.0, 0.0, 0, 0, Vector2( 0.962151, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0.00199203, 0.527273 ), 0.0, 0.0, 0, 0, Vector2( 0.10757, 0.527273 ), 0.0, 0.0, 0, 0, Vector2( 0.10757, 0.683028 ), 0.0, 0.0, 0, 0, Vector2( 0.428287, 0.673937 ), 0.0, 0.0, 0, 0, Vector2( 0.428287, 0.283027 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=3]
+max_value = 2.0
+bake_resolution = 400
+_data = [ Vector2( 0.496016, 0.39501 ), 0.0, 21.7839, 0, 1, Vector2( 0.513944, 0.785556 ), 0.0, 0.0, 0, 0, Vector2( 0.587649, 0.821919 ), 2.39048, 0.0, 0, 0 ]
+
+[node name="BulletPattern" type="Node2D"]
+position = Vector2( -3, 0 )
+script = ExtResource( 1 )
+num_bullets = 10
+attack_time = 3.0
+min_speed = 10.0
+max_speed = 800.0
+bullet_timing = SubResource( 1 )
+bullet_target = SubResource( 2 )
+bullet_speed = SubResource( 3 )
+bullet_origin_scene = "res://combat/patterns/bulpat_point.tscn"
+bullet_scene = "res://combat/AttackBullet.tscn"

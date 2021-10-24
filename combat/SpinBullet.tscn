@@ -13,8 +13,8 @@ func _process(delta):
 "
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 10.0773
-height = 29.3392
+radius = 8.48659
+height = 31.0424
 
 [node name="SpinBullet" type="KinematicBody2D" groups=[
 "bullets",
@@ -25,12 +25,10 @@ script = ExtResource( 2 )
 script = SubResource( 1 )
 
 [node name="ui_HUD_icon_fight" type="Sprite" parent="."]
-position = Vector2( -112.288, -1.11752 )
-rotation = -1.37881
-scale = Vector2( 0.3, 0.3 )
+rotation = -1.57603
+scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -112.288, -1.11752 )
 rotation = 1.57952
 shape = SubResource( 2 )

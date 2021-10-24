@@ -122,7 +122,7 @@ func die():
 
 func destroy_sprite(sprite, sprites_destroyed):
 	sprite.material.set_shader_param("start_time", OS.get_ticks_msec() / 1000.0 + sprites_destroyed*0.2)
-	CombatMgr.emit_signal("combat_animation", sprite.material.get_shader_param("duration")+0.5)
+	CombatMgr.emit_signal("combat_animation", sprite.material.get_shader_param("duration")+0.5 + sprites_destroyed*0.2)
 	Util.delay_call(sprite.material.get_shader_param("duration")+0.5, sprite, "queue_free")
 
 func highlight():

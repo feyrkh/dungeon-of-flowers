@@ -4,8 +4,8 @@
 [ext_resource path="res://combat/AttackBullet.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 10.0773
-height = 29.3392
+radius = 5.67883
+height = 0.0
 
 [node name="AttackBullet" type="KinematicBody2D" groups=[
 "bullets",

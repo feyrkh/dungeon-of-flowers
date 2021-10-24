@@ -13,7 +13,7 @@ export(Curve) var bullet_speed;
 export(String) var bullet_origin_scene;
 export(String) var bullet_scene = "res://combat/AttackBullet.tscn";
 
-var bullet_damage
+var bullet_damage = 1
 var bullet_origin;
 var bullet_prototype:PackedScene;
 var bullets = []

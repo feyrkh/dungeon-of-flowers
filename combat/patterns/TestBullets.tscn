@@ -28,7 +28,7 @@ position = Vector2( -18, -44.5 )
 texture = ExtResource( 6 )
 
 [node name="BulletPattern" type="Node2D" parent="."]
-position = Vector2( -3, 0 )
+position = Vector2( -1, 28 )
 script = ExtResource( 1 )
 num_bullets = 3
 attack_time = 2.0
@@ -46,6 +46,7 @@ margin_right = -938.0
 margin_bottom = -201.0
 
 [node name="BulletContainer" type="Node2D" parent="."]
+position = Vector2( -978, -241 )
 
 [node name="Label" type="Label" parent="."]
 margin_left = 270.0

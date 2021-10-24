@@ -6,7 +6,7 @@ var piercing = false
 var velocity = Vector2(20, 20)
 var rot_velocity = 0
 var fade_velocity = 0
-var lifetime = 10
+var lifetime = 60
 var blocked = false
 
 func setup(base_damage:float, _lifetime:float):

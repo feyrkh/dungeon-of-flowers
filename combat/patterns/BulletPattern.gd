@@ -27,6 +27,7 @@ var timing_accum_per_bullet # How much weighted timing value we need to accumula
 var timing_accum	# How much weighted time has passed 
 var next_bullet_fired_at # The weighted time at which the next bullet will be fired
 var origin_curve_center:Vector2
+var aim_flip = false
 
 func setup(_dmg, _global_target_point, _target_width):
 	self.bullet_damage = _dmg
@@ -62,6 +63,7 @@ func _ready():
 
 func start_attack():
 	set_physics_process(true)
+	aim_flip = randf() < 0.5
 
 func _physics_process(delta):
 	if curve_offset >= 100.0:
@@ -74,9 +76,12 @@ func _physics_process(delta):
 		next_bullet_fired_at += timing_accum_per_bullet
 
 func fire_bullet(curve_offset):
+	curve_offset = clamp(curve_offset, 0, 1.0)
 	origin_follow.unit_offset = curve_offset
 	var origin_pos = origin_follow.global_position - origin_curve_center
-	var target_x = (bullet_target.interpolate(curve_offset) * target_width)
+	var target_x  = (bullet_target.interpolate(curve_offset) * target_width)
+	if aim_flip:
+		target_x = target_width - target_x
 	var target_pos = global_target_point + Vector2(target_x, 0)
 	var speed = bullet_speed.interpolate(curve_offset) * (max_speed - min_speed) + min_speed
 	#print("Firing at ", curve_offset, "; x=", target_x, "; speed=", speed)

@@ -157,7 +157,9 @@ func unsquish_for_minigame(move_time=0.5):
 		enemy_pos.set_target_position(original_enemy_positions[enemy_pos.name], move_time)
 
 func _on_CombatScreen_start_enemy_turn(combat_data):
-	$Bouncer.running = true
+	pass
+	#$Bouncer.running = true
 
 func _on_CombatScreen_enemy_turn_complete(combat_data):
-	$Bouncer.running = false
+	pass
+	#$Bouncer.running = false

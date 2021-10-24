@@ -35,7 +35,7 @@ func _ready():
 	CombatMgr.connect("player_turn_complete", self, "_on_CombatScreen_player_turn_complete")
 	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
 	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
-	CombatMgr.connect("enemy_turn_complete", self, "_on_enemy_turn_complete")
+	CombatMgr.connect("enemy_move_complete", self, "_on_enemy_move_complete")
 
 func defend_action(config):
 	match config.get("action"):
@@ -137,7 +137,7 @@ func _on_CombatScreen_start_player_turn(combat_data):
 	exhausted = false
 	var remaining_shields = []
 	for shield in data.shields:
-		if shield.get("shield_damage") < shield.get("shield_strength"):
+		if shield.get("shield_damage", 0) < shield.get("shield_strength", 1):
 			remaining_shields.append(shield)
 	data.shields = remaining_shields
 
@@ -147,7 +147,7 @@ func _on_CombatScreen_start_enemy_turn(combat_data):
 	rect_position = default_position
 	modulate = Color.white
 
-func _on_enemy_turn_complete(combat_data):
+func _on_enemy_move_complete(combat_data):
 	DamageIndicator.apply_damage(data)
 
 func _on_CombatScreen_player_turn_complete(combat_data):

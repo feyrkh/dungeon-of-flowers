@@ -98,7 +98,7 @@ func input_select_character():
 	if Input.is_action_just_pressed("music_toggle"): # skip turn, temporary debug stuff
 		cur_input_phase = InputPhase.NO_INPUT
 		CombatMgr.emit_signal("player_turn_complete", combat_data)
-		CombatMgr.emit_signal("start_enemy_turn", combat_data)
+		CombatMgr.change_combat_state("start_enemy_turn", combat_data)
 	if Input.is_action_just_pressed("select_prev_char"):
 		select_next_char(-1)
 		input_delayed = UI_DELAY
@@ -202,11 +202,13 @@ func _on_CombatScreen_start_combat(_combat_data):
 	#playerInput.visible = false
 	#playerSprite.visible = false
 	yield(get_tree().create_timer(1.0), "timeout")
-	CombatMgr.emit_signal("start_player_turn", _combat_data)
+	CombatMgr.change_combat_state("start_player_turn", _combat_data)
 
 
 func _on_CombatScreen_start_player_turn(_combat_data):
 	print("_on_CombatScreen_start_player_turn")
+	if check_combat_over():
+		return
 	cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
 	selected_ally_idx = 1
 	allies[selected_ally_idx].select(selected_category_idx)
@@ -223,7 +225,7 @@ func _on_CombatScreen_player_move_complete(_combat_data):
 	if check_player_turn_over():
 		cur_input_phase = InputPhase.NO_INPUT
 		CombatMgr.emit_signal("player_turn_complete", _combat_data)
-		CombatMgr.emit_signal("start_enemy_turn", _combat_data)
+		CombatMgr.change_combat_state("start_enemy_turn", _combat_data)
 	else:
 		cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
 		select_next_char(1)
@@ -238,18 +240,33 @@ func check_player_turn_over():
 func _on_CombatScreen_start_enemy_turn(_combat_data):
 	print("_on_CombatScreen_start_enemy_turn")
 	yield(get_tree().create_timer(1), "timeout")
+	if check_combat_over():
+		return
+	
+	while CombatMgr.combat_animation_delay > 0:
+		yield(get_tree().create_timer(CombatMgr.combat_animation_delay), "timeout")
+		_on_CombatScreen_start_enemy_turn(_combat_data)
+		return
+	
 	QuestMgr.combat_phase = "enemy_turn"
 	CombatMgr.emit_signal("execute_combat_intentions", AllyPortraits.get_live_allies(), Enemies.get_live_enemies())
 	while !check_enemy_turn_over():
 		yield(get_tree().create_timer(0.5), "timeout")
-	CombatMgr.emit_signal("enemy_turn_complete", _combat_data)
+	while CombatMgr.combat_animation_delay > 0:
+		yield(get_tree().create_timer(CombatMgr.combat_animation_delay), "timeout")
+	CombatMgr.change_combat_state("enemy_move_complete", _combat_data)
+	while CombatMgr.combat_animation_delay > 0:
+		yield(get_tree().create_timer(CombatMgr.combat_animation_delay), "timeout")
+	CombatMgr.change_combat_state("enemy_turn_complete", _combat_data)
 
 func _on_CombatScreen_enemy_turn_complete(_combat_data):
 	print("_on_CombatScreen_enemy_turn_complete")
-	yield(get_tree().create_timer(1.2), "timeout")
+	while CombatMgr.combat_animation_delay > 0:
+		yield(get_tree().create_timer(CombatMgr.combat_animation_delay + 1.2), "timeout")
+	#yield(get_tree().create_timer(1.2), "timeout")
 	if check_combat_over():
 		return
-	CombatMgr.emit_signal("start_player_turn", _combat_data)
+	CombatMgr.change_combat_state("start_player_turn", _combat_data)
 
 func check_enemy_turn_over():
 	if enemies_all_dead():
@@ -366,7 +383,7 @@ func _on_attack_minigame_complete(minigame_scene):
 	if is_instance_valid(minigame_scene):
 		minigame_scene.queue_free()
 	MinigameContainer.visible = false
-	CombatMgr.emit_signal("player_move_complete", combat_data)
+	CombatMgr.change_combat_state("player_move_complete", combat_data)
 
 func _on_ally_minigame_complete(minigame_scene):
 	print("Ally move complete")
@@ -378,7 +395,7 @@ func _on_ally_minigame_complete(minigame_scene):
 	if is_instance_valid(minigame_scene):
 		minigame_scene.queue_free()
 	MinigameContainer.visible = false
-	CombatMgr.emit_signal("player_move_complete", combat_data)
+	CombatMgr.change_combat_state("player_move_complete", combat_data)
 
 func _on_new_bullet(bullet):
 	BulletContainer.add_child(bullet)

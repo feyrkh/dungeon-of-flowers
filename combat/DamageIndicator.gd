@@ -53,10 +53,14 @@ func apply_damage(_ally_data):
 	for slash in SlashContainer.get_children():
 		damage_total = slash.damage
 		slash.apply_damage(ally_data, self, randf()*0.5 + 0.1)
+		CombatMgr.emit_signal("combat_animation", 0.6)
 	while SlashContainer.get_children().size() > 0:
 		yield(get_tree().create_timer(0.1), "timeout")
+		CombatMgr.emit_signal("combat_animation", 0.3)
 	ally_data.hp = round(ally_data.hp)
 	set_process(true)
+	while CombatMgr.combat_animation_delay > 0:
+		yield(get_tree().create_timer(CombatMgr.combat_animation_delay), "timeout")
 	emit_signal("all_damage_applied", damage_total)
 
 func count_damage(amt):

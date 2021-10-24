@@ -11,11 +11,13 @@ signal execute_combat_intentions(allies, enemies)
 signal new_bullet(bullet)
 signal attack_bullet_block()
 signal attack_bullet_strike(ally_data)
+signal combat_animation(animation_length)
 
 signal player_move_complete(combat_data)
 signal player_turn_complete(combat_data)
 signal start_enemy_turn(combat_data)
 signal start_player_turn(combat_data)
+signal enemy_move_complete(combat_data)
 signal enemy_turn_complete(combat_data)
 
 signal show_battle_header(text)
@@ -25,8 +27,29 @@ var is_in_combat = false
 var player
 var dungeon
 var combat
+var combat_animation_delay = 0
 
 var bullet_timing_cache = {}
+
+func _ready():
+	connect("combat_animation", self, "on_combat_animation")
+
+func _process(delta):
+	combat_animation_delay -= delta
+	if combat_animation_delay <= 0:
+		set_process(false)
+
+func change_combat_state(new_state, combat_data):
+	if combat_animation_delay > 0:
+		get_tree().create_timer(combat_animation_delay).connect("timeout", self, "change_combat_state", [new_state, combat_data])
+		return
+	if combat_data:
+		emit_signal(new_state, combat_data)
+
+func on_combat_animation(delay):
+	if combat_animation_delay < delay:
+		combat_animation_delay = delay
+	set_process(true)
 
 func register(_player, _dungeon):
 	self.player = _player

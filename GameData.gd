@@ -231,14 +231,15 @@ func new_char_grias():
 	ally.label = "Grias"
 	ally.className = "Knight"
 	ally.max_hp = 100
-	ally.hp = 10
+	ally.hp = 100
 	ally.sp = 20
 	ally.max_sp = 20
 	ally.texture = "res://img/hero4.jpg"
 	ally.moves = [
 		MoveList.get_move('slash'),
-		MoveList.get_move("defensive_stance"),
 	]
+	if !GameData.get_state(TUTORIAL_ON):
+		ally.moves.append(MoveList.get_move("defensive_stance"))
 	ally.shields = [
 		#{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(-150, -130), "scale": Vector2(2.0, 1.0)},
 		#{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(150, -130), "scale": Vector2(2.0, 1.0)},

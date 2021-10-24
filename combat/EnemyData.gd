@@ -2,11 +2,12 @@ extends Reference
 class_name EnemyData
 
 var label : String
-var hp : int
+var hp : int setget set_hp
 var max_hp : int
 var img : Texture
 var intentions = []
 var group_count
+var dead_followers = 0
 
 var dodge = 100 # decrease total size of low targets
 var defend = 100 # decrease size of med targets
@@ -63,3 +64,11 @@ func get_next_intention():
 
 func round_stats():
 	hp = float(int(hp))
+
+func set_hp(val):
+	if hp >= 1 and val < 1:
+		if group_count > 1:
+			val = max_hp
+		group_count = max(0, group_count-1)
+		dead_followers += 1
+	hp = val

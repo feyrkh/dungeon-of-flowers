@@ -219,10 +219,10 @@ text = "Press     to go back and select the Fight menu"
 
 [node name="TargetEnemy" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-margin_left = 455.0
-margin_top = 580.0
-margin_right = 915.0
-margin_bottom = 629.0
+margin_left = 737.0
+margin_top = 626.0
+margin_right = 1197.0
+margin_bottom = 675.0
 
 [node name="Label" parent="Tutorial/TargetEnemy" instance=ExtResource( 12 )]
 margin_right = 453.0
@@ -236,21 +236,20 @@ position = Vector2( 431, 21 )
 [node name="ui_btn_pc_RIGHT" parent="Tutorial/TargetEnemy/Label" instance=ExtResource( 16 )]
 
 [node name="Line2D" type="Line2D" parent="Tutorial/TargetEnemy"]
-position = Vector2( -740, -435 )
+position = Vector2( -742, -435 )
 scale = Vector2( 1, 0.725581 )
-points = PoolVector2Array( 1068, 600.897, 1121, 339.038 )
+points = PoolVector2Array( 1068, 600.897, 1427, 388.654 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="Line2D2" type="Line2D" parent="Tutorial/TargetEnemy"]
 position = Vector2( -740, -435 )
 scale = Vector2( 1, 0.725581 )
-points = PoolVector2Array( 835, 600.897, 741, 340.417 )
+points = PoolVector2Array( 835, 600.897, 505, 394.167 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="AttackMinigame" parent="Tutorial" instance=ExtResource( 10 )]
-visible = false
 margin_left = 845.0
 margin_top = 560.0
 margin_right = 1305.0
@@ -273,14 +272,14 @@ position = Vector2( 71, 96 )
 [node name="Line2D" type="Line2D" parent="Tutorial/AttackMinigame"]
 position = Vector2( -606, -370 )
 scale = Vector2( 1, 0.725581 )
-points = PoolVector2Array( 1067, 602.276, 1230, 187.436 )
+points = PoolVector2Array( 1067, 602.276, 1181, 177.789 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="Line2D2" type="Line2D" parent="Tutorial/AttackMinigame"]
 position = Vector2( -606, -370 )
 scale = Vector2( 1, 0.725581 )
-points = PoolVector2Array( 1067, 600.898, 1362, 837.949 )
+points = PoolVector2Array( 1067, 600.898, 1317, 839.327 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
@@ -294,7 +293,6 @@ script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-delay = 2.5
 delayed_tutorial = "EnemyAttack_Delayed"
 
 [node name="EnemyAttack_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
@@ -326,6 +324,7 @@ delay = 1.0
 delayed_tutorial = "UsingShield_Delayed"
 
 [node name="UsingShield_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
 margin_left = 1070.0
 margin_top = 521.0
 margin_right = 1577.0

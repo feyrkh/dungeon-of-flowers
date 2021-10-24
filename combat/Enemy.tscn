@@ -22,10 +22,11 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vect
 position = Vector2( -1.01428, 1.08978 )
 script = ExtResource( 3 )
 
-[node name="Crowd" type="YSort" parent="."]
+[node name="Followers" type="YSort" parent="."]
 position = Vector2( 1, -144.087 )
 
 [node name="Sprite" type="Sprite" parent="."]
+visible = false
 material = ExtResource( 8 )
 position = Vector2( -1.53577, -144.301 )
 texture = ExtResource( 1 )

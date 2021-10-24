@@ -21,6 +21,7 @@ var target
 var allies
 var enemies
 var bullet_patterns
+var bullet_pattern_scenes
 var bullet_multipliers = []
 var current_attack_scene
 
@@ -42,25 +43,7 @@ func setup(_enemy, _intention):
 			bullet_patterns = intention.get("bullet_pattern", "slime/dribble")
 			if bullet_patterns is String:
 				bullet_patterns = [bullet_patterns]
-			var num_attack_repetitions = ceil(enemy.data.group_count / float(MAX_MULTIPLIER))
-			var group_residue = enemy.data.group_count
-			bullet_multipliers = []
-			var bullet_pattern_scenes = []
-			for j in range(num_attack_repetitions):
-				for i in range(bullet_patterns.size()):
-					var pattern_scene = bullet_patterns[i]
-					if !pattern_scene:
-						continue
-					pattern_scene = load("res://combat/patterns/%s.tscn" % pattern_scene)
-					if !pattern_scene:
-						continue
-					pattern_scene = pattern_scene.instance()
-					if !pattern_scene:
-						continue
-					bullet_pattern_scenes.append(pattern_scene)
-					pattern_scene.num_bullets *= min(group_residue, MAX_MULTIPLIER)
-				group_residue -= MAX_MULTIPLIER
-			bullet_patterns = bullet_pattern_scenes
+
 		"defend": 
 			intention_texture = INTENTION_DEFEND_IMG
 	visible = true
@@ -91,10 +74,28 @@ func perform_attacks(_allies, _enemies):
 	select_target()
 	if !target:
 		return
+	var num_attack_repetitions = ceil(enemy.data.group_count / float(MAX_MULTIPLIER))
+	var group_residue = enemy.data.group_count
+	bullet_multipliers = []
+	bullet_pattern_scenes = []
+	for j in range(num_attack_repetitions):
+		for i in range(bullet_patterns.size()):
+			var pattern_scene = bullet_patterns[i]
+			if !pattern_scene:
+				continue
+			pattern_scene = load("res://combat/patterns/%s.tscn" % pattern_scene)
+			if !pattern_scene:
+				continue
+			pattern_scene = pattern_scene.instance()
+			if !pattern_scene:
+				continue
+			bullet_pattern_scenes.append(pattern_scene)
+			pattern_scene.num_bullets *= min(group_residue, MAX_MULTIPLIER)
+		group_residue -= MAX_MULTIPLIER
 	perform_next_attack()
 
 func perform_next_attack():
-	var next_scene = bullet_patterns.pop_front()
+	var next_scene = bullet_pattern_scenes.pop_front()
 	var next_multiplier = bullet_multipliers.pop_front()
 	if !enemy.is_alive() or !next_scene:
 		attacking = false

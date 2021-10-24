@@ -1,5 +1,6 @@
 extends Node2D
 
+signal bullet_fired(bullet)
 signal attack_complete()
 
 export(int) var num_bullets = 10;
@@ -12,6 +13,7 @@ export(Curve) var bullet_speed;
 export(String) var bullet_origin_scene;
 export(String) var bullet_scene = "res://combat/AttackBullet.tscn";
 
+var bullet_damage
 var bullet_origin;
 var bullet_prototype:PackedScene;
 var bullets = []
@@ -26,6 +28,11 @@ var timing_accum	# How much weighted time has passed
 var next_bullet_fired_at # The weighted time at which the next bullet will be fired
 var origin_curve_center:Vector2
 
+func setup(_dmg, _global_target_point, _target_width):
+	self.bullet_damage = _dmg
+	self.global_target_point = _global_target_point
+	self.target_width = _target_width
+	
 func _ready():
 	curve_offset = 0
 	bullet_origin = load(bullet_origin_scene).instance()
@@ -74,5 +81,7 @@ func fire_bullet(curve_offset):
 	var speed = bullet_speed.interpolate(curve_offset) * (max_speed - min_speed) + min_speed
 	#print("Firing at ", curve_offset, "; x=", target_x, "; speed=", speed)
 	var bullet = bullet_prototype.instance()
-	add_child(bullet)
+	#add_child(bullet)
 	bullet.setup_bullet_motion(origin_pos, target_pos, speed)
+	bullet.setup(bullet_damage, 30)
+	CombatMgr.emit_signal("new_bullet", bullet)

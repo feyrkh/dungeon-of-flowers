@@ -48,6 +48,13 @@ static func delete_children(node):
 	for n in node.get_children():
 		n.queue_free()
 
+static func randi_range(min_val, max_val):
+	min_val = int(round(min_val))
+	max_val = int(round(max_val))
+	if min_val == max_val:
+		return min_val
+	return (randi() % (max_val - min_val)) + min_val
+
 static func delay_call(t:float, node:Node, method_name:String, args:Array=[]):
 	var timer := Timer.new()
 	timer.autostart = true

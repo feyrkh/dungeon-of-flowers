@@ -22,6 +22,9 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vect
 position = Vector2( -1.01428, 1.08978 )
 script = ExtResource( 3 )
 
+[node name="Crowd" type="YSort" parent="."]
+position = Vector2( 1, -144.087 )
+
 [node name="Sprite" type="Sprite" parent="."]
 material = ExtResource( 8 )
 position = Vector2( -1.53577, -144.301 )
@@ -52,6 +55,10 @@ ease_curve = SubResource( 2 )
 
 [node name="IntentionIcon" parent="Bouncer" instance=ExtResource( 5 )]
 
+[node name="BulletOrigin" type="Position2D" parent="Bouncer/IntentionIcon"]
+position = Vector2( -0.199702, -241.446 )
+scale = Vector2( 2, 2 )
+
 [node name="DamageIndicator" parent="." instance=ExtResource( 7 )]
 position = Vector2( 119.604, -32.6813 )
 slash_target_path = NodePath("../SlashTarget")
@@ -62,3 +69,5 @@ position = Vector2( 0.768707, -129.539 )
 __meta__ = {
 "_gizmo_extents_": 100.0
 }
+
+[node name="Tween" type="Tween" parent="."]

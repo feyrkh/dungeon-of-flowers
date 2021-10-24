@@ -21,7 +21,8 @@ extents = Vector2( 217.515, 58.9229 )
 script = ExtResource( 10 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 131.325 ],
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_edit_vertical_guides_": [ 451.0 ]
 }
 
 [node name="TargetMarker" parent="." instance=ExtResource( 19 )]

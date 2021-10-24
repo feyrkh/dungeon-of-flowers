@@ -20,6 +20,7 @@ func _ready():
 	EventBus.connect("player_start_turn", self, "_on_move_start")
 	CombatMgr.connect("combat_start", self, "_on_combat_start")
 	CombatMgr.connect("combat_end", self, "_on_combat_end")
+	AllyPortraits.disable_combat_features()
 
 func _on_combat_start():
 	visible = false

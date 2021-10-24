@@ -1,7 +1,6 @@
 {"type":"attack",
-"base_damage": 0.5,
-"attacks": 3,
-"attacks_per_pulse": 3,
-"target_scatter": 0,
-"target_change_chance": 0,
+"base_damage": 1,
+"bullet_pattern": "slime/dribble",
+"bullet_origin_x": 263,
+"bullet_origin_y": 281,
 "force_target": 0}

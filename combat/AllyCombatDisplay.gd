@@ -66,6 +66,9 @@ func explore_mode():
 	rect_position = default_position
 	find_node("IconStatus").visible = false
 
+func disable_combat_features():
+	find_node("BulletStrikeArea").queue_free()
+
 func is_alive():
 	return data.hp > 0
 

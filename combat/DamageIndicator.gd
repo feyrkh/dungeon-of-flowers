@@ -40,6 +40,7 @@ func reset():
 		ally_data.round_stats()
 
 func take_damage(amt):
+	print("Adding damage slash: ", amt)
 	var slash = DamageIndicatorSlash.instance()
 	SlashContainer.add_child(slash)
 	slash.global_position = slash_target.global_position + Vector2(rand_range(-target_extents.x, target_extents.x), rand_range(-target_extents.y, target_extents.y))
@@ -54,6 +55,7 @@ func apply_damage(_ally_data):
 		slash.apply_damage(ally_data, self, randf()*0.5 + 0.1)
 	while SlashContainer.get_children().size() > 0:
 		yield(get_tree().create_timer(0.1), "timeout")
+	ally_data.hp = round(ally_data.hp)
 	set_process(true)
 	emit_signal("all_damage_applied", damage_total)
 

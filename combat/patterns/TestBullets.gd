@@ -11,6 +11,7 @@ var multiplier_increase = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	CombatMgr.connect("new_bullet", self, "on_new_bullet")
 	$BulletPattern.global_target_point = $AllyPortraits/Ally2.rect_global_position + Vector2(50, 0)
 	$BulletPattern.target_width = 400
 	$Label.text = "Enemies: 1\nBullets: %d" % bullets_per_enemy
@@ -22,6 +23,8 @@ func _ready():
 #func _process(delta):
 #	pass
 
+func on_new_bullet(bullet):
+	$BulletContainer.add_child(bullet)
 
 func _on_BulletPattern_attack_complete():
 	yield(get_tree().create_timer(3), "timeout")

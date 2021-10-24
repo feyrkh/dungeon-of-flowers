@@ -12,11 +12,11 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=2]
 bake_resolution = 400
-_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
+_data = [ Vector2( 0, 0.6 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.372727 ), -0.117728, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=3]
 bake_resolution = 400
-_data = [ Vector2( 0.023166, 0.0636363 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 1 ), 0.0, -1.0, 0, 1, Vector2( 1, 0 ), -1.0, 0.0, 1, 0 ]
 
 [node name="TestBullets" type="Node2D"]
 position = Vector2( 978, 241 )
@@ -30,8 +30,9 @@ texture = ExtResource( 6 )
 position = Vector2( -3, 0 )
 script = ExtResource( 1 )
 num_bullets = 3
-attack_time = 1.0
-max_speed = 700.0
+attack_time = 2.0
+min_speed = 150.0
+max_speed = 500.0
 bullet_timing = SubResource( 1 )
 bullet_target = SubResource( 2 )
 bullet_speed = SubResource( 3 )
@@ -42,6 +43,8 @@ margin_left = -978.0
 margin_top = -241.0
 margin_right = -938.0
 margin_bottom = -201.0
+
+[node name="BulletContainer" type="Node2D" parent="."]
 
 [node name="Label" type="Label" parent="."]
 margin_left = 270.0

@@ -17,40 +17,22 @@ ease_curve = SubResource( 1 )
 running = false
 
 [node name="EnemyImages" type="YSort" parent="Bouncer"]
-position = Vector2( -36, -43 )
-__meta__ = {
-"_edit_lock_": true
-}
+position = Vector2( -36, 45 )
 
 [node name="EnemyPos0" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 836.793, 397.564 )
+position = Vector2( 330, 350 )
 
 [node name="EnemyPos1" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 454.793, 399.564 )
+position = Vector2( 500, 400 )
 
 [node name="EnemyPos2" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 1246.79, 399.564 )
+position = Vector2( 960, 400 )
 
 [node name="EnemyPos3" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 120.793, 395.564 )
+position = Vector2( 1420, 400 )
 
 [node name="EnemyPos4" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 1638.79, 399.564 )
-
-[node name="EnemyPos5" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 618.793, 215.564 )
-
-[node name="EnemyPos6" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 1048.79, 215.564 )
-
-[node name="EnemyPos7" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 240.793, 215.564 )
-
-[node name="EnemyPos8" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 1446.79, 217.564 )
-
-[node name="EnemyPos9" parent="Bouncer/EnemyImages" instance=ExtResource( 2 )]
-position = Vector2( 1788.79, 209.564 )
+position = Vector2( 1590, 350 )
 
 [node name="TargetIcons" type="Node2D" parent="."]
 

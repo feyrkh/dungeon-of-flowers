@@ -9,119 +9,104 @@ const INTENTION_UNKNOWN_IMG = "res://art_exports/ui_HUD/ui_HUD_icon_item.png"
 const ATTACK_PERIOD_SECONDS = 4.0
 const BULLET_REACH_TARGET_CENTER_SECONDS = 3.0
 const BULLET_LIFE_SECONDS = ATTACK_PERIOD_SECONDS + BULLET_REACH_TARGET_CENTER_SECONDS
-
+const MAX_MULTIPLIER = 6
 var enemy
 var intention
+var attacking = false
 
 var base_damage
-var attacks
-var attacks_per_pulse
-var target_scatter
-var target_change_chance # chance of switching targets after each pulse
-var origin_scatter
-var origin_change_chance # chance of switching origin location after each pulse
 
-var seconds_per_bullet # seconds we should wait after firing a bullet
-var bullet_time_counter # time elapsed since last bullet
-var pulse_bullet_counter # number of bullets left in this pulse
 var origin
 var target
 var allies
 var enemies
-var timeout
+var bullet_patterns
+var bullet_multipliers = []
+var current_attack_scene
+
+onready var BulletOrigin = find_node("BulletOrigin")
 
 func _ready():
 	CombatMgr.connect("execute_combat_intentions", self, "on_execute_combat_intentions")
 	set_process(false)
 
 func setup(_enemy, _intention):
+	self.allies = CombatMgr.combat.combat_data.allies
 	self.enemy = _enemy
 	self.intention = _intention
 	var intention_texture = INTENTION_UNKNOWN_IMG
 	match intention.get("type"):
 		"attack": 
 			intention_texture = INTENTION_ATTACK_IMG
+			base_damage = intention.get("base_damage", 0.5)
+			bullet_patterns = intention.get("bullet_pattern", "slime/dribble")
+			if bullet_patterns is String:
+				bullet_patterns = [bullet_patterns]
+			var num_attack_repetitions = ceil(enemy.data.group_count / float(MAX_MULTIPLIER))
+			var group_residue = enemy.data.group_count
+			bullet_multipliers = []
+			var bullet_pattern_scenes = []
+			for j in range(num_attack_repetitions):
+				for i in range(bullet_patterns.size()):
+					var pattern_scene = bullet_patterns[i]
+					if !pattern_scene:
+						continue
+					pattern_scene = load("res://combat/patterns/%s.tscn" % pattern_scene)
+					if !pattern_scene:
+						continue
+					pattern_scene = pattern_scene.instance()
+					if !pattern_scene:
+						continue
+					bullet_pattern_scenes.append(pattern_scene)
+					pattern_scene.num_bullets *= min(group_residue, MAX_MULTIPLIER)
+				group_residue -= MAX_MULTIPLIER
+			bullet_patterns = bullet_pattern_scenes
 		"defend": 
 			intention_texture = INTENTION_DEFEND_IMG
 	visible = true
 	texture = load(intention_texture)
 
-func _process(delta):
-	bullet_time_counter += delta
-	timeout -= delta
-	if timeout <= 0:
-		self.remove_from_group("bullets")
-	while bullet_time_counter >= seconds_per_bullet:
-		bullet_time_counter -= seconds_per_bullet
-		if attacks > 0:
-			fire_bullet(bullet_time_counter)
-		else:
-			set_process(false)
-			self.remove_from_group("bullets")
-	
-
-func fire_bullet(lag_time):
-	if pulse_bullet_counter <= 0:
-		pulse_bullet_counter = attacks_per_pulse
-		select_origin()
-		select_target()
-	if target == null:
-		return
-	pulse_bullet_counter -= 1
-	attacks -= 1
-	var bullet = AttackBullet.instance()
-	CombatMgr.emit_signal("new_bullet", bullet)
-	bullet.setup(base_damage, self, origin, target, BULLET_REACH_TARGET_CENTER_SECONDS, BULLET_LIFE_SECONDS)
-	if lag_time > 0:
-		bullet._process(lag_time)
-
-func select_origin():
-	if (origin_change_chance > 0 and origin_change_chance > randf()) or (origin == null):
-		origin = self.global_position
-		if origin_scatter > 0:
-			origin -= self.texture.get_size()/2
-			origin += Vector2(randf()*origin_scatter*self.texture.get_size().x*scale.x, randf()*origin_scatter*self.texture.get_size().y*scale.y)
-
 func select_target():
 	if allies.size() <= 0:
 		target = null
 		return
-	if (target_change_chance > 0 and target_change_chance > randf()) or (target == null):
-		var ally = allies[randi()%allies.size()]
-		if intention.get("force_target") != null:
-			ally = allies[intention.get("force_target")]
-		print(enemy.data.label, " targeting ", ally.data.label)
-		target = ally.get_target(target_scatter)
-
+	var ally = allies[randi()%allies.size()]
+	if intention.get("force_target") != null:
+		ally = allies[intention.get("force_target")]
+	print(enemy.data.label, " targeting ", ally.data.label)
+	target = ally.rect_global_position + Vector2(50, 0) #ally.get_target(target_scatter)
+		
 func on_execute_combat_intentions(_allies, _enemies):
 	print(self, ": Executing intention: ", intention)
 	self.add_to_group("bullets")
 	match intention.get("type"):
 		"attack": 
-			perform_attack(_allies, _enemies)
+			perform_attacks(_allies, _enemies)
 
-func perform_attack(_allies, _enemies):
+
+func perform_attacks(_allies, _enemies):
+	attacking = true
 	self.allies = _allies
 	self.enemies = _enemies
-	base_damage = intention.get("base_damage", 0.5)
-	attacks = intention.get("attacks", 1)
-	attacks_per_pulse = max(1, intention.get("attacks_per_pulse", 1))
-	target_scatter = intention.get("target_scatter", 0)
-	target_change_chance = intention.get("target_change_chance", 1)
-	origin_scatter = intention.get("origin_scatter", 0)
-	origin_change_chance = intention.get("origin_change_chance", 0)
+	select_target()
+	if !target:
+		return
+	perform_next_attack()
+
+func perform_next_attack():
+	var next_scene = bullet_patterns.pop_front()
+	var next_multiplier = bullet_multipliers.pop_front()
+	if !enemy.is_alive() or !next_scene:
+		attacking = false
+		self.remove_from_group("bullets")
+		return
+	current_attack_scene = next_scene
+	current_attack_scene.setup(base_damage, target, 400)
+	BulletOrigin.add_child(current_attack_scene)
+	current_attack_scene.start_attack()
+	current_attack_scene.connect("attack_complete", self, "finish_current_attack")
+
+func finish_current_attack():
+	Util.delay_call(30, current_attack_scene, "queue_free")
+	Util.delay_call(1, self, "perform_next_attack")
 	
-	seconds_per_bullet = max(0.01, ATTACK_PERIOD_SECONDS / attacks)
-	bullet_time_counter = 0.0
-	pulse_bullet_counter = 0
-	origin = null
-	target = null
-	timeout = BULLET_LIFE_SECONDS+0.5
-	set_process(true)
-#		"base_damage": 0.5,
-#		"attacks": 10,
-#		"attacks_per_pulse": 1,
-#		"target_scatter": 0,
-#		"target_change_chance": 0.2,
-#		"origin_scatter": 0,
-#		"origin_change_chance": 1,

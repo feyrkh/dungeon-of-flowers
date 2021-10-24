@@ -43,6 +43,11 @@ func setup(ally_data):
 		else:
 			Allies[i].setup(ally_data[i])
 
+func disable_combat_features():
+	for ally in Allies:
+		if ally:
+			ally.disable_combat_features()
+
 func combat_mode():
 	for ally in Allies:
 		ally.combat_mode()

@@ -6,10 +6,12 @@ signal single_enemy_target_complete(target_enemy, move_data)
 const TargetMarker = preload("res://combat/TargetMarker.tscn")
 const Enemy = preload("res://combat/Enemy.tscn")
 						 # 0  1  2  3  4  5  6  7  8  9
-const MOVE_OFFSET_LEFT  = [1, 3, 0, 4, 2, 7, 5, 9, 6, 8]
-const MOVE_OFFSET_RIGHT = [2, 0, 4, 1, 3, 6, 8, 5, 9, 7]
-const MOVE_OFFSET_UP    = [6, 5, 8, 7, 9, 0, 2, 1, 4, 3]
-const MOVE_OFFSET_DOWN  = [5, 7, 6, 9, 8, 1, 0, 3, 2, 4]
+#const MOVE_OFFSET_LEFT  = [1, 3, 0, 4, 2, 7, 5, 9, 6, 8]
+#const MOVE_OFFSET_RIGHT = [2, 0, 4, 1, 3, 6, 8, 5, 9, 7]
+#const MOVE_OFFSET_UP    = [6, 5, 8, 7, 9, 0, 2, 1, 4, 3]
+#const MOVE_OFFSET_DOWN  = [5, 7, 6, 9, 8, 1, 0, 3, 2, 4]
+const MOVE_OFFSET_LEFT   = [4, 3, 2, 1, 0]
+const MOVE_OFFSET_RIGHT  = [1, 2, 3, 4, 0]
 
 onready var EnemyImages = find_node("EnemyImages")
 onready var TargetIcons = find_node("TargetIcons")
@@ -71,10 +73,10 @@ func process_single_enemy_input():
 		target_next_enemy(MOVE_OFFSET_LEFT)
 	elif Input.is_action_just_pressed("ui_right"):
 		target_next_enemy(MOVE_OFFSET_RIGHT)
-	elif Input.is_action_just_pressed("ui_up"):
-		target_next_enemy(MOVE_OFFSET_UP)
-	elif Input.is_action_just_pressed("ui_down"):
-		target_next_enemy(MOVE_OFFSET_DOWN)
+#	elif Input.is_action_just_pressed("ui_up"):
+#		target_next_enemy(MOVE_OFFSET_UP)
+#	elif Input.is_action_just_pressed("ui_down"):
+#		target_next_enemy(MOVE_OFFSET_DOWN)
 
 func target_next_enemy(offset_map):
 	var start_idx = targeted_enemy_idx
@@ -119,35 +121,20 @@ func target_enemy(enemy_idx):
 	var new_target = get_target_icon(targeted_enemy_idx)
 	new_target.visible = true
 
-func add_enemy(enemyData):
-	var positionIdx = 0
-	while find_node("EnemyPos"+str(positionIdx)).get_child_count() != 0:
-		positionIdx += 1
+func add_enemy(enemyData, position_name, spread_factor):
 	var enemy = Enemy.instance()
-	enemy.setup(enemyData)
-	var posNode = find_node("EnemyPos"+str(positionIdx))
+	enemy.setup(enemyData, spread_factor)
+	var posNode = find_node(position_name)
 	posNode.set_enemy(enemy)
 	posNode.add_child(enemy)
-	positionIdx += 1
 
 func render_enemies(enemies):
 	var enemyNames = {}
-	for enemyData in enemies:
-		add_enemy(enemyData)
-		enemyNames[enemyData.label] = enemyNames.get(enemyData.label, 0) + 1
-		
-	var enemyNamesList = ""
-	var counter = enemyNames.keys().size()
-	for enemyName in enemyNames.keys():
-		if enemyNames[enemyName] > 1:
-			enemyNamesList += str(enemyNames[enemyName]) + " " + enemyName+"s"
-		else:
-			enemyNamesList += enemyName
-		counter -= 1
-		if counter == 1:
-			enemyNamesList += " and "
-		elif counter > 1:
-			enemyNamesList += ", "
+	var enemy_count = min(3, enemies.size())
+	var positions = [["EnemyPos2"], ["EnemyPos1", "EnemyPos3"], ["EnemyPos2", "EnemyPos0", "EnemyPos4"]][enemy_count-1]
+	var spread_factor = [2.5, 1.25, -0.1][enemy_count-1]
+	for i in range(enemy_count):
+		add_enemy(enemies[i], positions[i], spread_factor)
 
 func decide_enemy_actions():
 	var enemies = get_live_enemies()

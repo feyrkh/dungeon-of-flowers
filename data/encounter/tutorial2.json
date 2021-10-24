@@ -1,3 +1,3 @@
 {"enemies":[
-"tutorial2_slime", "tutorial2_slime", "tutorial2_slime"
+{"enemy":"tutorial_slime", "min": 2, "max": 2},{"enemy":"tutorial_slime", "min": 2, "max": 2}
 ]}

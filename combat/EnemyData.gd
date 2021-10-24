@@ -6,6 +6,7 @@ var hp : int
 var max_hp : int
 var img : Texture
 var intentions = []
+var group_count
 
 var dodge = 100 # decrease total size of low targets
 var defend = 100 # decrease size of med targets
@@ -18,6 +19,13 @@ func _init(_name:String="???", _max_hp:int=10, _img:Texture=null):
 	self.img = _img
 
 func load_from(data):
+	print("Loading enemy from ", data)
+	var min_group_count = data.get("min", 1)
+	var max_group_count = data.get("max", 1)
+	group_count = Util.randi_range(min_group_count, max_group_count+1)
+	if group_count < 1: 
+		group_count = 1
+	data = data.get("enemy")
 	if data is Array: # pick a random enemy from the options if this is an array
 		data = data[rand_range(0, data.size())] 
 	if data is String: # load the enemy data from a file if this is a string
@@ -48,12 +56,7 @@ func get_next_intention():
 			"name": "unknown_attack",
 			"type": "attack",
 			"base_damage": 0.5,
-			"attacks": 2,
-			"attacks_per_pulse": 2,
-			"target_scatter": 1,
-			"target_change_chance": 1,
-			"origin_scatter": 0,
-			"origin_change_chance": 0,
+			"bullet_pattern": "slime/dribble"
 		}
 	else:
 		return intentions[rand_range(0, intentions.size())]

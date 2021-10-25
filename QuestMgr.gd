@@ -80,7 +80,7 @@ func check_combat_introduction():
 					EventBus.emit_signal("show_tutorial", "SelectDefendCategory", false)
 				else:
 					EventBus.emit_signal("hide_tutorial")
-			elif combat_phase == "open_submenu":
+			elif combat_phase == "open_submenu" and CombatMgr.combat.selected_ally_idx == 1:
 				if skill_menu_open != "defend":
 					EventBus.emit_signal("show_tutorial", "WrongCategoryDefend", false)
 				elif skill_menu_open == "defend":

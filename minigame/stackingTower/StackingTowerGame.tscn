@@ -131,7 +131,7 @@ __meta__ = {
 }
 
 [node name="FirstTimeTooltip_Msg1" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
-modulate = Color( 1.7285, 1.7285, 1.7285, 1 )
+modulate = Color( 1.44018, 1.44018, 1.44018, 1 )
 margin_left = -262.0
 margin_top = -126.0
 margin_right = 349.0
@@ -152,7 +152,7 @@ width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="FirstTimeTooltip_Msg2" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
-modulate = Color( 1.7285, 1.7285, 1.7285, 1 )
+modulate = Color( 1.44018, 1.44018, 1.44018, 1 )
 margin_left = 354.0
 margin_top = 265.0
 margin_right = 955.0
@@ -161,7 +161,7 @@ margin_bottom = 466.0
 [node name="Label" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg2" instance=ExtResource( 5 )]
 margin_right = 594.0
 margin_bottom = 194.0
-text = "Each pillar gives your defense different bonuses. 
+text = "Each tower gives your defense different bonuses. 
 Spread your efforts evenly or focus, but keep in mind
 that the danger zone is constantly rising - if you neglect
 one pillar then you can't change your mind once

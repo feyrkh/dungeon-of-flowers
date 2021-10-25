@@ -166,7 +166,6 @@ __meta__ = {
 
 [node name="SelectCategory" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 741.0
 margin_top = 574.0
 margin_right = 1077.0
@@ -188,7 +187,6 @@ default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="SelectSlashSkill" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 760.0
 margin_top = 519.0
 margin_right = 1128.0
@@ -210,7 +208,6 @@ default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="WrongCategoryFight" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 715.0
 margin_top = 520.0
 margin_right = 1195.0
@@ -224,7 +221,6 @@ text = "Press     to go back and select the Fight menu"
 
 [node name="WrongCategoryDefend" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.02647, 1.02647, 1.02647, 1 )
 margin_left = 715.0
 margin_top = 520.0
 margin_right = 1195.0
@@ -238,7 +234,6 @@ text = "Press     to go back and select the Defend  menu"
 
 [node name="TargetEnemy" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 737.0
 margin_top = 626.0
 margin_right = 1197.0
@@ -271,7 +266,6 @@ default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="AttackMinigame" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 845.0
 margin_top = 560.0
 margin_right = 1305.0
@@ -319,7 +313,6 @@ delayed_tutorial = "EnemyAttack_Delayed"
 
 [node name="EnemyAttack_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 1070.0
 margin_top = 521.0
 margin_right = 1577.0
@@ -334,7 +327,6 @@ behind and won't be able to block right now.
 Stay tough!"
 
 [node name="SelectDefendCategory" parent="Tutorial" instance=ExtResource( 10 )]
-modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 722.752
 margin_top = 411.593
 margin_right = 1229.75
@@ -390,7 +382,6 @@ delayed_tutorial = "UsingShield_Delayed"
 
 [node name="UsingShield_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 761.696
 margin_top = 465.908
 margin_right = 1186.7

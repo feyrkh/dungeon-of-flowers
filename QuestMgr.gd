@@ -9,6 +9,7 @@ var INTRO = "intro"
 var INTRO_INTRODUCED_GRIAS = "intro_1"
 var INTRO_FIRST_COMBAT = "intro_2"
 var INTRO_SECOND_COMBAT = "intro_3"
+var INTRO_THIRD_COMBAT = "intro_4"
 var INTRO_COMPLETE = "intro_complete"
 
 var cutscene
@@ -61,7 +62,7 @@ func check_combat_introduction():
 				if skill_menu_open == "attack": 
 					EventBus.emit_signal("show_tutorial", "SelectSlashSkill", false)
 				else:
-					EventBus.emit_signal("show_tutorial", "WrongCategory", false)
+					EventBus.emit_signal("show_tutorial", "WrongCategoryFight", false)
 			elif combat_phase == "target_enemy":
 				EventBus.emit_signal("show_tutorial", "TargetEnemy", false)
 			elif combat_phase == "attack_minigame":
@@ -74,8 +75,22 @@ func check_combat_introduction():
 			else:
 				EventBus.emit_signal("hide_tutorial")
 		INTRO_SECOND_COMBAT:
+			if combat_phase == "select_character":
+				if CombatMgr.combat.selected_ally_idx == 1:
+					EventBus.emit_signal("show_tutorial", "SelectDefendCategory", false)
+				else:
+					EventBus.emit_signal("hide_tutorial")
+			elif combat_phase == "open_submenu":
+				if skill_menu_open != "defend":
+					EventBus.emit_signal("show_tutorial", "WrongCategoryDefend", false)
+				elif skill_menu_open == "defend":
+					EventBus.emit_signal("show_tutorial", "SelectDefendSkill", false)
+			else:
+				EventBus.emit_signal("hide_tutorial")
 			if combat_phase == "enemy_turn":
 				EventBus.emit_signal("show_tutorial", "UsingShield", false)
+				GameData.allies[1].moves[0].disabled = false
+				GameData.set_state(INTRO, INTRO_THIRD_COMBAT)
 
 
 func check_noncombat_introduction():
@@ -100,6 +115,7 @@ func check_noncombat_introduction():
 				yield(cutscene, "timeline_end")
 				GameData.allies[0] = GameData.new_char_echincea()
 				#GameData.allies[1].shields = [{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -160), "scale": Vector2(2.0, 2.0)}]
+				GameData.allies[1].moves[0].disabled = true
 				GameData.allies[1].moves.append(MoveList.get_move("defensive_stance"))
 				CombatMgr.trigger_combat("tutorial2")
 

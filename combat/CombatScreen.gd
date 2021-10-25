@@ -133,6 +133,7 @@ func select_next_char(direction):
 			prev_selected.deselect()
 			next_selected.select(selected_category_idx)
 			selected_ally_idx = new_selected_ally_idx
+			QuestMgr.check_quest_progress()
 			return
 
 

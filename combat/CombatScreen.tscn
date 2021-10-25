@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://combat/CombatScreen.gd" type="Script" id=1]
 [ext_resource path="res://combat/Enemies.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://art_exports/ui_battle/ui_battle_header.png" type="Texture" id=5]
 [ext_resource path="res://combat/MinigameContainer.gd" type="Script" id=6]
 [ext_resource path="res://font/NOTOSANS-CONDENSEDMEDIUM.TTF" type="DynamicFontData" id=7]
+[ext_resource path="res://art_exports/button icons/ui_btn_pc_LEFT.png" type="Texture" id=8]
 [ext_resource path="res://art_exports/ui_battle/ui_action_vignette.png" type="Texture" id=9]
 [ext_resource path="res://util/TutorialTip.tscn" type="PackedScene" id=10]
 [ext_resource path="res://img/ui/ui_button_A.tscn" type="PackedScene" id=11]
@@ -17,6 +18,7 @@
 [ext_resource path="res://img/ui/ui_btn_pc_RIGHT.tscn" type="PackedScene" id=16]
 [ext_resource path="res://util/PausedTutorialTip.gd" type="Script" id=17]
 [ext_resource path="res://util/DelayedTooltip.gd" type="Script" id=18]
+[ext_resource path="res://art_exports/button icons/ui_btn_pc_RIGHT.png" type="Texture" id=19]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
@@ -164,7 +166,7 @@ __meta__ = {
 
 [node name="SelectCategory" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.32639, 1.32639, 1.32639, 1 )
+modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 741.0
 margin_top = 574.0
 margin_right = 1077.0
@@ -186,7 +188,7 @@ default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="SelectSlashSkill" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.32639, 1.32639, 1.32639, 1 )
+modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 760.0
 margin_top = 519.0
 margin_right = 1128.0
@@ -206,23 +208,37 @@ points = PoolVector2Array( 922, 668.506, 922, 802.115 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
-[node name="WrongCategory" parent="Tutorial" instance=ExtResource( 10 )]
+[node name="WrongCategoryFight" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.32639, 1.32639, 1.32639, 1 )
+modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 715.0
 margin_top = 520.0
 margin_right = 1195.0
 margin_bottom = 569.0
 
-[node name="Label" parent="Tutorial/WrongCategory" instance=ExtResource( 12 )]
+[node name="Label" parent="Tutorial/WrongCategoryFight" instance=ExtResource( 12 )]
 margin_right = 473.0
 text = "Press     to go back and select the Fight menu"
 
-[node name="ui_btn_pc_ESC" parent="Tutorial/WrongCategory/Label" instance=ExtResource( 14 )]
+[node name="ui_btn_pc_ESC" parent="Tutorial/WrongCategoryFight/Label" instance=ExtResource( 14 )]
+
+[node name="WrongCategoryDefend" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
+modulate = Color( 1.02647, 1.02647, 1.02647, 1 )
+margin_left = 715.0
+margin_top = 520.0
+margin_right = 1195.0
+margin_bottom = 569.0
+
+[node name="Label" parent="Tutorial/WrongCategoryDefend" instance=ExtResource( 12 )]
+margin_right = 473.0
+text = "Press     to go back and select the Defend  menu"
+
+[node name="ui_btn_pc_ESC" parent="Tutorial/WrongCategoryDefend/Label" instance=ExtResource( 14 )]
 
 [node name="TargetEnemy" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.32639, 1.32639, 1.32639, 1 )
+modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 737.0
 margin_top = 626.0
 margin_right = 1197.0
@@ -255,7 +271,7 @@ default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="AttackMinigame" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.32639, 1.32639, 1.32639, 1 )
+modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 845.0
 margin_top = 560.0
 margin_right = 1305.0
@@ -303,7 +319,7 @@ delayed_tutorial = "EnemyAttack_Delayed"
 
 [node name="EnemyAttack_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.32639, 1.32639, 1.32639, 1 )
+modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
 margin_left = 1070.0
 margin_top = 521.0
 margin_right = 1577.0
@@ -316,6 +332,48 @@ margin_bottom = 118.0
 text = "The enemies are attacking! Grias left her shield
 behind and won't be able to block right now.
 Stay tough!"
+
+[node name="SelectDefendCategory" parent="Tutorial" instance=ExtResource( 10 )]
+modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
+margin_left = 722.752
+margin_top = 411.593
+margin_right = 1229.75
+margin_bottom = 536.593
+
+[node name="Label" parent="Tutorial/SelectDefendCategory" instance=ExtResource( 12 )]
+margin_right = 500.0
+margin_bottom = 118.0
+text = "The enemies are going to attack Echinacea!
+Luckily Grias has her shield now. 
+Select the Defend skill menu to ready it."
+
+[node name="Line2D" type="Line2D" parent="Tutorial/SelectDefendCategory/Label"]
+position = Vector2( -1096.75, -497.058 )
+scale = Vector2( 1, 0.526468 )
+points = PoolVector2Array( 1364.08, 1553.86, 1324.83, 1163.09 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="SelectDefendSkill" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
+margin_left = 760.0
+margin_top = 519.0
+margin_right = 1062.0
+margin_bottom = 568.0
+
+[node name="Label" parent="Tutorial/SelectDefendSkill" instance=ExtResource( 12 )]
+margin_right = 295.0
+text = "Press     to ready your shield"
+
+[node name="ui_button_A" parent="Tutorial/SelectDefendSkill/Label" instance=ExtResource( 11 )]
+position = Vector2( 67, 20 )
+
+[node name="Line2D" type="Line2D" parent="Tutorial/SelectDefendSkill"]
+position = Vector2( -740, -435 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 922, 668.506, 922, 802.115 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="UsingShield" type="MarginContainer" parent="Tutorial"]
 visible = false
@@ -332,19 +390,32 @@ delayed_tutorial = "UsingShield_Delayed"
 
 [node name="UsingShield_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-modulate = Color( 1.32639, 1.32639, 1.32639, 1 )
-margin_left = 1070.0
-margin_top = 521.0
-margin_right = 1577.0
-margin_bottom = 646.0
+modulate = Color( 1.31377, 1.31377, 1.31377, 1 )
+margin_left = 761.696
+margin_top = 465.908
+margin_right = 1186.7
+margin_bottom = 704.908
 script = ExtResource( 17 )
 
 [node name="Label" parent="Tutorial/UsingShield_Delayed" instance=ExtResource( 12 )]
-margin_right = 432.0
-margin_bottom = 118.0
-text = "The enemies are attacking Echinacea!
-Luckily Grias has her shield now. Use the
-Defensive Stance skill to ready it!"
+margin_right = 418.0
+margin_bottom = 232.0
+text = "The enemy attacks are incoming!
+Use          to move your shield into
+position to block.
+If your shield has enough durability
+left after the attack, it will be available
+during your next round!"
+
+[node name="ui_button_LEFT" parent="Tutorial/UsingShield_Delayed/Label" instance=ExtResource( 11 )]
+position = Vector2( 52.8577, 56.7695 )
+scale = Vector2( 0.33, 0.33 )
+texture = ExtResource( 8 )
+
+[node name="ui_button_RIGHT" parent="Tutorial/UsingShield_Delayed/Label" instance=ExtResource( 11 )]
+position = Vector2( 72.1738, 56.6401 )
+scale = Vector2( 0.33, 0.33 )
+texture = ExtResource( 19 )
 
 [connection signal="player_move_selected" from="." to="." method="_on_CombatScreen_player_move_selected"]
 [connection signal="start_combat" from="." to="." method="_on_CombatScreen_start_combat"]

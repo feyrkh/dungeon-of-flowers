@@ -19,6 +19,7 @@ var base_heal_hp : int = 0
 var base_heal_mp : int = 0
 var game_scene: String
 var game_config : Dictionary
+var disabled : bool = false
 
 func get_move_scene(_source, _target):
 	var game_prefab = MINIGAMES.get(game_scene)

@@ -131,17 +131,18 @@ __meta__ = {
 }
 
 [node name="FirstTimeTooltip_Msg1" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
+modulate = Color( 1.7285, 1.7285, 1.7285, 1 )
 margin_left = -262.0
 margin_top = -126.0
-margin_right = 339.0
+margin_right = 349.0
 margin_bottom = -1.0
 
 [node name="Label" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg1" instance=ExtResource( 5 )]
-margin_right = 594.0
+margin_right = 604.0
 margin_bottom = 118.0
-text = "Shields will move from left to right along the top
+text = "Blocks will move from left to right along the top
 of the game board, then back again. Hit the button 
-to drop the shield, and make the highest tower you can!"
+to drop the shield, and make the highest towers you can!"
 
 [node name="Line2D" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg1"]
 position = Vector2( -740, -435 )
@@ -151,6 +152,7 @@ width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="FirstTimeTooltip_Msg2" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
+modulate = Color( 1.7285, 1.7285, 1.7285, 1 )
 margin_left = 354.0
 margin_top = 265.0
 margin_right = 955.0

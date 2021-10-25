@@ -1,0 +1,10 @@
+{
+	"label":  "Poultice",
+	"type": "skill",
+	"name": "poultice",
+	"target": "ally",
+	"game_scene": "memory",
+	"game_config": {
+
+	}
+}

@@ -2,6 +2,7 @@ extends Control
 
 signal cancel_submenu
 signal select_submenu_item(submenu, move_data)
+signal failed_select_submenu_item(submenu, move_data)
 
 onready var anim = find_node("AnimationPlayer")
 onready var SubmenuArrowUp = find_node("SubmenuArrowUp")
@@ -75,6 +76,9 @@ func open_targeting_menu():
 	if i >= move_entries.size() or i < 0:
 		return
 	var selected_entry = move_entries[i]
+	if selected_entry.disabled:
+		emit_signal("failed_select_submenu_item", self, selected_entry)
+		return
 	self.visible = false
 	set_process(false)
 	emit_signal("select_submenu_item", self, selected_entry)

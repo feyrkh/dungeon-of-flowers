@@ -4,12 +4,12 @@ signal minigame_success(successAmount)
 signal minigame_complete
 
 const StackItem = preload("res://minigame/stackingTower/StackItem.tscn")
-const MIN_STACK_Y = 800
+const MIN_STACK_Y = 700
 const STACK_SINK_PER_SECOND = 400
 const ALPHA_SINK_PER_SECOND = 0.3
-const BLOCK_HEIGHT = 75
+const BLOCK_HEIGHT = 70
 const DANGER_ZONE_OFFSET = 30+BLOCK_HEIGHT
-const DANGER_ZONE_INCREASE = 70
+const DANGER_ZONE_INCREASE = 65
 
 onready var Dropper = find_node("Dropper")
 onready var Stack = find_node("Stack")
@@ -34,6 +34,7 @@ var target
 var game_config
 
 func _ready():
+	find_node("DashCounter").modulate.a = 0.3
 	top_of_stack_y = find_node("StackItem").global_position.y
 	update_target_guide(find_node("StackItem"))
 	yield(get_tree().create_timer(0.5), "timeout")
@@ -78,6 +79,7 @@ func _ready():
 		}, null, null)
 		start(false)
 	var bonus_types = ["shield_speed", "shield_strength", "shield_size"]
+	var emblem_locations = [find_node("SpeedEmblem").position, find_node("DurabilityEmblem").position, find_node("SizeEmblem").position]
 	bonus_types.shuffle()
 	find_node('StackItem').bonus_type = bonus_types[0]
 	find_node('StackItem2').bonus_type = bonus_types[1]
@@ -85,14 +87,25 @@ func _ready():
 	find_node('BonusTrack').setup(bonus_types[0], game_config["tracks"][bonus_types[0]], BLOCK_HEIGHT)
 	find_node('BonusTrack2').setup(bonus_types[1], game_config["tracks"][bonus_types[1]], BLOCK_HEIGHT)
 	find_node('BonusTrack3').setup(bonus_types[2], game_config["tracks"][bonus_types[2]], BLOCK_HEIGHT)
+	set_emblem_location(bonus_types[0], emblem_locations[0])
+	set_emblem_location(bonus_types[1], emblem_locations[1])
+	set_emblem_location(bonus_types[2], emblem_locations[2])
 	find_node('BonusTrack').update_label_tracks()
 	for child in Stack.get_children():
 		tops[child.bonus_type] = child.global_position.y
 	find_node('BonusTrack').check_earned(1080-BLOCK_HEIGHT)
 	find_node('BonusTrack2').check_earned(1080-BLOCK_HEIGHT)
 	find_node('BonusTrack3').check_earned(1080-BLOCK_HEIGHT)
-	danger_zone_target = 1079
-		
+	danger_zone_target = 960
+
+func set_emblem_location(bonus_type, location):
+	if bonus_type == "shield_speed":
+		find_node("SpeedEmblem").position = location
+	elif bonus_type == "shield_strength":
+		find_node("DurabilityEmblem").position = location
+	else:
+		find_node("SizeEmblem").position = location
+
 func start(with_tutorial=true):
 	if with_tutorial and !GameData.get_state("ST_inst", false):
 		EventBus.emit_signal("show_tutorial", "FirstTimeTooltip", true)
@@ -117,8 +130,9 @@ func _physics_process(delta):
 			tops[k] += sink_amt
 	#if DangerZone.rect_global_position.y > top_of_stack_y + DANGER_ZONE_OFFSET:
 	#	DangerZone.rect_global_position.y = max(DangerZone.rect_global_position.y - delta * STACK_SINK_PER_SECOND, top_of_stack_y + DANGER_ZONE_OFFSET)
-	if DangerZone.rect_global_position.y < top_of_stack_y:
+	if DangerZone.rect_global_position.y < top_of_stack_y and state != "drop":
 		drop_item()
+		return
 	if danger_zone_target > 1079:
 		danger_zone_target = 1079
 	if state == "starting":
@@ -142,7 +156,8 @@ func _physics_process(delta):
 			drop_item()
 		return
 	if state == "drop":
-		cur_item.position.y += delta * down_speed
+		if is_instance_valid(cur_item):
+			 cur_item.position.y += delta * down_speed
 		return
 	if state == "ending":
 		set_process(false)

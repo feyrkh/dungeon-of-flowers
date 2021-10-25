@@ -8,12 +8,21 @@ const MAX_OVERHANG = 45
 
 var collide_type = "stackitem"
 var allow_collide_with_dangerzone = true
-export(String) var bonus_type
+export(String) var bonus_type setget set_bonus_type
 var had_collision = false
 
 func _ready():
 	$Area2D/CollisionShape2D.shape = $Area2D/CollisionShape2D.shape.duplicate()
 	pass
+
+func set_bonus_type(new_type):
+	bonus_type = new_type
+	if bonus_type == "shield_size":
+		$Img.texture = load("res://art_exports/ui_battle/ui_tower_sizeblock.png")
+	elif bonus_type == "shield_strength":
+		$Img.texture = load("res://art_exports/ui_battle/ui_tower_durabilityblock.png")
+	elif bonus_type == "shield_speed":
+		$Img.texture = load("res://art_exports/ui_battle/ui_tower_speedblock.png")
 
 func _on_Area2D_area_entered(area):
 	#allow_collide = false
@@ -44,7 +53,7 @@ func land_on_stack(top_left:Vector2, top_right:Vector2, stack_type:String):
 	$Img.region_enabled = true
 	$Img.region_rect = Rect2($ColorRect.rect_position.x, $ColorRect.rect_position.y, $ColorRect.rect_size.x, $ColorRect.rect_size.y)
 	$Img.position.x = $ColorRect.rect_position.x
-	bonus_type = stack_type
+	set_bonus_type(stack_type)
 	
 func shatter_left(left_overhang):
 	if left_overhang > 0:

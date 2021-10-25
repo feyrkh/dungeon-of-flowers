@@ -1,25 +1,34 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://minigame/stackingTower/BonusLabel.gd" type="Script" id=1]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_speedcounter.png" type="Texture" id=2]
 
 [node name="BonusLabel" type="Node2D"]
+modulate = Color( 1, 1, 1, 0.419608 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_vertical_guides_": [ -100.0, 100.0 ]
 }
 
 [node name="Line2D" type="Line2D" parent="."]
+light_mask = 2
 points = PoolVector2Array( -30, 0, 30, 0 )
 width = 2.0
 default_color = Color( 1, 1, 1, 1 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = -101.0
+light_mask = 2
+margin_left = -12.0
 margin_top = -15.0
-margin_right = 100.0
+margin_right = 30.0
 margin_bottom = -1.0
 text = "Label"
-align = 1
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Img" type="Sprite" parent="."]
+position = Vector2( 0.556867, -9.09281 )
+scale = Vector2( 0.343791, 0.343791 )
+texture = ExtResource( 2 )

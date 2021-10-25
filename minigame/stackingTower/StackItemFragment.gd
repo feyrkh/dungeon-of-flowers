@@ -12,15 +12,15 @@ var down_speed = 0
 func left_fragment(overhang):
 	move_dir = -1
 	$Img.region_enabled = true
-	$Img.region_rect = Rect2(0, 0, overhang*2, $Img.texture.get_size().y)
+	$Img.region_rect = Rect2(0, 0, overhang, $Img.texture.get_size().y)
 
 func right_fragment(overhang):
 	move_dir = 1
 	$Img.region_enabled = true
-	$Img.region_rect = Rect2($Img.texture.get_size().x - overhang*2, 0, overhang*2, $Img.texture.get_size().y)
+	$Img.region_rect = Rect2($Img.texture.get_size().x - overhang, 0, overhang, $Img.texture.get_size().y)
 	print("region_rect: ", $Img.region_rect)
 	print("size: ", $Img.texture.get_size())
-	$Img.position.x += $Img.texture.get_size().x - overhang*2
+	$Img.position.x += $Img.texture.get_size().x - overhang
 
 func _physics_process(delta):
 	rotation_degrees += delta * ROTATE_SPEED * move_dir

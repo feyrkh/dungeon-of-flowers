@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://minigame/stackingTower/StackingTowerGame.gd" type="Script" id=1]
 [ext_resource path="res://util/PausedTutorialTip.gd" type="Script" id=2]
@@ -9,40 +9,55 @@
 [ext_resource path="res://minigame/stackingTower/StackItem.tscn" type="PackedScene" id=7]
 [ext_resource path="res://minigame/stackingTower/DangerZone.tscn" type="PackedScene" id=8]
 [ext_resource path="res://minigame/stackingTower/BonusTrack.gd" type="Script" id=9]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_BG.png" type="Texture" id=10]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_token-guide.png" type="Texture" id=11]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_frame02.png" type="Texture" id=12]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_frame03.png" type="Texture" id=13]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_frame01.png" type="Texture" id=14]
+[ext_resource path="res://img/combat/unknown.png" type="Texture" id=15]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_shieldcounter.png" type="Texture" id=16]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_dashcounter.png" type="Texture" id=17]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_sizecounter.png" type="Texture" id=18]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_durabilitycounter.png" type="Texture" id=19]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_speedcounter.png" type="Texture" id=20]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_speedemblem.png" type="Texture" id=21]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_sizeemblem.png" type="Texture" id=22]
+[ext_resource path="res://art_exports/ui_battle/ui_tower_durabilityemblem.png" type="Texture" id=23]
+[ext_resource path="res://util/transparent_pixel.png" type="Texture" id=24]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
 [sub_resource type="Curve2D" id=2]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 58, 0, 0, 0, 0, 515, 58, 0, 0, 0, 0, 0, 58 )
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 58, 0, 0, 0, 0, 480, 58, 0, 0, 0, 0, 0, 58 )
 }
 
-[sub_resource type="Curve" id=3]
-_data = [ Vector2( 0, 0.981818 ), 0.0, 0.0, 0, 0, Vector2( 0.98524, 0.290909 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="Gradient" id=4]
-colors = PoolColorArray( 0.101961, 1, 0, 0.658824, 1, 1, 1, 0 )
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 14 ), ExtResource( 13 ), ExtResource( 12 ) ],
+"loop": true,
+"name": "default",
+"speed": 1.0
+} ]
 
 [node name="StackingTowerGame" type="Node2D"]
 script = ExtResource( 1 )
 __meta__ = {
-"_edit_vertical_guides_": [ 281.0, 356.0 ]
+"_edit_vertical_guides_": [ 52.0, 602.0, 530.0 ]
 }
 
-[node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 586.0
-margin_bottom = 1080.0
-color = Color( 0.47451, 0.47451, 0.47451, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="ui_tower_BG" type="Sprite" parent="."]
+position = Vector2( 322, 521 )
+texture = ExtResource( 10 )
 
 [node name="DangerZone" parent="." instance=ExtResource( 8 )]
-margin_top = 1082.0
-margin_bottom = 1640.0
+margin_left = 58.0
+margin_top = 954.0
+margin_right = 644.0
+margin_bottom = 1512.0
 
 [node name="MinigameCenter" type="Position2D" parent="."]
-position = Vector2( 295, 540 )
+position = Vector2( 322, 540 )
 
 [node name="TargetGuide" type="ColorRect" parent="."]
 visible = false
@@ -56,6 +71,7 @@ __meta__ = {
 }
 
 [node name="MovableBoard" type="Node2D" parent="."]
+position = Vector2( 27, 0 )
 
 [node name="HighScoreLine" type="Line2D" parent="MovableBoard"]
 material = SubResource( 1 )
@@ -63,37 +79,37 @@ points = PoolVector2Array( 0, 0, 586, 0 )
 width = 1.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
 
-[node name="Stack" type="Node2D" parent="MovableBoard"]
-position = Vector2( 0, 1080 )
-
-[node name="StackItem" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
-position = Vector2( 84.13, -75 )
-bonus_type = "shield_speed"
-
-[node name="StackItem2" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
-position = Vector2( 265, -75 )
-bonus_type = "shield_size"
-
-[node name="StackItem3" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
-position = Vector2( 444.962, -75 )
-bonus_type = "shield_strength"
-
 [node name="BonusTracks" type="Node2D" parent="MovableBoard"]
 
 [node name="BonusTrack" type="Node2D" parent="MovableBoard/BonusTracks"]
-position = Vector2( 120.679, 1080 )
+position = Vector2( 163, 960 )
 script = ExtResource( 9 )
 
 [node name="BonusTrack2" type="Node2D" parent="MovableBoard/BonusTracks"]
-position = Vector2( 300, 1080 )
+position = Vector2( 303, 960 )
 script = ExtResource( 9 )
 
 [node name="BonusTrack3" type="Node2D" parent="MovableBoard/BonusTracks"]
-position = Vector2( 480, 1080 )
+position = Vector2( 443, 960 )
 script = ExtResource( 9 )
 
+[node name="Stack" type="Node2D" parent="MovableBoard"]
+position = Vector2( 24, 913 )
+
+[node name="StackItem" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
+position = Vector2( 103, -26 )
+bonus_type = "shield_speed"
+
+[node name="StackItem2" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
+position = Vector2( 243, -26 )
+bonus_type = "shield_size"
+
+[node name="StackItem3" parent="MovableBoard/Stack" instance=ExtResource( 7 )]
+position = Vector2( 383, -26 )
+bonus_type = "shield_strength"
+
 [node name="Path2D" type="Path2D" parent="MovableBoard"]
-position = Vector2( 0, -56 )
+position = Vector2( 28, 119 )
 curve = SubResource( 2 )
 
 [node name="Dropper" type="PathFollow2D" parent="MovableBoard/Path2D"]
@@ -102,15 +118,15 @@ rotation = -9.71501e-07
 rotate = false
 cubic_interp = false
 
-[node name="AimGuide" type="Line2D" parent="MovableBoard/Path2D/Dropper"]
-modulate = Color( 1, 1, 1, 0.741176 )
-points = PoolVector2Array( 37.5, 75, 37.5, 1080 )
-width = 75.0
-width_curve = SubResource( 3 )
-default_color = Color( 0.4, 0.501961, 1, 1 )
-gradient = SubResource( 4 )
+[node name="AimGuide" type="Sprite" parent="MovableBoard/Path2D/Dropper"]
+visible = false
+position = Vector2( 34.9996, 409 )
+rotation = 9.71501e-07
+texture = ExtResource( 11 )
 
 [node name="Tutorial" type="Control" parent="."]
+margin_left = 27.0
+margin_right = 27.0
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -121,6 +137,7 @@ visible = false
 delay = 0.0
 
 [node name="FirstTimeTooltip_Delayed" type="Control" parent="Tutorial"]
+visible = false
 margin_left = -362.0
 margin_top = 254.0
 margin_right = -362.0
@@ -131,7 +148,7 @@ __meta__ = {
 }
 
 [node name="FirstTimeTooltip_Msg1" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
-modulate = Color( 1.44018, 1.44018, 1.44018, 1 )
+modulate = Color( 2.39934, 2.39934, 2.39934, 1 )
 margin_left = -262.0
 margin_top = -126.0
 margin_right = 349.0
@@ -152,7 +169,8 @@ width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="FirstTimeTooltip_Msg2" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
-modulate = Color( 1.44018, 1.44018, 1.44018, 1 )
+visible = false
+modulate = Color( 2.39934, 2.39934, 2.39934, 1 )
 margin_left = 354.0
 margin_top = 265.0
 margin_right = 955.0
@@ -187,3 +205,67 @@ scale = Vector2( 1, 0.725581 )
 points = PoolVector2Array( 1048, 876.539, 1233, 1267.95 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="TowerFrame" type="Node2D" parent="."]
+position = Vector2( 27, 0 )
+
+[node name="Border" type="AnimatedSprite" parent="TowerFrame"]
+position = Vector2( 302, 546 )
+frames = SubResource( 3 )
+frame = 2
+playing = true
+
+[node name="GameHud" type="Node2D" parent="."]
+position = Vector2( 3, 0 )
+
+[node name="ShieldCounter" type="Sprite" parent="GameHud"]
+position = Vector2( 537, 86 )
+texture = ExtResource( 16 )
+
+[node name="SpeedCounter" type="Sprite" parent="GameHud"]
+position = Vector2( 135, 87 )
+texture = ExtResource( 20 )
+
+[node name="DurabilityCounter" type="Sprite" parent="GameHud"]
+position = Vector2( 219, 87 )
+texture = ExtResource( 19 )
+
+[node name="DashCounter" type="Sprite" parent="GameHud"]
+position = Vector2( 428, 86 )
+texture = ExtResource( 17 )
+
+[node name="SizeCounter" type="Sprite" parent="GameHud"]
+position = Vector2( 304, 87 )
+texture = ExtResource( 18 )
+
+[node name="Emblems" type="Node2D" parent="."]
+position = Vector2( 3, 0 )
+
+[node name="SpeedEmblem" type="Sprite" parent="Emblems"]
+position = Vector2( 187, 998 )
+texture = ExtResource( 21 )
+
+[node name="DurabilityEmblem" type="Sprite" parent="Emblems"]
+position = Vector2( 327, 999 )
+texture = ExtResource( 23 )
+
+[node name="SizeEmblem" type="Sprite" parent="Emblems"]
+position = Vector2( 467, 998 )
+texture = ExtResource( 22 )
+
+[node name="unknown" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0.0862745 )
+position = Vector2( -219, 547 )
+texture = ExtResource( 15 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="DangerZoneMask" type="Light2D" parent="."]
+light_mask = 2
+position = Vector2( 349, 1157 )
+scale = Vector2( 800, 384 )
+texture = ExtResource( 24 )
+mode = 3
+range_item_cull_mask = 2

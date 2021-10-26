@@ -74,6 +74,7 @@ __meta__ = {
 position = Vector2( 27, 0 )
 
 [node name="HighScoreLine" type="Line2D" parent="MovableBoard"]
+visible = false
 material = SubResource( 1 )
 points = PoolVector2Array( 0, 0, 586, 0 )
 width = 1.0
@@ -148,7 +149,7 @@ __meta__ = {
 }
 
 [node name="FirstTimeTooltip_Msg1" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
-modulate = Color( 2.39934, 2.39934, 2.39934, 1 )
+modulate = Color( 1.3376, 1.3376, 1.3376, 1 )
 margin_left = -262.0
 margin_top = -126.0
 margin_right = 349.0
@@ -170,7 +171,7 @@ default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="FirstTimeTooltip_Msg2" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
 visible = false
-modulate = Color( 2.39934, 2.39934, 2.39934, 1 )
+modulate = Color( 1.3376, 1.3376, 1.3376, 1 )
 margin_left = 354.0
 margin_top = 265.0
 margin_right = 955.0

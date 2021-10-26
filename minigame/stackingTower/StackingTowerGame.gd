@@ -18,6 +18,14 @@ onready var HighScoreLine = find_node("HighScoreLine")
 onready var TargetGuide = find_node("TargetGuide")
 onready var AimGuide = find_node("AimGuide")
 onready var BonusTracks = find_node("BonusTracks")
+
+onready var ShieldCounter = find_node("ShieldCounter").get_node("Label")
+onready var ShieldWallCounter = find_node("ShieldWallCounter")
+onready var SpeedCounter = find_node("SpeedCounter").get_node("Label")
+onready var DurabilityCounter = find_node("DurabilityCounter").get_node("Label")
+onready var DashCounter = find_node("DashCounter")
+onready var SizeCounter = find_node("SizeCounter").get_node("Label")
+
 var cur_item = null
 
 var started
@@ -35,48 +43,13 @@ var game_config
 
 func _ready():
 	find_node("DashCounter").modulate.a = 0.3
+	find_node("ShieldWallCounter").modulate.a = 0.3
 	top_of_stack_y = find_node("StackItem").global_position.y
 	update_target_guide(find_node("StackItem"))
 	yield(get_tree().create_timer(0.5), "timeout")
 	if get_parent() == get_tree().root:
 		randomize()
-		set_minigame_config({
-			"action": "shield",
-			"tracks": {
-				"shield_speed": [
-					{"type": "shield_speed", "amt": 1},
-					{"type": "shield_speed", "amt": 0.1},
-					{"type": "shield_speed", "amt": 0.2},
-					{"type": "shield_speed", "amt": 0.2},
-					{"type": "shield_dash", "amt": 1},
-					{"type": "shield_speed", "amt": 0.2},
-					{"type": "shield_speed", "amt": 0.2},
-					{"type": "shield_speed", "amt": 0.1},
-				],
-				"shield_strength": [
-					{"type": "shield_strength", "amt": 1},
-					{"type": "shield_strength", "amt": 2},
-					{"type": "shield_strength", "amt": 3},
-					{"type": "shield_strength", "amt": 5},
-					{"type": "shield_strength", "amt": 5},
-					{"type": "shield_strength", "amt": 5},
-					{"type": "shield_strength", "amt": 5},
-					{"type": "shield_strength", "amt": 1},
-				],
-				"shield_size": [
-					{"type": "shield_size", "amt": 1},
-					{"type": "shield_size", "amt": 0.1},
-					{"type": "shield_size", "amt": 0.1},
-					{"type": "shield_size", "amt": 0.1},
-					{"type": "bonus_shield", "amt": 1},
-					{"type": "shield_size", "amt": 0.05},
-					{"type": "shield_size", "amt": 0.05},
-					{"type": "shield_size", "amt": 0.05},
-					{"type": "bonus_shield", "amt": 1},
-					{"type": "shield_size", "amt": 0.05},
-				],
-			},
-		}, null, null)
+		set_minigame_config(Util.read_json("res://data/move/defensive_stance.json").get("game_config"), null, null)
 		start(false)
 	var bonus_types = ["shield_speed", "shield_strength", "shield_size"]
 	var emblem_locations = [find_node("SpeedEmblem").position, find_node("DurabilityEmblem").position, find_node("SizeEmblem").position]
@@ -136,6 +109,7 @@ func _physics_process(delta):
 	if danger_zone_target > 1079:
 		danger_zone_target = 1079
 	if state == "starting":
+		update_bonus_hud()
 		Dropper.unit_offset = 0
 		cur_item = StackItem.instance()
 		Dropper.add_child(cur_item)
@@ -176,6 +150,18 @@ func get_earned_bonuses():
 			result[k] = result.get(k, 0) + cur_track[k]
 	return result
 
+func update_bonus_hud():
+	var bonus = get_earned_bonuses()
+	ShieldCounter.text = str(bonus.get("bonus_shield", 1))
+	SpeedCounter.text = str(bonus.get("shield_speed", 0))
+	DurabilityCounter.text = str(bonus.get("shield_strength", 0))
+	if bonus.get("shield_dash", 0) > 0:
+		DashCounter.modulate = Color.white
+	if bonus.get("shield_wall", 0) > 0:
+		ShieldWallCounter.modulate = Color.white
+	SizeCounter.text = str(bonus.get("shield_size", 0))
+	
+
 func get_stacks_above_danger():
 	var result = 0
 	for k in tops.keys():
@@ -215,6 +201,7 @@ func on_stack_collide(dropped_item, stack_item:Area2D):
 		track.check_earned(tops[track.bonus_type])
 	#if dropped_item.global_position.y < top_of_stack_y:
 	top_of_stack_y = dropped_item.global_position.y
+	update_bonus_hud()
 	state = "starting"
 
 func update_target_guide(dropped_item):

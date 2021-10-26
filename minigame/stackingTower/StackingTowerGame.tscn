@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://minigame/stackingTower/StackingTowerGame.gd" type="Script" id=1]
 [ext_resource path="res://util/PausedTutorialTip.gd" type="Script" id=2]
@@ -24,6 +24,7 @@
 [ext_resource path="res://art_exports/ui_battle/ui_tower_sizeemblem.png" type="Texture" id=22]
 [ext_resource path="res://art_exports/ui_battle/ui_tower_durabilityemblem.png" type="Texture" id=23]
 [ext_resource path="res://util/transparent_pixel.png" type="Texture" id=24]
+[ext_resource path="res://font/default_font.tres" type="DynamicFont" id=25]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -43,6 +44,7 @@ animations = [ {
 [node name="StackingTowerGame" type="Node2D"]
 script = ExtResource( 1 )
 __meta__ = {
+"_edit_horizontal_guides_": [ 76.0 ],
 "_edit_vertical_guides_": [ 52.0, 602.0, 530.0 ]
 }
 
@@ -125,6 +127,15 @@ position = Vector2( 34.9996, 409 )
 rotation = 9.71501e-07
 texture = ExtResource( 11 )
 
+[node name="TowerFrame" type="Node2D" parent="."]
+position = Vector2( 27, 0 )
+
+[node name="Border" type="AnimatedSprite" parent="TowerFrame"]
+position = Vector2( 302, 546 )
+frames = SubResource( 3 )
+frame = 2
+playing = true
+
 [node name="Tutorial" type="Control" parent="."]
 margin_left = 27.0
 margin_right = 27.0
@@ -138,7 +149,6 @@ visible = false
 delay = 0.0
 
 [node name="FirstTimeTooltip_Delayed" type="Control" parent="Tutorial"]
-visible = false
 margin_left = -362.0
 margin_top = 254.0
 margin_right = -362.0
@@ -149,11 +159,10 @@ __meta__ = {
 }
 
 [node name="FirstTimeTooltip_Msg1" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
-modulate = Color( 1.3376, 1.3376, 1.3376, 1 )
-margin_left = -262.0
-margin_top = -126.0
-margin_right = 349.0
-margin_bottom = -1.0
+margin_left = -375.0
+margin_top = -121.0
+margin_right = 236.0
+margin_bottom = 4.0
 
 [node name="Label" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg1" instance=ExtResource( 5 )]
 margin_right = 604.0
@@ -165,13 +174,11 @@ to drop the shield, and make the highest towers you can!"
 [node name="Line2D" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg1"]
 position = Vector2( -740, -435 )
 scale = Vector2( 1, 0.725581 )
-points = PoolVector2Array( 1068, 600.897, 1389, 478.237 )
+points = PoolVector2Array( 1345, 686.347, 1497, 667.052 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="FirstTimeTooltip_Msg2" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
-visible = false
-modulate = Color( 1.3376, 1.3376, 1.3376, 1 )
 margin_left = 354.0
 margin_top = 265.0
 margin_right = 955.0
@@ -189,32 +196,23 @@ it sinks beneath the waves!"
 [node name="Line2D" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg2"]
 position = Vector2( -740, -435 )
 scale = Vector2( 1, 0.725581 )
-points = PoolVector2Array( 1046, 876.539, 872, 1265.19 )
+points = PoolVector2Array( 1046, 876.539, 916, 1110.83 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="Line2D2" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg2"]
 position = Vector2( -740, -435 )
 scale = Vector2( 1, 0.725581 )
-points = PoolVector2Array( 1048, 877.917, 1048, 1265.19 )
+points = PoolVector2Array( 1048, 877.917, 1048, 1108.08 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="Line2D3" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg2"]
 position = Vector2( -740, -435 )
 scale = Vector2( 1, 0.725581 )
-points = PoolVector2Array( 1048, 876.539, 1233, 1267.95 )
+points = PoolVector2Array( 1048, 876.539, 1190, 1109.46 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
-
-[node name="TowerFrame" type="Node2D" parent="."]
-position = Vector2( 27, 0 )
-
-[node name="Border" type="AnimatedSprite" parent="TowerFrame"]
-position = Vector2( 302, 546 )
-frames = SubResource( 3 )
-frame = 2
-playing = true
 
 [node name="GameHud" type="Node2D" parent="."]
 position = Vector2( 3, 0 )
@@ -223,21 +221,74 @@ position = Vector2( 3, 0 )
 position = Vector2( 537, 86 )
 texture = ExtResource( 16 )
 
+[node name="Label" type="Label" parent="GameHud/ShieldCounter"]
+margin_left = -33.0
+margin_top = -14.0
+margin_right = 7.0
+margin_bottom = 9.0
+custom_fonts/font = ExtResource( 25 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShieldWallCounter" type="Sprite" parent="GameHud"]
+position = Vector2( 409, 86 )
+texture = ExtResource( 16 )
+
 [node name="SpeedCounter" type="Sprite" parent="GameHud"]
 position = Vector2( 135, 87 )
 texture = ExtResource( 20 )
+
+[node name="Label" type="Label" parent="GameHud/SpeedCounter"]
+margin_left = 11.0
+margin_top = -11.0
+margin_right = 34.0
+margin_bottom = 12.0
+custom_fonts/font = ExtResource( 25 )
+text = "1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="DurabilityCounter" type="Sprite" parent="GameHud"]
 position = Vector2( 219, 87 )
 texture = ExtResource( 19 )
 
+[node name="Label" type="Label" parent="GameHud/DurabilityCounter"]
+margin_left = 11.0
+margin_top = -11.0
+margin_right = 34.0
+margin_bottom = 12.0
+custom_fonts/font = ExtResource( 25 )
+text = "1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="DashCounter" type="Sprite" parent="GameHud"]
-position = Vector2( 428, 86 )
+position = Vector2( 452, 86 )
 texture = ExtResource( 17 )
 
 [node name="SizeCounter" type="Sprite" parent="GameHud"]
 position = Vector2( 304, 87 )
 texture = ExtResource( 18 )
+
+[node name="Label" type="Label" parent="GameHud/SizeCounter"]
+margin_left = 11.0
+margin_top = -11.0
+margin_right = 34.0
+margin_bottom = 12.0
+custom_fonts/font = ExtResource( 25 )
+text = "1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Emblems" type="Node2D" parent="."]
 position = Vector2( 3, 0 )

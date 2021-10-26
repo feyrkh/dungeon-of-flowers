@@ -107,3 +107,6 @@ func get_areas_at_position(source:Node2D):
 	print("On top of ", target_areas.size(), " targets")
 	for target in target_areas:
 		print("  mult: ", target["collider"].multiplier)
+
+static func read_json(filename, default: Dictionary={}) -> Dictionary:
+	return DialogicResources.load_json(filename, default)

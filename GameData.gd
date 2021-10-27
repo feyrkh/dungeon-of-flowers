@@ -12,6 +12,7 @@ const SFX_VOLUME = "sfx_volume"
 const TUTORIAL_ON = "tutorial_on"
 const STEP_COUNTER = "step_counter"
 const ATTACK_RING_HANDICAP = "hcap_atk_ring"
+const STACKING_TOWER_HANDICAP = "hcap_stack_tower"
 
 var c = '$'
 var allies = []

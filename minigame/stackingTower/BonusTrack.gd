@@ -16,7 +16,7 @@ func update_label_tracks():
 	for i in range(20):
 		#var new_fib = label_fib1 + label_fib2
 		#var new_y = top_bonus_label_y - new_fib*block_height
-		var new_y = top_bonus_label_y - block_height*2
+		var new_y = top_bonus_label_y - block_height*1.5
 		if global_position.y - new_y > 0:
 			top_bonus_label_y = new_y
 			#label_fib1 = label_fib2
@@ -46,6 +46,14 @@ func get_earned_bonuses():
 		if bonus_label.earned:
 			bonuses[bonus_label.bonus_type] = bonuses.get(bonus_label.bonus_type, 0) + bonus_label.bonus_amt
 	return bonuses
+
+func get_earned_bonus_counts():
+	var bonuses = {}
+	for bonus_label in bonus_labels:
+		if bonus_label.earned:
+			bonuses[bonus_label.bonus_type] = bonuses.get(bonus_label.bonus_type, 0) + 1
+	return bonuses
+
 
 func check_earned(tower_global_y):
 	for label in bonus_labels:

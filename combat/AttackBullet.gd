@@ -30,15 +30,20 @@ func disable_collision():
 	self.collision_layer = 0
 	self.collision_mask = 0
 
-func shield_block(shield):
+func shield_block(shield, max_blocked):
 	if blocked: 
 		return
-	disable_collision()
-	blocked = true
-	CombatMgr.emit_signal("attack_bullet_block")
-	velocity.y = -velocity.y
-	rot_velocity = 600 - rand_range(0, 1200)
-	fade_velocity = 1.0
+	if max_blocked >= damage:
+		disable_collision()
+		blocked = true
+		CombatMgr.emit_signal("attack_bullet_block")
+		velocity.y = -velocity.y
+		rot_velocity = 600 - rand_range(0, 1200)
+		fade_velocity = 1.0
+		return damage
+	else:
+		damage = damage - max_blocked
+		return damage
 
 func ally_strike(ally_data):
 	disable_collision()

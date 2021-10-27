@@ -137,7 +137,7 @@ func _on_CombatScreen_start_player_turn(combat_data):
 	exhausted = false
 	var remaining_shields = []
 	for shield in data.shields:
-		if shield.get("shield_damage", 0) < shield.get("shield_strength", 1):
+		if !shield.get("shield_destroyed", false):
 			remaining_shields.append(shield)
 	data.shields = remaining_shields
 

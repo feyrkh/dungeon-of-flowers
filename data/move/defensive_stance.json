@@ -6,6 +6,8 @@
 	"game_scene": "stackingTower",
 	"game_config": {
 			"action": "shield",
+			"scene": "res://combat/ShieldModular.tscn",
+			"speedup": 0.90,
 			"tracks": {
 				"shield_speed": [
 					{"type": "shield_speed", "amt": 1},
@@ -15,21 +17,23 @@
 					{"type": "shield_speed", "amt": 1}
 				],
 				"shield_strength": [
-					{"type": "shield_strength", "amt": 1},
-					{"type": "shield_strength", "amt": 1},
-					{"type": "shield_strength", "amt": 1},
-					{"type": "shield_strength", "amt": 1},
+					{"type": "shield_strength", "amt": 5},
+					{"type": "shield_strength", "amt": 5},
+					{"type": "shield_strength", "amt": 5},
+					{"type": "shield_strength", "amt": 5},
 					{"type": "shield_wall", "amt": 1},
-					{"type": "shield_strength", "amt": 1}
+					{"type": "shield_strength", "amt": 5}
 				],
 				"shield_size": [
 					{"type": "shield_size", "amt": 1},
-					{"type": "shield_size", "amt": 1},
+					{"type": "shield_size", "amt": 2},
+					{"type": "shield_size", "amt": 2},
+					{"type": "shield_size", "amt": 2},
+					{"type": "shield_size", "amt": 4},
+					{"type": "shield_size", "amt": 5},
+					{"type": "shield_size", "amt": 2},
 					{"type": "bonus_shield", "amt": 1},
-					{"type": "shield_size", "amt": 1},
-					{"type": "shield_size", "amt": 1},
-					{"type": "bonus_shield", "amt": 1},
-					{"type": "shield_size", "amt": 1}
+					{"type": "shield_strength", "amt": 1}
 				]
 			}
 	}

@@ -139,19 +139,36 @@ func _physics_process(delta):
 		state = "ended"
 
 func finish_game():
-		emit_signal("minigame_success", get_earned_bonuses())
-		emit_signal("minigame_complete", self)
+	var bonus_counts:Dictionary = get_earned_bonus_counts()
+	var total_bonuses = 0
+	for i in bonus_counts.values():
+		total_bonuses += i
+	if total_bonuses > 14:
+		GameData.set_state(GameData.STACKING_TOWER_HANDICAP, max(GameData.get_state(GameData.STACKING_TOWER_HANDICAP, 0) - 0.005, -0.15))
+	elif total_bonuses <= 9:
+		GameData.set_state(GameData.STACKING_TOWER_HANDICAP, min(GameData.get_state(GameData.STACKING_TOWER_HANDICAP, 0) + 0.01, 0.08))
+		
+	emit_signal("minigame_success", get_earned_bonuses())
+	emit_signal("minigame_complete", self)
 
 func get_earned_bonuses():
-	var result = {"action": game_config.get("action")}
+	var result = {"action": game_config.get("action"), "scene": game_config.get("scene")}
 	for bonus_track in BonusTracks.get_children():
 		var cur_track = bonus_track.get_earned_bonuses()
 		for k in cur_track.keys():
 			result[k] = result.get(k, 0) + cur_track[k]
 	return result
 
+func get_earned_bonus_counts():
+	var result = {}
+	for bonus_track in BonusTracks.get_children():
+		var cur_track = bonus_track.get_earned_bonus_counts()
+		for k in cur_track.keys():
+			result[k] = result.get(k, 0) + cur_track[k]
+	return result
+
 func update_bonus_hud():
-	var bonus = get_earned_bonuses()
+	var bonus = get_earned_bonus_counts()
 	ShieldCounter.text = str(bonus.get("bonus_shield", 1))
 	SpeedCounter.text = str(bonus.get("shield_speed", 0))
 	DurabilityCounter.text = str(bonus.get("shield_strength", 0))
@@ -160,7 +177,6 @@ func update_bonus_hud():
 	if bonus.get("shield_wall", 0) > 0:
 		ShieldWallCounter.modulate = Color.white
 	SizeCounter.text = str(bonus.get("shield_size", 0))
-	
 
 func get_stacks_above_danger():
 	var result = 0
@@ -180,7 +196,7 @@ func drop_item():
 	Dropper.unit_offset = 0
 	cur_item.connect("stack_collide", self, "on_stack_collide")
 	cur_item.connect("dangerzone_collide", self, "on_dangerzone_collide")
-	path_seconds = path_seconds * 0.9
+	path_seconds = path_seconds * (game_config.get("speedup", 0.9) + GameData.get_state(GameData.STACKING_TOWER_HANDICAP, 0))
 	target_alpha = max(0, TargetGuide.modulate.a - 0.3)
 	TargetGuide.visible = false
 	AimGuide.modulate.a = max(0, AimGuide.modulate.a - 0.33)

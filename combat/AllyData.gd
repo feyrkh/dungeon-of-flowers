@@ -67,10 +67,11 @@ func update_shields(config):
 	var one_shield = {
 		"shield_strength": config.get("shield_strength", 1),
 		"shield_speed": config.get("shield_speed", 1),
-		"shield_size": Vector2(config.get("shield_size", 1), config.get("shield_size", 1))
+		"shield_size":config.get("shield_size", 1),
+		"scene": config.get("scene", "res://combat/ShieldHard.tscn"),
 	}
 	var y = -200
-	match int(round(config.get("bonus_shield", 1) + 1)):
+	match int(round(config.get("bonus_shield", 0)+1)):
 		1: positions = [Vector2(0, y)]
 		2: positions = [Vector2(-100, y), Vector2(100, y)]
 		3: positions = [Vector2(0, y), Vector2(-200, y), Vector2(200, y)]

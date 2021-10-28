@@ -1,4 +1,5 @@
 extends ShieldBasic
+class_name ShieldHard
 
 const KNOCKBACK_SIDE_PIXELS = 50 # pixels moved left/right on blocked hit
 
@@ -15,7 +16,7 @@ func get_weakness():
 	return weakness_ratio
 
 func _on_Area2D_body_entered(bullet:Node2D):
-	bullet.shield_block(self)
+	bullet.shield_block(self, 10000)
 	shield_data["shield_damage"] = min(shield_data.get("shield_strength", 12), shield_data.get("shield_damage", 0)+1)
 	if shield_data.get("shield_damage", 0) >= shield_data.get("shield_strength"):
 		shield_data["shield_destroyed"] = true

@@ -116,7 +116,7 @@ func check_noncombat_introduction():
 				GameData.allies[0] = GameData.new_char_echincea()
 				#GameData.allies[1].shields = [{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -160), "scale": Vector2(2.0, 2.0)}]
 				GameData.allies[1].moves[0].disabled = true
-				GameData.allies[1].moves.append(MoveList.get_move("defensive_stance"))
+				GameData.allies[1].moves.append(MoveList.get_move("bodyguard"))
 				CombatMgr.trigger_combat("tutorial2")
 
 func play_cutscene(_cutscene_name):

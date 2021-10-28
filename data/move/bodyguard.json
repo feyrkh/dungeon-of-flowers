@@ -1,18 +1,18 @@
 {
-	"label": "Defensive Stance",
+	"label": "Bodyguard",
 	"type": "defend",
-	"name": "defensive_stance",
+	"name": "bodyguard",
 	"target": "self",
 	"game_scene": "stackingTower",
 	"game_config": {
 			"action": "shield",
-			"scene": "res://combat/ShieldModular.tscn",
+			"scene": "res://combat/ShieldBodyguard.tscn",
 			"speedup": 0.90,
-			"positions": [[0]],
+			"positions": [[-570], [-570, 580]],
 			"tracks": {
 				"shield_speed": [
-					{"type": "shield_speed", "amt": 1},
-					{"type": "shield_speed", "amt": 1},
+					{"type": "shield_speed", "amt": 2},
+					{"type": "shield_speed", "amt": 1.5},
 					{"type": "shield_dash", "amt": 1},
 					{"type": "shield_speed", "amt": 1},
 					{"type": "shield_speed", "amt": 1}
@@ -20,13 +20,13 @@
 				"shield_strength": [
 					{"type": "shield_strength", "amt": 5},
 					{"type": "shield_strength", "amt": 5},
-					{"type": "shield_wall", "amt": 1},
 					{"type": "shield_strength", "amt": 5},
 					{"type": "shield_strength", "amt": 5},
 					{"type": "shield_wall", "amt": 1},
 					{"type": "shield_strength", "amt": 5}
 				],
 				"shield_size": [
+					{"type": "bonus_shield", "amt": 1},
 					{"type": "shield_size", "amt": 1},
 					{"type": "shield_size", "amt": 2},
 					{"type": "shield_size", "amt": 2},

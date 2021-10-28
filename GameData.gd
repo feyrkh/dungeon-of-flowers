@@ -240,7 +240,7 @@ func new_char_grias():
 		MoveList.get_move('slash'),
 	]
 	if !GameData.get_state(TUTORIAL_ON):
-		ally.moves.append(MoveList.get_move("defensive_stance"))
+		ally.moves.append(MoveList.get_move("bodyguard"))
 	ally.shields = [
 		#{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(-150, -130), "scale": Vector2(2.0, 1.0)},
 		#{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(150, -130), "scale": Vector2(2.0, 1.0)},

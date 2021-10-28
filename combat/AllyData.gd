@@ -63,7 +63,6 @@ func get_shields():
 
 func update_shields(config):
 	shields = []
-	var positions
 	var one_shield = {
 		"shield_strength": config.get("shield_strength", 1),
 		"shield_speed": config.get("shield_speed", 1),
@@ -71,15 +70,13 @@ func update_shields(config):
 		"scene": config.get("scene", "res://combat/ShieldHard.tscn"),
 	}
 	var y = -200
-	match int(round(config.get("bonus_shield", 0)+1)):
-		1: positions = [Vector2(0, y)]
-		2: positions = [Vector2(-100, y), Vector2(100, y)]
-		3: positions = [Vector2(0, y), Vector2(-200, y), Vector2(200, y)]
-		4: positions = [Vector2(-100, y), Vector2(100, y), Vector2(-300, y), Vector2(300, y)]
-		_: positions = [Vector2(0, y), Vector2(-200, y), Vector2(200, y), Vector2(-400, y), Vector2(400, y)]
+	var positions = config.get("positions", [[0]])
+	var num_shields = int(round(config.get("bonus_shield", 0)+1))
+	num_shields = max(1, min(positions.size(), num_shields))
+	positions = positions[num_shields-1]
 	for position in positions:
 		var new_shield = one_shield.duplicate()
-		new_shield["pos"] = position
+		new_shield["pos"] = Vector2(position, y)
 		shields.append(new_shield)
 
 func take_damage(amt, type="physical"):

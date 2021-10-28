@@ -49,7 +49,7 @@ func _ready():
 	yield(get_tree().create_timer(0.5), "timeout")
 	if get_parent() == get_tree().root:
 		randomize()
-		set_minigame_config(Util.read_json("res://data/move/defensive_stance.json").get("game_config"), null, null)
+		set_minigame_config(Util.read_json("res://data/move/bodyguard.json").get("game_config"), null, null)
 		start(false)
 	var bonus_types = ["shield_speed", "shield_strength", "shield_size"]
 	var emblem_locations = [find_node("SpeedEmblem").position, find_node("DurabilityEmblem").position, find_node("SizeEmblem").position]
@@ -143,7 +143,7 @@ func finish_game():
 	var total_bonuses = 0
 	for i in bonus_counts.values():
 		total_bonuses += i
-	if total_bonuses > 14:
+	if total_bonuses > 16:
 		GameData.set_state(GameData.STACKING_TOWER_HANDICAP, max(GameData.get_state(GameData.STACKING_TOWER_HANDICAP, 0) - 0.005, -0.15))
 	elif total_bonuses <= 9:
 		GameData.set_state(GameData.STACKING_TOWER_HANDICAP, min(GameData.get_state(GameData.STACKING_TOWER_HANDICAP, 0) + 0.01, 0.08))
@@ -152,7 +152,7 @@ func finish_game():
 	emit_signal("minigame_complete", self)
 
 func get_earned_bonuses():
-	var result = {"action": game_config.get("action"), "scene": game_config.get("scene")}
+	var result = game_config.duplicate() # {"action": game_config.get("action"), "scene": game_config.get("scene")}
 	for bonus_track in BonusTracks.get_children():
 		var cur_track = bonus_track.get_earned_bonuses()
 		for k in cur_track.keys():

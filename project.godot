@@ -99,6 +99,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://combat/ShieldBasic.gd"
 }, {
+"base": "ShieldBasic",
+"class": "ShieldHard",
+"language": "GDScript",
+"path": "res://combat/ShieldHard.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "SpinBullet",
 "language": "GDScript",
@@ -138,6 +143,7 @@ _global_script_class_icons={
 "MoveData": "",
 "OptionMenu": "",
 "ShieldBasic": "",
+"ShieldHard": "",
 "SpinBullet": "",
 "Tutorial": "",
 "TutorialTipResume": "",

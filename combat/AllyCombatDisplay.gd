@@ -42,6 +42,11 @@ func defend_action(config):
 		"shield": update_shields(config)
 		_: printerr("Unknown defend_action: ", config)
 
+func skill_action(config):
+	match config.get("action"):
+		"heal": data.skill_heal(config)
+		_: printerr("Unknown skill_action: ", config)
+
 func update_shields(config):
 	data.update_shields(config)
 

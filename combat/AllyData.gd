@@ -79,6 +79,12 @@ func update_shields(config):
 		new_shield["pos"] = Vector2(position, y)
 		shields.append(new_shield)
 
+func skill_heal(config):
+	var amt = config.get("heal", 20)
+	amt *= config.get("effect", 1.0)
+	amt = round(amt)
+	hp = min(max_hp, amt + hp)
+
 func take_damage(amt, type="physical"):
 	pass
 

@@ -301,7 +301,7 @@ func _on_Ally_select_submenu_item(submenu, move_data):
 	allies[selected_ally_idx].on_targeting_started(move_data)
 	Enemies.start_targeting(move_data, allies[selected_ally_idx])
 	AllyPortraits.start_targeting(move_data, allies[selected_ally_idx])
-	QuestMgr.combat_phase = "target_enemy"
+	QuestMgr.combat_phase = "target_ally"
 
 func _on_Enemies_target_cancelled():
 	print("_on_Enemies_target_cancelled")
@@ -327,16 +327,16 @@ func _on_AllyPortraits_self_target_complete(target_ally, move_data):
 	allies[selected_ally_idx].on_targeting_completed()
 	emit_signal("player_move_selected", combat_data, target_ally, move_data)
 
-func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data):
+func _on_CombatScreen_player_move_selected(_combat_data, target, move_data):
 	QuestMgr.combat_phase = "opening_minigame"
 	Enemies.squish_for_minigame(0.5)
 	MinigameContainer.squish_for_minigame(0.5)
 	$"ActionVignette/AnimationPlayer".play("fade_in")
-	print("Attacking ", target_enemy.data.label, " with skill: ", move_data.label)
+	print("Attacking ", target.data.label, " with skill: ", move_data.label)
 	match move_data.type:
 		"attack":
-			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is attacking "+target_enemy.data.label+"!")
-			var scene = move_data.get_move_scene(allies[selected_ally_idx], target_enemy)
+			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is attacking "+target.data.label+"!")
+			var scene = move_data.get_move_scene(allies[selected_ally_idx], target)
 			MinigameContainer.add_child(scene)
 			MinigameContainer.visible = true
 			var MinigameCenter = scene.find_node("MinigameCenter")
@@ -345,14 +345,14 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 				scene.position -= offset
 			else:
 				scene.position = (MinigameContainer.rect_size/2)
-			scene.connect("minigame_success", target_enemy, "damage_hp")
+			scene.connect("minigame_success", target, "damage_hp")
 			scene.connect("minigame_complete", self, "_on_attack_minigame_complete")
 			yield(get_tree().create_timer(0.5), "timeout")
 			scene.start()
 			QuestMgr.combat_phase = "attack_minigame"
 		"defend":
 			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is defending!")
-			var scene = move_data.get_move_scene(allies[selected_ally_idx], target_enemy)
+			var scene = move_data.get_move_scene(allies[selected_ally_idx], target)
 			MinigameContainer.add_child(scene)
 			MinigameContainer.visible = true
 			var MinigameCenter = scene.find_node("MinigameCenter")
@@ -361,11 +361,27 @@ func _on_CombatScreen_player_move_selected(_combat_data, target_enemy, move_data
 				scene.position -= offset
 			else:
 				scene.position = (MinigameContainer.rect_size/2)
-			scene.connect("minigame_success", target_enemy, "defend_action")
+			scene.connect("minigame_success", target, "defend_action")
 			scene.connect("minigame_complete", self, "_on_ally_minigame_complete")
 			yield(get_tree().create_timer(0.5), "timeout")
 			scene.start()
 			QuestMgr.combat_phase = "defend_minigame"
+		"skill":
+			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is using a skill!")
+			var scene = move_data.get_move_scene(allies[selected_ally_idx], target)
+			MinigameContainer.add_child(scene)
+			MinigameContainer.visible = true
+			var MinigameCenter = scene.find_node("MinigameCenter")
+			if MinigameCenter:
+				var offset = MinigameCenter.position - MinigameDesiredCenter.position
+				scene.position -= offset
+			else:
+				scene.position = (MinigameContainer.rect_size/2)
+			scene.connect("minigame_success", target, "skill_action")
+			scene.connect("minigame_complete", self, "_on_ally_minigame_complete")
+			yield(get_tree().create_timer(0.5), "timeout")
+			scene.start()
+			QuestMgr.combat_phase = "skill_minigame"
 		_: 
 			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is confused...unknown skill type!")
 			yield(get_tree().create_timer(2), "timeout")

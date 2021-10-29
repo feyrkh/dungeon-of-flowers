@@ -133,7 +133,6 @@ position = Vector2( 27, 0 )
 [node name="Border" type="AnimatedSprite" parent="TowerFrame"]
 position = Vector2( 302, 546 )
 frames = SubResource( 3 )
-frame = 2
 playing = true
 
 [node name="Tutorial" type="Control" parent="."]
@@ -159,7 +158,6 @@ __meta__ = {
 }
 
 [node name="FirstTimeTooltip_Msg1" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
-modulate = Color( 1.64362, 1.64362, 1.64362, 1 )
 margin_left = -375.0
 margin_top = -121.0
 margin_right = 236.0
@@ -180,7 +178,6 @@ width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
 [node name="FirstTimeTooltip_Msg2" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
-modulate = Color( 1.64362, 1.64362, 1.64362, 1 )
 margin_left = 354.0
 margin_top = 265.0
 margin_right = 955.0

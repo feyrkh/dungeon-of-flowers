@@ -327,13 +327,14 @@ behind and won't be able to block right now.
 Stay tough!"
 
 [node name="SelectDefendCategory" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
 margin_left = 722.752
 margin_top = 411.593
 margin_right = 1229.75
 margin_bottom = 536.593
 
 [node name="Label" parent="Tutorial/SelectDefendCategory" instance=ExtResource( 12 )]
-margin_right = 500.0
+margin_right = 499.998
 margin_bottom = 118.0
 text = "The enemies are going to attack Echinacea!
 Luckily Grias has her shield now. 
@@ -377,11 +378,10 @@ script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-delay = 1.0
+delay = 0.5
 delayed_tutorial = "UsingShield_Delayed"
 
 [node name="UsingShield_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
-visible = false
 margin_left = 761.696
 margin_top = 465.908
 margin_right = 1186.7
@@ -389,13 +389,16 @@ margin_bottom = 704.908
 script = ExtResource( 17 )
 
 [node name="Label" parent="Tutorial/UsingShield_Delayed" instance=ExtResource( 12 )]
-margin_right = 418.0
-margin_bottom = 232.0
+margin_right = 476.0
+margin_bottom = 346.0
 text = "The enemy attacks are incoming!
-Use          to move your shield into
-position to block.
-If your shield has enough durability
-left after the attack, it will be available
+Use           to move your shield into
+position to block. The Bodyguard skill
+gives you shields that are small when
+protecting Grias, but larger when protecting
+her allies.
+If your shields have enough durability
+left after the attack, they will be available
 during your next round!"
 
 [node name="ui_button_LEFT" parent="Tutorial/UsingShield_Delayed/Label" instance=ExtResource( 11 )]

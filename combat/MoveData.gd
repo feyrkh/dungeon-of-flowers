@@ -13,10 +13,7 @@ var name : String = "????"
 var type : String = "attack" # attack, defend, skill, item
 var target : String = "enemy" # enemy, all_enemies, random_enemy, ally, all_allies, self
 var hp_cost : int = 0
-var mp_cost : int = 0
-var base_damage : int = 1
-var base_heal_hp : int = 0
-var base_heal_mp : int = 0
+var sp_cost : int = 0
 var game_scene: String
 var game_config : Dictionary
 var disabled : bool = false

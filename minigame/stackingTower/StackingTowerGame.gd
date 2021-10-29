@@ -46,13 +46,7 @@ func _ready():
 	find_node("ShieldWallCounter").modulate.a = 0.3
 	top_of_stack_y = find_node("StackItem").global_position.y
 	update_target_guide(find_node("StackItem"))
-	yield(get_tree().create_timer(0.5), "timeout")
-	if get_parent() == get_tree().root:
-		randomize()
-		set_minigame_config(Util.read_json("res://data/move/bodyguard.json").get("game_config"), null, null)
-		start(false)
 	var bonus_types = ["shield_speed", "shield_strength", "shield_size"]
-	var emblem_locations = [find_node("SpeedEmblem").position, find_node("DurabilityEmblem").position, find_node("SizeEmblem").position]
 	bonus_types.shuffle()
 	find_node('StackItem').bonus_type = bonus_types[0]
 	find_node('StackItem2').bonus_type = bonus_types[1]
@@ -60,10 +54,17 @@ func _ready():
 	find_node('BonusTrack').setup(bonus_types[0], game_config["tracks"][bonus_types[0]], BLOCK_HEIGHT)
 	find_node('BonusTrack2').setup(bonus_types[1], game_config["tracks"][bonus_types[1]], BLOCK_HEIGHT)
 	find_node('BonusTrack3').setup(bonus_types[2], game_config["tracks"][bonus_types[2]], BLOCK_HEIGHT)
+	var emblem_locations = [find_node("SpeedEmblem").position, find_node("DurabilityEmblem").position, find_node("SizeEmblem").position]
 	set_emblem_location(bonus_types[0], emblem_locations[0])
 	set_emblem_location(bonus_types[1], emblem_locations[1])
 	set_emblem_location(bonus_types[2], emblem_locations[2])
 	find_node('BonusTrack').update_label_tracks()
+	yield(get_tree().create_timer(0.5), "timeout")
+	if get_parent() == get_tree().root:
+		randomize()
+		set_minigame_config(Util.read_json("res://data/move/bodyguard.json").get("game_config"), null, null)
+		start(false)
+
 	for child in Stack.get_children():
 		tops[child.bonus_type] = child.global_position.y
 	find_node('BonusTrack').check_earned(1080-BLOCK_HEIGHT)
@@ -103,7 +104,7 @@ func _physics_process(delta):
 			tops[k] += sink_amt
 	#if DangerZone.rect_global_position.y > top_of_stack_y + DANGER_ZONE_OFFSET:
 	#	DangerZone.rect_global_position.y = max(DangerZone.rect_global_position.y - delta * STACK_SINK_PER_SECOND, top_of_stack_y + DANGER_ZONE_OFFSET)
-	if DangerZone.rect_global_position.y < top_of_stack_y and state != "drop":
+	if state == "moving" and DangerZone.rect_global_position.y < top_of_stack_y:
 		drop_item()
 		return
 	if danger_zone_target > 1079:
@@ -132,6 +133,8 @@ func _physics_process(delta):
 	if state == "drop":
 		if is_instance_valid(cur_item):
 			 cur_item.position.y += delta * down_speed
+		else:
+			state = "ending"
 		return
 	if state == "ending":
 		set_process(false)

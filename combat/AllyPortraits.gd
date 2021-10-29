@@ -29,11 +29,22 @@ func _process(delta):
 		emit_signal("target_cancelled")
 	if active_target_type == "self":
 		process_self_target_input()
+	elif active_target_type == "ally":
+		process_ally_target_input()
 
 func process_self_target_input():
 	if Input.is_action_just_pressed("ui_accept"):
 		stop_targeting()
 		emit_signal("self_target_complete", Allies[active_target_idx], active_move_data)
+
+func process_ally_target_input():
+	if Input.is_action_just_pressed("ui_accept"):
+		stop_targeting()
+		emit_signal("self_target_complete", Allies[active_target_idx], active_move_data)
+	elif Input.is_action_just_pressed("ui_left"):
+		select_next_valid_ally(-1)
+	elif Input.is_action_just_pressed("ui_right"):
+		select_next_valid_ally(1)
 		
 func setup(ally_data):
 	for i in range(ally_data.size()):
@@ -74,7 +85,7 @@ func start_targeting(_active_move_data, cur_ally):
 		"enemy": return # do nothing, AllyPortraits class doesn't care about enemy targeting
 		"all_enemies":  return # do nothing, AllyPortraits class doesn't care about enemy targeting
 		"random_enemy": return # do nothing, AllyPortraits class doesn't care about enemy targeting
-		"ally": printerr("targeting mode not implemented: ally")
+		"ally": target_ally(_active_move_data, cur_ally)
 		"all_allies":  printerr("targeting mode not implemented: all_allies")
 		"self": target_self(_active_move_data, cur_ally)
 		_: 
@@ -93,6 +104,21 @@ func target_self(_active_move_data, cur_ally):
 	active_target_idx = Allies.find(cur_ally)
 	target_ally_by_idx(active_target_idx)
 
+func target_ally(_active_move_data, cur_ally):
+	active_target_idx = Allies.find(cur_ally)
+	target_ally_by_idx(active_target_idx)
+
+func select_next_valid_ally(dir):
+	var new_ally_idx = active_target_idx
+	for i in range(3):
+		new_ally_idx = (new_ally_idx + 1)%3
+		if new_ally_idx >= Allies.size() or Allies[new_ally_idx] == null: 
+			continue
+		if active_move_data.valid_target(Allies[new_ally_idx]):
+			break
+	if new_ally_idx != active_target_idx:
+		target_ally_by_idx(new_ally_idx)
+		
 func target_ally_by_idx(ally_idx):
 	var old_target_icon
 	for icon in TargetIcons.get_children():

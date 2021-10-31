@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://font/default_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://menu/OptionMenu.gd" type="Script" id=2]
 [ext_resource path="res://art_exports/ui_HUD/ui_submenu_arrow.png" type="Texture" id=3]
 [ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://menu/NumericSettingMenuItem.tscn" type="PackedScene" id=5]
+[ext_resource path="res://util/controls/ui_button_left_right_up_down.tscn" type="PackedScene" id=6]
+[ext_resource path="res://util/controls/ui_button_cancel.tscn" type="PackedScene" id=7]
+[ext_resource path="res://util/controls/ui_button_accept.tscn" type="PackedScene" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends BaseMenuItem
@@ -36,9 +39,9 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 margin_left = 846.0
-margin_top = 501.0
+margin_top = 492.0
 margin_right = 1074.0
-margin_bottom = 578.0
+margin_bottom = 587.0
 
 [node name="MusicVolume" parent="CenterContainer/VBoxContainer" instance=ExtResource( 5 )]
 increment_sfx = false
@@ -52,10 +55,33 @@ increment_sfx = false
 setting_name = "sfx_volume"
 label = "SFX Volume"
 
-[node name="Back" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="ControllerType" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 margin_top = 54.0
 margin_right = 228.0
-margin_bottom = 77.0
+margin_bottom = 68.0
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/ControllerType"]
+margin_right = 97.0
+margin_bottom = 14.0
+text = "Controller Type"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer/ControllerType"]
+margin_left = 101.0
+margin_right = 101.0
+margin_bottom = 14.0
+
+[node name="ui_leftright" parent="CenterContainer/VBoxContainer/ControllerType/HBoxContainer" instance=ExtResource( 6 )]
+
+[node name="ui_cancel" parent="CenterContainer/VBoxContainer/ControllerType/HBoxContainer" instance=ExtResource( 7 )]
+position = Vector2( 88, 1 )
+
+[node name="ui_accept" parent="CenterContainer/VBoxContainer/ControllerType/HBoxContainer" instance=ExtResource( 8 )]
+position = Vector2( 117.875, -1.5 )
+
+[node name="Back" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_top = 72.0
+margin_right = 228.0
+margin_bottom = 95.0
 custom_fonts/font = ExtResource( 1 )
 text = "Back"
 script = SubResource( 1 )

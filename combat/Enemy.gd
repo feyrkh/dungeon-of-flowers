@@ -57,7 +57,7 @@ func add_follower(placement_pos):
 func is_alive():
 	return data.hp > 0
 
-func damage_hp(amt, skill_user):
+func damage_hp(amt):
 	# TODO: accumulate damage here instead of doing direct damage
 	#self.data.hp -= amt
 	#print(data.label + " has "+str(data.hp)+" hp left")
@@ -122,6 +122,7 @@ func die():
 	CombatMgr.emit_signal("enemy_dead", self)
 
 func destroy_sprite(sprite, sprites_destroyed):
+	sprite.material.set_shader_param("offset", randf())
 	sprite.material.set_shader_param("start_time", OS.get_ticks_msec() / 1000.0 + sprites_destroyed*0.2)
 	CombatMgr.emit_signal("combat_animation", sprite.material.get_shader_param("duration")+0.5 + sprites_destroyed*0.2)
 	Util.delay_call(sprite.material.get_shader_param("duration")+0.5, sprite, "queue_free")

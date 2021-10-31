@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://minigame/stackingTower/StackingTowerGame.gd" type="Script" id=1]
 [ext_resource path="res://util/PausedTutorialTip.gd" type="Script" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://art_exports/ui_battle/ui_tower_durabilityemblem.png" type="Texture" id=23]
 [ext_resource path="res://util/transparent_pixel.png" type="Texture" id=24]
 [ext_resource path="res://font/default_font.tres" type="DynamicFont" id=25]
+[ext_resource path="res://util/controls/ui_button_accept.tscn" type="PackedScene" id=26]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -133,6 +134,7 @@ position = Vector2( 27, 0 )
 [node name="Border" type="AnimatedSprite" parent="TowerFrame"]
 position = Vector2( 302, 546 )
 frames = SubResource( 3 )
+frame = 2
 playing = true
 
 [node name="Tutorial" type="Control" parent="."]
@@ -160,20 +162,23 @@ __meta__ = {
 [node name="FirstTimeTooltip_Msg1" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
 margin_left = -375.0
 margin_top = -121.0
-margin_right = 236.0
+margin_right = 203.0
 margin_bottom = 4.0
 
 [node name="Label" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg1" instance=ExtResource( 5 )]
-margin_right = 604.0
+margin_right = 571.0
 margin_bottom = 118.0
 text = "Blocks will move from left to right along the top
-of the game board, then back again. Hit the button 
-to drop the shield, and make the highest towers you can!"
+of the game board, then back again. Use         to 
+drop the block, and make the highest towers you can!"
+
+[node name="ui_accept" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg1/Label" instance=ExtResource( 26 )]
+position = Vector2( 443, 45 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg1"]
 position = Vector2( -740, -435 )
 scale = Vector2( 1, 0.725581 )
-points = PoolVector2Array( 1345, 686.347, 1497, 667.052 )
+points = PoolVector2Array( 1318, 675.321, 1497, 667.052 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 

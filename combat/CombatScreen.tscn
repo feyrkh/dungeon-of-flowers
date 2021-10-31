@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://combat/CombatScreen.gd" type="Script" id=1]
 [ext_resource path="res://combat/Enemies.tscn" type="PackedScene" id=2]
@@ -7,18 +7,15 @@
 [ext_resource path="res://art_exports/ui_battle/ui_battle_header.png" type="Texture" id=5]
 [ext_resource path="res://combat/MinigameContainer.gd" type="Script" id=6]
 [ext_resource path="res://font/NOTOSANS-CONDENSEDMEDIUM.TTF" type="DynamicFontData" id=7]
-[ext_resource path="res://art_exports/button icons/ui_btn_pc_LEFT.png" type="Texture" id=8]
+[ext_resource path="res://util/controls/ui_button_left_right.tscn" type="PackedScene" id=8]
 [ext_resource path="res://art_exports/ui_battle/ui_action_vignette.png" type="Texture" id=9]
 [ext_resource path="res://util/TutorialTip.tscn" type="PackedScene" id=10]
-[ext_resource path="res://img/ui/ui_button_A.tscn" type="PackedScene" id=11]
+[ext_resource path="res://util/controls/ui_button_cancel.tscn" type="PackedScene" id=11]
 [ext_resource path="res://util/TutorialLabel.tscn" type="PackedScene" id=12]
 [ext_resource path="res://util/Tutorial.gd" type="Script" id=13]
-[ext_resource path="res://img/ui/ui_btn_pc_ESC.tscn" type="PackedScene" id=14]
-[ext_resource path="res://img/ui/ui_btn_pc_LEFT.tscn" type="PackedScene" id=15]
-[ext_resource path="res://img/ui/ui_btn_pc_RIGHT.tscn" type="PackedScene" id=16]
 [ext_resource path="res://util/PausedTutorialTip.gd" type="Script" id=17]
 [ext_resource path="res://util/DelayedTooltip.gd" type="Script" id=18]
-[ext_resource path="res://art_exports/button icons/ui_btn_pc_RIGHT.png" type="Texture" id=19]
+[ext_resource path="res://util/controls/ui_button_accept.tscn" type="PackedScene" id=20]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
@@ -172,11 +169,11 @@ margin_right = 1077.0
 margin_bottom = 623.0
 
 [node name="Label" parent="Tutorial/SelectCategory" instance=ExtResource( 12 )]
-margin_right = 329.0
-text = "Press     to select an Attack skill"
+margin_right = 344.0
+text = "Press        to select an Attack skill"
 
-[node name="ui_button_A" parent="Tutorial/SelectCategory/Label" instance=ExtResource( 11 )]
-position = Vector2( 67, 20 )
+[node name="ui_accept" parent="Tutorial/SelectCategory/Label" instance=ExtResource( 20 )]
+position = Vector2( 68.7715, 5.70276 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/SelectCategory"]
 position = Vector2( -741, -406.056 )
@@ -193,11 +190,11 @@ margin_right = 1128.0
 margin_bottom = 568.0
 
 [node name="Label" parent="Tutorial/SelectSlashSkill" instance=ExtResource( 12 )]
-margin_right = 361.0
-text = "Press     to select attack with Slash"
+margin_right = 376.0
+text = "Press       to select attack with Slash"
 
-[node name="ui_button_A" parent="Tutorial/SelectSlashSkill/Label" instance=ExtResource( 11 )]
-position = Vector2( 67, 20 )
+[node name="ui_accept" parent="Tutorial/SelectSlashSkill/Label" instance=ExtResource( 20 )]
+position = Vector2( 66.4515, 7.65564 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/SelectSlashSkill"]
 position = Vector2( -740, -435 )
@@ -217,7 +214,8 @@ margin_bottom = 569.0
 margin_right = 473.0
 text = "Press     to go back and select the Fight menu"
 
-[node name="ui_btn_pc_ESC" parent="Tutorial/WrongCategoryFight/Label" instance=ExtResource( 14 )]
+[node name="ui_cancel" parent="Tutorial/WrongCategoryFight/Label" instance=ExtResource( 11 )]
+position = Vector2( 56.9769, 10.099 )
 
 [node name="WrongCategorySkill" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
@@ -230,7 +228,8 @@ margin_bottom = 569.0
 margin_right = 473.0
 text = "Press     to go back and select the Skill  menu"
 
-[node name="ui_btn_pc_ESC" parent="Tutorial/WrongCategorySkill/Label" instance=ExtResource( 14 )]
+[node name="ui_cancel" parent="Tutorial/WrongCategorySkill/Label" instance=ExtResource( 11 )]
+position = Vector2( 57.3305, 9.74548 )
 
 [node name="WrongCategoryDefend" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
@@ -243,7 +242,8 @@ margin_bottom = 569.0
 margin_right = 498.0
 text = "Press     to go back and select the Defend  menu"
 
-[node name="ui_btn_pc_ESC" parent="Tutorial/WrongCategoryDefend/Label" instance=ExtResource( 14 )]
+[node name="ui_cancel" parent="Tutorial/WrongCategoryDefend/Label" instance=ExtResource( 11 )]
+position = Vector2( 56.6841, 9.74548 )
 
 [node name="TargetEnemy" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
@@ -253,15 +253,14 @@ margin_right = 1197.0
 margin_bottom = 675.0
 
 [node name="Label" parent="Tutorial/TargetEnemy" instance=ExtResource( 12 )]
-margin_right = 453.0
-text = "Target an enemy with        , confirm with      "
+margin_right = 458.0
+text = "Target an enemy with         , confirm with      "
 
-[node name="ui_button_A" parent="Tutorial/TargetEnemy/Label" instance=ExtResource( 11 )]
-position = Vector2( 431, 21 )
+[node name="ui_leftright" parent="Tutorial/TargetEnemy/Label" instance=ExtResource( 8 )]
+position = Vector2( 230.554, 6.95264 )
 
-[node name="ui_btn_pc_LEFT" parent="Tutorial/TargetEnemy/Label" instance=ExtResource( 15 )]
-
-[node name="ui_btn_pc_RIGHT" parent="Tutorial/TargetEnemy/Label" instance=ExtResource( 16 )]
+[node name="ui_accept" parent="Tutorial/TargetEnemy/Label" instance=ExtResource( 20 )]
+position = Vector2( 431.876, 6.80554 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/TargetEnemy"]
 position = Vector2( -742, -435 )
@@ -286,17 +285,17 @@ margin_bottom = 799.0
 script = ExtResource( 17 )
 
 [node name="Label" parent="Tutorial/AttackMinigame" instance=ExtResource( 12 )]
-margin_right = 453.0
+margin_right = 454.0
 margin_bottom = 232.0
 text = "Play the minigame to strike the enemy!
 Take note of the instructions, and try to
-press      when the cursor hits the center of
+press        when the cursor hits the center of
 the strike zone for max damage.
 Missing will throw you off balance and 
 make the next strike harder, so be careful!"
 
-[node name="ui_button_A" parent="Tutorial/AttackMinigame/Label" instance=ExtResource( 11 )]
-position = Vector2( 71, 96 )
+[node name="ui_accept" parent="Tutorial/AttackMinigame/Label" instance=ExtResource( 20 )]
+position = Vector2( 69.3748, 83.5329 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/AttackMinigame"]
 position = Vector2( -606, -370 )
@@ -390,11 +389,11 @@ margin_right = 1062.0
 margin_bottom = 568.0
 
 [node name="Label" parent="Tutorial/SelectDefendSkill" instance=ExtResource( 12 )]
-margin_right = 295.0
-text = "Press     to ready your shield"
+margin_right = 305.0
+text = "Press       to ready your shield"
 
-[node name="ui_button_A" parent="Tutorial/SelectDefendSkill/Label" instance=ExtResource( 11 )]
-position = Vector2( 67, 20 )
+[node name="ui_accept" parent="Tutorial/SelectDefendSkill/Label" instance=ExtResource( 20 )]
+position = Vector2( 65.1726, 7.00525 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/SelectDefendSkill"]
 position = Vector2( -740, -435 )
@@ -411,15 +410,15 @@ margin_right = 849.845
 margin_bottom = 554.901
 
 [node name="Label" parent="Tutorial/SelectPoulticeSkill" instance=ExtResource( 12 )]
-margin_right = 580.0
+margin_right = 590.0
 margin_bottom = 156.0
-text = "Press     to ready your poultice and then select a target.
+text = "Press       to ready your poultice and then select a target.
 The amount of healing will depend on how well you
 perform in the minigame, so take a deep breath and
 get ready to focus!"
 
-[node name="ui_button_A" parent="Tutorial/SelectPoulticeSkill/Label" instance=ExtResource( 11 )]
-position = Vector2( 67, 20 )
+[node name="ui_accept" parent="Tutorial/SelectPoulticeSkill/Label" instance=ExtResource( 20 )]
+position = Vector2( 65.8521, 7.42914 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/SelectPoulticeSkill"]
 position = Vector2( -741.189, -320.836 )
@@ -462,15 +461,8 @@ If your shields have enough durability
 left after the attack, they will be available
 during your next round!"
 
-[node name="ui_button_LEFT" parent="Tutorial/UsingShield_Delayed/Label" instance=ExtResource( 11 )]
-position = Vector2( 52.8577, 56.7695 )
-scale = Vector2( 0.33, 0.33 )
-texture = ExtResource( 8 )
-
-[node name="ui_button_RIGHT" parent="Tutorial/UsingShield_Delayed/Label" instance=ExtResource( 11 )]
-position = Vector2( 72.1738, 56.6401 )
-scale = Vector2( 0.33, 0.33 )
-texture = ExtResource( 19 )
+[node name="ui_leftright" parent="Tutorial/UsingShield_Delayed/Label" instance=ExtResource( 8 )]
+position = Vector2( 43.6921, 46.0367 )
 
 [connection signal="player_move_selected" from="." to="." method="_on_CombatScreen_player_move_selected"]
 [connection signal="start_combat" from="." to="." method="_on_CombatScreen_start_combat"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://util/TutorialTipResume.gd" type="Script" id=1]
-[ext_resource path="res://img/ui/ui_button_A.tscn" type="PackedScene" id=2]
+[ext_resource path="res://util/controls/ui_button_accept.tscn" type="PackedScene" id=2]
 [ext_resource path="res://util/TutorialLabel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://util/Pulser.tscn" type="PackedScene" id=4]
 [ext_resource path="res://art_exports/ui_HUD/ui_bar_fill.png" type="Texture" id=5]
@@ -20,22 +20,22 @@ __meta__ = {
 
 [node name="Label" parent="." instance=ExtResource( 3 )]
 modulate = Color( 1, 1, 1, 0.00392157 )
-margin_right = 224.0
-text = "(press     to continue)"
+margin_right = 239.0
+text = "(press        to continue)"
 
-[node name="ui_button_A" parent="Label" instance=ExtResource( 2 )]
-position = Vector2( 75, 20 )
+[node name="ui_accept" parent="Label" instance=ExtResource( 2 )]
+position = Vector2( 77, 8 )
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 224.0
+margin_right = 239.0
 margin_bottom = 42.0
 
 [node name="FillBar" type="TextureRect" parent="CenterContainer"]
-margin_left = 33.0
+margin_left = 41.0
 margin_top = 15.0
-margin_right = 183.0
+margin_right = 191.0
 margin_bottom = 19.0
 texture = ExtResource( 5 )
 __meta__ = {

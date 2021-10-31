@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://art_exports/button icons/ui_btn_XB_B.png" type="Texture" id=1]
+[ext_resource path="res://art_exports/button icons/ui_btn_pc_ESC.png" type="Texture" id=2]
+[ext_resource path="res://util/controls/uiControl.gd" type="Script" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 0.5
+} ]
+
+[node name="ui_cancel" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="pc" type="AnimatedSprite" parent="."]
+position = Vector2( 8, 9 )
+scale = Vector2( 0.382813, 0.382813 )
+frames = SubResource( 1 )
+playing = true
+
+[node name="xbox" type="Sprite" parent="."]
+position = Vector2( 10, 9 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 1 )

@@ -31,3 +31,6 @@ signal game_paused
 signal game_unpaused
 signal disable_pause_menu
 signal enable_pause_menu
+
+# UI control scheme
+signal control_scheme_changed(platform)

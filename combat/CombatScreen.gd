@@ -105,7 +105,7 @@ func input_select_character():
 	elif Input.is_action_just_pressed("select_next_char"):
 		select_next_char(1)
 		input_delayed = UI_DELAY
-	elif Input.is_action_just_pressed("ui_select"): # see below if you change!!!
+	elif Input.is_action_just_pressed("ui_accept"): # see below if you change!!!
 		open_category_submenu(selected_ally_idx, selected_category_idx, true)
 		input_delayed = UI_DELAY
 	elif Input.is_action_just_pressed("ui_up"): # see above if you change!!!

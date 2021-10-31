@@ -32,8 +32,10 @@ func set_minigame_config(_config:Dictionary, _source, _target):
 func _ready():
 	set_process(false)
 	if get_parent() == get_tree().root:
+		position.x = 1920 - $ColorRect.rect_size.x
+		GameData.get_state("TileMatch_tutor", true)
 		setup(Util.read_json("res://data/move/poultice.json").get("game_config"))
-		start(false)
+		start(true)
 	else:
 		setup(game_config)
 	update_cursor_position()
@@ -57,7 +59,7 @@ func _process(delta):
 func _input(e:InputEvent):
 	if state != "selecting":
 		return
-	if e.is_action_pressed("ui_select"):
+	if e.is_action_pressed("ui_accept"):
 		select_card()
 		get_tree().set_input_as_handled() 
 	elif e.is_action_pressed("ui_left"):
@@ -172,7 +174,7 @@ func setup(config):
 	cards.shuffle()
 	var cur_row = []
 	matrix = [cur_row]
-	var delay = 0
+	var delay = 0.1
 	for card in cards:
 		card.flip(0, 0)
 		card.flip(0.1, delay)

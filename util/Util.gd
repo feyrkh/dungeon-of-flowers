@@ -55,6 +55,19 @@ static func randi_range(min_val, max_val):
 		return min_val
 	return (randi() % (max_val - min_val)) + min_val
 
+static func wrap_range(val, min_val, max_val): 
+	if max_val < min_val:
+		var swap = min_val
+		min_val = max_val
+		max_val = swap
+	var diff = max_val - min_val
+	while val < min_val:
+		val += diff
+	while val >= max_val:
+		val -= diff
+	return val
+	
+
 static func delay_call(t:float, node:Node, method_name:String, args:Array=[]):
 	var timer := Timer.new()
 	timer.autostart = true

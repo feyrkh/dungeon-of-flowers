@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://font/default_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://menu/OptionMenu.gd" type="Script" id=2]
@@ -8,6 +8,42 @@
 [ext_resource path="res://util/controls/ui_button_left_right_up_down.tscn" type="PackedScene" id=6]
 [ext_resource path="res://util/controls/ui_button_cancel.tscn" type="PackedScene" id=7]
 [ext_resource path="res://util/controls/ui_button_accept.tscn" type="PackedScene" id=8]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends BaseMenuItem
+
+var opts = [GameData.UI_PLATFORM_PC, GameData.UI_PLATFORM_XBOX]
+func _ready():
+	set_text()
+
+func set_text():
+	$Label.text = \"Controls: \"
+	match GameData.get_setting(GameData.UI_PLATFORM, GameData.UI_PLATFORM_PC):
+		GameData.UI_PLATFORM_PC: 
+			$Label.text += \"PC\"
+		GameData.UI_PLATFORM_XBOX:
+			$Label.text += \"XBox\"
+		_: 
+			$Label.text += \"PC\"
+
+func toggle(dir=1):
+	var cur_setting = opts.find(GameData.get_setting(GameData.UI_PLATFORM, GameData.UI_PLATFORM_PC))
+	if cur_setting < 0: 
+		cur_setting = 0
+	cur_setting = Util.wrap_range(cur_setting+dir, 0, opts.size())
+	GameData.set_setting(GameData.UI_PLATFORM, opts[cur_setting])
+	EventBus.emit_signal(\"control_scheme_changed\", opts[cur_setting])
+	set_text()
+
+func menu_increment(menu):
+	toggle(1)
+
+func menu_decrement(menu):
+	toggle(-1)
+
+func menu_action(menu):
+	toggle(1)
+"
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends BaseMenuItem
@@ -39,9 +75,9 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 margin_left = 846.0
-margin_top = 492.0
+margin_top = 488.0
 margin_right = 1074.0
-margin_bottom = 587.0
+margin_bottom = 592.0
 
 [node name="MusicVolume" parent="CenterContainer/VBoxContainer" instance=ExtResource( 5 )]
 increment_sfx = false
@@ -58,30 +94,25 @@ label = "SFX Volume"
 [node name="ControllerType" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 margin_top = 54.0
 margin_right = 228.0
-margin_bottom = 68.0
+margin_bottom = 77.0
+script = SubResource( 2 )
 
 [node name="Label" type="Label" parent="CenterContainer/VBoxContainer/ControllerType"]
-margin_right = 97.0
-margin_bottom = 14.0
-text = "Controller Type"
+margin_right = 120.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 120, 0 )
+custom_fonts/font = ExtResource( 1 )
+text = "Controls: PC"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer/ControllerType"]
-margin_left = 101.0
-margin_right = 101.0
-margin_bottom = 14.0
-
-[node name="ui_leftright" parent="CenterContainer/VBoxContainer/ControllerType/HBoxContainer" instance=ExtResource( 6 )]
-
-[node name="ui_cancel" parent="CenterContainer/VBoxContainer/ControllerType/HBoxContainer" instance=ExtResource( 7 )]
-position = Vector2( 88, 1 )
-
-[node name="ui_accept" parent="CenterContainer/VBoxContainer/ControllerType/HBoxContainer" instance=ExtResource( 8 )]
-position = Vector2( 117.875, -1.5 )
+margin_left = 124.0
+margin_right = 124.0
+margin_bottom = 23.0
 
 [node name="Back" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_top = 72.0
+margin_top = 81.0
 margin_right = 228.0
-margin_bottom = 95.0
+margin_bottom = 104.0
 custom_fonts/font = ExtResource( 1 )
 text = "Back"
 script = SubResource( 1 )
@@ -98,3 +129,12 @@ rotation = -1.5708
 scale = Vector2( -0.5, 0.5 )
 texture = ExtResource( 3 )
 centered = false
+
+[node name="ui_leftright" parent="." instance=ExtResource( 6 )]
+position = Vector2( 964, 543 )
+
+[node name="ui_cancel" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1060, 543 )
+
+[node name="ui_accept" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1088, 543 )

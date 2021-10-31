@@ -14,15 +14,19 @@ export var paused_on_start = true
 var selected_idx = 0
 
 func _ready():
-	for i in range(menu_entries.size()):
-		menu_entries[i] = find_node(menu_entries[i])
-		if menu_entries[i].has_method("setup_menu"):
-			menu_entries[i].setup_menu(self)
+	process_menu_entry_names()
 	select_entry(selected_idx)
 	if paused_on_start:
 		pause_menu()
 	else:
 		resume_menu()
+
+func process_menu_entry_names():
+	for i in range(menu_entries.size()):
+		if menu_entries[i] is String:
+			menu_entries[i] = find_node(menu_entries[i])
+			if menu_entries[i].has_method("setup_menu"):
+				menu_entries[i].setup_menu(self)
 
 func pause_menu():
 	set_process(false)

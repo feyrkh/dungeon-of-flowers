@@ -17,6 +17,10 @@ const TILE_MATCH_HANDICAP = "hcap_tile_match"
 const TILE_MATCH_HANDICAP_MIN = -5
 const TILE_MATCH_HANDICAP_MAX = 10
 
+const UI_PLATFORM = "ui_platform"
+const UI_PLATFORM_PC = "pc"
+const UI_PLATFORM_XBOX = "xbox"
+
 var c = '$'
 var allies = []
 var world_tile_position = Vector2()

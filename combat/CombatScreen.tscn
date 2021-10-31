@@ -173,7 +173,7 @@ margin_right = 344.0
 text = "Press        to select an Attack skill"
 
 [node name="ui_accept" parent="Tutorial/SelectCategory/Label" instance=ExtResource( 20 )]
-position = Vector2( 68.7715, 5.70276 )
+position = Vector2( 64.7715, 8.70276 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/SelectCategory"]
 position = Vector2( -741, -406.056 )
@@ -190,11 +190,11 @@ margin_right = 1128.0
 margin_bottom = 568.0
 
 [node name="Label" parent="Tutorial/SelectSlashSkill" instance=ExtResource( 12 )]
-margin_right = 376.0
+margin_right = 371.0
 text = "Press       to select attack with Slash"
 
 [node name="ui_accept" parent="Tutorial/SelectSlashSkill/Label" instance=ExtResource( 20 )]
-position = Vector2( 66.4515, 7.65564 )
+position = Vector2( 63.4515, 8.65564 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/SelectSlashSkill"]
 position = Vector2( -740, -435 )
@@ -215,7 +215,7 @@ margin_right = 473.0
 text = "Press     to go back and select the Fight menu"
 
 [node name="ui_cancel" parent="Tutorial/WrongCategoryFight/Label" instance=ExtResource( 11 )]
-position = Vector2( 56.9769, 10.099 )
+position = Vector2( 57.9769, 9.099 )
 
 [node name="WrongCategorySkill" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
@@ -229,7 +229,7 @@ margin_right = 473.0
 text = "Press     to go back and select the Skill  menu"
 
 [node name="ui_cancel" parent="Tutorial/WrongCategorySkill/Label" instance=ExtResource( 11 )]
-position = Vector2( 57.3305, 9.74548 )
+position = Vector2( 58.3305, 8.74548 )
 
 [node name="WrongCategoryDefend" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
@@ -243,7 +243,7 @@ margin_right = 498.0
 text = "Press     to go back and select the Defend  menu"
 
 [node name="ui_cancel" parent="Tutorial/WrongCategoryDefend/Label" instance=ExtResource( 11 )]
-position = Vector2( 56.6841, 9.74548 )
+position = Vector2( 58.6841, 8.74548 )
 
 [node name="TargetEnemy" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
@@ -260,7 +260,7 @@ text = "Target an enemy with         , confirm with      "
 position = Vector2( 230.554, 6.95264 )
 
 [node name="ui_accept" parent="Tutorial/TargetEnemy/Label" instance=ExtResource( 20 )]
-position = Vector2( 431.876, 6.80554 )
+position = Vector2( 428.876, 8.80554 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/TargetEnemy"]
 position = Vector2( -742, -435 )
@@ -295,7 +295,7 @@ Missing will throw you off balance and
 make the next strike harder, so be careful!"
 
 [node name="ui_accept" parent="Tutorial/AttackMinigame/Label" instance=ExtResource( 20 )]
-position = Vector2( 69.3748, 83.5329 )
+position = Vector2( 67.3748, 84.5329 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/AttackMinigame"]
 position = Vector2( -606, -370 )
@@ -332,7 +332,7 @@ margin_bottom = 517.566
 script = ExtResource( 17 )
 
 [node name="Label" parent="Tutorial/EnemyAttack_Delayed" instance=ExtResource( 12 )]
-margin_right = 500.0
+margin_right = 500.005
 margin_bottom = 118.0
 text = "The enemies are attacking! Grias left her shield
 behind and won't be able to block right now.
@@ -393,7 +393,7 @@ margin_right = 305.0
 text = "Press       to ready your shield"
 
 [node name="ui_accept" parent="Tutorial/SelectDefendSkill/Label" instance=ExtResource( 20 )]
-position = Vector2( 65.1726, 7.00525 )
+position = Vector2( 63.1726, 9.00525 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/SelectDefendSkill"]
 position = Vector2( -740, -435 )
@@ -418,7 +418,7 @@ perform in the minigame, so take a deep breath and
 get ready to focus!"
 
 [node name="ui_accept" parent="Tutorial/SelectPoulticeSkill/Label" instance=ExtResource( 20 )]
-position = Vector2( 65.8521, 7.42914 )
+position = Vector2( 63.8521, 8.42914 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/SelectPoulticeSkill"]
 position = Vector2( -741.189, -320.836 )

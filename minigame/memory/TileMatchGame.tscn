@@ -128,7 +128,7 @@ margin_right = 654.0
 text = "Use                   to highlight a tile, then        to confirm the match."
 
 [node name="ui_accept" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg3/Label" instance=ExtResource( 9 )]
-position = Vector2( 393, 7 )
+position = Vector2( 391, 9 )
 
 [node name="ui_leftright" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg3/Label" instance=ExtResource( 10 )]
 position = Vector2( 43, 8 )

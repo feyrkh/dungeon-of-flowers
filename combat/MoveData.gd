@@ -5,6 +5,7 @@ const MINIGAMES = {
 	"simpleLineGame": preload("res://minigame/SimpleLineGame.tscn"),
 	"attackRing": preload("res://minigame/attackRing/AttackRingGame.tscn"),
 	"stackingTower": preload("res://minigame/stackingTower/StackingTowerGame.tscn"),
+	"tileMatch": preload("res://minigame/memory/TileMatchGame.tscn"),
 }
 const Enums = preload("res://Enums.gd")
 
@@ -26,3 +27,6 @@ func get_move_scene(_source, _target):
 	var scene = game_prefab.instance()
 	scene.set_minigame_config(game_config, _source, _target)
 	return scene
+
+func valid_target(target):
+	return target != null

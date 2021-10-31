@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://minigame/memory/MemoryTile.tscn" type="PackedScene" id=1]
+[ext_resource path="res://shader/card_flip.shader" type="Shader" id=2]
+[ext_resource path="res://minigame/memory/tiles/cardback.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	$MemoryTile.setup([Vector2(randi()%4, randi()%4), Vector2(randi()%4, randi()%4), Vector2(randi()%4, randi()%4), Vector2(randi()%4, randi()%4)], [], load(\"res://minigame/memory/tiles/tileset.png\"), 0)
+
+"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 2 )
+shader_param/progress = 1.048
+shader_param/flip_color = Color( 0, 0, 0, 0 )
+shader_param/card_back = ExtResource( 3 )
+
+[node name="Node2D" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="MemoryTile" parent="." instance=ExtResource( 1 )]
+material = SubResource( 2 )
+position = Vector2( 282, 166 )
+
+[node name="Tween" type="Tween" parent="."]

@@ -124,4 +124,5 @@ func target_ally_by_idx(ally_idx):
 	for icon in TargetIcons.get_children():
 		icon.visible = false
 	TargetIcons.get_child(ally_idx).visible = true 
+	active_target_idx = ally_idx
 	

@@ -8,8 +8,10 @@ const BG_CHAR = preload("res://dialogic/BgChar.tscn")
 var INTRO = "intro"
 var INTRO_INTRODUCED_GRIAS = "intro_1"
 var INTRO_FIRST_COMBAT = "intro_2"
+var INTRO_ENCHINACEA = "intro_chin"
 var INTRO_SECOND_COMBAT = "intro_3"
-var INTRO_THIRD_COMBAT = "intro_4"
+var INTRO_HEAL_SKILL = "intro_4"
+var INTRO_THIRD_COMBAT = "intro_5"
 var INTRO_COMPLETE = "intro_complete"
 
 var cutscene
@@ -71,7 +73,7 @@ func check_combat_introduction():
 			#	EventBus.emit_signal("show_tutorial", "EnemyTakeDamage", false)
 			elif combat_phase == "enemy_turn":
 				EventBus.emit_signal("show_tutorial", "EnemyAttack", false)
-				GameData.set_state(INTRO, INTRO_SECOND_COMBAT)
+				GameData.set_state(INTRO, INTRO_ENCHINACEA)
 			else:
 				EventBus.emit_signal("hide_tutorial")
 		INTRO_SECOND_COMBAT:
@@ -90,8 +92,21 @@ func check_combat_introduction():
 			if combat_phase == "enemy_turn":
 				EventBus.emit_signal("show_tutorial", "UsingShield", false)
 				GameData.allies[1].moves[0].disabled = false
-				GameData.set_state(INTRO, INTRO_THIRD_COMBAT)
-
+				GameData.allies[0].moves.append(MoveList.get_move("poultice"))
+				GameData.set_state(INTRO, INTRO_HEAL_SKILL)
+		INTRO_HEAL_SKILL:
+			if combat_phase == "select_character":
+				if CombatMgr.combat.selected_ally_idx == 0:
+					EventBus.emit_signal("show_tutorial", "SelectSkillCategory", false)
+				else:
+					EventBus.emit_signal("hide_tutorial")
+			elif combat_phase == "open_submenu" and CombatMgr.combat.selected_ally_idx == 0:
+				if skill_menu_open != "skill":
+					EventBus.emit_signal("show_tutorial", "WrongCategorySkill", false)
+				elif skill_menu_open == "skill":
+					EventBus.emit_signal("show_tutorial", "SelectPoulticeSkill", false)
+			else:
+				EventBus.emit_signal("hide_tutorial")
 
 func check_noncombat_introduction():
 	match GameData.get_state(INTRO, 0):
@@ -109,7 +124,7 @@ func check_noncombat_introduction():
 				GameData.set_state(INTRO, INTRO_FIRST_COMBAT)
 				CombatMgr.trigger_combat("tutorial")
 				return true
-		INTRO_SECOND_COMBAT:
+		INTRO_ENCHINACEA:
 			if GameData.get_state(GameData.STEP_COUNTER, 0) == 6:
 				play_cutscene(INTRO_SECOND_COMBAT)
 				yield(cutscene, "timeline_end")
@@ -117,6 +132,7 @@ func check_noncombat_introduction():
 				#GameData.allies[1].shields = [{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -160), "scale": Vector2(2.0, 2.0)}]
 				GameData.allies[1].moves[0].disabled = true
 				GameData.allies[1].moves.append(MoveList.get_move("bodyguard"))
+				GameData.set_state(INTRO, INTRO_SECOND_COMBAT)
 				CombatMgr.trigger_combat("tutorial2")
 
 func play_cutscene(_cutscene_name):
@@ -163,5 +179,5 @@ func can_enter_combat():
 	return true
 
 func on_tile_move_complete():
-	GameData.set_state("step_counter", GameData.get_state("step_counter", 0)+1)
+	GameData.set_state("_step_counter", GameData.get_state("_step_counter", 0)+1)
 	check_quest_progress()

@@ -3,18 +3,16 @@
 	"type": "skill",
 	"name": "poultice",
 	"target": "ally",
-	"game_scene": "memory",
+	"game_scene": "tileMatch",
 	
 	"game_config": {
 		"action": "heal",
-		"heal": 20,
+		"heal": 10,
 		"total_symbols": 10,
 		"total_cards": 3,
 		"target_cards": 3,
-		"card_symbols": 4,
-		"show_time": 2,
-		"fade_time": 6,
-		"pick_time": 2,
-		"min_effect": 0.25,
+		"card_symbols": 2,
+		"min_effect": 0.1,
+		"time": 10,
 	}
 }

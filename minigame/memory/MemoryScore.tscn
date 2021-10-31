@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://font/score_stamp_font.tres" type="DynamicFont" id=1]
+
+[node name="MemoryScore" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+margin_left = -86.0
+margin_top = -22.0
+margin_right = 94.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 180, 44 )
+rect_rotation = 23.7
+rect_pivot_offset = Vector2( 90, 22 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "0%"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,7 +1,7 @@
 extends ShieldHard
 
-const LEFT_ALLY = 1920/2.0 - 570
-const RIGHT_ALLY = 1920/2.0 + 580
+const LEFT_ALLY = 1920/2.0 - 370
+const RIGHT_ALLY = 1920/2.0 + 380
 const CENTER_SCREEN = 1920/2
 const MIN_SIZE = 0.1
 const MAX_SIZE = 1.0

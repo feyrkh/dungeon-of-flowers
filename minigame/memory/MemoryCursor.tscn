@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://art_exports/ui_HUD/ui_submenu_arrow.png" type="Texture" id=1]
+[ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=2]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.680597, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.733138, 0.990909 ), -2.25099, -2.25099, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[node name="Cursor" type="Node2D"]
+
+[node name="Bouncer" parent="." instance=ExtResource( 2 )]
+margin_left = 86.0
+margin_top = 36.0
+margin_right = 126.0
+margin_bottom = 76.0
+bounce_vector = Vector2( 0, -20 )
+ease_curve = SubResource( 1 )
+
+[node name="ui_submenu_arrow" type="Sprite" parent="Bouncer"]
+position = Vector2( 4, -43 )
+texture = ExtResource( 1 )
+offset = Vector2( 2, 0 )

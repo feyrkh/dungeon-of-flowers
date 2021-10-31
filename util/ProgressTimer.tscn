@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://util/ProgressTimer.gd" type="Script" id=1]
+
+[node name="ProgressTimer" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -50.0
+margin_top = -5.0
+margin_right = 50.0
+margin_bottom = 5.0
+rect_pivot_offset = Vector2( 50, 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

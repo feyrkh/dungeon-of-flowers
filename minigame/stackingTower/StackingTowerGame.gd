@@ -72,17 +72,11 @@ func _ready():
 	find_node('BonusTrack3').check_earned(1080-BLOCK_HEIGHT)
 	danger_zone_target = 960
 
-func set_emblem_location(bonus_type, location):
-	if bonus_type == "shield_speed":
-		find_node("SpeedEmblem").position = location
-	elif bonus_type == "shield_strength":
-		find_node("DurabilityEmblem").position = location
-	else:
-		find_node("SizeEmblem").position = location
 
 func start(with_tutorial=true):
-	if with_tutorial and !GameData.get_state("ST_inst", false):
+	if with_tutorial and !GameData.get_state("ST_tutor", false):
 		EventBus.emit_signal("show_tutorial", "FirstTimeTooltip", true)
+		GameData.set_state("ST_tutor", true)
 	started = true
 
 func _physics_process(delta):
@@ -126,7 +120,7 @@ func _physics_process(delta):
 		if Dropper.unit_offset >= 1.0:
 			#drop_item()
 			Dropper.unit_offset = 0
-			danger_zone_target -= floor(DANGER_ZONE_INCREASE/2/get_stacks_above_danger())
+			danger_zone_target -= floor(DANGER_ZONE_INCREASE/2.0/get_stacks_above_danger())
 		elif Input.is_action_just_pressed("ui_accept"):
 			drop_item()
 		return
@@ -154,6 +148,14 @@ func finish_game():
 	emit_signal("minigame_success", get_earned_bonuses())
 	emit_signal("minigame_complete", self)
 
+func set_emblem_location(bonus_type, location):
+	if bonus_type == "shield_speed":
+		find_node("SpeedEmblem").position = location
+	elif bonus_type == "shield_strength":
+		find_node("DurabilityEmblem").position = location
+	else:
+		find_node("SizeEmblem").position = location
+		
 func get_earned_bonuses():
 	var result = game_config.duplicate() # {"action": game_config.get("action"), "scene": game_config.get("scene")}
 	for bonus_track in BonusTracks.get_children():

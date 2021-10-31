@@ -229,6 +229,7 @@ func _on_CombatScreen_player_move_complete(_combat_data):
 		CombatMgr.change_combat_state("start_enemy_turn", _combat_data)
 	else:
 		cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
+		QuestMgr.combat_phase = "select_character"
 		select_next_char(1)
 
 func check_player_turn_over():
@@ -345,7 +346,7 @@ func _on_CombatScreen_player_move_selected(_combat_data, target, move_data):
 				scene.position -= offset
 			else:
 				scene.position = (MinigameContainer.rect_size/2)
-			scene.connect("minigame_success", target, "damage_hp")
+			scene.connect("minigame_success", target, "damage_hp", [allies[selected_ally_idx]])
 			scene.connect("minigame_complete", self, "_on_attack_minigame_complete")
 			yield(get_tree().create_timer(0.5), "timeout")
 			scene.start()
@@ -361,7 +362,7 @@ func _on_CombatScreen_player_move_selected(_combat_data, target, move_data):
 				scene.position -= offset
 			else:
 				scene.position = (MinigameContainer.rect_size/2)
-			scene.connect("minigame_success", target, "defend_action")
+			scene.connect("minigame_success", target, "defend_action", [allies[selected_ally_idx]])
 			scene.connect("minigame_complete", self, "_on_ally_minigame_complete")
 			yield(get_tree().create_timer(0.5), "timeout")
 			scene.start()
@@ -377,7 +378,7 @@ func _on_CombatScreen_player_move_selected(_combat_data, target, move_data):
 				scene.position -= offset
 			else:
 				scene.position = (MinigameContainer.rect_size/2)
-			scene.connect("minigame_success", target, "skill_action")
+			scene.connect("minigame_success", target, "skill_action", [allies[selected_ally_idx]])
 			scene.connect("minigame_complete", self, "_on_ally_minigame_complete")
 			yield(get_tree().create_timer(0.5), "timeout")
 			scene.start()

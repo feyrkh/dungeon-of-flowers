@@ -10,9 +10,12 @@ const SAVE_GAME_MINOR_VERSION = '000001'
 const MUSIC_VOLUME = "music_volume"
 const SFX_VOLUME = "sfx_volume"
 const TUTORIAL_ON = "tutorial_on"
-const STEP_COUNTER = "step_counter"
+const STEP_COUNTER = "_step_counter"
 const ATTACK_RING_HANDICAP = "hcap_atk_ring"
 const STACKING_TOWER_HANDICAP = "hcap_stack_tower"
+const TILE_MATCH_HANDICAP = "hcap_tile_match"
+const TILE_MATCH_HANDICAP_MIN = -5
+const TILE_MATCH_HANDICAP_MAX = 10
 
 var c = '$'
 var allies = []
@@ -153,10 +156,19 @@ func get_state(state_entry, default_val=null):
 func set_state(state_entry, val):
 	update_state(state_entry, val)
 
+func inc_state(state_entry, delta, default_val=0, min_val=null, max_val=null):
+	var new_val = get_state(state_entry, default_val)
+	new_val = new_val + delta
+	if min_val != null and new_val < min_val:
+		new_val = min_val
+	if max_val != null and new_val > max_val:
+		new_val = max_val
+	update_state(state_entry, new_val)
+
 func update_state(state_entry, val):
 	var old_value = game_state.get(state_entry, null)
 	game_state[state_entry] = val
-	if old_value != val:
+	if !state_entry.begins_with("_") and old_value != val:
 		emit_signal("state_updated", state_entry, old_value, val)
 		print("State ", state_entry, "=", val)
 

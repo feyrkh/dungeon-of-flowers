@@ -219,6 +219,19 @@ text = "Press     to go back and select the Fight menu"
 
 [node name="ui_btn_pc_ESC" parent="Tutorial/WrongCategoryFight/Label" instance=ExtResource( 14 )]
 
+[node name="WrongCategorySkill" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
+margin_left = 715.0
+margin_top = 520.0
+margin_right = 1195.0
+margin_bottom = 569.0
+
+[node name="Label" parent="Tutorial/WrongCategorySkill" instance=ExtResource( 12 )]
+margin_right = 473.0
+text = "Press     to go back and select the Skill  menu"
+
+[node name="ui_btn_pc_ESC" parent="Tutorial/WrongCategorySkill/Label" instance=ExtResource( 14 )]
+
 [node name="WrongCategoryDefend" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
 margin_left = 715.0
@@ -227,7 +240,7 @@ margin_right = 1195.0
 margin_bottom = 569.0
 
 [node name="Label" parent="Tutorial/WrongCategoryDefend" instance=ExtResource( 12 )]
-margin_right = 473.0
+margin_right = 498.0
 text = "Press     to go back and select the Defend  menu"
 
 [node name="ui_btn_pc_ESC" parent="Tutorial/WrongCategoryDefend/Label" instance=ExtResource( 14 )]
@@ -313,10 +326,10 @@ delayed_tutorial = "EnemyAttack_Delayed"
 
 [node name="EnemyAttack_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-margin_left = 1070.0
-margin_top = 521.0
-margin_right = 1577.0
-margin_bottom = 646.0
+margin_left = 641.885
+margin_top = 392.566
+margin_right = 1148.89
+margin_bottom = 517.566
 script = ExtResource( 17 )
 
 [node name="Label" parent="Tutorial/EnemyAttack_Delayed" instance=ExtResource( 12 )]
@@ -347,6 +360,28 @@ points = PoolVector2Array( 1364.08, 1553.86, 1324.83, 1163.09 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
+[node name="SelectSkillCategory" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
+margin_left = 155.445
+margin_top = 404.919
+margin_right = 662.443
+margin_bottom = 529.919
+
+[node name="Label" parent="Tutorial/SelectSkillCategory" instance=ExtResource( 12 )]
+margin_right = 512.0
+margin_bottom = 156.0
+text = "Grias is a bit injured, and chances are Echinacea
+is too. Chin has a healing skill, Poultice, which
+can help with this. 
+Select the Skill menu to use it."
+
+[node name="Line2D" type="Line2D" parent="Tutorial/SelectSkillCategory/Label"]
+position = Vector2( -1096.75, -497.058 )
+scale = Vector2( 1, 0.526468 )
+points = PoolVector2Array( 1278.68, 1614.39, 1313.39, 1234.07 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
 [node name="SelectDefendSkill" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
 margin_left = 760.0
@@ -368,6 +403,31 @@ points = PoolVector2Array( 922, 668.506, 922, 802.115 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
+[node name="SelectPoulticeSkill" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
+margin_left = 262.845
+margin_top = 391.901
+margin_right = 849.845
+margin_bottom = 554.901
+
+[node name="Label" parent="Tutorial/SelectPoulticeSkill" instance=ExtResource( 12 )]
+margin_right = 580.0
+margin_bottom = 156.0
+text = "Press     to ready your poultice and then select a target.
+The amount of healing will depend on how well you
+perform in the minigame, so take a deep breath and
+get ready to focus!"
+
+[node name="ui_button_A" parent="Tutorial/SelectPoulticeSkill/Label" instance=ExtResource( 11 )]
+position = Vector2( 67, 20 )
+
+[node name="Line2D" type="Line2D" parent="Tutorial/SelectPoulticeSkill"]
+position = Vector2( -741.189, -320.836 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 922, 668.506, 922, 802.115 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
 [node name="UsingShield" type="MarginContainer" parent="Tutorial"]
 visible = false
 margin_left = 1070.0
@@ -382,6 +442,7 @@ delay = 0.5
 delayed_tutorial = "UsingShield_Delayed"
 
 [node name="UsingShield_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
 margin_left = 761.696
 margin_top = 465.908
 margin_right = 1186.7

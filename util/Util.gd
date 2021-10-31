@@ -110,3 +110,9 @@ func get_areas_at_position(source:Node2D):
 
 static func read_json(filename, default: Dictionary={}) -> Dictionary:
 	return DialogicResources.load_json(filename, default)
+
+static func one_shot_tween(parent) -> Tween:
+	var tween = Tween.new()
+	parent.add_child(tween)
+	tween.connect("tween_all_completed", tween, "queue_free")
+	return tween

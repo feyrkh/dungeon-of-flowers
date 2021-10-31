@@ -81,9 +81,8 @@ func update_shields(config):
 
 func skill_heal(config):
 	var amt = config.get("heal", 20)
-	amt *= config.get("effect", 1.0)
 	amt = round(amt)
-	hp = min(max_hp, amt + hp)
+	set_hp(min(max_hp, amt + hp))
 
 func take_damage(amt, type="physical"):
 	pass

@@ -8,6 +8,9 @@
 	"game_config": {
 		"action": "heal",
 		"heal": 10,
+		"regen_strength_mod": 0.25,
+		"regen_length": 1,
+
 		"total_symbols": 10,
 		"total_cards": 3,
 		"target_cards": 3,

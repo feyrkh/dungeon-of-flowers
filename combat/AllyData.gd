@@ -66,7 +66,7 @@ func update_shields(config):
 	var one_shield = {
 		"shield_strength": config.get("shield_strength", 1),
 		"shield_speed": config.get("shield_speed", 1),
-		"shield_size":config.get("shield_size", 1),
+		"shield_size": config.get("shield_size", 1),
 		"scene": config.get("scene", "res://combat/ShieldHard.tscn"),
 	}
 	var y = -200
@@ -83,6 +83,9 @@ func skill_heal(config):
 	var amt = config.get("heal", 20)
 	amt = round(amt)
 	set_hp(min(max_hp, amt + hp))
+	var regen_strength = config.get("regen_strength", 0)
+	var regen_length = config.get("regen_length", 0)
+		
 
 func take_damage(amt, type="physical"):
 	pass

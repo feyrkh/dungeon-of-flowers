@@ -267,12 +267,10 @@ func finish_game():
 	if terribles >= 2:
 		GameData.inc_state(GameData.TILE_MATCH_HANDICAP, 0.2, 0, GameData.TILE_MATCH_HANDICAP_MIN, GameData.TILE_MATCH_HANDICAP_MAX)
 
-	var result = {
-		"action": game_config.get("action"),
-		"heal": round(game_config.get("heal", 0) * heal_str),
-		"regen": round(game_config.get("heal", 0) * heal_str * regen_str * game_config.get("regen_strength_mod", 0.25)),
-		"regen_time": ceil(regen_time * game_config.get("regen_length", 1)),
-	}
-	print("Minigame result: ", result)
-	emit_signal("minigame_success", result)
+	var effect = load("res://combat/effects/EffectHeal.gd").new()
+	effect.heal_amt = round(game_config.get("heal", 0) * heal_str)
+	effect.regen_amt = round(game_config.get("heal", 0) * heal_str * regen_str * game_config.get("regen_strength_mod", 0.25))
+	effect.regen_rounds = ceil(regen_time * game_config.get("regen_length", 1))
+	print("Minigame result: ", effect)
+	emit_signal("minigame_success", effect)
 	emit_signal("minigame_complete", self)

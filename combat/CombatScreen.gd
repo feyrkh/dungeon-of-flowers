@@ -210,6 +210,21 @@ func _on_CombatScreen_start_player_turn(_combat_data):
 	print("_on_CombatScreen_start_player_turn")
 	if check_combat_over():
 		return
+	print("applying positive ally effects")
+	CombatMgr.emit_signal("apply_positive_ally_effects")
+	while CombatMgr.combat_animation_delay > 0:
+		yield(get_tree().create_timer(CombatMgr.combat_animation_delay), "timeout")
+	print("applying negative ally effects")
+	CombatMgr.emit_signal("apply_negative_ally_effects")
+	while CombatMgr.combat_animation_delay > 0:
+		yield(get_tree().create_timer(CombatMgr.combat_animation_delay), "timeout")
+	print("applying damaging ally effects")
+	CombatMgr.emit_signal("apply_damaging_ally_effects")
+	while CombatMgr.combat_animation_delay > 0:
+		yield(get_tree().create_timer(CombatMgr.combat_animation_delay), "timeout")
+	CombatMgr.emit_signal("decrement_ally_effect_timer")
+	if check_combat_over():
+		return
 	cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
 	selected_ally_idx = 1
 	allies[selected_ally_idx].select(selected_category_idx)
@@ -378,7 +393,7 @@ func _on_CombatScreen_player_move_selected(_combat_data, target, move_data):
 				scene.position -= offset
 			else:
 				scene.position = (MinigameContainer.rect_size/2)
-			scene.connect("minigame_success", target, "skill_action", [allies[selected_ally_idx]])
+			scene.connect("minigame_success", self, "on_minigame_success_effect", [allies[selected_ally_idx], target])
 			scene.connect("minigame_complete", self, "_on_ally_minigame_complete")
 			yield(get_tree().create_timer(0.5), "timeout")
 			scene.start()
@@ -387,6 +402,9 @@ func _on_CombatScreen_player_move_selected(_combat_data, target, move_data):
 			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is confused...unknown skill type!")
 			yield(get_tree().create_timer(2), "timeout")
 			_on_ally_minigame_complete(null)
+
+func on_minigame_success_effect(effect, source_node, target_node):
+	effect.apply_effect(source_node.data, source_node, target_node.data, target_node)
 
 func _on_attack_minigame_complete(minigame_scene):
 	print("Attack complete")
@@ -404,6 +422,10 @@ func _on_attack_minigame_complete(minigame_scene):
 	CombatMgr.change_combat_state("player_move_complete", combat_data)
 
 func _on_ally_minigame_complete(minigame_scene):
+	while CombatMgr.combat_animation_delay > 0:
+		yield(get_tree().create_timer(CombatMgr.combat_animation_delay), "timeout")
+		_on_ally_minigame_complete(minigame_scene)
+		return
 	print("Ally move complete")
 	$"ActionVignette/AnimationPlayer".play_backwards("fade_in")
 	QuestMgr.combat_phase = "apply_ally_buff"

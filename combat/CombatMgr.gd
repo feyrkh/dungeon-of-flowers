@@ -20,6 +20,15 @@ signal start_player_turn(combat_data)
 signal enemy_move_complete(combat_data)
 signal enemy_turn_complete(combat_data)
 
+signal apply_positive_ally_effects()
+signal apply_positive_enemy_effects()
+signal apply_damaging_ally_effects()
+signal apply_damaging_enemy_effects()
+signal apply_negative_ally_effects()
+signal apply_negative_enemy_effects()
+signal decrement_ally_effect_timer()
+signal decrement_enemy_effect_timer()
+
 signal show_battle_header(text)
 signal hide_battle_header()
 

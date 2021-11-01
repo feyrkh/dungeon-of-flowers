@@ -32,6 +32,9 @@ margin_top = -12.5
 margin_right = 220.0
 margin_bottom = 7.5
 
+[node name="EffectBubbles" type="Node2D" parent="."]
+position = Vector2( 220, -12.5 )
+
 [node name="FadeContainer" type="Control" parent="."]
 modulate = Color( 0.8, 0.8, 0.8, 1 )
 margin_right = 40.0

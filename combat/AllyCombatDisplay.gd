@@ -2,6 +2,8 @@ extends Control
 
 onready var AllyPortrait:AllyPortrait = find_node("AllyPortrait")
 
+const POSITIVE_BUBBLE_HEIGHT = -50
+
 onready var CurrentMoveLabel:Label = find_node("CurrentMoveLabel")
 onready var FadeContainer:Control = find_node("FadeContainer")
 onready var CombatIcons = find_node("CombatIcons")
@@ -168,4 +170,8 @@ func _on_BulletStrikeArea_body_entered(bullet):
 	CombatMgr.emit_signal("attack_bullet_strike", self)
 	bullet.ally_strike(data)
 	DamageIndicator.take_damage(bullet.get_damage())
-	
+
+func add_positive_effect_bubble(effect_bubble):
+	effect_bubble.bubble_setup("apply_positive_ally_effects", Vector2(-180, POSITIVE_BUBBLE_HEIGHT-20), Vector2(180, POSITIVE_BUBBLE_HEIGHT+20))
+	#CombatMgr.emit_signal("add_ally_effect_bubble", effect_bubble)
+	find_node("EffectBubbles").add_child(effect_bubble)

@@ -145,7 +145,9 @@ func finish_game():
 	elif total_bonuses <= 9:
 		GameData.set_state(GameData.STACKING_TOWER_HANDICAP, min(GameData.get_state(GameData.STACKING_TOWER_HANDICAP, 0) + 0.01, 0.08))
 		
-	emit_signal("minigame_success", get_earned_bonuses())
+	var shield_effect = load("res://combat/effects/EffectShield.gd").new()
+	shield_effect.shield_data = get_earned_bonuses()
+	emit_signal("minigame_success", shield_effect)
 	emit_signal("minigame_complete", self)
 
 func set_emblem_location(bonus_type, location):

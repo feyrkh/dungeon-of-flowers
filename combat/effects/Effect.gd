@@ -1,8 +1,6 @@
 extends Resource
 class_name Effect
 
-signal effect_complete(effect, source_data, source_node, target_data, target_node)
-
 var source_data
 var source_node
 var target_data
@@ -31,8 +29,8 @@ func apply_effect(_source_data, _source_node, _target_data, _target_node):
 	else:
 		apply_effect_single_target(source_data, source_node, target_data, target_node)
 
-func apply_effect_single_target(source_data, source_node, target_data, target_node):
-	print("Applying effect: ", get_effect_desc(), " to ", target_data.label)
+func apply_effect_single_target(_source_data, _source_node, _target_data, _target_node):
+	print("Applying effect: ", get_effect_desc(), " to ", _target_data.label)
 
 func get_effect_desc():
 	return self.get_class()

@@ -3,6 +3,7 @@ class_name CombatData
 
 var enemies : Array # of EnemyData
 var allies : Array # of AllyData
+var rewards : Dictionary # ItemId -> count; ex: {"pollen_sun": 1, "pollen_water": 3, "pollen_soil": 1, "heal_potion": 1}
 
 func get_enemies():
 	return enemies

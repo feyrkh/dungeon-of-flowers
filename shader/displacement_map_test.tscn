@@ -6,7 +6,8 @@
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 2 )
-shader_param/maximum = 0.05
+shader_param/maximum = 0.1
+shader_param/motion = 0.05
 shader_param/map = ExtResource( 3 )
 
 [node name="Node2D" type="Node2D"]

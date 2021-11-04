@@ -17,8 +17,7 @@
 [ext_resource path="res://util/DelayedTooltip.gd" type="Script" id=18]
 [ext_resource path="res://util/controls/ui_button_accept.tscn" type="PackedScene" id=20]
 
-[sub_resource type="Animation" id=1]
-resource_name = "fade_in"
+[sub_resource type="Animation" id=2]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -33,7 +32,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=3]
 script/source = "extends Sprite
 
 func _ready():
@@ -49,13 +48,13 @@ func on_hide_battle_header():
 	$AnimationPlayer.play_backwards(\"slide_in\")
 "
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 30
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 7 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -89,7 +88,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ActionVignette"]
-anims/fade_in = SubResource( 1 )
+anims/fade_in = SubResource( 2 )
 
 [node name="AllyPortraits" parent="." instance=ExtResource( 4 )]
 
@@ -107,7 +106,7 @@ __meta__ = {
 [node name="BattleHeader" type="Sprite" parent="."]
 position = Vector2( -364, 87 )
 texture = ExtResource( 5 )
-script = SubResource( 2 )
+script = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -117,7 +116,7 @@ margin_left = -329.0
 margin_top = -67.0
 margin_right = -168.0
 margin_bottom = -25.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "Action Phase"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -128,7 +127,7 @@ margin_left = -351.0
 margin_top = -26.0
 margin_right = 325.0
 margin_bottom = 16.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "Grias is attacking!"
 align = 2
 __meta__ = {
@@ -136,7 +135,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BattleHeader"]
-anims/slide_in = SubResource( 4 )
+anims/slide_in = SubResource( 5 )
 
 [node name="MinigameContainer" type="CenterContainer" parent="."]
 margin_left = 1920.0

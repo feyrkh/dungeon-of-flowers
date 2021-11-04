@@ -1,3 +1,4 @@
 {"enemies":[
 {"enemy":"tutorial2_slime", "min": 2, "max": 2},{"enemy":"tutorial2_slime", "min": 2, "max": 2}
-]}
+],
+"rewards": {"water_pollen":1}}

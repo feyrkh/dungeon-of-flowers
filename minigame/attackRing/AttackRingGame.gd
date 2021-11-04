@@ -114,7 +114,7 @@ func perform_attack():
 	pause_time = SHAKE_TIME
 	shake_time = SHAKE_TIME
 	var multiplier = Cursor.get_highest_multiplier(true)
-	if multiplier < 0.25:
+	if multiplier <= 0:
 		AudioPlayerPool.play(cursor_miss)
 		apply_handicap(0.1)
 		attack_text(MISS_PHRASE)
@@ -122,17 +122,21 @@ func perform_attack():
 	elif multiplier < 0.75:
 		AudioPlayerPool.play(cursor_weak)
 		apply_handicap(0.05)
-		emit_signal("minigame_success", ceil(multiplier * damage))
 		attack_text(WEAK_PHRASE)
 	elif multiplier < 1.25:
 		AudioPlayerPool.play(cursor_strike)
-		emit_signal("minigame_success", ceil(multiplier * damage))
 		attack_text(MED_PHRASE)
 	else:
 		AudioPlayerPool.play(cursor_critical)
 		apply_handicap(-0.075)
-		emit_signal("minigame_success", ceil(multiplier * damage))
 		attack_text(CRIT_PHRASE)
+	if multiplier > 0:
+		emit_signal("minigame_success", build_damage_effect(ceil(multiplier * damage)))
+
+func build_damage_effect(dmg):
+	var damage_effect = load("res://combat/effects/EffectDamage.gd").new()
+	damage_effect.damage_amt = dmg
+	return damage_effect
 
 func attack_text(phrase_array):
 	var phrase = HitPhrase.instance()

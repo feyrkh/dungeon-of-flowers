@@ -17,18 +17,19 @@ func _physics_process(delta):
 		return
 	if dash_cooldown > 0:
 		dash_cooldown -= delta
-	if Input.is_action_pressed("ui_left"):
-		if Input.is_action_pressed("sprint") and shield_data.get("shield_dash") and dash_cooldown <= 0 and dash_time <= 0:
-			dash_time = 0.3
-			dash_direction = -1
-		else:
-			global_position.x -= NORMAL_VELOCITY * delta * speed_bonus
-	elif Input.is_action_pressed("ui_right"):
-		if Input.is_action_pressed("sprint") and shield_data.get("shield_dash") and dash_cooldown <= 0 and dash_time <= 0:
-			dash_time = 0.3
-			dash_direction = -1
-		else:
-			global_position.x += NORMAL_VELOCITY * delta * speed_bonus
+	if dash_time <= 0:
+		if Input.is_action_pressed("ui_left"):
+			if Input.is_action_pressed("sprint") and shield_data.get("shield_dash") and dash_cooldown <= 0 and dash_time <= 0:
+				dash_time = 0.3
+				dash_direction = -1
+			else:
+				global_position.x -= NORMAL_VELOCITY * delta * speed_bonus
+		elif Input.is_action_pressed("ui_right"):
+			if Input.is_action_pressed("sprint") and shield_data.get("shield_dash") and dash_cooldown <= 0 and dash_time <= 0:
+				dash_time = 0.3
+				dash_direction = -1
+			else:
+				global_position.x += NORMAL_VELOCITY * delta * speed_bonus
 	if dash_time > 0:
 		dash_time -= delta
 		global_position.x += SPRINT_VELOCITY * delta * speed_bonus * dash_direction

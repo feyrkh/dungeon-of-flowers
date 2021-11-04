@@ -343,15 +343,39 @@ func _on_AllyPortraits_self_target_complete(target_ally, move_data):
 	allies[selected_ally_idx].on_targeting_completed()
 	emit_signal("player_move_selected", combat_data, target_ally, move_data)
 
+func get_multi_target_label(target_arr:Array):
+	var enemy_count = 0
+	var ally_count = 0
+	for target in target_arr:
+		if target is Enemy:
+			enemy_count += 1
+		else:
+			ally_count += 1
+	if enemy_count > 1 and ally_count == 0:
+		return "multiple enemies"
+	elif ally_count > 1 and enemy_count == 0:
+		return "multiple allies"
+	elif enemy_count == 1 and ally_count == 0:
+		return target_arr[0].data.label
+	elif ally_count == 1 and enemy_count == 0:
+		return target_arr[0].data.label
+	else:
+		return "indiscriminately"
+
 func _on_CombatScreen_player_move_selected(_combat_data, target, move_data):
 	QuestMgr.combat_phase = "opening_minigame"
 	Enemies.squish_for_minigame(0.5)
 	MinigameContainer.squish_for_minigame(0.5)
 	$"ActionVignette/AnimationPlayer".play("fade_in")
-	print("Attacking ", target.data.label, " with skill: ", move_data.label)
+	var target_label
+	if target is Array:
+		target_label = get_multi_target_label(target)
+	else:
+		target_label = target.data.label
+	print("Attacking ", target_label, " with skill: ", move_data.label)
 	match move_data.type:
 		"attack":
-			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is attacking "+target.data.label+"!")
+			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is attacking "+target_label+"!")
 			var scene = move_data.get_move_scene(allies[selected_ally_idx], target)
 			MinigameContainer.add_child(scene)
 			MinigameContainer.visible = true
@@ -361,7 +385,8 @@ func _on_CombatScreen_player_move_selected(_combat_data, target, move_data):
 				scene.position -= offset
 			else:
 				scene.position = (MinigameContainer.rect_size/2)
-			scene.connect("minigame_success", target, "damage_hp", [allies[selected_ally_idx]])
+			scene.connect("minigame_success", self, "on_minigame_success_effect", [allies[selected_ally_idx], target])
+			#scene.connect("minigame_success", target, "damage_hp", [allies[selected_ally_idx]])
 			scene.connect("minigame_complete", self, "_on_attack_minigame_complete")
 			yield(get_tree().create_timer(0.5), "timeout")
 			scene.start()
@@ -377,7 +402,8 @@ func _on_CombatScreen_player_move_selected(_combat_data, target, move_data):
 				scene.position -= offset
 			else:
 				scene.position = (MinigameContainer.rect_size/2)
-			scene.connect("minigame_success", target, "defend_action", [allies[selected_ally_idx]])
+			#scene.connect("minigame_success", target, "defend_action", [allies[selected_ally_idx]])
+			scene.connect("minigame_success", self, "on_minigame_success_effect", [allies[selected_ally_idx], target])
 			scene.connect("minigame_complete", self, "_on_ally_minigame_complete")
 			yield(get_tree().create_timer(0.5), "timeout")
 			scene.start()

@@ -3,8 +3,6 @@ class_name EffectHeal
 
 const EffectHealBubble = preload("res://combat/effects/EffectHealBubble.tscn")
 
-### DON'T FORGET TO CALL effect_complete SIGNAL
-
 var heal_amt
 var regen_amt
 var regen_rounds

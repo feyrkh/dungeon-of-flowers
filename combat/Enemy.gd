@@ -57,15 +57,6 @@ func add_follower(placement_pos):
 func is_alive():
 	return data.hp > 0
 
-func damage_hp(amt):
-	# TODO: accumulate damage here instead of doing direct damage
-	#self.data.hp -= amt
-	#print(data.label + " has "+str(data.hp)+" hp left")
-	$DamageIndicator.take_damage(amt)
-	var floater = DamageFloater.instance()
-	floater.set_damage(round(amt))
-	add_child(floater)
-
 func _on_all_damage_applied(amt):
 	if amt > 0:
 		Util.shake(self, 0.2, 20, self, "check_death")

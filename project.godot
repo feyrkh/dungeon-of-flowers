@@ -80,9 +80,19 @@ _global_script_classes=[ {
 "path": "res://combat/effects/EffectBubble.gd"
 }, {
 "base": "Effect",
+"class": "EffectDamage",
+"language": "GDScript",
+"path": "res://combat/effects/EffectDamage.gd"
+}, {
+"base": "Effect",
 "class": "EffectHeal",
 "language": "GDScript",
 "path": "res://combat/effects/EffectHeal.gd"
+}, {
+"base": "Effect",
+"class": "EffectShield",
+"language": "GDScript",
+"path": "res://combat/effects/EffectShield.gd"
 }, {
 "base": "Node2D",
 "class": "Enemy",
@@ -154,7 +164,9 @@ _global_script_class_icons={
 "DialogicUtil": "",
 "Effect": "",
 "EffectBubble": "",
+"EffectDamage": "",
 "EffectHeal": "",
+"EffectShield": "",
 "Enemy": "",
 "EnemyData": "",
 "Menu": "",
@@ -204,7 +216,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/dialogic/plugin.cfg" )
+enabled=PoolStringArray(  )
 
 [global]
 

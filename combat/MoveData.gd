@@ -28,5 +28,5 @@ func get_move_scene(_source, _target):
 	scene.set_minigame_config(game_config, _source, _target)
 	return scene
 
-func valid_target(target):
-	return target != null
+func valid_target(_target):
+	return _target != null

@@ -75,16 +75,16 @@ func _physics_process(delta):
 		fire_bullet(curve_offset/100.0)
 		next_bullet_fired_at += timing_accum_per_bullet
 
-func fire_bullet(curve_offset):
-	curve_offset = clamp(curve_offset, 0, 1.0)
-	origin_follow.unit_offset = curve_offset
+func fire_bullet(_curve_offset):
+	_curve_offset = clamp(_curve_offset, 0, 1.0)
+	origin_follow.unit_offset = _curve_offset
 	var origin_pos = origin_follow.global_position - origin_curve_center
-	var target_x  = (bullet_target.interpolate(curve_offset) * target_width)
+	var target_x  = (bullet_target.interpolate(_curve_offset) * target_width)
 	if aim_flip:
 		target_x = target_width - target_x
 	var target_pos = global_target_point + Vector2(target_x, 0)
-	var speed = bullet_speed.interpolate(curve_offset) * (max_speed - min_speed) + min_speed
-	#print("Firing at ", curve_offset, "; x=", target_x, "; speed=", speed)
+	var speed = bullet_speed.interpolate(_curve_offset) * (max_speed - min_speed) + min_speed
+	#print("Firing at ", _curve_offset, "; x=", target_x, "; speed=", speed)
 	var bullet = bullet_prototype.instance()
 	#add_child(bullet)
 	bullet.setup_bullet_motion(origin_pos, target_pos, speed)

@@ -39,19 +39,6 @@ func _ready():
 	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
 	CombatMgr.connect("enemy_move_complete", self, "_on_enemy_move_complete")
 
-func defend_action(config, skill_user):
-	match config.get("action"):
-		"shield": update_shields(config)
-		_: printerr("Unknown defend_action: ", config)
-
-func skill_action(config, skill_user):
-	match config.get("action"):
-		"heal": data.skill_heal(config)
-		_: printerr("Unknown skill_action: ", config)
-
-func update_shields(config):
-	data.update_shields(config)
-
 func get_shields():
 	return data.get_shields()
 

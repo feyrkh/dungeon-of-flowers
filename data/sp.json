@@ -1,0 +1,9 @@
+{
+"shield": ["shield", "support", "stamina", "security", "safety", "sturdy", ],
+"sword": ["shiny", "sword", "slash", "slice", "sharpen", "swing", "swipe", "stab", ],
+"staff": ["staff", "stave", "shillelagh", "sap", "stick", "stubborn", "smash", ],
+"item": ["supply", "stuff", "storage", "stockpile", "specialty", "substance", ],
+"healing": ["salve", "serum", "solace", "sanitary", "sterile", "salubrious", "sanative", ],
+"poison": ["septic", "sordid", "sullied", "sickening", ],
+"stun": ["stun", "smash", "stupefy", "smite", "slam", "slug", "smack", ],
+}

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://art_exports/ui_common/9.tres" type="Texture" id=1]
+[ext_resource path="res://art_exports/ui_common/BattleFontLabel.gd" type="Script" id=2]
+
+[node name="BattleFontLabel" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="9" type="Sprite" parent="."]
+texture = ExtResource( 1 )

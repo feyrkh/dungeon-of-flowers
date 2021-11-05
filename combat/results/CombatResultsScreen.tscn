@@ -1,0 +1,228 @@
+[gd_scene load_steps=40 format=2]
+
+[ext_resource path="res://combat/results/CombatResultsScreen.gd" type="Script" id=1]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_BG04.png" type="Texture" id=2]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_BG02.png" type="Texture" id=3]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_BG03.png" type="Texture" id=4]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_BG01.png" type="Texture" id=5]
+[ext_resource path="res://tmp.png" type="Texture" id=6]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_POLLEN02.png" type="Texture" id=7]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_POLLEN01.png" type="Texture" id=8]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_POLLEN03.png" type="Texture" id=9]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_POLLEN04.png" type="Texture" id=10]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_DAMAGE03.png" type="Texture" id=11]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_DAMAGE01.png" type="Texture" id=12]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_DAMAGE02.png" type="Texture" id=13]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_DAMAGE04.png" type="Texture" id=14]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_BLOCK02.png" type="Texture" id=15]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_BLOCK03.png" type="Texture" id=16]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_BLOCK04.png" type="Texture" id=17]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_BLOCK01.png" type="Texture" id=18]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_REWARD01.png" type="Texture" id=19]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_REWARD02.png" type="Texture" id=20]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_REWARD04.png" type="Texture" id=21]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_REWARD03.png" type="Texture" id=22]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_S.png" type="Texture" id=23]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_B.png" type="Texture" id=24]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_A.png" type="Texture" id=25]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_D.png" type="Texture" id=26]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_C.png" type="Texture" id=27]
+[ext_resource path="res://combat/results/RankResults.gd" type="Script" id=28]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_gleam.png" type="Texture" id=29]
+[ext_resource path="res://font/GLORIAHALLELUJAH-REGULAR.TTF" type="DynamicFontData" id=30]
+[ext_resource path="res://art_exports/ui_common/BattleFontLabel.tscn" type="PackedScene" id=31]
+[ext_resource path="res://art_exports/ui_battle_results/ui_results_POLLEN_BLACK.png" type="Texture" id=32]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 8 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 11 ), ExtResource( 14 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 18 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ ExtResource( 19 ), ExtResource( 20 ), ExtResource( 22 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="DynamicFont" id=6]
+size = 22
+outline_size = 1
+outline_color = Color( 0.92549, 0, 0.54902, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 30 )
+
+[sub_resource type="Animation" id=7]
+resource_name = "rank_gleam"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("RankResults/Gleam:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 4.43828 ),
+"update": 0,
+"values": [ Vector2( 111, 713 ), Vector2( 191, 713 ), Vector2( 799, 713 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("RankResults/Gleam:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 2,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("RankResults/Gleam:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.992157, 1, 0, 1 ) ]
+}
+
+[node name="CombatResultsScreen" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Background" type="AnimatedSprite" parent="."]
+light_mask = 0
+frames = SubResource( 1 )
+centered = false
+
+[node name="tmp" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0.466667 )
+light_mask = 0
+texture = ExtResource( 6 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="StatsRows" type="Node2D" parent="."]
+
+[node name="Pollen" type="AnimatedSprite" parent="StatsRows"]
+position = Vector2( 1256, 163 )
+frames = SubResource( 2 )
+
+[node name="DecayIcon" type="Sprite" parent="StatsRows"]
+position = Vector2( 1256, 139 )
+texture = ExtResource( 32 )
+
+[node name="Damage" type="AnimatedSprite" parent="StatsRows"]
+position = Vector2( 1256, 362 )
+frames = SubResource( 3 )
+
+[node name="Block" type="AnimatedSprite" parent="StatsRows"]
+light_mask = 0
+position = Vector2( 1256, 569 )
+frames = SubResource( 4 )
+
+[node name="Reward" type="AnimatedSprite" parent="StatsRows"]
+light_mask = 0
+position = Vector2( 1256, 769 )
+frames = SubResource( 5 )
+
+[node name="SoilLabel" parent="StatsRows" instance=ExtResource( 31 )]
+position = Vector2( 1364, 182 )
+
+[node name="SunLabel" parent="StatsRows" instance=ExtResource( 31 )]
+position = Vector2( 1479, 182 )
+
+[node name="WaterLabel" parent="StatsRows" instance=ExtResource( 31 )]
+position = Vector2( 1594, 182 )
+
+[node name="DecayLabel" parent="StatsRows" instance=ExtResource( 31 )]
+position = Vector2( 1709, 182 )
+
+[node name="RankResults" type="Node2D" parent="."]
+position = Vector2( -5, 9 )
+script = ExtResource( 28 )
+
+[node name="A" type="Sprite" parent="RankResults"]
+visible = false
+position = Vector2( 419, 720 )
+texture = ExtResource( 25 )
+
+[node name="B" type="Sprite" parent="RankResults"]
+visible = false
+position = Vector2( 419, 720 )
+texture = ExtResource( 24 )
+
+[node name="C" type="Sprite" parent="RankResults"]
+visible = false
+position = Vector2( 419, 720 )
+texture = ExtResource( 27 )
+
+[node name="D" type="Sprite" parent="RankResults"]
+visible = false
+position = Vector2( 419, 720 )
+texture = ExtResource( 26 )
+
+[node name="S" type="Sprite" parent="RankResults"]
+position = Vector2( 419, 720 )
+texture = ExtResource( 23 )
+
+[node name="Gleam" type="Light2D" parent="RankResults"]
+modulate = Color( 0.998039, 0.952941, 0, 1 )
+light_mask = 256
+position = Vector2( 111, 713 )
+texture = ExtResource( 29 )
+energy = 1.59
+
+[node name="CombatSummaryLabel" type="Label" parent="."]
+margin_left = 239.0
+margin_top = 263.0
+margin_right = 604.0
+margin_bottom = 307.0
+rect_rotation = -6.18938
+custom_fonts/font = SubResource( 6 )
+text = "Grias has defeated the enemy"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/rank_gleam = SubResource( 7 )
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

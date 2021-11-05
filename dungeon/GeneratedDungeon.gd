@@ -2,7 +2,7 @@ extends Spatial
 
 const Player = preload("res://dungeon/Player.tscn")
 
-const tile_wall = preload("res://dungeon/wall.tscn")
+const tile_wall = preload("res://dungeon/Wall.tscn")
 const tile_corridor = preload("res://dungeon/Corridor.tscn")
 const tile_torch = preload("res://dungeon/torchwall.tscn")
 

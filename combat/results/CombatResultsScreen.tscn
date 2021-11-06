@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://combat/results/CombatResultsScreen.gd" type="Script" id=1]
 [ext_resource path="res://art_exports/ui_battle_results/ui_results_BG04.png" type="Texture" id=2]
@@ -23,10 +23,7 @@
 [ext_resource path="res://art_exports/ui_battle_results/ui_results_REWARD04.png" type="Texture" id=21]
 [ext_resource path="res://art_exports/ui_battle_results/ui_results_REWARD03.png" type="Texture" id=22]
 [ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_S.png" type="Texture" id=23]
-[ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_B.png" type="Texture" id=24]
-[ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_A.png" type="Texture" id=25]
-[ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_D.png" type="Texture" id=26]
-[ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_C.png" type="Texture" id=27]
+[ext_resource path="res://shader/burn_dissolve.shader" type="Shader" id=24]
 [ext_resource path="res://combat/results/RankResults.gd" type="Script" id=28]
 [ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_gleam.png" type="Texture" id=29]
 [ext_resource path="res://font/GLORIAHALLELUJAH-REGULAR.TTF" type="DynamicFontData" id=30]
@@ -65,6 +62,17 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="ShaderMaterial" id=9]
+shader = ExtResource( 24 )
+shader_param/ash = Color( 0.92549, 0, 0.54902, 1 )
+shader_param/fire = Color( 1, 1, 1, 1 )
+shader_param/OCTAVES = 6
+shader_param/start_time = 0.0
+shader_param/duration = 1.0
+shader_param/offset = 0.1
+shader_param/auto_control = false
+shader_param/manual_progress = 0.0
+
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ ExtResource( 19 ), ExtResource( 20 ), ExtResource( 22 ), ExtResource( 21 ) ],
@@ -72,6 +80,17 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 } ]
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = ExtResource( 24 )
+shader_param/ash = Color( 0.92549, 0, 0.54902, 1 )
+shader_param/fire = Color( 1, 1, 1, 1 )
+shader_param/OCTAVES = 6
+shader_param/start_time = 0.0
+shader_param/duration = 1.0
+shader_param/offset = 0.1
+shader_param/auto_control = false
+shader_param/manual_progress = 1.0
 
 [sub_resource type="DynamicFont" id=6]
 size = 22
@@ -142,64 +161,89 @@ __meta__ = {
 [node name="StatsRows" type="Node2D" parent="."]
 
 [node name="Pollen" type="AnimatedSprite" parent="StatsRows"]
+light_mask = 16
 position = Vector2( 1256, 163 )
 frames = SubResource( 2 )
 
+[node name="PollenGleam" type="Light2D" parent="StatsRows/Pollen"]
+modulate = Color( 0.998039, 0.952941, 0, 1 )
+light_mask = 256
+position = Vector2( -590, -3 )
+scale = Vector2( 1, 0.540201 )
+texture = ExtResource( 29 )
+energy = 1.59
+range_item_cull_mask = 16
+
 [node name="DecayIcon" type="Sprite" parent="StatsRows"]
+light_mask = 16
 position = Vector2( 1256, 139 )
 texture = ExtResource( 32 )
 
 [node name="Damage" type="AnimatedSprite" parent="StatsRows"]
+light_mask = 16
 position = Vector2( 1256, 362 )
 frames = SubResource( 3 )
 
+[node name="DamageGleam" type="Light2D" parent="StatsRows/Damage"]
+modulate = Color( 0.998039, 0.952941, 0, 1 )
+light_mask = 256
+position = Vector2( -598, 6 )
+scale = Vector2( 1, 0.540201 )
+texture = ExtResource( 29 )
+energy = 1.59
+range_item_cull_mask = 16
+
 [node name="Block" type="AnimatedSprite" parent="StatsRows"]
-light_mask = 0
+light_mask = 16
 position = Vector2( 1256, 569 )
 frames = SubResource( 4 )
 
+[node name="BlockGleam" type="Light2D" parent="StatsRows/Block"]
+modulate = Color( 0.998039, 0.952941, 0, 1 )
+light_mask = 256
+position = Vector2( -598, -1 )
+scale = Vector2( 1, 0.540201 )
+texture = ExtResource( 29 )
+energy = 1.59
+range_item_cull_mask = 16
+
 [node name="Reward" type="AnimatedSprite" parent="StatsRows"]
-light_mask = 0
+light_mask = 16
+material = SubResource( 9 )
 position = Vector2( 1256, 769 )
 frames = SubResource( 5 )
 
+[node name="RewardGleam" type="Light2D" parent="StatsRows/Reward"]
+modulate = Color( 0.998039, 0.952941, 0, 1 )
+light_mask = 256
+position = Vector2( -598, -1 )
+scale = Vector2( 1, 0.540201 )
+texture = ExtResource( 29 )
+energy = 1.59
+range_item_cull_mask = 16
+
 [node name="SoilLabel" parent="StatsRows" instance=ExtResource( 31 )]
 position = Vector2( 1364, 182 )
+text = ""
 
 [node name="SunLabel" parent="StatsRows" instance=ExtResource( 31 )]
 position = Vector2( 1479, 182 )
+text = ""
 
 [node name="WaterLabel" parent="StatsRows" instance=ExtResource( 31 )]
 position = Vector2( 1594, 182 )
+text = ""
 
 [node name="DecayLabel" parent="StatsRows" instance=ExtResource( 31 )]
 position = Vector2( 1709, 182 )
+text = ""
 
 [node name="RankResults" type="Node2D" parent="."]
 position = Vector2( -5, 9 )
 script = ExtResource( 28 )
 
-[node name="A" type="Sprite" parent="RankResults"]
-visible = false
-position = Vector2( 419, 720 )
-texture = ExtResource( 25 )
-
-[node name="B" type="Sprite" parent="RankResults"]
-visible = false
-position = Vector2( 419, 720 )
-texture = ExtResource( 24 )
-
-[node name="C" type="Sprite" parent="RankResults"]
-visible = false
-position = Vector2( 419, 720 )
-texture = ExtResource( 27 )
-
-[node name="D" type="Sprite" parent="RankResults"]
-visible = false
-position = Vector2( 419, 720 )
-texture = ExtResource( 26 )
-
 [node name="S" type="Sprite" parent="RankResults"]
+material = SubResource( 8 )
 position = Vector2( 419, 720 )
 texture = ExtResource( 23 )
 
@@ -224,5 +268,7 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/rank_gleam = SubResource( 7 )
+
+[node name="Tween" type="Tween" parent="."]
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

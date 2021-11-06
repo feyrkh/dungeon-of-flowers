@@ -17,9 +17,17 @@ const chars = {
 
 export(String) var text:String = "9" setget set_text
 export(bool) var center:bool = true
+var number:int setget set_number,get_text
 
 func _ready():
 	set_text(text)
+
+func set_number(val):
+	val = int(val)
+	set_text(str(val))
+
+func get_text():
+	return text
 
 func set_text(val:String):
 	text = val

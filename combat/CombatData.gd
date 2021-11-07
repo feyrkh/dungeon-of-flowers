@@ -12,6 +12,7 @@ func load_from(file_name:String):
 	if !file_name.begins_with("res:"):
 		file_name = "res://data/encounter/"+file_name+".json"
 	var data = DialogicResources.load_json(file_name)
+	rewards = data.get("rewards", {})
 	for enemy in data.get("enemies", []):
 		if enemy is Array:
 			enemy = enemy[rand_range(0, enemy.size())]
@@ -20,3 +21,7 @@ func load_from(file_name:String):
 		var new_enemy_data = EnemyData.new()
 		new_enemy_data.load_from(enemy)
 		enemies.append(new_enemy_data)
+
+func give_rewards():
+	for reward in rewards.keys():
+		EventBus.emit_signal("acquire_item", reward, rewards[reward])

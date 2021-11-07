@@ -52,8 +52,14 @@ func _ready():
 	delay += 0.25
 	reveal_rank(delay)
 	$Tween.start()
+	set_process(false)
 	yield($Tween, "tween_all_completed")
+	set_process(true)
 	$AnimationPlayer.play("rank_gleam")
+
+func _process(delta):
+	if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_cancel"):
+		CombatMgr.close_results(self)
 
 func populate_rewards(delay):
 	var x_ofs = 0
@@ -117,7 +123,7 @@ func trigger_gleam(delay, gleam_node):
 	$Tween.interpolate_property(gleam_node, "position:x", gleam_node.position.x, gleam_node.position.x + 1250, 0.95, Tween.TRANS_CUBIC, Tween.EASE_IN, delay)
 
 func trigger_counter(delay, label_node, value):
-	$Tween.interpolate_property(label_node, "number", 0, value, 1, Tween.TRANS_CUBIC, Tween.EASE_OUT, delay)
+	$Tween.interpolate_property(label_node, "number", 0, value, 1, Tween.TRANS_LINEAR, Tween.EASE_OUT, delay)
 
 func trigger_damage_bar(delay):
 	var bar = find_node("DamageBar")

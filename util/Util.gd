@@ -44,6 +44,9 @@ static func to_config_field(obj, prop):
 	else:
 		return obj.get(prop.name)
 
+static func inc(dict:Dictionary, key:String, amt):
+	dict[key] = dict.get(key,0)+amt
+
 static func delete_children(node):
 	for n in node.get_children():
 		n.queue_free()

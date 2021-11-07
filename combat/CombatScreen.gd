@@ -9,6 +9,7 @@ const bullet_strike_sfx = preload("res://sound/mixkit-sword-cutting-flesh-2788.w
 const end_combat_sfx = preload("res://sound/mixkit-winning-notification-2018.wav")
 
 var combat_data : CombatData
+var combat_over = true
 
 signal start_combat(combat_data)
 signal player_move_selected(combat_data, target_enemy, move_data)
@@ -199,6 +200,7 @@ func mock_combat_data():
 
 func _on_CombatScreen_start_combat(_combat_data):
 	print("_on_CombatScreen_start_combat")
+	combat_over = false
 	# todo: surprise attacks, screen effects
 	#playerInput.visible = false
 	#playerSprite.visible = false
@@ -295,20 +297,22 @@ func _on_enemy_dead(enemy):
 	check_combat_over()
 
 func check_combat_over():
+	if combat_over:
+		return
 	print("check_combat_over")
 	if enemies_all_dead():
 		AudioPlayerPool.play(end_combat_sfx);
 		yield(get_tree().create_timer(0.5), "timeout")
 		emit_signal("allies_win", combat_data)
 		EventBus.emit_signal("enable_pause_menu")
-		return true
+		combat_over = true
 	elif allies_all_dead():
 		cur_input_phase = InputPhase.NO_INPUT
 		emit_signal("allies_lose", combat_data)
 		EventBus.emit_signal("enable_pause_menu")
 		QuestMgr.play_cutscene("combat_gameover")
-		return true
-	return false
+		combat_over = true
+	return combat_over
 
 func _on_Ally_select_submenu_item(submenu, move_data):
 	print("_on_Ally_select_submenu_item")

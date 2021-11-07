@@ -33,6 +33,7 @@ func disable_collision():
 func shield_block(shield, max_blocked):
 	if blocked: 
 		return
+	CombatMgr.emit_signal("enemy_attack_blocked")
 	if max_blocked >= damage:
 		disable_collision()
 		blocked = true
@@ -46,6 +47,7 @@ func shield_block(shield, max_blocked):
 		return damage
 
 func ally_strike(ally_data):
+	CombatMgr.emit_signal("enemy_attack_struck")
 	disable_collision()
 	self.velocity = Vector2.ZERO
 	self.blocked = true

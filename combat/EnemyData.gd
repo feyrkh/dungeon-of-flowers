@@ -50,7 +50,6 @@ func load_from(data):
 			intentions[i] = DialogicResources.load_json("res://data/intention/"+intention_name+".json")
 			intentions[i]["name"] = intention_name
 			
-
 func get_next_intention():
 	if !intentions or intentions.size() == 0:
 		return {
@@ -67,8 +66,11 @@ func round_stats():
 
 func set_hp(val):
 	if hp >= 1 and val < 1:
+		CombatMgr.emit_signal("enemy_damage_applied", hp)
 		if group_count > 1:
 			val = max_hp
 		group_count = max(0, group_count-1)
 		dead_followers += 1
+	elif val < hp:
+		CombatMgr.emit_signal("enemy_damage_applied", hp - val)
 	hp = val

@@ -56,6 +56,15 @@ func _ready():
 
 func on_enemy_damage_applied(amount):
 	Util.inc(combat_stats, "damage_given", amount)
+	
+func on_ally_damage_applied(amount):
+	Util.inc(combat_stats, "damage_taken", amount)
+
+func on_enemy_attack_blocked():
+	Util.inc(combat_stats, "blocks_made", 1)
+	
+func on_enemy_attack_struck():
+	Util.inc(combat_stats, "blocks_missed", 1)
 
 func _process(delta):
 	combat_animation_delay -= delta

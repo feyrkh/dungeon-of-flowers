@@ -12,6 +12,8 @@ uniform int OCTAVES = 6;
 uniform float start_time = 99999999.0;
 uniform float duration = 1.0;
 uniform float offset = 0.1;
+uniform bool auto_control = true;
+uniform float manual_progress = 0.0;
 
 float rand(vec2 coord){
 	return fract(sin(dot(coord, vec2(12.9898+offset, 78.233+offset)))* 43758.5453123);
@@ -84,6 +86,9 @@ void fragment() {
 //	COLOR.rgb /= 2.0;
 //	COLOR.g = 1.0 - COLOR.g;
 //	COLOR.rgb *= mod(UV.y, 0.2) / 0.2;
-	
-	COLOR = burn(COLOR, UV, TIME);
+	if (auto_control) {
+		COLOR = burn(COLOR, UV, TIME);
+	} else {
+		COLOR = burn(COLOR, UV, manual_progress);
+	}
 }

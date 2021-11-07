@@ -16,6 +16,9 @@ const chars = {
 }
 
 export(String) var text:String = "9" setget set_text
+export(String) var prefix:String = ""
+export(String) var suffix:String = ""
+
 export(bool) var center:bool = true
 var number:int setget set_number,get_text
 
@@ -30,14 +33,20 @@ func get_text():
 	return text
 
 func set_text(val:String):
+	var text_to_render
 	text = val
+	if val == "":
+		text_to_render = ""
+	else:
+		text_to_render = prefix+val+suffix
 	Util.delete_children(self)
 	var total_width = 0
-	for c in text:
+	for c in text_to_render:
 		var char_scene = chars.get(c)
 		if char_scene != null:
 			var atlas_tex:AtlasTexture = load(char_scene)
 			var char_node = Sprite.new()
+			char_node.light_mask = light_mask
 			char_node.centered = false
 			char_node.texture = atlas_tex
 			add_child(char_node)

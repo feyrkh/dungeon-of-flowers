@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://combat/results/CombatResultsScreen.gd" type="Script" id=1]
 [ext_resource path="res://art_exports/ui_battle_results/ui_results_BG04.png" type="Texture" id=2]
@@ -24,6 +24,7 @@
 [ext_resource path="res://art_exports/ui_battle_results/ui_results_REWARD03.png" type="Texture" id=22]
 [ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_S.png" type="Texture" id=23]
 [ext_resource path="res://shader/burn_dissolve.shader" type="Shader" id=24]
+[ext_resource path="res://util/ComparisonBar.tscn" type="PackedScene" id=25]
 [ext_resource path="res://combat/results/RankResults.gd" type="Script" id=28]
 [ext_resource path="res://art_exports/ui_battle_results/ui_results_RANK_gleam.png" type="Texture" id=29]
 [ext_resource path="res://font/GLORIAHALLELUJAH-REGULAR.TTF" type="DynamicFontData" id=30]
@@ -142,6 +143,9 @@ tracks/2/keys = {
 
 [node name="CombatResultsScreen" type="Node2D"]
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_vertical_guides_": [ 1749.0 ]
+}
 
 [node name="Background" type="AnimatedSprite" parent="."]
 light_mask = 0
@@ -181,7 +185,7 @@ texture = ExtResource( 32 )
 
 [node name="Damage" type="AnimatedSprite" parent="StatsRows"]
 light_mask = 16
-position = Vector2( 1256, 362 )
+position = Vector2( 1255, 362 )
 frames = SubResource( 3 )
 
 [node name="DamageGleam" type="Light2D" parent="StatsRows/Damage"]
@@ -238,6 +242,30 @@ text = ""
 position = Vector2( 1709, 182 )
 text = ""
 
+[node name="DamageGivenLabel" parent="StatsRows" instance=ExtResource( 31 )]
+light_mask = 16
+position = Vector2( 1417, 396 )
+text = ""
+
+[node name="DamageTakenLabel" parent="StatsRows" instance=ExtResource( 31 )]
+light_mask = 16
+position = Vector2( 1632, 396 )
+text = ""
+
+[node name="DamageBar" parent="StatsRows" instance=ExtResource( 25 )]
+light_mask = 16
+position = Vector2( 1325, 367 )
+
+[node name="BlockBar" parent="StatsRows" instance=ExtResource( 25 )]
+light_mask = 16
+position = Vector2( 1325, 567 )
+
+[node name="BlockPercentLabel" parent="StatsRows" instance=ExtResource( 31 )]
+light_mask = 16
+position = Vector2( 1527, 595 )
+text = ""
+suffix = "%"
+
 [node name="RankResults" type="Node2D" parent="."]
 position = Vector2( -5, 9 )
 script = ExtResource( 28 )
@@ -270,5 +298,9 @@ __meta__ = {
 anims/rank_gleam = SubResource( 7 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="ItemSpawn" type="Position2D" parent="."]
+light_mask = 16
+position = Vector2( 1311, 695 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

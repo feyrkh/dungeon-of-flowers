@@ -13,7 +13,7 @@ var dodge = 100 # decrease total size of low targets
 var defend = 100 # decrease size of med targets
 var resist = 100 # decrease size of crit targets
 
-func _init(_name:String="???", _max_hp:int=10, _img:Texture=null):
+func _init(_name:String="???", _max_hp:int=1, _img:Texture=null):
 	self.label = _name
 	self.max_hp = _max_hp
 	self.hp = _max_hp
@@ -71,6 +71,6 @@ func set_hp(val):
 			val = max_hp
 		group_count = max(0, group_count-1)
 		dead_followers += 1
-	elif val < hp:
+	elif  hp >= 1 and val < hp:
 		CombatMgr.emit_signal("enemy_damage_applied", hp - val)
 	hp = val

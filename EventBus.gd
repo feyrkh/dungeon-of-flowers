@@ -10,6 +10,9 @@ signal pre_load_game()
 signal post_load_game()
 signal finalize_load_game()
 
+# map editing
+signal map_tile_changed(x, y, tile_id)
+
 # exploration
 signal uncovered_map_tile(map_x, map_y, tile_type)
 signal update_minimap() # redraw dirty quadrants

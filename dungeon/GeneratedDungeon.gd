@@ -14,6 +14,11 @@ const tiles = {
 	"@": tile_corridor,
 }
 
+const IN_FOG_MIN = 1.5
+const IN_FOG_MAX = -10
+const OUT_FOG_MIN = -0.1
+const OUT_FOG_MAX = -10
+
 var player
 var map_name:String = "an unknown place"
 var combat_grace_period:int = 4
@@ -23,7 +28,15 @@ var property_types:Dictionary = {}
 var randseed:int
 var combatMusic:String
 var exploreMusic:String
-var map_scene:Node
+var map_scene:Node # The loaded scene which contains each of the TileMap layers which are used to render the 3d map
+var map_index:Dictionary = {} # The loaded scenes which were created by reading the map_scene TileMap layers; map_index["ground"][Vector2(0,0)] is the top-left corner of the ground layer
+var tilemaps:Dictionary = {} # The TileMap nodes for each layer; tilemaps["ground"].get_cell(0, 0) is the tile ID of the top left tile
+var tilesets:Dictionary = {} # The TileSet nodes for each layer; tilesets["ground"].find_tile_by_name("~wall") is the ID of the ~wall tile
+var wall_tile_id
+var corridor_tile_id
+var pollen_tile_id 
+var block_pollen_tile_id
+var in_pollen = false
 
 onready var Map:Spatial = find_node("Map")
 onready var Combat:Control = find_node("Combat")
@@ -37,8 +50,24 @@ func _ready():
 	EventBus.connect("finalize_new_game", self, "on_finalize_new_game")
 	EventBus.connect("post_load_game", self, "on_post_load_game")
 	EventBus.connect("finalize_load_game", self, "on_finalize_load_game")
+	EventBus.connect("new_player_location", self, "on_new_player_location")
 	CombatMgr.connect("combat_start", self, "_on_combat_start")
 	CombatMgr.connect("combat_end", self, "_on_combat_end")
+
+func on_new_player_location(map_x, map_y, rot_deg):
+	var new_in_pollen = get_tile("pollen", map_x, map_y) == pollen_tile_id
+	if in_pollen == new_in_pollen:
+		return
+	in_pollen = new_in_pollen
+	if $FogTween.is_active():
+		$FogTween.remove_all()
+	if in_pollen:
+		$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_min", $WorldEnvironment.environment.fog_height_min, IN_FOG_MIN, 1.0)
+		$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_max", $WorldEnvironment.environment.fog_height_max, IN_FOG_MAX, 1.0)
+	else:
+		$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_min", $WorldEnvironment.environment.fog_height_min, OUT_FOG_MIN, 1.0)
+		$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_max", $WorldEnvironment.environment.fog_height_max, OUT_FOG_MAX, 1.0)
+	$FogTween.start()
 
 func on_post_load_game():
 	load_from_file()
@@ -53,9 +82,12 @@ func on_post_new_game():
 	
 func on_finalize_new_game():
 	QuestMgr.check_quest_progress()
-	
+
 func load_from_file():
 	GameData.set_rand_seed()
+	map_index = {}
+	tilemaps = {}
+	tilesets = {}
 	for prop in get_property_list():
 		property_types[prop.name] = prop.type
 	var file = File.new()
@@ -74,9 +106,34 @@ func load_from_file():
 	MapName.text = map_name
 	IdleHud.modulate.a = 0
 	MusicCrossFade.cross_fade("res://music/explore1.mp3", 3, true)
-
-
 	
+func get_tile(layer:String, x:int, y:int) -> int:
+	var tilemap:TileMap = tilemaps.get(layer, null)
+	if tilemap == null:
+		return -1
+	var cell = tilemap.get_cell(x, y)
+	return cell
+
+func set_tile(layer:String, x:int, y:int, tile:int):
+	var tilemap:TileMap = tilemaps.get(layer, null)
+	if tilemap == null:
+		return
+	tilemap.set_cell(x, y, tile)
+	EventBus.emit_signal("map_tile_changed", x, y, tile)
+
+func get_tile_scene(layer:String, coords:Vector2):
+	if !map_index.has(layer):
+		return null
+	var scene = map_index[layer].get(coords, null)
+	if !is_instance_valid(scene):
+		return null
+	return scene
+
+func set_tile_scene(layer:String, coords:Vector2, scene:Spatial):
+	if !map_index.has(layer):
+		map_index[layer] = {}
+	map_index[layer][coords] = scene
+
 func _on_combat_start():
 	MusicCrossFade.cross_fade("res://music/battle1.ogg", 3, false)
 	AudioPlayerPool.play(start_combat_sfx)
@@ -121,10 +178,21 @@ func process_map(map_filename):
 	map_scene = load("res://data/map/"+map_filename+".tscn").instance()
 	for layer in map_scene.get_children():
 		if layer is TileMap:
-			process_tilemap_layer(layer)
+			process_tilemap_layer(layer, layer.name)
 
-func process_tilemap_layer(layer:TileMap):
+func process_tilemap_layer(layer:TileMap, layer_name:String):
+	tilemaps[layer_name] = layer
+	tilesets[layer_name] = layer.tile_set
 	var tileset:TileSet = layer.tile_set
+	
+	for tile_id in tileset.get_tiles_ids():
+		var tile_name = tileset.tile_get_name(tile_id)
+		match tile_name:
+			"~wall": wall_tile_id = tile_id
+			"~floor": corridor_tile_id = tile_id
+			"~pollen": pollen_tile_id = tile_id
+			"~block_pollen": block_pollen_tile_id = tile_id
+	
 	var cells = layer.get_used_cells()
 	for cell in cells:
 		var tile_id = layer.get_cell(cell.x, cell.y)
@@ -141,6 +209,9 @@ func process_tilemap_layer(layer:TileMap):
 		if tile_packed_scene:
 			var tile_scene = tile_packed_scene.instance()
 			add_child(tile_scene)
+			set_tile_scene(layer_name, cell, tile_scene)
+			if tile_scene.has_method("on_map_place"):
+				tile_scene.on_map_place(self, layer_name, cell)
 			tile_scene.transform.origin = Vector3(3*cell.x, 0, 3*cell.y)
 			if tile_scene.is_in_group("rotated"):
 				var rotate_amt = deg2rad(randi()%4 * 90)

@@ -36,12 +36,12 @@ var wall_tile_id
 var corridor_tile_id
 var pollen_tile_id 
 var block_pollen_tile_id
+var orientation_tiles = {}
 var in_pollen = false
 
 onready var Map:Spatial = find_node("Map")
 onready var Combat:Control = find_node("Combat")
 onready var Fader:Control = find_node("Fader")
-onready var BackgroundBlur:Control = find_node("BackgroundBlur")
 onready var MapName:Label = find_node("MapName")
 onready var IdleHud:Control = find_node("IdleHud")
 
@@ -127,7 +127,7 @@ func get_tile_scene(layer:String, coords:Vector2):
 	var scene = map_index[layer].get(coords, null)
 	if !is_instance_valid(scene):
 		return null
-	return scene
+	return scene	
 
 func set_tile_scene(layer:String, coords:Vector2, scene:Spatial):
 	if !map_index.has(layer):
@@ -176,15 +176,19 @@ func process_map(map_filename):
 	if is_instance_valid(map_scene):
 		map_scene.queue_free()
 	map_scene = load("res://data/map/"+map_filename+".tscn").instance()
+	# preprocess/index the layers
+	for layer in map_scene.get_children():
+		if layer is TileMap:
+			tilemaps[layer.name] = layer
+			tilesets[layer.name] = layer.tile_set
+			process_tileset(layer)
+	# render the layers
 	for layer in map_scene.get_children():
 		if layer is TileMap:
 			process_tilemap_layer(layer, layer.name)
 
-func process_tilemap_layer(layer:TileMap, layer_name:String):
-	tilemaps[layer_name] = layer
-	tilesets[layer_name] = layer.tile_set
+func process_tileset(layer):
 	var tileset:TileSet = layer.tile_set
-	
 	for tile_id in tileset.get_tiles_ids():
 		var tile_name = tileset.tile_get_name(tile_id)
 		match tile_name:
@@ -192,7 +196,14 @@ func process_tilemap_layer(layer:TileMap, layer_name:String):
 			"~floor": corridor_tile_id = tile_id
 			"~pollen": pollen_tile_id = tile_id
 			"~block_pollen": block_pollen_tile_id = tile_id
+			"~up": orientation_tiles[tile_id] = Vector3(0, 0, 0)
+			"~down": orientation_tiles[tile_id] = Vector3(0, 180, 0)
+			"~left": orientation_tiles[tile_id] = Vector3(0, 90, 0)
+			"~right": orientation_tiles[tile_id] = Vector3(0, -90, 0)
 	
+
+func process_tilemap_layer(layer:TileMap, layer_name:String):
+	var tileset:TileSet = layer.tile_set
 	var cells = layer.get_used_cells()
 	for cell in cells:
 		var tile_id = layer.get_cell(cell.x, cell.y)
@@ -213,6 +224,10 @@ func process_tilemap_layer(layer:TileMap, layer_name:String):
 			if tile_scene.has_method("on_map_place"):
 				tile_scene.on_map_place(self, layer_name, cell)
 			tile_scene.transform.origin = Vector3(3*cell.x, 0, 3*cell.y)
+			var orientation_tile = get_tile("orientation", cell.x, cell.y)
+			var orientation_vector = orientation_tiles.get(orientation_tile, null)
+			if orientation_vector:
+				tile_scene.rotation_degrees = orientation_vector
 			if tile_scene.is_in_group("rotated"):
 				var rotate_amt = deg2rad(randi()%4 * 90)
 				tile_scene.transform.basis = tile_scene.transform.basis.rotated(Vector3.UP, rotate_amt)

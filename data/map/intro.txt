@@ -4,3 +4,4 @@ combat_chance_per_tile:0.05
 tile:wall:dungeon/Wall.tscn
 tile:floor:dungeon/Corridor.tscn
 tile:pollen_spawn:dungeon/tiles/CorridorPollenSource.tscn
+tile:treasure:dungeon/tiles/RoundedChest.tscn

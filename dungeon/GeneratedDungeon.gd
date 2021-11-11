@@ -23,6 +23,7 @@ var property_types:Dictionary = {}
 var randseed:int
 var combatMusic:String
 var exploreMusic:String
+var map_scene:Node
 
 onready var Map:Spatial = find_node("Map")
 onready var Combat:Control = find_node("Combat")
@@ -58,16 +59,16 @@ func load_from_file():
 	for prop in get_property_list():
 		property_types[prop.name] = prop.type
 	var file = File.new()
-	var err = file.open(GameData.cur_dungeon, File.READ)
+	var err = file.open("res://data/map/"+GameData.cur_dungeon+".txt", File.READ)
 	if err != 0:
 		printerr(GameData.cur_dungeon, " : Failed to open dungeon file while loading, got error: ", err)
 		return
 	var content = file.get_line()
-	while content != "map:":
+	while content != "map:" and !file.eof_reached():
 		process_config_line(content)
 		content = file.get_line()
-	process_map(file)
 	file.close()
+	process_map(GameData.cur_dungeon)
 	combat_grace_period_counter = combat_grace_period
 	CombatMgr.register(player, self)
 	MapName.text = map_name
@@ -96,40 +97,51 @@ func _on_player_tile_move_complete():
 func process_config_line(line:String):
 	var chunks = line.split(":", false, 1)
 	if chunks.size() == 2:
-		match property_types.get(chunks[0]):
-			TYPE_INT:
-				set(chunks[0], int(chunks[1]))
-			TYPE_REAL:
-				set(chunks[0], float(chunks[1]))
-			TYPE_STRING:
-				set(chunks[0], chunks[1])
-			_: printerr("Unexpected property type: ", property_types.get(chunks[0]))
+		if chunks[0] == "tile":
+			load_tile(chunks[1])
+		else:
+			match property_types.get(chunks[0]):
+				TYPE_INT:
+					set(chunks[0], int(chunks[1]))
+				TYPE_REAL:
+					set(chunks[0], float(chunks[1]))
+				TYPE_STRING:
+					set(chunks[0], chunks[1])
+				_: printerr("Unexpected property type: ", property_types.get(chunks[0]))
+
+func load_tile(tile_data):
+	var chunks = tile_data.split(":", false, 1)
+	if chunks.size() == 2:
+		print("Tile '%s'=%s"%[chunks[0], chunks[1]])
+		tiles["~"+chunks[0]] = load("res://"+chunks[1])
 	
-func process_map(file):
-	var z = 0
-	var content = file.get_line()
-	while content != "":
-		var x = 0
-		for c in content:
-			if c == "@":
-				player = Player.instance()
-				player.transform.origin = Vector3(3*x, 0, 3*z)
-				#player.transform = player.transform.rotated(Vector3.UP, deg2rad(90))
-				add_child(player)
-			var tileScene = tiles.get(c)
-			if tileScene is Array:
-				tileScene = tileScene[randi()%tileScene.size()]
-			if tileScene == null:
-				printerr("Undefined tile character in "+GameData.cur_dungeon+" at ("+x+","+z+") '"+c+"'")
-				x += 1
-				continue
-			var tile:Spatial = tileScene.instance()
-			add_child(tile)
-			tile.transform.origin = Vector3(3*x, 0, 3*z) 
-			if tile.is_in_group("rotated"):
+func process_map(map_filename):
+	if is_instance_valid(map_scene):
+		map_scene.queue_free()
+	map_scene = load("res://data/map/"+map_filename+".tscn").instance()
+	for layer in map_scene.get_children():
+		if layer is TileMap:
+			process_tilemap_layer(layer)
+
+func process_tilemap_layer(layer:TileMap):
+	var tileset:TileSet = layer.tile_set
+	var cells = layer.get_used_cells()
+	for cell in cells:
+		var tile_id = layer.get_cell(cell.x, cell.y)
+		var tile_name = tileset.tile_get_name(tile_id)
+		if tile_name == "" or tile_name == null:
+			continue
+		if tile_name == "~player_spawn":
+			player = Player.instance()
+			player.transform.origin = Vector3(3*cell.x, 0, 3*cell.y)
+			#player.transform = player.transform.rotated(Vector3.UP, deg2rad(90))
+			add_child(player)
+			continue
+		var tile_packed_scene = tiles.get(tile_name)
+		if tile_packed_scene:
+			var tile_scene = tile_packed_scene.instance()
+			add_child(tile_scene)
+			tile_scene.transform.origin = Vector3(3*cell.x, 0, 3*cell.y)
+			if tile_scene.is_in_group("rotated"):
 				var rotate_amt = deg2rad(randi()%4 * 90)
-				tile.transform.basis = tile.transform.basis.rotated(Vector3.UP, rotate_amt)
-			x += 1
-		content = file.get_line()
-		z += 1
-	file.close()
+				tile_scene.transform.basis = tile_scene.transform.basis.rotated(Vector3.UP, rotate_amt)

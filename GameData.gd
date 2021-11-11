@@ -27,7 +27,7 @@ var world_tile_position = Vector2()
 var player_rotation = 0
 var facing = "north"
 var settings_file = "user://settings.save"
-var cur_dungeon = "res://data/map/intro.txt"
+var cur_dungeon = "intro"
 
 var settings = { # default settings go here
 	MUSIC_VOLUME: 65,
@@ -36,8 +36,9 @@ var settings = { # default settings go here
 }
 
 var game_state = {
-	
 }
+
+var inventory = {}
 
 func listen_for_setting_change(listener):
 	connect("setting_updated", listener, "on_setting_change")
@@ -47,8 +48,15 @@ func _init():
 
 func _ready():
 	EventBus.connect("new_player_location", self, "on_new_player_location")
+	EventBus.connect("acquire_item", self, "on_acquire_item")
 	randomize()
 	load_settings()
+
+func on_acquire_item(item_name, amount):
+	Util.inc(inventory, item_name, amount)
+
+func on_use_item(item_name, amount):
+	Util.inc(inventory, item_name, amount, 0)
 
 func save_game(save_file):
 	EventBus.emit_signal("pre_save_game")
@@ -197,7 +205,7 @@ func new_game():
 	set_state(TUTORIAL_ON, get_setting(TUTORIAL_ON))	
 	setup_allies()
 	if get_state(TUTORIAL_ON):
-		cur_dungeon = "res://data/map/intro.txt"
+		cur_dungeon = "intro"
 	else:
 		cur_dungeon = "res://data/map/floor1.txt"
 	get_tree().change_scene("res://dungeon/GeneratedDungeon.tscn")

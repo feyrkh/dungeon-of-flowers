@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ui_bullet02.png-06769c6ba2f2e42ee77037f84d2238a0.stex"
+path="res://.import/floor.jpg-8a099ff2923549288bda087c52bfdb0a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art_exports/ui_battle/ui_bullet02.png"
-dest_files=[ "res://.import/ui_bullet02.png-06769c6ba2f2e42ee77037f84d2238a0.stex" ]
+source_file="res://img/dungeon/floor.jpg"
+dest_files=[ "res://.import/floor.jpg-8a099ff2923549288bda087c52bfdb0a.stex" ]
 
 [params]
 
@@ -23,7 +23,7 @@ flags/repeat=0
 flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
-flags/srgb=1
+flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false

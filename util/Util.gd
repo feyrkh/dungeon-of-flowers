@@ -44,8 +44,12 @@ static func to_config_field(obj, prop):
 	else:
 		return obj.get(prop.name)
 
-static func inc(dict:Dictionary, key:String, amt):
+static func inc(dict:Dictionary, key:String, amt, clamp_lower=null, clamp_higher=null):
 	dict[key] = dict.get(key,0)+amt
+	if clamp_lower != null:
+		dict[key] = max(clamp_lower, dict.get(key, 0))
+	if clamp_higher != null:
+		dict[key] = min(clamp_higher, dict.get(key, 0))
 
 static func delete_children(node):
 	for n in node.get_children():

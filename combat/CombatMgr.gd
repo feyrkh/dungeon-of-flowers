@@ -153,8 +153,6 @@ func show_combat_results():
 	fader.fade_in(fade_amt, 0.25)
 	yield(fader, "fade_complete")
 	fader.queue_free()
-	
-	
 
 func _on_acquire_item(item_name, amount):
 	match item_name:

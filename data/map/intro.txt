@@ -5,3 +5,4 @@ tile:wall:dungeon/Wall.tscn
 tile:floor:dungeon/Corridor.tscn
 tile:pollen_spawn:dungeon/tiles/CorridorPollenSource.tscn
 tile:treasure:dungeon/tiles/RoundedChest.tscn
+tile:gate:dungeon/tiles/Gate.tscn

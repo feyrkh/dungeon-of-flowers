@@ -2,9 +2,9 @@ extends Control
 
 onready var AllyPortraits = find_node("AllyPortraits")
 
-const SECONDS_TO_FADE_OUT = 0.25
+const SECONDS_TO_FADE_OUT = 0.1
 const SECONDS_TO_FADE_IN = 0.75
-const SECONDS_TO_DELAY_FADE = 2
+const SECONDS_TO_DELAY_FADE = 1
 
 const FADE_IN_ALPHA_PER_SECOND = 1.0 / SECONDS_TO_FADE_IN
 const FADE_OUT_ALPHA_PER_SECOND = 1.0 / SECONDS_TO_FADE_OUT
@@ -15,7 +15,8 @@ var counter = SECONDS_TO_DELAY_FADE
 
 func _ready():
 	AllyPortraits.explore_mode()
-	EventBus.connect("new_player_location", self, "_on_move_finish")
+	EventBus.connect("player_finish_move", self, "_on_move_finish")
+	EventBus.connect("player_finish_turn", self, "_on_move_finish")
 	EventBus.connect("player_start_move", self, "_on_move_start")
 	EventBus.connect("player_start_turn", self, "_on_move_start")
 	CombatMgr.connect("combat_start", self, "_on_combat_start")
@@ -33,15 +34,15 @@ func _on_combat_end():
 	visible = true
 	set_process(true)
 
-func _on_move_finish(x, y, rot):
+func _on_move_finish():
 	target_alpha = 1
-	#print("Finished move, target_alpha=", target_alpha)
+	print("Finished move, target_alpha=", target_alpha)
 	counter = SECONDS_TO_DELAY_FADE
 	set_process(true)
 
 func _on_move_start():
 	target_alpha = 0
-	#print("Started move, target_alpha=", target_alpha)
+	print("Started move, target_alpha=", target_alpha)
 	counter = 0
 	set_process(true)
 

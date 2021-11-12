@@ -121,6 +121,17 @@ func set_tile(layer:String, x:int, y:int, tile:int):
 	tilemap.set_cell(x, y, tile)
 	EventBus.emit_signal("map_tile_changed", x, y, tile)
 
+func get_all_tile_scenes(coords:Vector2):
+	var result = []
+	for child in tilemaps.values():
+		var tilemap:TileMap = child as TileMap
+		if tilemap == null:
+			continue
+		var scene = get_tile_scene(tilemap.name, coords)
+		if scene != null:
+			result.append(scene)
+	return result
+
 func get_tile_scene(layer:String, coords:Vector2):
 	if !map_index.has(layer):
 		return null

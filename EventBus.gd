@@ -21,6 +21,10 @@ signal show_minimap()
 signal new_player_location(map_x, map_y, rot_deg)
 signal player_start_move()
 signal player_start_turn()
+signal player_finish_move()
+signal player_finish_turn()
+signal update_interactable(interactables_list)
+signal refresh_interactables()
 
 # combat
 signal cancel_submenu()

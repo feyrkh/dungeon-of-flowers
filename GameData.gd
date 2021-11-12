@@ -28,6 +28,8 @@ var player_rotation = 0
 var facing = "north"
 var settings_file = "user://settings.save"
 var cur_dungeon = "intro"
+var dungeon setget set_dungeon, get_dungeon
+var _dungeon_scene
 
 var settings = { # default settings go here
 	MUSIC_VOLUME: 65,
@@ -39,6 +41,16 @@ var game_state = {
 }
 
 var inventory = {}
+
+
+func set_dungeon(val):
+	_dungeon_scene = val
+
+func get_dungeon():
+	if _dungeon_scene && is_instance_valid(_dungeon_scene):
+		return _dungeon_scene
+	_dungeon_scene = get_tree().root.find_node("Dungeon", true, false)
+	return _dungeon_scene
 
 func listen_for_setting_change(listener):
 	connect("setting_updated", listener, "on_setting_change")

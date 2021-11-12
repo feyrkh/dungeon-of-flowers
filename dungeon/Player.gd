@@ -20,6 +20,7 @@ var move_time
 var move_multiplier = 1.0
 var is_bumping = false
 var is_in_combat = false
+var interactable = []
 
 onready var forwardSensor:Area = find_node("forwardSensor")
 onready var backwardSensor:Area = find_node("backwardSensor")
@@ -35,6 +36,9 @@ func _ready():
 	EventBus.connect("finalize_new_game", self, "on_finalize_new_game")
 	EventBus.connect("post_load_game", self, "on_post_load_game")
 	EventBus.connect("finalize_load_game", self, "on_finalize_load_game")
+	EventBus.connect("player_start_move", self, "_on_move_start")
+	EventBus.connect("player_start_turn", self, "_on_move_start")
+	EventBus.connect("refresh_interactables", self, "find_interactables")
 	connect("move_complete", self, "_on_move_complete")
 	connect("turn_complete", self, "_on_turn_complete")
 	connect("tile_move_complete", QuestMgr, "on_tile_move_complete")
@@ -86,6 +90,8 @@ func process_input():
 		turn(-1)
 	elif Input.is_action_pressed("turn_right"):
 		turn(1)
+	elif Input.is_action_just_pressed("ui_accept"):
+		interact()
 
 func bump_forward(dir):
 	is_bumping = true
@@ -125,15 +131,46 @@ func can_move(sensor):
 				return tile_metadata.can_move_onto
 		return false
 
+func _on_move_start():
+	interactable = []
+	update_interactable_prompt()
+
 func _on_move_complete():
 	target_position = null
 	move_time = 0
 	is_moving = false
+	find_interactables()
 
 func _on_turn_complete():
 	target_rotation = null
 	rotation_time = 0
 	is_moving = false
+	find_interactables()
+
+func get_tile_coords():
+	return Vector2(round(global_transform.origin.x/3), round(global_transform.origin.z/3))
+
+func get_facing_tile_coords():
+	var facing_coords = global_transform.origin - global_transform.basis.z*3
+	facing_coords = Vector2(round(facing_coords.x/3), round(facing_coords.z/3))
+	return facing_coords
+
+func find_interactables():
+	interactable = []
+	var scenes_on_facing_tile = GameData.dungeon.get_all_tile_scenes(get_facing_tile_coords())
+	for scene in scenes_on_facing_tile:
+		if scene and scene.has_method("is_interactable") and scene.is_interactable():
+			interactable.append(scene)
+	update_interactable_prompt()
+
+func update_interactable_prompt():
+	EventBus.emit_signal("update_interactable", interactable)
+
+func interact():
+	if !interactable or !interactable.size():
+		return
+	if interactable[0].is_interactable():
+		interactable[0].interact()
 
 func _process(delta):
 	process_input()
@@ -144,6 +181,7 @@ func _process(delta):
 		else:
 			global_transform.origin = target_position
 			emit_signal("move_complete")
+			EventBus.emit_signal("player_finish_move")
 			#print("ended move at ", OS.get_system_time_msecs())
 			if !is_bumping:
 				emit_signal("tile_move_complete")
@@ -156,6 +194,7 @@ func _process(delta):
 		else:
 			transform.basis = target_rotation
 			emit_signal("turn_complete")
+			EventBus.emit_signal("player_finish_turn")
 			#EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
 			update_minimap()
 

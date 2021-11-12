@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://dungeon/GeneratedDungeon.gd" type="Script" id=1]
 [ext_resource path="res://shader/pixel.shader" type="Shader" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://art_exports/ui_HUD/ui_bar_fill.png" type="Texture" id=6]
 [ext_resource path="res://font/explore_font.tres" type="DynamicFont" id=7]
 [ext_resource path="res://menu/PauseMenu.tscn" type="PackedScene" id=8]
+[ext_resource path="res://util/controls/ui_button_accept.tscn" type="PackedScene" id=9]
+[ext_resource path="res://dungeon/InteractablePrompt.gd" type="Script" id=10]
 
 [sub_resource type="Environment" id=1]
 background_energy = 0.0
@@ -113,6 +115,30 @@ __meta__ = {
 position = Vector2( 960, 30 )
 scale = Vector2( 2, 0.5 )
 texture = ExtResource( 6 )
+
+[node name="InteractablePrompt" type="Control" parent="IdleHud"]
+visible = false
+margin_left = 960.0
+margin_top = 68.0
+margin_right = 960.0
+margin_bottom = 68.0
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ui_accept" parent="IdleHud/InteractablePrompt" instance=ExtResource( 9 )]
+position = Vector2( -27.3572, -31.6076 )
+scale = Vector2( 3, 3 )
+
+[node name="Label" type="Label" parent="IdleHud/InteractablePrompt"]
+margin_left = -179.0
+margin_top = 30.0
+margin_right = 179.0
+margin_bottom = 103.0
+custom_fonts/font = ExtResource( 7 )
+text = "Do something"
+align = 1
 
 [node name="PauseMenuRoot" parent="." instance=ExtResource( 8 )]
 

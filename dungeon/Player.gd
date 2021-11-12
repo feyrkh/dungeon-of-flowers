@@ -258,4 +258,5 @@ func turn(dir):
 	EventBus.emit_signal("new_player_location", round(global_transform.origin.x/3), round(global_transform.origin.z/3), rad2deg(target_rotation.get_euler().y))
 	rotation_time = 0
 	EventBus.emit_signal("player_start_turn")
+	find_interactables(get_facing_tile_coords((global_transform.origin/3).round(), target_rotation.z, 1))
 

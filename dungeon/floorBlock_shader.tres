@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://img/dungeon/stonefloor_displace.png" type="Texture" id=1]
+[ext_resource path="res://shader/vertex_displace.shader" type="Shader" id=2]
+[ext_resource path="res://img/dungeon/stonefloor.png" type="Texture" id=3]
+
+[resource]
+shader = ExtResource( 2 )
+shader_param/deform_power = -0.06
+shader_param/mask = ExtResource( 1 )
+shader_param/albedo = ExtResource( 3 )

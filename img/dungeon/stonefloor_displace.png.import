@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/stonefloor_displace.png-3004abba4ee4ad99b99937bb979ad42f.stex"
+path="res://.import/stonefloor_displace.png-9e07284812bcc533a9318322371212c8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://dungeon/tiles/stonefloor_displace.png"
-dest_files=[ "res://.import/stonefloor_displace.png-3004abba4ee4ad99b99937bb979ad42f.stex" ]
+source_file="res://img/dungeon/stonefloor_displace.png"
+dest_files=[ "res://.import/stonefloor_displace.png-9e07284812bcc533a9318322371212c8.stex" ]
 
 [params]
 
@@ -18,7 +18,7 @@ compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
-compress/normal_map=0
+compress/normal_map=1
 flags/repeat=0
 flags/filter=false
 flags/mipmaps=false

@@ -120,7 +120,10 @@ func can_move(sensor):
 		print(areas.size(), " areas overlapping")
 		for area in areas:
 			print(area.name)
-		return true
+			var tile_metadata:TileMetadata = area.owner.find_node("TileMetadata", true, false)
+			if tile_metadata:
+				return tile_metadata.can_move_onto
+		return false
 
 func _on_move_complete():
 	target_position = null

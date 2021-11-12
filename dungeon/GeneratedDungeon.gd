@@ -224,10 +224,11 @@ func process_tilemap_layer(layer:TileMap, layer_name:String):
 			if tile_scene.has_method("on_map_place"):
 				tile_scene.on_map_place(self, layer_name, cell)
 			tile_scene.transform.origin = Vector3(3*cell.x, 0, 3*cell.y)
-			var orientation_tile = get_tile("orientation", cell.x, cell.y)
-			var orientation_vector = orientation_tiles.get(orientation_tile, null)
-			if orientation_vector:
-				tile_scene.rotation_degrees = orientation_vector
+			if layer_name != "ground":
+				var orientation_tile = get_tile("orientation", cell.x, cell.y)
+				var orientation_vector = orientation_tiles.get(orientation_tile, null)
+				if orientation_vector:
+					tile_scene.rotation_degrees = orientation_vector
 			if tile_scene.is_in_group("rotated"):
 				var rotate_amt = deg2rad(randi()%4 * 90)
 				tile_scene.transform.basis = tile_scene.transform.basis.rotated(Vector3.UP, rotate_amt)

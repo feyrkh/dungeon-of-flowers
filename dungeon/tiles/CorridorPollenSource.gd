@@ -1,4 +1,4 @@
-extends Spatial
+extends DisableMovementTile
 
 onready var TileMetadata = find_node("TileMetadata", true, false)
 

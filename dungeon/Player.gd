@@ -64,7 +64,11 @@ func _on_combat_end():
 	is_in_combat = false
 
 func process_input():
-	if is_in_combat or is_moving or is_bumping: 
+	if is_in_combat:
+		return
+	if Input.is_action_just_pressed("ui_accept"):
+		interact()
+	if is_moving or is_bumping: 
 		return
 	if Input.is_action_pressed("move_forward"):
 		if can_move(forwardSensor):
@@ -90,8 +94,6 @@ func process_input():
 		turn(-1)
 	elif Input.is_action_pressed("turn_right"):
 		turn(1)
-	elif Input.is_action_just_pressed("ui_accept"):
-		interact()
 
 func bump_forward(dir):
 	is_bumping = true
@@ -139,25 +141,27 @@ func _on_move_complete():
 	target_position = null
 	move_time = 0
 	is_moving = false
-	find_interactables()
+	find_interactables(get_facing_tile_coords((global_transform.origin/3).round(), global_transform.basis.z, 1))
 
 func _on_turn_complete():
 	target_rotation = null
 	rotation_time = 0
 	is_moving = false
-	find_interactables()
+	find_interactables(get_facing_tile_coords((global_transform.origin/3).round(), global_transform.basis.z, 1))
 
 func get_tile_coords():
 	return Vector2(round(global_transform.origin.x/3), round(global_transform.origin.z/3))
 
-func get_facing_tile_coords():
-	var facing_coords = global_transform.origin - global_transform.basis.z*3
-	facing_coords = Vector2(round(facing_coords.x/3), round(facing_coords.z/3))
+func get_facing_tile_coords(standing_point, facing, distance=1):
+	var facing_coords = standing_point - facing * distance
+	facing_coords = Vector2(round(facing_coords.x), round(facing_coords.z))
 	return facing_coords
 
-func find_interactables():
+func find_interactables(coords=null):
+	if coords == null:
+		coords = get_facing_tile_coords((global_transform.origin/3).round(), global_transform.basis.z, 1)
 	interactable = []
-	var scenes_on_facing_tile = GameData.dungeon.get_all_tile_scenes(get_facing_tile_coords())
+	var scenes_on_facing_tile = GameData.dungeon.get_all_tile_scenes(coords)
 	for scene in scenes_on_facing_tile:
 		if scene and scene.has_method("is_interactable") and scene.is_interactable():
 			interactable.append(scene)
@@ -228,6 +232,7 @@ func move(dir):
 	EventBus.emit_signal("new_player_location", round(target_position.x/3), round(target_position.z/3), rad2deg(global_transform.basis.get_euler().y))
 	move_time = 0
 	EventBus.emit_signal("player_start_move")
+	find_interactables(get_facing_tile_coords((target_position/3).round(), global_transform.basis.z, 1))
 
 func sidestep(dir):
 	if is_moving:
@@ -241,6 +246,7 @@ func sidestep(dir):
 	EventBus.emit_signal("new_player_location", round(target_position.x/3), round(target_position.z/3), rad2deg(global_transform.basis.get_euler().y))
 	move_time = 0
 	EventBus.emit_signal("player_start_move")
+	find_interactables(get_facing_tile_coords((target_position/3).round(), global_transform.basis.z, 1))
 
 func turn(dir):
 	if is_moving: 

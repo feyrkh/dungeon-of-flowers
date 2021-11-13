@@ -9,6 +9,8 @@ const MOVE_TIME = 0.5
 const TILE_METADATA_MASK = 2
 const EMPTY_ARRAY = []
 const UP_VECTOR = Vector3(0, 1, 0)
+const BUMP_DISTANCE = 0.3
+const BUMP_HALF_TIME = 0.125
 
 var is_moving = false
 var start_rotation
@@ -18,8 +20,12 @@ var target_position
 var rotation_time
 var move_time
 var move_multiplier = 1.0
-var is_bumping = false
+var is_bumping = false setget set_is_bumping
 var is_in_combat = false
+var interactable = []
+
+func set_is_bumping(val):
+	is_bumping = val
 
 onready var forwardSensor:Area = find_node("forwardSensor")
 onready var backwardSensor:Area = find_node("backwardSensor")
@@ -35,9 +41,13 @@ func _ready():
 	EventBus.connect("finalize_new_game", self, "on_finalize_new_game")
 	EventBus.connect("post_load_game", self, "on_post_load_game")
 	EventBus.connect("finalize_load_game", self, "on_finalize_load_game")
+	EventBus.connect("player_start_move", self, "_on_move_start")
+	EventBus.connect("player_start_turn", self, "_on_move_start")
+	EventBus.connect("refresh_interactables", self, "find_interactables")
 	connect("move_complete", self, "_on_move_complete")
 	connect("turn_complete", self, "_on_turn_complete")
 	connect("tile_move_complete", QuestMgr, "on_tile_move_complete")
+	GameData.player = self
 
 func on_pre_new_game():
 	transform = transform.looking_at(transform.origin + Vector3(0, 0, 1), Vector3.UP)
@@ -45,13 +55,13 @@ func on_pre_new_game():
 func on_finalize_new_game():
 	call_deferred("update_minimap")
 	EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
-
+	find_interactables()
 
 func on_post_load_game():
 	pass
 	
 func on_finalize_load_game():
-	pass
+	find_interactables()
 
 func _on_combat_start():
 	is_in_combat = true
@@ -60,9 +70,14 @@ func _on_combat_end():
 	is_in_combat = false
 
 func process_input():
-	if is_in_combat or is_moving or is_bumping: 
+	if is_in_combat:
+		return
+	if Input.is_action_just_pressed("ui_accept"):
+		interact()
+	if is_moving or is_bumping: 
 		return
 	if Input.is_action_pressed("move_forward"):
+		print("Moving forward: is_moving=", is_moving, "; is_bumping=", is_bumping)
 		if can_move(forwardSensor):
 			move(1)
 		else:
@@ -88,29 +103,27 @@ func process_input():
 		turn(1)
 
 func bump_forward(dir):
-	is_bumping = true
-	move_multiplier = 4
-	move(0.1*dir)
-	yield(self, "move_complete")
+	set_is_bumping(true)
+	var tween:Tween = Util.one_shot_tween(self)
+	tween.interpolate_property(self, "translation:z", self.translation.z, self.translation.z - BUMP_DISTANCE*dir, BUMP_HALF_TIME)
+	tween.interpolate_property(self, "translation:z", self.translation.z - BUMP_DISTANCE*dir, self.translation.z, BUMP_HALF_TIME, 0, 2, BUMP_HALF_TIME)
+	Util.delay_call(BUMP_HALF_TIME, self, "make_bump_noise")
+	Util.delay_call(BUMP_HALF_TIME*2+0.01, self, "set_is_bumping", [false])
+	tween.start()
+	
+func make_bump_noise():
 	var pitch_scale = randf()*0.3 + 0.85
 	AudioPlayerPool.play(wall_bump_sfx, pitch_scale)
-	move(-0.1*dir)
-	yield(self, "move_complete")
-	move_multiplier = 1
-	is_bumping = false
 
 func bump_sideways(dir):
-	is_bumping = true
-	move_multiplier = 4
-	sidestep(0.1*dir)
-	yield(self, "move_complete")
-	var pitch_scale = randf()*0.3 + 0.85
-	AudioPlayerPool.play(wall_bump_sfx, pitch_scale)
-	sidestep(-0.1*dir)
-	yield(self, "move_complete")
-	move_multiplier = 1
-	is_bumping = false
-
+	set_is_bumping(true)
+	var tween:Tween = Util.one_shot_tween(self)
+	tween.interpolate_property(self, "translation:x", self.translation.x, self.translation.x - BUMP_DISTANCE *dir, BUMP_HALF_TIME)
+	tween.interpolate_property(self, "translation:x", self.translation.x - BUMP_DISTANCE*dir, self.translation.x, BUMP_HALF_TIME, 0, 2, BUMP_HALF_TIME)
+	Util.delay_call(BUMP_HALF_TIME, self, "make_bump_noise")
+	Util.delay_call(BUMP_HALF_TIME*2+0.01, self, "set_is_bumping", [false])
+	tween.start()
+	
 func can_move(sensor):
 	var areas = sensor.get_overlapping_areas()
 	if areas.size() == 0:
@@ -120,17 +133,53 @@ func can_move(sensor):
 		print(areas.size(), " areas overlapping")
 		for area in areas:
 			print(area.name)
-		return true
+			var tile_metadata:TileMetadata = area.owner.find_node("TileMetadata", true, false)
+			if tile_metadata:
+				return tile_metadata.can_move_onto
+		return false
+
+func _on_move_start():
+	interactable = []
+	update_interactable_prompt()
 
 func _on_move_complete():
 	target_position = null
 	move_time = 0
 	is_moving = false
+	find_interactables(get_facing_tile_coords((global_transform.origin/3).round(), global_transform.basis.z, 1))
 
 func _on_turn_complete():
 	target_rotation = null
 	rotation_time = 0
 	is_moving = false
+	find_interactables(get_facing_tile_coords((global_transform.origin/3).round(), global_transform.basis.z, 1))
+
+func get_tile_coords():
+	return Vector2(round(global_transform.origin.x/3), round(global_transform.origin.z/3))
+
+func get_facing_tile_coords(standing_point, facing, distance=1):
+	var facing_coords = standing_point - facing * distance
+	facing_coords = Vector2(round(facing_coords.x), round(facing_coords.z))
+	return facing_coords
+
+func find_interactables(coords=null):
+	if coords == null:
+		coords = get_facing_tile_coords((global_transform.origin/3).round(), global_transform.basis.z, 1)
+	interactable = []
+	var scenes_on_facing_tile = GameData.dungeon.get_all_tile_scenes(coords)
+	for scene in scenes_on_facing_tile:
+		if scene and scene.has_method("is_interactable") and scene.is_interactable():
+			interactable.append(scene)
+	update_interactable_prompt()
+
+func update_interactable_prompt():
+	EventBus.emit_signal("update_interactable", interactable)
+
+func interact():
+	if !interactable or !interactable.size():
+		return
+	if interactable[0].is_interactable():
+		interactable[0].interact()
 
 func _process(delta):
 	process_input()
@@ -141,6 +190,7 @@ func _process(delta):
 		else:
 			global_transform.origin = target_position
 			emit_signal("move_complete")
+			EventBus.emit_signal("player_finish_move")
 			#print("ended move at ", OS.get_system_time_msecs())
 			if !is_bumping:
 				emit_signal("tile_move_complete")
@@ -153,6 +203,7 @@ func _process(delta):
 		else:
 			transform.basis = target_rotation
 			emit_signal("turn_complete")
+			EventBus.emit_signal("player_finish_turn")
 			#EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
 			update_minimap()
 
@@ -174,8 +225,8 @@ func query_tile_metadata(tile_x, tile_z):
 		return result.get("collider").tile_name
 	return "empty"
 
-func move(dir):
-	if is_moving: 
+func move(dir, ignore_bumping=false):
+	if is_moving or (!ignore_bumping and is_bumping): 
 		return
 	is_moving = true
 	if !is_bumping:
@@ -183,12 +234,13 @@ func move(dir):
 	#print("start move at ", OS.get_system_time_msecs())
 	start_position = global_transform.origin
 	target_position = global_transform.origin + global_transform.basis.z*3 * -dir
-	EventBus.emit_signal("new_player_location", target_position.x/3, target_position.z/3, rad2deg(global_transform.basis.get_euler().y))
+	EventBus.emit_signal("new_player_location", round(target_position.x/3), round(target_position.z/3), rad2deg(global_transform.basis.get_euler().y))
 	move_time = 0
 	EventBus.emit_signal("player_start_move")
+	find_interactables(get_facing_tile_coords((target_position/3).round(), global_transform.basis.z, 1))
 
-func sidestep(dir):
-	if is_moving:
+func sidestep(dir, ignore_bumping=false):
+	if is_moving or (!ignore_bumping and is_bumping):
 		return
 	is_moving = true
 	if !is_bumping:
@@ -196,18 +248,20 @@ func sidestep(dir):
 	#print("start sidestep at ", OS.get_system_time_msecs())
 	start_position = global_transform.origin
 	target_position = global_transform.origin + global_transform.basis.x*3*-dir
-	EventBus.emit_signal("new_player_location", target_position.x/3, target_position.z/3, rad2deg(global_transform.basis.get_euler().y))
+	EventBus.emit_signal("new_player_location", round(target_position.x/3), round(target_position.z/3), rad2deg(global_transform.basis.get_euler().y))
 	move_time = 0
 	EventBus.emit_signal("player_start_move")
+	find_interactables(get_facing_tile_coords((target_position/3).round(), global_transform.basis.z, 1))
 
 func turn(dir):
-	if is_moving: 
+	if is_moving or is_bumping: 
 		return
 	is_moving = true
 	#print("start rotate at ", OS.get_system_time_msecs())
 	start_rotation = transform.basis
 	target_rotation = transform.basis.rotated(Vector3.DOWN, deg2rad(90*dir))
-	EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(target_rotation.get_euler().y))
+	EventBus.emit_signal("new_player_location", round(global_transform.origin.x/3), round(global_transform.origin.z/3), rad2deg(target_rotation.get_euler().y))
 	rotation_time = 0
 	EventBus.emit_signal("player_start_turn")
+	find_interactables(get_facing_tile_coords((global_transform.origin/3).round(), target_rotation.z, 1))
 

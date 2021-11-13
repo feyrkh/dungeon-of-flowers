@@ -12,6 +12,10 @@ signal new_bullet(bullet)
 signal attack_bullet_block()
 signal attack_bullet_strike(ally_data)
 signal combat_animation(animation_length)
+signal enemy_damage_applied(amount)
+signal ally_damage_applied(amount)
+signal enemy_attack_blocked()
+signal enemy_attack_struck()
 
 signal player_move_complete(combat_data)
 signal player_turn_complete(combat_data)
@@ -36,12 +40,31 @@ var is_in_combat = false
 var player
 var dungeon
 var combat
+var combat_results_screen
 var combat_animation_delay = 0
+var combat_rewards = {}
+var combat_stats = {}
 
 var bullet_timing_cache = {}
 
 func _ready():
 	connect("combat_animation", self, "on_combat_animation")
+	connect("enemy_damage_applied", self, "on_enemy_damage_applied")
+	connect("ally_damage_applied", self, "on_ally_damage_applied")
+	connect("enemy_attack_blocked", self, "on_enemy_attack_blocked")
+	connect("enemy_attack_struck", self, "on_enemy_attack_struck")
+
+func on_enemy_damage_applied(amount):
+	Util.inc(combat_stats, "damage_given", amount)
+	
+func on_ally_damage_applied(amount):
+	Util.inc(combat_stats, "damage_taken", amount)
+
+func on_enemy_attack_blocked():
+	Util.inc(combat_stats, "blocks_made", 1)
+	
+func on_enemy_attack_struck():
+	Util.inc(combat_stats, "blocks_missed", 1)
 
 func _process(delta):
 	combat_animation_delay -= delta
@@ -77,6 +100,10 @@ func on_post_load_game():
 
 func trigger_combat(combat_config_file):
 	print("Starting combat: ", combat_config_file)
+	EventBus.connect("acquire_item", self, "_on_acquire_item")
+	combat_rewards = {}
+	combat_stats = {}
+	combat_results_screen = null
 	is_in_combat = true
 	emit_signal("combat_start")
 	var fader = PixelFader.instance()
@@ -93,15 +120,47 @@ func trigger_combat(combat_config_file):
 	combat.connect("allies_lose", self, "_on_allies_lose")
 
 func close_combat():
+	EventBus.disconnect("acquire_item", self, "_on_acquire_item")
 	var fader = PixelFader.instance()
 	dungeon.Fader.add_child(fader)
 	fader.fade_out(fade_amt, 1)
+	yield(fader, "fade_complete")
 	combat.queue_free()
+	if combat_results_screen:
+		combat_results_screen.queue_free()
 	fader.fade_in(fade_amt, 1)
 	yield(fader, "fade_complete")
 	fader.queue_free()
+
+func close_results(results_screen):
 	QuestMgr.combat_phase = "combat_ended"
 	is_in_combat = false
+	combat_results_screen = results_screen
+	close_combat()
+	emit_signal("combat_end")
+
+func show_combat_results():
+	var fader = PixelFader.instance()
+	dungeon.Fader.add_child(fader)
+	fader.fade_out(fade_amt, 0.25)
+	yield(fader, "fade_complete")
+	var result_data = combat_stats
+	result_data["rewards"] = combat_rewards
+	var results_screen = load("res://combat/results/CombatResultsScreen.tscn").instance()
+	results_screen.data = result_data
+	dungeon.Fader.add_child(results_screen)
+	dungeon.Fader.move_child(results_screen, 0)
+	fader.fade_in(fade_amt, 0.25)
+	yield(fader, "fade_complete")
+	fader.queue_free()
+
+func _on_acquire_item(item_name, amount):
+	match item_name:
+		"pollen_water": Util.inc(combat_stats, item_name, amount)
+		"pollen_sun": Util.inc(combat_stats, item_name, amount)
+		"pollen_soil": Util.inc(combat_stats, item_name, amount)
+		"pollen_decay": Util.inc(combat_stats, item_name, amount)
+		_: Util.inc(combat_rewards, item_name, amount)
 
 func generate_combat_data(combat_config_file):
 	var combat_data := CombatData.new()
@@ -112,8 +171,8 @@ func generate_combat_data(combat_config_file):
 	return combat_data
 
 func _on_allies_win(combat_data):
-	close_combat()
-	emit_signal("combat_end")
+	combat_data.give_rewards()
+	show_combat_results()
 
 func _on_allies_lose(combat_data):
 	close_combat()

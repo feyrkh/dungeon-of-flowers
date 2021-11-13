@@ -1,0 +1,15 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_tileset"
+type="Resource"
+path="res://.import/icons_tileset.tpset-676e0e55889b592270a53bb74b28d31b.res"
+
+[deps]
+
+files=[ "icons_tileset.png", "res://dungeon/tiles/icons_tileset.res" ]
+
+source_file="res://dungeon/tiles/icons_tileset.tpset"
+dest_files=[ "res://.import/icons_tileset.tpset-676e0e55889b592270a53bb74b28d31b.res", "icons_tileset.png", "res://dungeon/tiles/icons_tileset.res" ]
+
+[params]
+

@@ -27,7 +27,10 @@ var world_tile_position = Vector2()
 var player_rotation = 0
 var facing = "north"
 var settings_file = "user://settings.save"
-var cur_dungeon = "res://data/map/intro.txt"
+var cur_dungeon = "intro"
+var dungeon setget set_dungeon, get_dungeon
+var _dungeon_scene
+var player:Spatial
 
 var settings = { # default settings go here
 	MUSIC_VOLUME: 65,
@@ -36,8 +39,31 @@ var settings = { # default settings go here
 }
 
 var game_state = {
-	
 }
+
+var map_data = {}
+
+var inventory = {}
+
+func set_map_data(layer:String, coords:Vector2, val):
+	if !map_data.has(layer):
+		map_data[layer] = {}
+	if val == null:
+		map_data[layer].erase(coords)
+	else:
+		map_data[layer][coords] = val
+
+func get_map_data(layer, coords:Vector2):
+	return map_data.get(layer, {}).get(coords, null)
+
+func set_dungeon(val):
+	_dungeon_scene = val
+
+func get_dungeon():
+	if _dungeon_scene && is_instance_valid(_dungeon_scene):
+		return _dungeon_scene
+	_dungeon_scene = get_tree().root.find_node("Dungeon", true, false)
+	return _dungeon_scene
 
 func listen_for_setting_change(listener):
 	connect("setting_updated", listener, "on_setting_change")
@@ -47,8 +73,23 @@ func _init():
 
 func _ready():
 	EventBus.connect("new_player_location", self, "on_new_player_location")
+	EventBus.connect("acquire_item", self, "on_acquire_item")
+	EventBus.connect("post_load_game", self, "post_load_game")
+	EventBus.connect("post_new_game", self, "post_new_game")
 	randomize()
 	load_settings()
+
+func post_new_game():
+	pass
+
+func post_load_game():
+	pass
+
+func on_acquire_item(item_name, amount):
+	Util.inc(inventory, item_name, amount)
+
+func on_use_item(item_name, amount):
+	Util.inc(inventory, item_name, amount, 0)
 
 func save_game(save_file):
 	EventBus.emit_signal("pre_save_game")
@@ -70,6 +111,8 @@ func save_game(save_file):
 	f.store_var(player_rotation)
 	f.store_var(facing)
 	f.store_var(cur_dungeon)
+	f.store_var(inventory)
+	f.store_var(map_data)
 	f.close()
 	EventBus.emit_signal("post_save_game")
 	return true
@@ -104,6 +147,10 @@ func load_game(save_file):
 	player_rotation = f.get_var()
 	facing = f.get_var()
 	cur_dungeon = f.get_var()
+	inventory = f.get_var()
+	if inventory == null: inventory = {}
+	map_data = f.get_var()
+	if map_data == null: map_data = {}
 	f.close()
 	get_tree().change_scene("res://dungeon/GeneratedDungeon.tscn")
 	yield(get_tree(), "idle_frame")
@@ -197,7 +244,7 @@ func new_game():
 	set_state(TUTORIAL_ON, get_setting(TUTORIAL_ON))	
 	setup_allies()
 	if get_state(TUTORIAL_ON):
-		cur_dungeon = "res://data/map/intro.txt"
+		cur_dungeon = "intro"
 	else:
 		cur_dungeon = "res://data/map/floor1.txt"
 	get_tree().change_scene("res://dungeon/GeneratedDungeon.tscn")

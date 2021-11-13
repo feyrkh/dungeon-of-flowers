@@ -35,8 +35,15 @@ func _ready():
 	delay += 0.25
 	trigger_gleam(delay, find_node("BlockGleam"))
 	var block_pct = 50
+	var damage_pct
+	if data.get("damage_given", 0) == 0 and data.get("damage_taken", 0) == 0:
+		damage_pct = 0.5
+	else:
+		damage_pct = data.get("damage_given", 0) / float(data.get("damage_given", 0) + data.get("damage_taken", 0))
 	if data.get("blocks_made",0) != 0 or data.get("blocks_missed",0) != 0:
 		block_pct = int(data.get("blocks_made",0)/(data.get("blocks_made",0)+data.get("blocks_missed",0))*100)
+	var badge_scene = set_badge_texture(block_pct, damage_pct*100)
+
 	trigger_counter(delay+0.7, find_node("BlockPercentLabel"), block_pct)
 	trigger_block_bar(delay+0.7)
 	delay += 0.25
@@ -52,8 +59,41 @@ func _ready():
 	delay += 0.25
 	reveal_rank(delay)
 	$Tween.start()
+	set_process(false)
 	yield($Tween, "tween_all_completed")
+	set_process(true)
 	$AnimationPlayer.play("rank_gleam")
+
+func set_badge_texture(block_pct, damage_pct):
+	var badge = 0
+	var badges = ["D", "D", "C", "C", "B", "B", "A", "A", "S"]
+	if block_pct < 25:
+		badge += 0
+	elif block_pct < 45:
+		badge += 1
+	elif block_pct < 70:
+		badge += 2
+	elif block_pct < 90:
+		badge += 3
+	else:
+		badge += 4
+	if damage_pct < 30:
+		badge += 0
+	elif damage_pct < 45:
+		badge += 1
+	elif damage_pct < 75:
+		badge += 2
+	elif damage_pct <= 90:
+		badge += 3
+	else:
+		badge += 4
+	badge = clamp(badge, 0, badges.size())
+	badge = badges[badge]
+	$RankResults/S.texture = load("res://art_exports/ui_battle_results/ui_results_RANK_"+badge+".png")
+
+func _process(delta):
+	if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_cancel"):
+		CombatMgr.close_results(self)
 
 func populate_rewards(delay):
 	var x_ofs = 0
@@ -117,7 +157,7 @@ func trigger_gleam(delay, gleam_node):
 	$Tween.interpolate_property(gleam_node, "position:x", gleam_node.position.x, gleam_node.position.x + 1250, 0.95, Tween.TRANS_CUBIC, Tween.EASE_IN, delay)
 
 func trigger_counter(delay, label_node, value):
-	$Tween.interpolate_property(label_node, "number", 0, value, 1, Tween.TRANS_CUBIC, Tween.EASE_OUT, delay)
+	$Tween.interpolate_property(label_node, "number", 0, value, 1, Tween.TRANS_LINEAR, Tween.EASE_OUT, delay)
 
 func trigger_damage_bar(delay):
 	var bar = find_node("DamageBar")

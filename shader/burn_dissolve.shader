@@ -47,7 +47,6 @@ float fbm(vec2 coord){
 }
 
 vec4 burn(vec4 original, vec2 uv, float time) {
-	
 	vec4 new_col = original; // value that will be returned
 	
 	float noise = fbm(uv * 6.0);

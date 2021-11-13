@@ -36,6 +36,8 @@ func round_stats():
 	sp = float(int(sp))
 
 func set_hp(val):
+	if val < hp and hp > 0:
+		CombatMgr.emit_signal("ally_damage_applied", min(hp, hp-val))
 	hp = val
 	EventBus.emit_signal("ally_status_updated", self)
 

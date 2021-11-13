@@ -9,6 +9,8 @@ const MOVE_TIME = 0.5
 const TILE_METADATA_MASK = 2
 const EMPTY_ARRAY = []
 const UP_VECTOR = Vector3(0, 1, 0)
+const BUMP_DISTANCE = 0.3
+const BUMP_HALF_TIME = 0.125
 
 var is_moving = false
 var start_rotation
@@ -18,9 +20,12 @@ var target_position
 var rotation_time
 var move_time
 var move_multiplier = 1.0
-var is_bumping = false
+var is_bumping = false setget set_is_bumping
 var is_in_combat = false
 var interactable = []
+
+func set_is_bumping(val):
+	is_bumping = val
 
 onready var forwardSensor:Area = find_node("forwardSensor")
 onready var backwardSensor:Area = find_node("backwardSensor")
@@ -71,6 +76,7 @@ func process_input():
 	if is_moving or is_bumping: 
 		return
 	if Input.is_action_pressed("move_forward"):
+		print("Moving forward: is_moving=", is_moving, "; is_bumping=", is_bumping)
 		if can_move(forwardSensor):
 			move(1)
 		else:
@@ -96,29 +102,27 @@ func process_input():
 		turn(1)
 
 func bump_forward(dir):
-	is_bumping = true
-	move_multiplier = 4
-	move(0.1*dir)
-	yield(self, "move_complete")
+	set_is_bumping(true)
+	var tween:Tween = Util.one_shot_tween(self)
+	tween.interpolate_property(self, "translation:z", self.translation.z, self.translation.z - BUMP_DISTANCE*dir, BUMP_HALF_TIME)
+	tween.interpolate_property(self, "translation:z", self.translation.z - BUMP_DISTANCE*dir, self.translation.z, BUMP_HALF_TIME, 0, 2, BUMP_HALF_TIME)
+	Util.delay_call(BUMP_HALF_TIME, self, "make_bump_noise")
+	Util.delay_call(BUMP_HALF_TIME*2+0.01, self, "set_is_bumping", [false])
+	tween.start()
+	
+func make_bump_noise():
 	var pitch_scale = randf()*0.3 + 0.85
 	AudioPlayerPool.play(wall_bump_sfx, pitch_scale)
-	move(-0.1*dir)
-	yield(self, "move_complete")
-	move_multiplier = 1
-	is_bumping = false
 
 func bump_sideways(dir):
-	is_bumping = true
-	move_multiplier = 4
-	sidestep(0.1*dir)
-	yield(self, "move_complete")
-	var pitch_scale = randf()*0.3 + 0.85
-	AudioPlayerPool.play(wall_bump_sfx, pitch_scale)
-	sidestep(-0.1*dir)
-	yield(self, "move_complete")
-	move_multiplier = 1
-	is_bumping = false
-
+	set_is_bumping(true)
+	var tween:Tween = Util.one_shot_tween(self)
+	tween.interpolate_property(self, "translation:x", self.translation.x, self.translation.x - BUMP_DISTANCE *dir, BUMP_HALF_TIME)
+	tween.interpolate_property(self, "translation:x", self.translation.x - BUMP_DISTANCE*dir, self.translation.x, BUMP_HALF_TIME, 0, 2, BUMP_HALF_TIME)
+	Util.delay_call(BUMP_HALF_TIME, self, "make_bump_noise")
+	Util.delay_call(BUMP_HALF_TIME*2+0.01, self, "set_is_bumping", [false])
+	tween.start()
+	
 func can_move(sensor):
 	var areas = sensor.get_overlapping_areas()
 	if areas.size() == 0:
@@ -220,8 +224,8 @@ func query_tile_metadata(tile_x, tile_z):
 		return result.get("collider").tile_name
 	return "empty"
 
-func move(dir):
-	if is_moving: 
+func move(dir, ignore_bumping=false):
+	if is_moving or (!ignore_bumping and is_bumping): 
 		return
 	is_moving = true
 	if !is_bumping:
@@ -234,8 +238,8 @@ func move(dir):
 	EventBus.emit_signal("player_start_move")
 	find_interactables(get_facing_tile_coords((target_position/3).round(), global_transform.basis.z, 1))
 
-func sidestep(dir):
-	if is_moving:
+func sidestep(dir, ignore_bumping=false):
+	if is_moving or (!ignore_bumping and is_bumping):
 		return
 	is_moving = true
 	if !is_bumping:
@@ -249,7 +253,7 @@ func sidestep(dir):
 	find_interactables(get_facing_tile_coords((target_position/3).round(), global_transform.basis.z, 1))
 
 func turn(dir):
-	if is_moving: 
+	if is_moving or is_bumping: 
 		return
 	is_moving = true
 	#print("start rotate at ", OS.get_system_time_msecs())

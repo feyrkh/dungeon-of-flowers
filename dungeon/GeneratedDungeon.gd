@@ -14,10 +14,11 @@ const tiles = {
 	"@": tile_corridor,
 }
 
-const IN_FOG_MIN = [-0.1, 1, 1.75, 2.5, 4]
+const IN_FOG_LIGHT = [0.05, 0.025, 0.01, 0, 0]
+const IN_FOG_MIN = [-0.1, 1, 1.75, 2.75, 4]
 const IN_FOG_COLOR = [Color("9f32ae"), Color("9f32ae"), Color("862793"), Color("7a1a84"), Color("7a1a84"), ]
-const IN_FOG_DEPTH = [200, 100, 50, 40, 30]
-const IN_FOG_DEPTH_START = [100, 20, 10, 5, 0]
+const IN_FOG_DEPTH = [200, 100, 70, 60, 50]
+const IN_FOG_DEPTH_START = [100, 40, 35, 30, 25]
 const FOG_MAX = -5
 
 var player
@@ -79,7 +80,8 @@ func on_new_player_location(map_x, map_y, rot_deg):
 	$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_min", $WorldEnvironment.environment.fog_height_min, IN_FOG_MIN[in_pollen], 1.0)
 	$FogTween.interpolate_property($WorldEnvironment.environment, "fog_color", $WorldEnvironment.environment.fog_color, IN_FOG_COLOR[in_pollen], 1.0)
 	$FogTween.interpolate_property($WorldEnvironment.environment, "fog_depth_end", $WorldEnvironment.environment.fog_depth_end, IN_FOG_DEPTH[in_pollen], 1.0)
-	$FogTween.interpolate_property($WorldEnvironment.environment, "fog_depth_begin", $WorldEnvironment.environment.fog_depth_begin, IN_FOG_DEPTH[in_pollen], 1.0)
+	$FogTween.interpolate_property($WorldEnvironment.environment, "fog_depth_begin", $WorldEnvironment.environment.fog_depth_begin, IN_FOG_DEPTH_START[in_pollen], 1.0)
+	$FogTween.interpolate_property($WorldEnvironment.environment, "ambient_light_energy", $WorldEnvironment.environment.ambient_light_energy, IN_FOG_LIGHT[in_pollen], 1.0)
 	$FogTween.start()
 
 func on_post_load_game():

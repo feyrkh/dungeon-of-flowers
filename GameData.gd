@@ -314,3 +314,4 @@ func set_rand_seed():
 	var s = get_state("randseed")
 	print("setting randseed to: ", s)
 	rand_seed(get_state("randseed"))
+

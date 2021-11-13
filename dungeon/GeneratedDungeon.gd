@@ -14,7 +14,7 @@ const tiles = {
 	"@": tile_corridor,
 }
 
-const IN_FOG_LIGHT = [0.05, 0.025, 0.01, 0, 0]
+const IN_FOG_LIGHT = [0.05, 0.03, 0.02, 0.01, 0]
 const IN_FOG_MIN = [-0.1, 1, 1.75, 2.75, 4]
 const IN_FOG_COLOR = [Color("9f32ae"), Color("9f32ae"), Color("862793"), Color("7a1a84"), Color("7a1a84"), ]
 const IN_FOG_DEPTH = [200, 100, 70, 60, 50]
@@ -60,19 +60,9 @@ func _ready():
 	CombatMgr.connect("combat_end", self, "_on_combat_end")
 
 func on_new_player_location(map_x, map_y, rot_deg):
-	var new_in_pollen = 0
-	match get_tile("pollen", map_x, map_y):
-		pollen_1_tile_id: 
-			new_in_pollen = 1
-		pollen_2_tile_id: 
-			new_in_pollen = 2
-		pollen_3_tile_id: 
-			new_in_pollen = 3
-		pollen_4_tile_id: 
-			new_in_pollen = 4
-			
-	if in_pollen == new_in_pollen:
-		return
+	var new_in_pollen = get_pollen_level(map_x, map_y)
+	#if in_pollen == new_in_pollen:
+	#	return
 	$WorldEnvironment.environment.fog_height_max = FOG_MAX
 	in_pollen = new_in_pollen
 	if $FogTween.is_active():
@@ -261,3 +251,15 @@ func process_tilemap_layer(layer:TileMap, layer_name:String):
 			if tile_scene.is_in_group("rotated"):
 				var rotate_amt = deg2rad(randi()%4 * 90)
 				tile_scene.transform.basis = tile_scene.transform.basis.rotated(Vector3.UP, rotate_amt)
+
+func get_pollen_level(map_x, map_y):
+	match get_tile("pollen", map_x, map_y):
+		pollen_1_tile_id: 
+			return 1
+		pollen_2_tile_id: 
+			return 2
+		pollen_3_tile_id: 
+			return 3
+		pollen_4_tile_id: 
+			return 4
+	return 0

@@ -30,6 +30,7 @@ var settings_file = "user://settings.save"
 var cur_dungeon = "intro"
 var dungeon setget set_dungeon, get_dungeon
 var _dungeon_scene
+var player:Spatial
 
 var settings = { # default settings go here
 	MUSIC_VOLUME: 65,
@@ -73,8 +74,16 @@ func _init():
 func _ready():
 	EventBus.connect("new_player_location", self, "on_new_player_location")
 	EventBus.connect("acquire_item", self, "on_acquire_item")
+	EventBus.connect("post_load_game", self, "post_load_game")
+	EventBus.connect("post_new_game", self, "post_new_game")
 	randomize()
 	load_settings()
+
+func post_new_game():
+	pass
+
+func post_load_game():
+	pass
 
 func on_acquire_item(item_name, amount):
 	Util.inc(inventory, item_name, amount)

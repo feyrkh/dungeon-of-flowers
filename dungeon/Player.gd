@@ -47,6 +47,7 @@ func _ready():
 	connect("move_complete", self, "_on_move_complete")
 	connect("turn_complete", self, "_on_turn_complete")
 	connect("tile_move_complete", QuestMgr, "on_tile_move_complete")
+	GameData.player = self
 
 func on_pre_new_game():
 	transform = transform.looking_at(transform.origin + Vector3(0, 0, 1), Vector3.UP)

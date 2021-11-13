@@ -1,6 +1,6 @@
 map_name:1st floor "chrysanthemum"
 combat_grace_period:5
-combat_chance_per_tile:0.05
+combat_chance_per_tile:0.00
 tile:wall:dungeon/Wall.tscn
 tile:floor:dungeon/Corridor.tscn
 tile:pollen_spawn:dungeon/tiles/CorridorPollenSource.tscn

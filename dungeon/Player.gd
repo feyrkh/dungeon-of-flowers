@@ -204,6 +204,7 @@ func _process(delta):
 			transform.basis = target_rotation
 			emit_signal("turn_complete")
 			EventBus.emit_signal("player_finish_turn")
+			$PerspectiveSpriteUpdateTimer.stop()
 			#EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
 			update_minimap()
 
@@ -263,5 +264,8 @@ func turn(dir):
 	EventBus.emit_signal("new_player_location", round(global_transform.origin.x/3), round(global_transform.origin.z/3), rad2deg(target_rotation.get_euler().y))
 	rotation_time = 0
 	EventBus.emit_signal("player_start_turn")
+	$PerspectiveSpriteUpdateTimer.start()
 	find_interactables(get_facing_tile_coords((global_transform.origin/3).round(), target_rotation.z, 1))
 
+func _on_PerspectiveSpriteUpdateTimer_timeout():
+	EventBus.emit_signal("refresh_perspective_sprites", -global_transform.basis.z)

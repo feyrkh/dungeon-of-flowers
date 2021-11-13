@@ -25,6 +25,7 @@ signal player_finish_move()
 signal player_finish_turn()
 signal update_interactable(interactables_list)
 signal refresh_interactables()
+signal refresh_perspective_sprites(global_facing)
 
 # combat
 signal cancel_submenu()

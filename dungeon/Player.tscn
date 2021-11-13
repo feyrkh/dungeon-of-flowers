@@ -60,3 +60,8 @@ volume_db = -0.047
 
 [node name="walkSfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+
+[node name="PerspectiveSpriteUpdateTimer" type="Timer" parent="."]
+wait_time = 0.05
+
+[connection signal="timeout" from="PerspectiveSpriteUpdateTimer" to="." method="_on_PerspectiveSpriteUpdateTimer_timeout"]

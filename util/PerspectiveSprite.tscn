@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://util/PerspectiveSprite.gd" type="Script" id=1]
+[ext_resource path="res://img/dungeon/chest_back.png" type="Texture" id=2]
+[ext_resource path="res://img/dungeon/chest_side.png" type="Texture" id=3]
+[ext_resource path="res://img/dungeon/chest_front.png" type="Texture" id=4]
+
+[node name="PerspectiveSprite" type="Spatial"]
+script = ExtResource( 1 )
+defined_frames = [ "front", "back", "left" ]
+frames = [ ExtResource( 4 ), ExtResource( 2 ), ExtResource( 3 ) ]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.175, 0 )
+billboard = 2
+texture = ExtResource( 4 )

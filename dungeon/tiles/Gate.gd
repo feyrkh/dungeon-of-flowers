@@ -55,7 +55,7 @@ func interact():
 
 func open(open_time=2):
 	var tween:Tween = Util.one_shot_tween(self)
-	tween.interpolate_property(self, "translation:y", 0, 6, open_time, Tween.TRANS_CUBIC, Tween.EASE_IN)
+	tween.interpolate_property(self, "translation:y", 0, 3, open_time, Tween.TRANS_CUBIC, Tween.EASE_IN)
 	tween.start()
 	animating = true
 	is_open = true # set before tween finish in case they save partway through
@@ -68,7 +68,7 @@ func open(open_time=2):
 func close():
 	var tween:Tween = Util.one_shot_tween(self)
 	var open_time = 2
-	tween.interpolate_property(self, "translation:y", 6, 0, open_time, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	tween.interpolate_property(self, "translation:y", 3, 0, open_time, Tween.TRANS_CUBIC, Tween.EASE_OUT)
 	tween.start()
 	animating = true
 	set_is_open(false)

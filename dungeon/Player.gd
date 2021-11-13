@@ -54,13 +54,13 @@ func on_pre_new_game():
 func on_finalize_new_game():
 	call_deferred("update_minimap")
 	EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
-
+	find_interactables()
 
 func on_post_load_game():
 	pass
 	
 func on_finalize_load_game():
-	pass
+	find_interactables()
 
 func _on_combat_start():
 	is_in_combat = true

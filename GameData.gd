@@ -40,8 +40,20 @@ var settings = { # default settings go here
 var game_state = {
 }
 
+var map_data = {}
+
 var inventory = {}
 
+func set_map_data(layer:String, coords:Vector2, val):
+	if !map_data.has(layer):
+		map_data[layer] = {}
+	if val == null:
+		map_data[layer].erase(coords)
+	else:
+		map_data[layer][coords] = val
+
+func get_map_data(layer, coords:Vector2):
+	return map_data.get(layer, {}).get(coords, null)
 
 func set_dungeon(val):
 	_dungeon_scene = val
@@ -90,6 +102,8 @@ func save_game(save_file):
 	f.store_var(player_rotation)
 	f.store_var(facing)
 	f.store_var(cur_dungeon)
+	f.store_var(inventory)
+	f.store_var(map_data)
 	f.close()
 	EventBus.emit_signal("post_save_game")
 	return true
@@ -124,6 +138,10 @@ func load_game(save_file):
 	player_rotation = f.get_var()
 	facing = f.get_var()
 	cur_dungeon = f.get_var()
+	inventory = f.get_var()
+	if inventory == null: inventory = {}
+	map_data = f.get_var()
+	if map_data == null: map_data = {}
 	f.close()
 	get_tree().change_scene("res://dungeon/GeneratedDungeon.tscn")
 	yield(get_tree(), "idle_frame")

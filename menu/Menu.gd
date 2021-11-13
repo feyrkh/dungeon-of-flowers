@@ -83,4 +83,4 @@ func _process(delta):
 			else:
 				AudioPlayerPool.play(menu_item_action_sfx, 1.0)
 				menu_entries[selected_idx].menu_action(self)
-			
+

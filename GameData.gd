@@ -246,7 +246,7 @@ func new_game():
 	if get_state(TUTORIAL_ON):
 		cur_dungeon = "intro"
 	else:
-		cur_dungeon = "res://data/map/floor1.txt"
+		cur_dungeon = "intro"
 	get_tree().change_scene("res://dungeon/GeneratedDungeon.tscn")
 	yield(get_tree(), "idle_frame")
 	EventBus.emit_signal("post_new_game")

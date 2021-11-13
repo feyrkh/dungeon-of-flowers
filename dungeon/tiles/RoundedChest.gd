@@ -12,7 +12,7 @@ func finish_update_faces():
 	$Timer.stop()
 
 func update_faces():
-	$Timer.start()
+	$Timer.start($Timer.wait_time+rand_range(-0.02, 0.02))
 
 func rotate_to_face_player():
 

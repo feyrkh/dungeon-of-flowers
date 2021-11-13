@@ -105,8 +105,9 @@ func process_input():
 func bump_forward(dir):
 	set_is_bumping(true)
 	var tween:Tween = Util.one_shot_tween(self)
-	tween.interpolate_property(self, "translation:z", self.translation.z, self.translation.z - BUMP_DISTANCE*dir, BUMP_HALF_TIME)
-	tween.interpolate_property(self, "translation:z", self.translation.z - BUMP_DISTANCE*dir, self.translation.z, BUMP_HALF_TIME, 0, 2, BUMP_HALF_TIME)
+	var move_vec = Vector3.FORWARD.rotated(Vector3.UP, self.global_transform.basis.get_euler().y) * BUMP_DISTANCE * dir
+	tween.interpolate_property(self, "translation", self.translation, self.translation + move_vec, BUMP_HALF_TIME)
+	tween.interpolate_property(self, "translation", self.translation + move_vec, self.translation, BUMP_HALF_TIME, 0, 2, BUMP_HALF_TIME)
 	Util.delay_call(BUMP_HALF_TIME, self, "make_bump_noise")
 	Util.delay_call(BUMP_HALF_TIME*2+0.01, self, "set_is_bumping", [false])
 	tween.start()
@@ -118,8 +119,9 @@ func make_bump_noise():
 func bump_sideways(dir):
 	set_is_bumping(true)
 	var tween:Tween = Util.one_shot_tween(self)
-	tween.interpolate_property(self, "translation:x", self.translation.x, self.translation.x - BUMP_DISTANCE *dir, BUMP_HALF_TIME)
-	tween.interpolate_property(self, "translation:x", self.translation.x - BUMP_DISTANCE*dir, self.translation.x, BUMP_HALF_TIME, 0, 2, BUMP_HALF_TIME)
+	var move_vec = Vector3.LEFT.rotated(Vector3.UP, self.global_transform.basis.get_euler().y) * BUMP_DISTANCE * dir
+	tween.interpolate_property(self, "translation", self.translation, self.translation + move_vec, BUMP_HALF_TIME)
+	tween.interpolate_property(self, "translation", self.translation + move_vec, self.translation, BUMP_HALF_TIME, 0, 2, BUMP_HALF_TIME)
 	Util.delay_call(BUMP_HALF_TIME, self, "make_bump_noise")
 	Util.delay_call(BUMP_HALF_TIME*2+0.01, self, "set_is_bumping", [false])
 	tween.start()

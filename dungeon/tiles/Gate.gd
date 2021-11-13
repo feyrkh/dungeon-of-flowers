@@ -12,6 +12,9 @@ func _ready():
 func pre_save_game():
 	if is_open:
 		GameData.set_map_data(map_layer, map_position, is_open)
+	else:
+		GameData.set_map_data(map_layer, map_position, null)
+		
 
 func finalize_load_game():
 	var save_data = GameData.get_map_data(map_layer, map_position)
@@ -48,6 +51,7 @@ func interact():
 		close()
 	else:
 		open()
+	EventBus.emit_signal("refresh_interactables")
 
 func open(open_time=2):
 	var tween:Tween = Util.one_shot_tween(self)

@@ -3,23 +3,33 @@ extends DisableMovementTile
 var is_open
 
 func _ready():
-	EventBus.connect("player_start_move", self, "update_faces")
-	EventBus.connect("player_finish_turn", self, "update_faces")
+	EventBus.connect("player_start_turn", self, "update_faces")
+	EventBus.connect("player_finish_turn", self, "finish_update_faces")
+	EventBus.connect("finalize_load_game", self, "rotate_to_face_player")
+	EventBus.connect("finalize_new_game", self, "rotate_to_face_player")
+
+func finish_update_faces():
+	$Timer.stop()
 
 func update_faces():
+	$Timer.start()
+
+func rotate_to_face_player():
+
 	#var player_pos = GameData.player.global_transform.origin
 	var player_rotation = GameData.player.global_transform.basis.z
 	var best_dist = null
 	var best_face
 	for child in get_children():
-		child.visible = false
-		#var dist:float = child.global_transform.origin.distance_squared_to(player_pos)
-		var dist = (child.global_transform.basis.z - player_rotation).length_squared()
-		if best_dist == null or dist < best_dist:
-			if best_face: best_face.visible = false
-			best_dist = dist
-			best_face = child
-			best_face.visible = true
+		if child is Spatial:
+			child.visible = false
+			#var dist:float = child.global_transform.origin.distance_squared_to(player_pos)
+			var dist = (child.global_transform.basis.z - player_rotation).length_squared()
+			if best_dist == null or dist < best_dist:
+				if best_face: best_face.visible = false
+				best_dist = dist
+				best_face = child
+				best_face.visible = true
 	
 
 func is_interactable():

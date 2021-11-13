@@ -14,10 +14,12 @@ const tiles = {
 	"@": tile_corridor,
 }
 
-const IN_FOG_MIN = 1.5
-const IN_FOG_MAX = -10
+const IN_FOG_1_MIN = 0.75
+const IN_FOG_2_MIN = 1.5
+const IN_FOG_3_MIN = 2.25
+const IN_FOG_4_MIN = 3
 const OUT_FOG_MIN = -0.1
-const OUT_FOG_MAX = -10
+const FOG_MAX = -10
 
 var player
 var map_name:String = "an unknown place"
@@ -34,10 +36,13 @@ var tilemaps:Dictionary = {} # The TileMap nodes for each layer; tilemaps["groun
 var tilesets:Dictionary = {} # The TileSet nodes for each layer; tilesets["ground"].find_tile_by_name("~wall") is the ID of the ~wall tile
 var wall_tile_id
 var corridor_tile_id
-var pollen_tile_id 
+var pollen_1_tile_id 
+var pollen_2_tile_id 
+var pollen_3_tile_id 
+var pollen_4_tile_id 
 var block_pollen_tile_id
 var orientation_tiles = {}
-var in_pollen = false
+var in_pollen = 0
 
 onready var Map:Spatial = find_node("Map")
 onready var Combat:Control = find_node("Combat")
@@ -55,18 +60,38 @@ func _ready():
 	CombatMgr.connect("combat_end", self, "_on_combat_end")
 
 func on_new_player_location(map_x, map_y, rot_deg):
-	var new_in_pollen = get_tile("pollen", map_x, map_y) == pollen_tile_id
+	var new_in_pollen = 0
+	match get_tile("pollen", map_x, map_y):
+		pollen_1_tile_id: 
+			new_in_pollen = 1
+		pollen_2_tile_id: 
+			new_in_pollen = 2
+		pollen_3_tile_id: 
+			new_in_pollen = 3
+		pollen_4_tile_id: 
+			new_in_pollen = 4
+			
 	if in_pollen == new_in_pollen:
 		return
+	$WorldEnvironment.environment.fog_height_max = FOG_MAX
 	in_pollen = new_in_pollen
 	if $FogTween.is_active():
 		$FogTween.remove_all()
-	if in_pollen:
-		$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_min", $WorldEnvironment.environment.fog_height_min, IN_FOG_MIN, 1.0)
-		$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_max", $WorldEnvironment.environment.fog_height_max, IN_FOG_MAX, 1.0)
-	else:
-		$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_min", $WorldEnvironment.environment.fog_height_min, OUT_FOG_MIN, 1.0)
-		$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_max", $WorldEnvironment.environment.fog_height_max, OUT_FOG_MAX, 1.0)
+	match in_pollen:
+		1:
+			$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_min", $WorldEnvironment.environment.fog_height_min, IN_FOG_1_MIN, 1.0)
+			
+		2:
+			$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_min", $WorldEnvironment.environment.fog_height_min, IN_FOG_2_MIN, 1.0)
+			
+		3:
+			$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_min", $WorldEnvironment.environment.fog_height_min, IN_FOG_3_MIN, 1.0)
+			
+		4:
+			$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_min", $WorldEnvironment.environment.fog_height_min, IN_FOG_4_MIN, 1.0)
+			
+		_:
+			$FogTween.interpolate_property($WorldEnvironment.environment, "fog_height_min", $WorldEnvironment.environment.fog_height_min, OUT_FOG_MIN, 1.0)
 	$FogTween.start()
 
 func on_post_load_game():
@@ -205,7 +230,10 @@ func process_tileset(layer):
 		match tile_name:
 			"~wall": wall_tile_id = tile_id
 			"~floor": corridor_tile_id = tile_id
-			"~pollen": pollen_tile_id = tile_id
+			"~pollen": pollen_1_tile_id = tile_id
+			"~pollen2": pollen_2_tile_id = tile_id
+			"~pollen3": pollen_3_tile_id = tile_id
+			"~pollen4": pollen_4_tile_id = tile_id
 			"~block_pollen": block_pollen_tile_id = tile_id
 			"~up": orientation_tiles[tile_id] = Vector3(0, 0, 0)
 			"~down": orientation_tiles[tile_id] = Vector3(0, 180, 0)

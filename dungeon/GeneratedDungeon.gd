@@ -163,7 +163,7 @@ func _on_player_tile_move_complete():
 	if combat_grace_period_counter > 0:
 		combat_grace_period_counter -= 1
 	else:
-		if combat_chance_per_tile >= randf():
+		if in_pollen > 0 and in_pollen*combat_chance_per_tile >= randf():
 			CombatMgr.trigger_combat(null)
 			combat_grace_period_counter = combat_grace_period
 

@@ -18,6 +18,7 @@ var cutscene
 var cutscene_bg_chars 
 var combat_phase setget set_combat_phase
 var skill_menu_open setget set_skill_menu_open
+var pollen_spread_enabled
 
 func _ready():
 	self.pause_mode = PAUSE_MODE_PROCESS
@@ -29,10 +30,12 @@ func _ready():
 func on_pre_save_game():
 	GameData.set_state("QMGR_combat_phase", combat_phase)
 	GameData.set_state("QMGR_skill_menu_open", skill_menu_open)
+	GameData.set_state("QMGR_pollen_spread_enabled", pollen_spread_enabled)
 
 func on_post_load_game():
 	combat_phase = GameData.get_state("QMGR_combat_phase")
 	skill_menu_open = GameData.get_state("QMGR_skill_menu_open")
+	pollen_spread_enabled = GameData.get_state("QMGR_pollen_spread_enabled", true)
 
 func set_combat_phase(phase):
 	combat_phase = phase

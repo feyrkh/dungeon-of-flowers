@@ -15,7 +15,7 @@ func new_player_location(x, y, rot):
 		$Particles.emitting = false
 		pollen_level = -1
 		return
-	var new_pollen = GameData.dungeon.get_pollen_level(map_position.x, map_position.y)
+	var new_pollen = GameData.dungeon.get_pollen_level(map_position)
 	if new_pollen == pollen_level:
 		return
 	pollen_level = new_pollen

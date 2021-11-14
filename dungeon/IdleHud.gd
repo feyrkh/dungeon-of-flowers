@@ -36,19 +36,19 @@ func _on_combat_end():
 
 func _on_move_finish():
 	target_alpha = 1
-	print("Finished move, target_alpha=", target_alpha)
+	#print("Finished move, target_alpha=", target_alpha)
 	counter = SECONDS_TO_DELAY_FADE
 	set_process(true)
 
 func _on_move_start():
 	target_alpha = 0
-	print("Started move, target_alpha=", target_alpha)
+	#print("Started move, target_alpha=", target_alpha)
 	counter = 0
 	set_process(true)
 
 func _process(delta):
 	if target_alpha == alpha:
-		print("Finished fade, ", target_alpha, " == ", alpha)
+		#print("Finished fade, ", target_alpha, " == ", alpha)
 		modulate.a = target_alpha
 		set_process(false)
 	if counter > 0:

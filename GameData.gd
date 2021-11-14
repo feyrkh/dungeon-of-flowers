@@ -56,6 +56,17 @@ func set_map_data(layer:String, coords:Vector2, val):
 func get_map_data(layer, coords:Vector2):
 	return map_data.get(layer, {}).get(coords, null)
 
+func get_map_layer_data(layer):
+	if !map_data.has(layer):
+		map_data[layer] = {}
+	return map_data[layer]
+
+func map_tile_changed(layer, x, y, tile_id):
+	var layer_data = get_map_layer_data(layer)
+	if !layer_data.has("_tiles"):
+		layer_data["_tiles"] = {}
+	layer_data["_tiles"][Vector2(x,y)] = tile_id
+
 func set_dungeon(val):
 	_dungeon_scene = val
 
@@ -76,6 +87,7 @@ func _ready():
 	EventBus.connect("acquire_item", self, "on_acquire_item")
 	EventBus.connect("post_load_game", self, "post_load_game")
 	EventBus.connect("post_new_game", self, "post_new_game")
+	EventBus.connect("map_tile_changed", self, "map_tile_changed")
 	randomize()
 	load_settings()
 
@@ -226,12 +238,13 @@ func update_state(state_entry, val):
 func on_new_player_location(x, y, rot_deg):
 	world_tile_position = Vector2(x, y)
 	player_rotation = round(rot_deg)
-	match int(rot_deg):
+	match int(round(rot_deg)):
 		0: facing = "north"
 		-90: facing = "east"
 		180,-180: facing = "south"
 		90: facing = "west"
-		_: printerr("Unknown facing with angle ", int(round(rot_deg)))
+		_: 
+			printerr("Unknown facing with angle ", int(round(rot_deg)))
 
 func setup_allies():
 	if get_state(TUTORIAL_ON):
@@ -245,8 +258,10 @@ func new_game():
 	setup_allies()
 	if get_state(TUTORIAL_ON):
 		cur_dungeon = "intro"
+		QuestMgr.pollen_spread_enabled = false
 	else:
 		cur_dungeon = "intro"
+		QuestMgr.pollen_spread_enabled = true
 	get_tree().change_scene("res://dungeon/GeneratedDungeon.tscn")
 	yield(get_tree(), "idle_frame")
 	EventBus.emit_signal("post_new_game")

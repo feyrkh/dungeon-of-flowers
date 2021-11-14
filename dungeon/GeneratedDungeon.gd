@@ -60,7 +60,7 @@ func _ready():
 	CombatMgr.connect("combat_end", self, "_on_combat_end")
 
 func on_new_player_location(map_x, map_y, rot_deg):
-	var new_in_pollen = get_pollen_level(map_x, map_y)
+	var new_in_pollen = get_pollen_level(Vector2(map_x, map_y))
 	#if in_pollen == new_in_pollen:
 	#	return
 	$WorldEnvironment.environment.fog_height_max = FOG_MAX
@@ -124,7 +124,7 @@ func set_tile(layer:String, x:int, y:int, tile:int):
 	if tilemap == null:
 		return
 	tilemap.set_cell(x, y, tile)
-	EventBus.emit_signal("map_tile_changed", x, y, tile)
+	EventBus.emit_signal("map_tile_changed", layer, x, y, tile)
 
 func get_all_tile_scenes(coords:Vector2):
 	var result = []
@@ -223,6 +223,9 @@ func process_tileset(layer):
 
 func process_tilemap_layer(layer:TileMap, layer_name:String):
 	var tileset:TileSet = layer.tile_set
+	var override_data = GameData.get_map_layer_data(layer_name).get("_tiles", {})
+	for override_cell in override_data.keys():
+		layer.set_cell(override_cell.x, override_cell.y, override_data.get(override_cell, -1))
 	var cells = layer.get_used_cells()
 	for cell in cells:
 		var tile_id = layer.get_cell(cell.x, cell.y)
@@ -252,8 +255,8 @@ func process_tilemap_layer(layer:TileMap, layer_name:String):
 				var rotate_amt = deg2rad(randi()%4 * 90)
 				tile_scene.transform.basis = tile_scene.transform.basis.rotated(Vector3.UP, rotate_amt)
 
-func get_pollen_level(map_x, map_y):
-	match get_tile("pollen", map_x, map_y):
+func get_pollen_level(coords):
+	match get_tile("pollen", coords.x, coords.y):
 		pollen_1_tile_id: 
 			return 1
 		pollen_2_tile_id: 
@@ -263,3 +266,29 @@ func get_pollen_level(map_x, map_y):
 		pollen_4_tile_id: 
 			return 4
 	return 0
+
+func can_pollen_spread(coords):
+	match get_tile("ground", coords.x, coords.y):
+		wall_tile_id:
+			return false
+		-1:
+			return false
+	match get_tile("pollen", coords.x, coords.y):
+		block_pollen_tile_id:
+			return false
+	return true
+	
+func pollen_infest(coords, pollen_level):
+	if pollen_level >= 4:
+		pollen_level = 4
+		print("enemy levelup at ", coords)
+		EventBus.emit_signal("enemy_levelup")
+	else:
+		print("pollen intensity up from ", pollen_level, " at ", coords)
+		var new_tile
+		match pollen_level:
+			0: new_tile = pollen_1_tile_id
+			1: new_tile = pollen_2_tile_id
+			2: new_tile = pollen_3_tile_id
+			3: new_tile = pollen_4_tile_id
+		set_tile("pollen", coords.x, coords.y, new_tile)

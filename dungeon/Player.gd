@@ -78,7 +78,7 @@ func process_input():
 	if is_moving or is_bumping: 
 		return
 	if Input.is_action_pressed("move_forward"):
-		print("Moving forward: is_moving=", is_moving, "; is_bumping=", is_bumping)
+		#print("Moving forward: is_moving=", is_moving, "; is_bumping=", is_bumping)
 		if can_move(forwardSensor):
 			move(1)
 		else:
@@ -130,12 +130,12 @@ func bump_sideways(dir):
 func can_move(sensor):
 	var areas = sensor.get_overlapping_areas()
 	if areas.size() == 0:
-		print("Can't move, no open space ahead")
+		#print("Can't move, no open space ahead")
 		return false
 	else:
-		print(areas.size(), " areas overlapping")
+		#print(areas.size(), " areas overlapping")
 		for area in areas:
-			print(area.name)
+			#print(area.name)
 			var tile_metadata:TileMetadata = area.owner.find_node("TileMetadata", true, false)
 			if tile_metadata:
 				return tile_metadata.can_move_onto

@@ -3,7 +3,7 @@
 [ext_resource path="res://art_exports/ui_battle/ui_bullet01.png" type="Texture" id=1]
 [ext_resource path="res://art_exports/ui_battle/ui_bullet02.png" type="Texture" id=2]
 
-[sub_resource type="SpatialMaterial" id=6]
+[sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
 flags_unshaded = true
 vertex_color_use_as_albedo = true
@@ -14,13 +14,13 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 albedo_texture = ExtResource( 2 )
 
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 0.822266, 0, 1, 1, 0.823529, 0, 1, 0 )
 
-[sub_resource type="GradientTexture" id=5]
-gradient = SubResource( 4 )
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="ParticlesMaterial" id=4]
 emission_shape = 1
 emission_sphere_radius = 0.5
 direction = Vector3( 1, 1, 1 )
@@ -36,24 +36,25 @@ tangential_accel = 2.0
 damping = 1.99
 angle = 38.1
 angle_random = 1.0
-color_ramp = SubResource( 5 )
+color_ramp = SubResource( 3 )
 
-[sub_resource type="SpatialMaterial" id=8]
+[sub_resource type="SpatialMaterial" id=5]
 vertex_color_use_as_albedo = true
 params_billboard_mode = 1
 params_use_alpha_scissor = true
 params_alpha_scissor_threshold = 0.02
 albedo_texture = ExtResource( 1 )
 
-[sub_resource type="QuadMesh" id=9]
-material = SubResource( 8 )
+[sub_resource type="QuadMesh" id=6]
+material = SubResource( 5 )
 
 [node name="PollenGenerator" type="Spatial"]
 
 [node name="Particles" type="Particles" parent="."]
-material_override = SubResource( 6 )
-amount = 100
+material_override = SubResource( 1 )
+amount = 50
 lifetime = 10.0
+explosiveness = 0.71
 visibility_aabb = AABB( -6, -6, -6, 12, 12, 12 )
-process_material = SubResource( 7 )
-draw_pass_1 = SubResource( 9 )
+process_material = SubResource( 4 )
+draw_pass_1 = SubResource( 6 )

@@ -1,5 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
+[ext_resource path="res://img/dungeon/chest_back.png" type="Texture" id=1]
+[ext_resource path="res://img/dungeon/chest_front.png" type="Texture" id=2]
+[ext_resource path="res://img/dungeon/chest_diag1.png" type="Texture" id=3]
 [ext_resource path="res://dungeon/tiles/RoundedChest.gd" type="Script" id=4]
 [ext_resource path="res://util/PerspectiveSprite.tscn" type="PackedScene" id=5]
 
@@ -7,4 +10,5 @@
 script = ExtResource( 4 )
 
 [node name="PerspectiveSprite" parent="." instance=ExtResource( 5 )]
+frames = [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 3 ) ]
 width_in_meters = 1.5

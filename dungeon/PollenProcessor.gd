@@ -1,8 +1,8 @@
 extends Node
 
 const dirs = [Vector2.ZERO, Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-const INFEST_CHANCE_BASE = 0.1
-const INFEST_CHANCE_MODIFIER = 0
+const INFEST_CHANCE_BASE = 0.2
+const INFEST_CHANCE_MODIFIER = 0.05
 const MOVE_CHANCE_BASE = 0.7
 const MOVE_CHANCE_MODIFIER = 0.1
 

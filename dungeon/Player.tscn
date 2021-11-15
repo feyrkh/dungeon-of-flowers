@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://dungeon/Player.gd" type="Script" id=1]
 [ext_resource path="res://sound/thump.mp3" type="AudioStream" id=2]
 [ext_resource path="res://sound/footsteps.wav" type="AudioStream" id=3]
 [ext_resource path="res://util/lightFlicker.gd" type="Script" id=4]
+[ext_resource path="res://dungeon/FogShadow.gd" type="Script" id=6]
 
 [sub_resource type="RayShape" id=1]
 length = 0.1
@@ -63,5 +64,20 @@ stream = ExtResource( 3 )
 
 [node name="PerspectiveSpriteUpdateTimer" type="Timer" parent="."]
 wait_time = 0.05
+
+[node name="FogShadows" type="Spatial" parent="."]
+
+[node name="FogShadow" type="Sprite3D" parent="FogShadows"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -9 )
+modulate = Color( 0, 0, 0, 0.682353 )
+pixel_size = 0.003
+shaded = true
+script = ExtResource( 6 )
+
+[node name="Tween" type="Tween" parent="FogShadows/FogShadow"]
+
+[node name="Timer" type="Timer" parent="FogShadows/FogShadow"]
+wait_time = 5.0
+autostart = true
 
 [connection signal="timeout" from="PerspectiveSpriteUpdateTimer" to="." method="_on_PerspectiveSpriteUpdateTimer_timeout"]

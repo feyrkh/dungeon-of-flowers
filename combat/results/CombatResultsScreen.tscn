@@ -63,7 +63,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="ShaderMaterial" id=9]
+[sub_resource type="ShaderMaterial" id=5]
 shader = ExtResource( 24 )
 shader_param/ash = Color( 0.92549, 0, 0.54902, 1 )
 shader_param/fire = Color( 1, 1, 1, 1 )
@@ -74,7 +74,7 @@ shader_param/offset = 0.1
 shader_param/auto_control = false
 shader_param/manual_progress = 0.0
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=6]
 animations = [ {
 "frames": [ ExtResource( 19 ), ExtResource( 20 ), ExtResource( 22 ), ExtResource( 21 ) ],
 "loop": true,
@@ -82,7 +82,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="ShaderMaterial" id=8]
+[sub_resource type="ShaderMaterial" id=7]
 shader = ExtResource( 24 )
 shader_param/ash = Color( 0.92549, 0, 0.54902, 1 )
 shader_param/fire = Color( 1, 1, 1, 1 )
@@ -93,7 +93,7 @@ shader_param/offset = 0.1
 shader_param/auto_control = false
 shader_param/manual_progress = 1.0
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=8]
 size = 22
 outline_size = 1
 outline_color = Color( 0.92549, 0, 0.54902, 1 )
@@ -101,8 +101,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 30 )
 
-[sub_resource type="Animation" id=7]
-resource_name = "rank_gleam"
+[sub_resource type="Animation" id=9]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("RankResults/Gleam:position")
@@ -213,9 +212,9 @@ range_item_cull_mask = 16
 
 [node name="Reward" type="AnimatedSprite" parent="StatsRows"]
 light_mask = 16
-material = SubResource( 9 )
+material = SubResource( 5 )
 position = Vector2( 1256, 769 )
-frames = SubResource( 5 )
+frames = SubResource( 6 )
 
 [node name="RewardGleam" type="Light2D" parent="StatsRows/Reward"]
 modulate = Color( 0.998039, 0.952941, 0, 1 )
@@ -271,7 +270,7 @@ position = Vector2( -5, 9 )
 script = ExtResource( 28 )
 
 [node name="S" type="Sprite" parent="RankResults"]
-material = SubResource( 8 )
+material = SubResource( 7 )
 position = Vector2( 419, 720 )
 texture = ExtResource( 23 )
 
@@ -288,14 +287,14 @@ margin_top = 263.0
 margin_right = 604.0
 margin_bottom = 307.0
 rect_rotation = -6.18938
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 8 )
 text = "Grias has defeated the enemy"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/rank_gleam = SubResource( 7 )
+anims/rank_gleam = SubResource( 9 )
 
 [node name="Tween" type="Tween" parent="."]
 

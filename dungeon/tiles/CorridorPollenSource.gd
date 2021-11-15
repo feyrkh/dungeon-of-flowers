@@ -12,5 +12,5 @@ func _ready():
 	EventBus.connect("player_finish_move", self, "spawn_pollen")
 
 func spawn_pollen():
-	if randf() < 0.05:
+	if randf() < 0.075:
 		EventBus.emit_signal("spawn_pollen", map_coords)

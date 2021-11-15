@@ -284,6 +284,8 @@ func new_char_echincea():
 	ally.moves = [
 		MoveList.get_move('thump'),
 	]
+	if !GameData.get_state(TUTORIAL_ON):
+		ally.moves.append(MoveList.get_move("poultice"))
 	ally.shields = [
 		#{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -130), "scale": Vector2(0.5, 0.5)},
 	]
@@ -299,6 +301,7 @@ func mock_shantae():
 	ally.max_sp = 20
 	ally.texture = "res://img/hero3.jpg"
 	ally.moves = [
+		MoveList.get_move('thump'),
 	]
 	ally.shields = [
 		#{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -130), "scale": Vector2(1.0, 1.0)},

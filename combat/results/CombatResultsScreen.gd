@@ -41,7 +41,7 @@ func _ready():
 	else:
 		damage_pct = data.get("damage_given", 0) / float(data.get("damage_given", 0) + data.get("damage_taken", 0))
 	if data.get("blocks_made",0) != 0 or data.get("blocks_missed",0) != 0:
-		block_pct = int(data.get("blocks_made",0)/(data.get("blocks_made",0)+data.get("blocks_missed",0))*100)
+		block_pct = int(float(data.get("blocks_made",0))/(data.get("blocks_made",0)+data.get("blocks_missed",0))*100)
 	var badge_scene = set_badge_texture(block_pct, damage_pct*100)
 
 	trigger_counter(delay+0.7, find_node("BlockPercentLabel"), block_pct)

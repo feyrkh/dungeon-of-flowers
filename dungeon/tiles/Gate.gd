@@ -3,6 +3,7 @@ extends Spatial
 export var is_open = false setget set_is_open
 var map_position:Vector2
 var map_layer:String
+var map_config
 var animating=false
 
 func _ready():
@@ -35,6 +36,7 @@ func set_is_open(val):
 func on_map_place(dungeon, layer_name:String, cell:Vector2):
 	self.map_position = cell
 	self.map_layer = layer_name
+	self.map_config = dungeon.get_tile_config(cell.x, cell.y)
 	set_is_open(is_open)
 
 func is_interactable():
@@ -47,10 +49,14 @@ func get_interactable_prompt():
 		return "Open Gate"
 
 func interact():
-	if is_open:
-		close()
+	var key_needed = map_config.get("key")
+	if key_needed and !GameData.inventory.get(key_needed):
+		locked()
 	else:
-		open()
+		if is_open:
+			close()
+		else:
+			open()
 	EventBus.emit_signal("refresh_interactables")
 
 func open(open_time=2):
@@ -62,7 +68,17 @@ func open(open_time=2):
 	yield(tween, "tween_all_completed")
 	animating = false
 	set_is_open(true)
-	tween.queue_free()
+	EventBus.emit_signal("refresh_interactables")
+
+func locked():
+	var tween:Tween = Util.one_shot_tween(self)
+	for i in range(3):	
+		tween.interpolate_property(self, "transform:origin", transform.origin, transform.origin+transform.basis.z.normalized()*0.05, 0.05, 0, 2, i*0.1)
+		tween.interpolate_property(self, "transform:origin", transform.origin+transform.basis.z.normalized()*0.05, transform.origin, 0.05, 0, 2, i*0.1+0.1)
+	tween.start()
+	animating = true
+	yield(tween, "tween_all_completed")
+	animating = false
 	EventBus.emit_signal("refresh_interactables")
 
 func close():
@@ -74,5 +90,4 @@ func close():
 	set_is_open(false)
 	yield(tween, "tween_all_completed")
 	animating = false
-	tween.queue_free()
 	EventBus.emit_signal("refresh_interactables")

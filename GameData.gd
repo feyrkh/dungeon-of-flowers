@@ -260,7 +260,7 @@ func new_game():
 		cur_dungeon = "intro"
 		QuestMgr.pollen_spread_enabled = false
 	else:
-		cur_dungeon = "intro"
+		cur_dungeon = "floor1"
 		QuestMgr.pollen_spread_enabled = true
 	get_tree().change_scene("res://dungeon/GeneratedDungeon.tscn")
 	yield(get_tree(), "idle_frame")

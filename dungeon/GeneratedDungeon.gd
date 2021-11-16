@@ -13,6 +13,7 @@ const tiles = {
 	" ": tile_corridor,
 	"@": tile_corridor,
 }
+var tile_config = {}
 
 const IN_FOG_LIGHT = [0.05, 0.03, 0.02, 0.01, 0]
 const IN_FOG_MIN = [-0.1, 1, 1.75, 2.75, 4]
@@ -95,16 +96,10 @@ func load_from_file():
 	tilesets = {}
 	for prop in get_property_list():
 		property_types[prop.name] = prop.type
-	var file = File.new()
-	var err = file.open("res://data/map/"+GameData.cur_dungeon+".txt", File.READ)
-	if err != 0:
-		printerr(GameData.cur_dungeon, " : Failed to open dungeon file while loading, got error: ", err)
-		return
-	var content = file.get_line()
-	while content != "map:" and !file.eof_reached():
-		process_config_line(content)
-		content = file.get_line()
-	file.close()
+	var json = Util.read_json("res://data/map/"+GameData.cur_dungeon+".json")
+	for k in json.keys():
+		process_config_line(k, json[k])
+
 	process_map(GameData.cur_dungeon)
 	combat_grace_period_counter = combat_grace_period
 	CombatMgr.register(player, self)
@@ -125,6 +120,16 @@ func set_tile(layer:String, x:int, y:int, tile:int):
 		return
 	tilemap.set_cell(x, y, tile)
 	EventBus.emit_signal("map_tile_changed", layer, x, y, tile)
+
+func get_tile_config(x:int, y:int):
+	var tile_name = get_tile_name("config", x, y)
+	return tile_config.get(tile_name, {})
+
+func get_tile_name(layer, x:int, y:int):
+	var tile_id = get_tile(layer, x, y)
+	if tile_id == -1:
+		return null
+	return tilesets[layer].tile_get_name(tile_id)
 
 func get_all_tile_scenes(coords:Vector2):
 	var result = []
@@ -167,26 +172,25 @@ func _on_player_tile_move_complete():
 			CombatMgr.trigger_combat(null)
 			combat_grace_period_counter = combat_grace_period
 
-func process_config_line(line:String):
-	var chunks = line.split(":", false, 1)
-	if chunks.size() == 2:
-		if chunks[0] == "tile":
-			load_tile(chunks[1])
-		else:
-			match property_types.get(chunks[0]):
-				TYPE_INT:
-					set(chunks[0], int(chunks[1]))
-				TYPE_REAL:
-					set(chunks[0], float(chunks[1]))
-				TYPE_STRING:
-					set(chunks[0], chunks[1])
-				_: printerr("Unexpected property type: ", property_types.get(chunks[0]))
+func process_config_line(key, val):
+	if key == "tiles":
+		for tile_name in val.keys():
+			load_tile(tile_name, val[tile_name])
+	elif key == "config":
+		tile_config = val
+	else:
+		match property_types.get(key):
+			TYPE_INT:
+				set(key, int(val))
+			TYPE_REAL:
+				set(key, float(val))
+			TYPE_STRING:
+				set(key, val)
+			_: printerr("Unexpected property type: ", property_types.get(key))
 
-func load_tile(tile_data):
-	var chunks = tile_data.split(":", false, 1)
-	if chunks.size() == 2:
-		print("Tile '%s'=%s"%[chunks[0], chunks[1]])
-		tiles["~"+chunks[0]] = load("res://"+chunks[1])
+func load_tile(tile_name, tile_val):
+	print("Tile '%s'=%s"%[tile_name, tile_val])
+	tiles["~"+tile_name] = load("res://"+tile_val)
 	
 func process_map(map_filename):
 	if is_instance_valid(map_scene):

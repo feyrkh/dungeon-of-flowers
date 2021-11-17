@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/chest_open-15.png-2ffc2e639ec3c86fe6db94f0218688e0.stex"
+path="res://.import/chest_open15.png-6d2b8320515fb4b060535123f783731c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/dungeon/chest_open-15.png"
-dest_files=[ "res://.import/chest_open-15.png-2ffc2e639ec3c86fe6db94f0218688e0.stex" ]
+source_file="res://img/dungeon/chest_open15.png"
+dest_files=[ "res://.import/chest_open15.png-6d2b8320515fb4b060535123f783731c.stex" ]
 
 [params]
 

@@ -44,10 +44,18 @@ func open(open_time=2):
 	is_open = true # set before tween finish in case they save partway through
 	EventBus.emit_signal("refresh_interactables")
 	yield(tween, "tween_all_completed")
+	$PerspectiveSprite.visible = false
+	$AnimatedSprite3D.visible = true
+	$AnimatedSprite3D.play()
+	yield($AnimatedSprite3D, "animation_finished")
 	change_tile(-1)
-	disable_movement(false)
 	acquire_items()
+	tween = Util.one_shot_tween(self)
+	tween.interpolate_property(self, "modulate:a", 1.0, 0, 0.5, 0, 2, open_time - delay)
+	tween.start()
+	yield(tween, "tween_all_completed")
 	EventBus.emit_signal("refresh_interactables")
+	disable_movement(false)
 	queue_free()
 
 func acquire_items():

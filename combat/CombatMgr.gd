@@ -125,8 +125,9 @@ func close_combat():
 	dungeon.Fader.add_child(fader)
 	fader.fade_out(fade_amt, 1)
 	yield(fader, "fade_complete")
-	combat.queue_free()
-	if combat_results_screen:
+	if is_instance_valid(combat):
+		combat.queue_free()
+	if is_instance_valid(combat_results_screen):
 		combat_results_screen.queue_free()
 	fader.fade_in(fade_amt, 1)
 	yield(fader, "fade_complete")

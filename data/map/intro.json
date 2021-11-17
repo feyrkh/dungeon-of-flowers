@@ -1,0 +1,16 @@
+{
+	"map_name": "vestibule",
+	"combat_grace_period": 5,
+	"combat_chance_per_tile":0.05,
+	"tiles": {
+		"wall": "dungeon/Wall.tscn",
+		"floor": "dungeon/Corridor.tscn",
+		"pollen_spawn":"dungeon/tiles/CorridorPollenSource.tscn",
+		"treasure": "dungeon/tiles/FlatChest.tscn",
+		"gate": "dungeon/tiles/Gate.tscn",
+	},
+	"config": {
+		"1": {"key": "intro_key_1"},
+		"2": {"key": "intro_key_2"},
+	}
+}

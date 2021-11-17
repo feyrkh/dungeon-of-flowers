@@ -100,6 +100,11 @@ func input_select_character():
 		cur_input_phase = InputPhase.NO_INPUT
 		CombatMgr.emit_signal("player_turn_complete", combat_data)
 		CombatMgr.change_combat_state("start_enemy_turn", combat_data)
+	if Input.is_action_just_pressed("debug_skip_combat"):
+		cur_input_phase = InputPhase.NO_INPUT
+		EventBus.emit_signal("hide_tutorial")
+		finish_combat_with_ally_win()
+		return
 	if Input.is_action_just_pressed("select_prev_char"):
 		select_next_char(-1)
 		input_delayed = UI_DELAY
@@ -301,11 +306,7 @@ func check_combat_over():
 		return
 	print("check_combat_over")
 	if enemies_all_dead():
-		AudioPlayerPool.play(end_combat_sfx);
-		yield(get_tree().create_timer(0.5), "timeout")
-		emit_signal("allies_win", combat_data)
-		EventBus.emit_signal("enable_pause_menu")
-		combat_over = true
+		finish_combat_with_ally_win()
 	elif allies_all_dead():
 		cur_input_phase = InputPhase.NO_INPUT
 		emit_signal("allies_lose", combat_data)
@@ -313,6 +314,13 @@ func check_combat_over():
 		QuestMgr.play_cutscene("combat_gameover")
 		combat_over = true
 	return combat_over
+
+func finish_combat_with_ally_win():
+	AudioPlayerPool.play(end_combat_sfx);
+	yield(get_tree().create_timer(0.5), "timeout")
+	EventBus.emit_signal("enable_pause_menu")
+	emit_signal("allies_win", combat_data)
+	combat_over = true
 
 func _on_Ally_select_submenu_item(submenu, move_data):
 	print("_on_Ally_select_submenu_item")

@@ -120,7 +120,7 @@ func check_noncombat_introduction():
 				GameData.set_state(INTRO, INTRO_INTRODUCED_GRIAS)
 				return true
 		INTRO_INTRODUCED_GRIAS: 
-			if GameData.get_state(GameData.STEP_COUNTER, 0) == 4:
+			if GameData.get_state(GameData.STEP_COUNTER, 0) == 3:
 				GameData.set_state(GameData.STEP_COUNTER, 0)
 				play_cutscene(INTRO_FIRST_COMBAT)
 				yield(cutscene, "timeline_end")

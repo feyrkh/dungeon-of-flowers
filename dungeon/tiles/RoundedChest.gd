@@ -25,7 +25,21 @@ func interact():
 
 func open(open_time=2):
 	var tween:Tween = Util.one_shot_tween(self)
-	tween.interpolate_property(self, "transform:origin", transform.origin, transform.origin+transform.basis.y, open_time, Tween.TRANS_CUBIC, Tween.EASE_IN)
+	#tween.interpolate_property(self, "transform:origin", transform.origin, transform.origin+transform.basis.y, open_time, Tween.TRANS_CUBIC, Tween.EASE_IN)
+	var delay = 0
+	var segment_time = open_time/12.0
+	var flex = 0.2
+	tween.interpolate_property($PerspectiveSprite, "scale:x", 1.0, 1+flex, segment_time, 0, 2, delay)
+	tween.interpolate_property($PerspectiveSprite, "scale:y", 1.0, 1-flex, segment_time, 0, 2, delay)
+	delay += segment_time
+	tween.interpolate_property($PerspectiveSprite, "scale:x", 1+flex, 1-flex, segment_time, 0, 2, delay)
+	tween.interpolate_property($PerspectiveSprite, "scale:y", 1-flex, 1+flex, segment_time, 0, 2, delay)
+	tween.interpolate_property(self, "transform:origin", transform.origin, transform.origin+transform.basis.y*0.3, segment_time, Tween.TRANS_CUBIC, Tween.EASE_IN, delay)
+	delay += segment_time
+	tween.interpolate_property($PerspectiveSprite, "scale:x", 1-flex, 1.0, segment_time, 0, 2, delay)
+	tween.interpolate_property($PerspectiveSprite, "scale:y", 1+flex, 1.0, segment_time, 0, 2, delay)
+	tween.interpolate_property(self, "transform:origin", transform.origin+transform.basis.y*0.3, transform.origin, segment_time, Tween.TRANS_CUBIC, Tween.EASE_IN, delay)
+	delay += segment_time
 	tween.start()
 	is_open = true # set before tween finish in case they save partway through
 	EventBus.emit_signal("refresh_interactables")
@@ -33,7 +47,6 @@ func open(open_time=2):
 	change_tile(-1)
 	disable_movement(false)
 	acquire_items()
-	is_open = true
 	EventBus.emit_signal("refresh_interactables")
 	queue_free()
 

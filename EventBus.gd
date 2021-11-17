@@ -27,6 +27,11 @@ signal update_interactable(interactables_list)
 signal refresh_interactables()
 signal refresh_perspective_sprites(global_facing)
 
+# party chat
+signal start_chat(chat_filename, priority) # priority: what happens to this chat if another chat is already running; "ignore", "queue", "override"
+signal chat_msg(msg)
+
+
 # pollen spawn/spread
 signal spawn_pollen(coords)
 signal enemy_levelup()

@@ -1,7 +1,26 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://combat/AllyPortraits.gd" type="Script" id=1]
 [ext_resource path="res://combat/AllyCombatDisplay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://art_exports/ui_dialog/ui_speechbubble01.png" type="Texture" id=3]
+[ext_resource path="res://font/dialog_font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://combat/ChatDialog.gd" type="Script" id=5]
+[ext_resource path="res://shader/mask_transition.shader" type="Shader" id=6]
+[ext_resource path="res://art_exports/ui_dialog/ui_speechbubble_transition_mask.png" type="Texture" id=7]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 6 )
+shader_param/start_color = Color( 0, 0, 0, 0 )
+shader_param/start_color_width = 0.1
+shader_param/fade_color_1 = Color( 0.631373, 0.552941, 0.466667, 1 )
+shader_param/fade_color_1_width = 0.1
+shader_param/fade_color_2 = Color( 0.419608, 0.364706, 0.305882, 1 )
+shader_param/fade_color_2_width = 0.1
+shader_param/fade_color_3 = Color( 0.301961, 0.262745, 0.223529, 1 )
+shader_param/fade_color_3_width = 0.1
+shader_param/duration = 0.25
+shader_param/progress = 1.149
+shader_param/mask = ExtResource( 7 )
 
 [node name="AllyPortraits" type="Control"]
 margin_right = 40.0
@@ -30,3 +49,32 @@ margin_right = 1844.0
 margin_bottom = 1976.0
 
 [node name="TargetIcons" type="Node2D" parent="."]
+
+[node name="ChatDialog" type="TextureRect" parent="."]
+material = SubResource( 1 )
+margin_left = 142.0
+margin_top = 671.0
+margin_right = 631.0
+margin_bottom = 888.0
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 1
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ChatDialog"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 63.0
+margin_top = 18.0
+margin_right = 450.0
+margin_bottom = 191.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -89,8 +89,10 @@ func register(_player, _dungeon):
 	connect("combat_start", player, "_on_combat_start")
 	connect("combat_end", player, "_on_combat_end")
 	player.connect("tile_move_complete", dungeon, "_on_player_tile_move_complete")
-	EventBus.connect("pre_save_game", self, "on_pre_save_game")
-	EventBus.connect("post_load_game", self, "on_post_load_game")
+	if !EventBus.is_connected("pre_save_game", self, "on_pre_save_game"):
+		EventBus.connect("pre_save_game", self, "on_pre_save_game")
+	if !EventBus.is_connected("post_load_game", self, "on_post_load_game"):
+		EventBus.connect("post_load_game", self, "on_post_load_game")
 
 func on_pre_save_game():
 	GameData.set_state("CMGR_is_in_combat", is_in_combat)
@@ -139,6 +141,7 @@ func close_results(results_screen):
 	combat_results_screen = results_screen
 	close_combat()
 	emit_signal("combat_end")
+	EventBus.emit_signal("enable_pause_menu")
 
 func show_combat_results():
 	var fader = PixelFader.instance()

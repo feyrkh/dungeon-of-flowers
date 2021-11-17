@@ -131,6 +131,9 @@ func get_tile_name(layer, x:int, y:int):
 		return null
 	return tilesets[layer].tile_get_name(tile_id)
 
+func get_tileset(layer):
+	return tilesets.get(layer, null)
+
 func get_all_tile_scenes(coords:Vector2):
 	var result = []
 	for child in tilemaps.values():

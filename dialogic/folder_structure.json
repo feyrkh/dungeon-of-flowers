@@ -34,7 +34,8 @@
 			"files": [
 				"theme-1633976116.cfg",
 				"theme-1634317032.cfg",
-				"theme-1634319603.cfg"
+				"theme-1634319603.cfg",
+				"theme-1637036864.cfg"
 			],
 			"folders": {
 
@@ -49,6 +50,18 @@
 				"timeline-1633289438.json"
 			],
 			"folders": {
+				"chest": {
+					"files": [
+
+					],
+					"folders": {
+
+					},
+					"metadata": {
+						"color": null,
+						"folded": false
+					}
+				},
 				"tutorial": {
 					"files": [
 						"timeline-1633229093.json",

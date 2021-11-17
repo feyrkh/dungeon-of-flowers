@@ -1,9 +1,5 @@
-extends Spatial
-
+extends DisableMovementTile
 export var is_open = false setget set_is_open
-var map_position:Vector2
-var map_layer:String
-var map_config
 var animating=false
 
 func _ready():
@@ -25,18 +21,10 @@ func finalize_load_game():
 
 func set_is_open(val):
 	is_open = val
-	var dungeon = GameData.dungeon
-	if dungeon.has_method("get_tile_scene"):
-		var corridor = dungeon.get_tile_scene("ground", map_position)
-		var metadata:TileMetadata = corridor.find_node("TileMetadata")
-		metadata.can_move_onto = is_open
-	else:
-		printerr("Couldn't find the dungeon scene while setting door open state!")
+	disable_movement(!is_open)
 
 func on_map_place(dungeon, layer_name:String, cell:Vector2):
-	self.map_position = cell
-	self.map_layer = layer_name
-	self.map_config = dungeon.get_tile_config(cell.x, cell.y)
+	.on_map_place(dungeon, layer_name, cell)
 	set_is_open(is_open)
 
 func is_interactable():
@@ -73,8 +61,8 @@ func open(open_time=2):
 func locked():
 	var tween:Tween = Util.one_shot_tween(self)
 	for i in range(3):	
-		tween.interpolate_property(self, "transform:origin", transform.origin, transform.origin+transform.basis.z.normalized()*0.05, 0.05, 0, 2, i*0.1)
-		tween.interpolate_property(self, "transform:origin", transform.origin+transform.basis.z.normalized()*0.05, transform.origin, 0.05, 0, 2, i*0.1+0.1)
+		tween.interpolate_property(self, "transform:origin", transform.origin, transform.origin+transform.basis.z*0.05, 0.05, 0, 2, i*0.1)
+		tween.interpolate_property(self, "transform:origin", transform.origin+transform.basis.z*0.05, transform.origin, 0.05, 0, 2, i*0.1+0.1)
 	tween.start()
 	animating = true
 	yield(tween, "tween_all_completed")

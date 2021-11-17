@@ -10,7 +10,7 @@
 		"gate": "dungeon/tiles/Gate.tscn",
 	},
 	"config": {
-		"1": {"key": "intro_key_1"},
+		"1": {"key": "intro_key_1", "chest_dialogue": "first_chest"},
 		"2": {"key": "intro_key_2"},
 	}
 }

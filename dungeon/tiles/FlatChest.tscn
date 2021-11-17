@@ -15,14 +15,14 @@
 [ext_resource path="res://img/dungeon/chest_open02.png" type="Texture" id=13]
 [ext_resource path="res://img/dungeon/chest_open07.png" type="Texture" id=14]
 [ext_resource path="res://img/dungeon/chest_open10.png" type="Texture" id=15]
-[ext_resource path="res://img/dungeon/chest_open-15.png" type="Texture" id=16]
+[ext_resource path="res://img/dungeon/chest_open15.png" type="Texture" id=16]
 [ext_resource path="res://img/dungeon/chest_open04.png" type="Texture" id=17]
 [ext_resource path="res://img/dungeon/chest_open12.png" type="Texture" id=18]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 7 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 17 ), ExtResource( 1 ), ExtResource( 9 ), ExtResource( 14 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 15 ), ExtResource( 3 ), ExtResource( 18 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 16 ) ],
-"loop": true,
+"loop": false,
 "name": "default",
 "speed": 15.0
 } ]

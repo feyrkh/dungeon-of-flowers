@@ -24,8 +24,13 @@ func interact():
 	EventBus.emit_signal("refresh_interactables")
 
 func open(open_time=2):
+	$AnimatedSprite3D.pixel_size = $PerspectiveSprite/Sprite3D.pixel_size
+	$AnimatedSprite3D.transform.origin = $PerspectiveSprite/Sprite3D.transform.origin
+	$PerspectiveSprite.visible = true
+	$AnimatedSprite3D.visible = false
+	$AnimatedSprite3D.frame = 0
+	$AnimatedSprite3D.stop()
 	var tween:Tween = Util.one_shot_tween(self)
-	#tween.interpolate_property(self, "transform:origin", transform.origin, transform.origin+transform.basis.y, open_time, Tween.TRANS_CUBIC, Tween.EASE_IN)
 	var delay = 0
 	var segment_time = open_time/12.0
 	var flex = 0.2
@@ -44,6 +49,8 @@ func open(open_time=2):
 	is_open = true # set before tween finish in case they save partway through
 	EventBus.emit_signal("refresh_interactables")
 	yield(tween, "tween_all_completed")
+	yield(get_tree().create_timer(segment_time), "timeout")
+	delay += segment_time
 	$PerspectiveSprite.visible = false
 	$AnimatedSprite3D.visible = true
 	$AnimatedSprite3D.play()
@@ -51,12 +58,15 @@ func open(open_time=2):
 	change_tile(-1)
 	acquire_items()
 	tween = Util.one_shot_tween(self)
-	tween.interpolate_property(self, "modulate:a", 1.0, 0, 0.5, 0, 2, open_time - delay)
+	tween.interpolate_property($AnimatedSprite3D, "modulate:a", 1.0, 0, 0.5, 0, 2, segment_time*2)
 	tween.start()
 	yield(tween, "tween_all_completed")
 	EventBus.emit_signal("refresh_interactables")
 	disable_movement(false)
 	queue_free()
+	$AnimatedSprite3D.modulate.a = 1.0
+	$PerspectiveSprite.visible = true
+	$AnimatedSprite3D.visible = false
 
 func acquire_items():
 	var items = map_config.get("chest_items", [])

@@ -49,6 +49,7 @@ func _ready():
 				views[BACK_LEFT_VEC] = get_view(i, true)
 			var v:
 				views[v] = get_view(i, false)
+	refresh_perspective(Vector3.FORWARD)
 
 func get_view(i, flip_h):
 	return [frames[i], # texture

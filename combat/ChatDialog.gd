@@ -12,11 +12,11 @@ func _ready():
 	set_material(get_material().duplicate(true))
 	set_dialog_visibility(0)
 	set_displayed(null)
-	set_displayed("This is the first", 1)
-	set_displayed("This is the 2nd", 2)
-	set_displayed("This is the 3rd", 3)
-	set_displayed("This is the 4th", 4)
-	set_displayed(null, 5)
+	#set_displayed("This is the first", 1)
+	#set_displayed("This is the 2nd", 2)
+	#set_displayed("This is the 3rd", 3)
+	#set_displayed("This is the 4th", 4)
+	#set_displayed(null, 5)
 
 func chat_msg(msg):
 	if msg.begins_with(character_prefix):

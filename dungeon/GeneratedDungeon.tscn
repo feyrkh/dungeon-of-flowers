@@ -85,8 +85,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AllyPortraits" parent="IdleHud" instance=ExtResource( 4 )]
-
 [node name="HeaderText" type="Control" parent="IdleHud"]
 modulate = Color( 0.933333, 0.341176, 0.984314, 1 )
 margin_right = 40.0
@@ -144,6 +142,18 @@ margin_bottom = 103.0
 custom_fonts/font = ExtResource( 7 )
 text = "Do something"
 align = 1
+
+[node name="ChatHud" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+visible_when_chatting = true
+
+[node name="AllyPortraits" parent="ChatHud" instance=ExtResource( 4 )]
 
 [node name="PauseMenuRoot" parent="." instance=ExtResource( 8 )]
 

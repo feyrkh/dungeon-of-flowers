@@ -49,12 +49,18 @@ var resume_lines = {
 
 func _ready():
 	EventBus.connect("start_chat", self, "start_chat")
+	chat_queue = []
+	cur_speaker = ''
+	cur_line_timer = 0
 
 func _process(delta):
 	cur_line_timer -= delta
 	if cur_line_timer <= 0:
 		chat_queue.pop_front()
 		send_chat_msg()
+
+func is_chatting():
+	return chat_queue.size() > 0
 
 func start_chat(chat_filename, priority):
 	chat_filename = "res://data/chat/"+chat_filename+".txt"
@@ -118,23 +124,30 @@ func prepend_line(line):
 	chat_queue.push_front(line)
 
 func interrupt_line(prev_speaker, interrupt_speaker):
-	var vals = {"p":interrupted_nickname(interrupt_speaker, prev_speaker), "n":interrupted_nickname(prev_speaker, interrupt_speaker)}
+	var vals = {"n":interrupted_nickname(interrupt_speaker, prev_speaker), "p":interrupted_nickname(prev_speaker, interrupt_speaker)}
 	if prev_speaker == interrupt_speaker:
 		var lines = self_interrupt_lines[interrupt_speaker]
 		return interrupt_speaker+":"+lines[randi()%lines.size()]
 	else:
 		var lines = interrupt_lines[interrupt_speaker]
-		return interrupt_speaker+":"+lines[randi()%lines.size()]%vals
+		var line = interrupt_speaker+":"+lines[randi()%lines.size()]
+		line = line.replace("{p}", vals.get("p"))
+		line = line.replace("{n}", vals.get("n"))
+		return line
 
 func resume_line(prev_speaker, interrupt_speaker):
-	var vals = {"p":interrupted_nickname(interrupt_speaker, prev_speaker), "n":interrupted_nickname(prev_speaker, interrupt_speaker)}
+	var vals = {"n":interrupted_nickname(interrupt_speaker, prev_speaker), "p":interrupted_nickname(prev_speaker, interrupt_speaker)}
 	if prev_speaker == interrupt_speaker:
 		var lines = self_resume_lines[prev_speaker]
-		return interrupt_speaker+":"+lines[randi()%lines.size()]
+		return prev_speaker+":"+lines[randi()%lines.size()]
 	else:
 		var lines = resume_lines[prev_speaker]
-		return interrupt_speaker+":"+lines[randi()%lines.size()]%vals
+		var line = prev_speaker+":"+lines[randi()%lines.size()]
+		line = line.replace("{p}", vals.get("p"))
+		line = line.replace("{n}", vals.get("n"))
+		return line
 
 func interrupted_nickname(prev_speaker, interrupt_speaker):
 	var prev_name = nicknames.get(interrupt_speaker, {}).get(prev_speaker, ["Hey"])
 	prev_name = prev_name[randi()%prev_name.size()]
+	return prev_name

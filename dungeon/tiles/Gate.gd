@@ -68,6 +68,9 @@ func locked():
 	yield(tween, "tween_all_completed")
 	animating = false
 	EventBus.emit_signal("refresh_interactables")
+	if map_config.get("locked_chat") and GameData.get_state("lock_complaint", 0) < OS.get_system_time_secs():
+		GameData.set_state("lock_complaint", OS.get_system_time_secs()+10)
+		EventBus.emit_signal("start_chat", map_config.get("locked_chat"), ChatMgr.INTERRUPT_IF_BUSY)
 
 func close():
 	var tween:Tween = Util.one_shot_tween(self)

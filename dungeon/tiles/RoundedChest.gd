@@ -75,3 +75,5 @@ func acquire_items():
 		items.append(key)
 	for item in items:
 		EventBus.emit_signal("acquire_item", item, 1)
+	if map_config.get("chest_chat"):
+		EventBus.emit_signal("start_chat", map_config.get("chest_chat"), ChatMgr.INTERRUPT_IF_BUSY)

@@ -136,3 +136,18 @@ static func one_shot_tween(parent) -> Tween:
 	parent.add_child(tween)
 	tween.connect("tween_all_completed", tween, "queue_free")
 	return tween
+
+static func read_text(filename, default=null):
+	var file = File.new()
+	if file.open(filename, File.READ) != OK:
+		file.close()
+		return default
+	var data_text: String = file.get_as_text()
+	file.close()
+	return data_text
+
+static func read_lines(filename, default=null):
+	var text = read_text(filename)
+	if text == null:
+		return default
+	return text.split("\n")

@@ -215,6 +215,7 @@ MusicCrossFade="*res://util/MusicCrossFade.tscn"
 AudioPlayerPool="*res://util/AudioPlayerPool.tscn"
 DialogicSingleton="*res://addons/dialogic/Other/DialogicSingleton.gd"
 QuestMgr="*res://QuestMgr.gd"
+ChatMgr="*res://dialogic/ChatMgr.tscn"
 
 [debug]
 

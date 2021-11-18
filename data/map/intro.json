@@ -11,6 +11,6 @@
 	},
 	"config": {
 		"1": {"key": "intro_key_1", "chest_chat": "first_chest", "locked_chat": "generic_locked_door"},
-		"2": {"key": "intro_key_2"},
+		"2": {"key": "intro_key_2", "locked_chat": "generic_locked_door"},
 	}
 }

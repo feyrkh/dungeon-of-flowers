@@ -20,9 +20,9 @@ func _ready():
 
 func chat_msg(msg):
 	if msg.begins_with(character_prefix):
-		set_displayed(msg.substr(character_prefix.length()))
+		set_displayed(msg.substr(character_prefix.length()), 0.25)
 	else:
-		set_displayed(null, 0.5)
+		set_displayed(null, 0)
 
 func set_displayed(val, delay=0):
 	if val and !displayed:

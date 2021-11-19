@@ -36,7 +36,7 @@ func set_displayed(val, delay=0):
 func show_chat(val, delay=0):
 	var tween = Util.one_shot_tween(self)
 	displayed = val
-	tween.interpolate_property($Label, "modulate:a", 0, 1.0, TEXT_FADE_DURATION, 0, 2, delay)
+	tween.interpolate_property($Label, "modulate:a", 0, 1.0, TEXT_FADE_DURATION, 0, 2, delay+TEXT_FADE_DURATION/2.0)
 	tween.interpolate_callback($Label, TEXT_FADE_DURATION+delay, "set_text", val)
 	tween.interpolate_method(self, "set_dialog_visibility", 0, 1.0, TEXT_FADE_DURATION, 0, 2, delay)
 	tween.start()
@@ -45,10 +45,12 @@ func show_chat(val, delay=0):
 func hide_chat(val, delay=0):
 	var tween = Util.one_shot_tween(self)
 	displayed = val
-	tween.interpolate_property($Label, "modulate:a", 1.0, 0, TEXT_FADE_DURATION, 0, 2, delay)
+	tween.interpolate_property($Label, "modulate:a", 1.0, 0, TEXT_FADE_DURATION/2.0, 0, 2, delay)
 	tween.interpolate_method(self, "set_dialog_visibility", 1.0, 0, TEXT_FADE_DURATION, 0, 2, delay)
 	tween.start()
-
+	yield(tween, "tween_all_completed")
+	$Label.text = ""
+	
 func set_dialog_visibility(progress):
 	material.set_shader_param("progress", progress)
 

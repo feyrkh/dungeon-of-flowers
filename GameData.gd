@@ -274,7 +274,7 @@ func gameover():
 
 func new_char_echincea():
 	var ally = AllyData.new()
-	ally.label = "Echincea"
+	ally.label = "Echinacea"
 	ally.className = "Floriculturist"
 	ally.max_hp = 100
 	ally.hp = 100
@@ -293,8 +293,8 @@ func new_char_echincea():
 
 func mock_shantae():
 	var ally = AllyData.new()
-	ally.label = "Shantae"
-	ally.className = "Half Genie"
+	ally.label = "Arum"
+	ally.className = "Titan"
 	ally.max_hp = 100
 	ally.hp = 100
 	ally.sp = 20
@@ -333,3 +333,13 @@ func set_rand_seed():
 	print("setting randseed to: ", s)
 	rand_seed(get_state("randseed"))
 
+func get_allies_in_party():
+	var result = {}
+	for ally in allies:
+		if ally == null: continue
+		match ally.label:
+			"Grias": result["g"] = true
+			"Echinacea": result["e"] = true
+			"Echincea": result["e"] = true # oops
+			"Arum": result["a"] = true
+	return result

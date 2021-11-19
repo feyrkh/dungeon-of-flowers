@@ -1,0 +1,5 @@
+!priority:2
+!replay_after:5
+pause:0.5
+g:What'dya think is behind the door, Chin? Gotta be treasure, right?
+e:It's a distinct possibility.

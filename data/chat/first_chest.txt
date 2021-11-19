@@ -1,3 +1,4 @@
+!priority:0
 e:That's odd...
 g:What's odd? Keys are pretty common in dungeons, right?
 e:Yes, but this dungeon has lain fallow for over a century.

@@ -1,0 +1,4 @@
+!priority:2
+!replay_after:5
+pause:0.5
+g:Locked? Maaaan.

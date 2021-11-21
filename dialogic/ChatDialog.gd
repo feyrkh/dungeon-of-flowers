@@ -19,6 +19,11 @@ func _ready():
 	#set_displayed(null, 5)
 
 func chat_msg(msg):
+	if msg == null:
+		visible = false
+		return
+	else:
+		visible = true
 	if msg.begins_with(character_prefix):
 		set_displayed(msg.substr(character_prefix.length()), 0.25)
 	else:

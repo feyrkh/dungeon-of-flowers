@@ -66,10 +66,36 @@ func _ready():
 	EventBus.connect("start_chat", self, "start_chat")
 	EventBus.connect("pre_save_game", self, "pre_save_game")
 	EventBus.connect("post_load_game", self, "post_load_game")
+	CombatMgr.connect("combat_start", self, "on_combat_start")
+	CombatMgr.connect("combat_end", self, "on_combat_end")
+	QuestMgr.connect("cutscene_start", self, "on_cutscene_start")
+	QuestMgr.connect("cutscene_end", self, "on_cutscene_end")
 	chat_queue = []
 	cur_speaker = ''
 	cur_line_timer = 0
 	find_chat_synonyms()
+
+func on_combat_start():
+	EventBus.emit_signal("chat_msg", "")
+	set_process(false)
+	if chat_queue.size() > 0 and chat_queue[0].find(":") == 1:
+		prepend_line(resume_line(cur_speaker, cur_speaker))
+		prepend_line("pause:5")
+
+func on_cutscene_start(_cutscene_name):
+	EventBus.emit_signal("chat_msg", null) # make chat msgs disappear
+	set_process(false)
+	if chat_queue.size() > 0 and chat_queue[0].find(":") == 1:
+		prepend_line(resume_line(cur_speaker, cur_speaker))
+		prepend_line("pause:5")
+
+
+func on_combat_end():
+	set_process(true)
+
+func on_cutscene_end(_cutscene_name):
+	set_process(true)
+
 
 func find_chat_synonyms():
 	chat_synonyms = {}
@@ -91,6 +117,9 @@ func find_chat_synonyms():
 		filename = dir.get_next()
 
 func _process(delta):
+	if CombatMgr.is_in_combat:
+		set_process(false)
+		return
 	cur_line_timer -= delta
 	if cur_line_timer <= 0:
 		chat_queue.pop_front()
@@ -196,8 +225,8 @@ func send_chat_msg():
 func calculate_line_timer():
 	if chat_queue.size() <= 0:
 		return 1.0
-	var num_words = chat_queue[0].split(' ')
-	return GameData.get_setting("ChatM_min_chat_time", 2.0) + num_words.size() * GameData.get_setting("ChatM_chat_time_per_word", 0.3)
+	var num_words = chat_queue[0].count(' ')
+	return GameData.get_setting("ChatM_min_chat_time", 2.0) + num_words * GameData.get_setting("ChatM_chat_time_per_word", 0.3)
 
 func append_file(lines):
 	for line in lines:

@@ -13,7 +13,11 @@ var active_move_data
 var active_target_type
 var active_target_idx
 
+onready var cutscene_was_visible = visible
+
 func _ready():
+	QuestMgr.connect("cutscene_start", self, "on_cutscene_start")
+	QuestMgr.connect("cutscene_end", self, "on_cutscene_end")
 	set_process(false)
 	setup(GameData.allies)
 	for ally in Allies:
@@ -23,6 +27,13 @@ func _ready():
 		if ally != null:
 			marker.rect_position = ally.rect_position + Vector2(ally.rect_size.x/2, -30)
 
+func on_cutscene_start(_cutscene_name):
+	cutscene_was_visible = visible
+	visible = false
+	
+func on_cutscene_end(_cutscene_name):
+	visible = cutscene_was_visible
+	
 func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel"):
 		stop_targeting()

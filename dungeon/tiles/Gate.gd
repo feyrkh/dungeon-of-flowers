@@ -11,7 +11,6 @@ func pre_save_game():
 		GameData.set_map_data(map_layer, map_position, is_open)
 	else:
 		GameData.set_map_data(map_layer, map_position, null)
-		
 
 func finalize_load_game():
 	var save_data = GameData.get_map_data(map_layer, map_position)

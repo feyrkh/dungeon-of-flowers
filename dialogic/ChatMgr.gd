@@ -194,7 +194,10 @@ func send_chat_msg():
 		EventBus.emit_signal("chat_msg", chat_queue[0])
 
 func calculate_line_timer():
-	return 2.0
+	if chat_queue.size() <= 0:
+		return 1.0
+	var num_words = chat_queue[0].split(' ')
+	return GameData.get_setting("ChatM_min_chat_time", 2.0) + num_words.size() * GameData.get_setting("ChatM_chat_time_per_word", 0.3)
 
 func append_file(lines):
 	for line in lines:

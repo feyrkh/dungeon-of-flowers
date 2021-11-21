@@ -39,13 +39,26 @@ func _on_combat_start():
 	visible = false
 
 func _on_combat_end():
+	regenerate_ally_portraits()
 	alpha = 0
-	target_alpha = 0
+	target_alpha = 1
 	modulate.a = 0
-	counter = SECONDS_TO_DELAY_FADE
+	counter = SECONDS_TO_DELAY_FADE * 3
 	visible = true
 	set_process(true)
 
+func regenerate_ally_portraits():
+	var old_portraits = find_node("AllyPortraits", true, false)
+	if old_portraits:
+		old_portraits.queue_free()
+		remove_child(old_portraits)
+		var new_portraits = preload("res://combat/AllyPortraits.tscn").instance()
+		add_child(new_portraits)
+		new_portraits.name = "AllyPortraits"
+		new_portraits.explore_mode()
+		new_portraits.disable_combat_features()
+
+	
 func _on_move_finish():
 	target_alpha = 1
 	#print("Finished move, target_alpha=", target_alpha)

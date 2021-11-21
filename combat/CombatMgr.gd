@@ -7,6 +7,7 @@ signal combat_start
 signal combat_end
 signal game_end
 signal enemy_dead(enemy)
+signal enemy_follower_dead(enemy)
 signal execute_combat_intentions(allies, enemies)
 signal new_bullet(bullet)
 signal attack_bullet_block()

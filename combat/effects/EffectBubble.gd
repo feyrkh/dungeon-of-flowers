@@ -43,12 +43,12 @@ func bubble_setup(_apply_buffs_on_combat_stage, _min_position, _max_position):
 	#$Tween.interpolate_property(self, "position:y", min_position.y, max_position.y, circuit_time/9.5)
 	CombatMgr.connect(_apply_buffs_on_combat_stage, self, "apply_effect")
 
-func check_source_dead():
+func check_source_dead(_enemy):
 	if !effect.effect_outlives_source and !is_instance_valid(source_node):
 		end_effect()
 
 func apply_effect():
-	check_source_dead()
+	check_source_dead(source_node)
 	effect.apply_effect_single_target(source_data, source_node, target_data, target_node)
 
 func end_effect():

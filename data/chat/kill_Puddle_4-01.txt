@@ -1,0 +1,17 @@
+!remove
+g:Hey Chin, what's up with puddles anyway? 
+e:What do you mean, exactly? And don't call me Chin, you know that's not my name.
+g:They're so squishy and cute, do they really count as monsters?
+e:How fortuitous that you should ask, Grias!
+g:Uh oh...
+e:You see, I've just completed a monograph on this very topic.
+e:The pejorative 'monster' is actually an obsolete term, used less as a taxonomic classifier than as a slur.
+g:I don't -
+e:Think of it - under what rational framework could a slime belong to even the same phylum as a stone golem?
+g:Wait, Chin -
+e:In fact, if you look back to the early work of Auzak in 349 BZ, you find references to...
+g:*tunes out* Uh huh. Yeah, totally.
+e:...and thus the distinction, do you see?
+g:Huh? Oh yeah, that's what I thought too. We better keep quiet now, I think there might be more monsters around.
+e:Ah, of course. We'll continue this another time, then.
+g:...

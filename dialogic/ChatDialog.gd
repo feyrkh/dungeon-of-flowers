@@ -8,6 +8,7 @@ export(String) var character_prefix = "g:"
 var displayed = null setget set_displayed
 
 func _ready():
+	modulate.a = 0
 	EventBus.connect("chat_msg", self, "chat_msg")
 	set_material(get_material().duplicate(true))
 	set_dialog_visibility(0)

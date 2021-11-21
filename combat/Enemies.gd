@@ -36,6 +36,9 @@ func _ready():
 	set_process(false)
 	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
 	CombatMgr.connect("enemy_turn_complete", self, "_on_CombatScreen_enemy_turn_complete")
+	owner.connect("allies_win", self, "on_allies_win")
+	owner.connect("allies_lose", self, "on_allies_lose")
+	
 
 func start_targeting(_active_move_data, cur_ally):
 	match _active_move_data.target:
@@ -163,3 +166,9 @@ func _on_CombatScreen_start_enemy_turn(combat_data):
 func _on_CombatScreen_enemy_turn_complete(combat_data):
 	pass
 	#$Bouncer.running = false
+
+func _on_allies_win(combat_data):
+	stop_targeting()
+
+func _on_allies_lose(combat_data):
+	stop_targeting()

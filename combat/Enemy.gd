@@ -78,6 +78,8 @@ func check_death():
 			empty_positions.append(sprite.position)
 			brightness.append(sprite.modulate)
 			destroy_sprite(sprite, i)
+			GameData.inc_state("kills_"+self.data.label, 1)
+			CombatMgr.emit_signal("enemy_follower_dead", self)
 		
 		var cur_pos = data.dead_followers
 		while cur_pos < MAX_FOLLOWER_COUNT and cur_pos < $Followers.get_child_count() and empty_positions.size() > 0:

@@ -1,0 +1,7 @@
+!remove
+g:The puddles are weirdly aggressive today.
+e:Yes, I noticed when that last one tried to strangle me.
+g:So you *were* paying attention!
+g:You should be staying behind me - isn't that why you hired me?
+e:It's true I retained your services as a bodyguard, but I am not without skills of my own.
+g:*skeptical glance*

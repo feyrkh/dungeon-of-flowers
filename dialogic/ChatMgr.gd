@@ -3,8 +3,9 @@ extends Node
 const INTERRUPT_IF_BUSY = "0"
 const QUEUE_IF_BUSY = "1"
 const SKIP_IF_BUSY = "2"
+var CHAT_DIR
 
-const SAVE_ITEMS = ["chat_queue", "cur_speaker", "cur_line_timer", "chat_lock", "cur_priority", "cur_replay_after"]
+const SAVE_ITEMS = ["chat_queue", "cur_speaker", "cur_line_timer", "chat_lock", "cur_priority", "cur_replay_after", "ambient_chats"]
 const SAVE_PREFIX = "ChatM_"
 func pre_save_game():
 	Util.pre_save_game(self, SAVE_PREFIX, SAVE_ITEMS)
@@ -22,6 +23,7 @@ var cur_line_timer = 0
 var chat_lock = {}
 var cur_priority
 var cur_replay_after
+var ambient_chats = []
 
 var nicknames = {
 	"e": {
@@ -68,11 +70,14 @@ func _ready():
 	EventBus.connect("post_load_game", self, "post_load_game")
 	CombatMgr.connect("combat_start", self, "on_combat_start")
 	CombatMgr.connect("combat_end", self, "on_combat_end")
+	CombatMgr.connect("enemy_follower_dead", self, "on_enemy_dead")
 	QuestMgr.connect("cutscene_start", self, "on_cutscene_start")
 	QuestMgr.connect("cutscene_end", self, "on_cutscene_end")
 	chat_queue = []
 	cur_speaker = ''
 	cur_line_timer = 0
+	CHAT_DIR = Directory.new()
+	CHAT_DIR.open("res://data/chat/")
 	find_chat_synonyms()
 
 func on_combat_start():
@@ -96,6 +101,18 @@ func on_combat_end():
 func on_cutscene_end(_cutscene_name):
 	set_process(true)
 
+func on_enemy_dead(enemy:Enemy):
+	var kill_count = GameData.get_state("kills_"+enemy.data.label, 0)
+	var chat_id = "kill_"+enemy.data.label+"_"+str(kill_count)
+	add_ambient_chat(chat_id)
+
+func add_ambient_chat(chat_id):
+	if CHAT_DIR.file_exists(chat_id+".txt"):
+		ambient_chats.append(chat_id)
+		ambient_chats.shuffle()
+	if chat_synonyms.has(chat_id):
+		ambient_chats.append_array(chat_synonyms[chat_id])
+		ambient_chats.shuffle()
 
 func find_chat_synonyms():
 	chat_synonyms = {}

@@ -1,0 +1,12 @@
+!no_repeat
+g:Hey Arum, knock-knock.
+a:mmmn...who is it?
+g:Dejav.
+a:brrp...dejav who?
+g:Knock-knock!
+a:mmmn...who is it?
+g:Wait, no - that was it, that's the end of the joke.
+a:wait no that was it that's the end of the joke who?
+g:...
+a:grias, where is the punchline?
+a:do you not understand how knock-knock jokes work?

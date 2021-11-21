@@ -1,0 +1,5 @@
+!no_repeat
+g:Hey Arrie, what kind of armor do thieves wear?
+a:brrp...ARUM THE TITAN does not know any thieves
+g:Wrong! Thieves wear HIDE armor! Hide!
+a:nnng...

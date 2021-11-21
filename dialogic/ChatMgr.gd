@@ -1,11 +1,15 @@
 extends Node
 
+const STEPS_BETWEEN_AMBIENT_CHAT = 10
+
 const INTERRUPT_IF_BUSY = "0"
 const QUEUE_IF_BUSY = "1"
 const SKIP_IF_BUSY = "2"
 var CHAT_DIR
 
-const SAVE_ITEMS = ["chat_queue", "cur_speaker", "cur_line_timer", "chat_lock", "cur_priority", "cur_replay_after", "ambient_chats"]
+const SAVE_ITEMS = ["chat_queue", "cur_speaker", "cur_line_timer", "chat_lock", 
+	"cur_priority", "cur_replay_after", "ambient_chats", "steps_since_last_chat",
+	"disabled_chats"]
 const SAVE_PREFIX = "ChatM_"
 func pre_save_game():
 	Util.pre_save_game(self, SAVE_PREFIX, SAVE_ITEMS)
@@ -24,6 +28,8 @@ var chat_lock = {}
 var cur_priority
 var cur_replay_after
 var ambient_chats = []
+var steps_since_last_chat = 0
+var disabled_chats = {}
 
 var nicknames = {
 	"e": {
@@ -80,6 +86,24 @@ func _ready():
 	CHAT_DIR.open("res://data/chat/")
 	find_chat_synonyms()
 
+func on_tile_move_complete():
+	if is_chatting():
+		return
+	steps_since_last_chat += 1
+	if steps_since_last_chat > STEPS_BETWEEN_AMBIENT_CHAT:
+		var ambient_chat
+		if randf() > 0.7:
+			if ambient_chats.size() > 0:
+				ambient_chat = find_valid_chat(ambient_chats[0])
+				if ambient_chat != null:
+					ambient_chats.remove(0)
+				else:
+					ambient_chat.shuffle()
+		if ambient_chat != null:
+			start_chat(ambient_chat)
+		else:
+			start_chat("idle")
+
 func on_combat_start():
 	EventBus.emit_signal("chat_msg", "")
 	set_process(false)
@@ -93,7 +117,7 @@ func on_cutscene_start(_cutscene_name):
 	if chat_queue.size() > 0 and chat_queue[0].find(":") == 1:
 		prepend_line(resume_line(cur_speaker, cur_speaker))
 		prepend_line("pause:5")
-
+	steps_since_last_chat = 0
 
 func on_combat_end():
 	set_process(true)
@@ -157,6 +181,9 @@ func find_valid_chat(chat_id, party_members={"g":1, "e":1, "a":1}):
 	while chat_options.size() > 0:
 		var invalid = false
 		var cur_option = chat_options.pop_back()
+		if disabled_chats.has(cur_option):
+			invalid = true
+			continue
 		var lines = load_file(cur_option)
 		for line in lines:
 			var chunks = line.split(":")
@@ -166,24 +193,30 @@ func find_valid_chat(chat_id, party_members={"g":1, "e":1, "a":1}):
 		if !invalid:
 			return cur_option
 		
-func load_file(chat_filename):
+func load_file(chat_id):
+	var chat_filename = chat_id
 	if !chat_filename.begins_with("res:"):
-		chat_filename = "res://data/chat/"+chat_filename+".txt"
+		chat_filename = "res://data/chat/"+chat_id+".txt"
 	var lines = Util.read_lines(chat_filename, [])
 	cur_priority = QUEUE_IF_BUSY
 	cur_replay_after = -1
 	while lines.size() > 0 and lines[0].begins_with("!"):
-		process_config_line(lines[0])
+		process_config_line(lines[0], chat_id)
 		lines.remove(0)
 	return lines
 
-func process_config_line(line):
+func process_config_line(line, cur_file_name):
 	var chunks = line.split(":")
 	match chunks[0]:
 		"!priority": 
 			cur_priority = chunks[1]
 		"!replay_after": 
 			cur_replay_after = float(chunks[1])
+		"!no_repeat":
+			disabled_chats[cur_file_name] = true
+		"!ambient":
+			if ambient_chats.find(chunks[1]) < 0:
+				ambient_chats.append(chunks[1])
 		_: 
 			printerr("Unexpected chat config line: ", line)
 
@@ -191,6 +224,7 @@ func start_chat(chat_id):
 	var chat_filename = find_valid_chat(chat_id, GameData.get_allies_in_party())
 	if chat_filename == null:
 		return
+	steps_since_last_chat = 0
 	set_process(true)
 	var lines = load_file(chat_filename)
 	if lines.size() == 0:
@@ -228,6 +262,7 @@ func send_chat_msg():
 		set_process(false)
 		EventBus.emit_signal("chat_msg", "")
 		return
+	steps_since_last_chat = 0
 	set_process(true)
 	var chunks = chat_queue[0].split(":")
 	if chunks[0] == "pause":

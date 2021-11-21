@@ -1,4 +1,3 @@
-!remove
 g:The puddles are weirdly aggressive today.
 e:Yes, I noticed when that last one tried to strangle me.
 g:So you *were* paying attention!

@@ -1,0 +1,5 @@
+!no_repeat
+g:Hey Arum, how many puddles does it take to paint a house?
+a:nnnm...puddles do not have paintbrushes
+g:Wrong! The right answer is, "It depends on how hard you throw them!" It's a joke, see?
+a:ARUM doesn't get it

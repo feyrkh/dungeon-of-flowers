@@ -1,4 +1,3 @@
-!remove
 g:Whew! We must've killed a hundred puddles by now. Wonder where they all come from?
 e:It's quite interesting, actually!
 g:Whoops. *sigh* Please, go on.

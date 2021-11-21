@@ -1,0 +1,4 @@
+!ambient:poetry2
+g:Seriously Chin, do you keep poetry in that journal?
+e:You know that isn't my name, Sir Grias.
+g:Ugggggh!

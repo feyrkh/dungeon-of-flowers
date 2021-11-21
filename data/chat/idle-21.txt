@@ -1,0 +1,8 @@
+!no_repeat
+g:Hey Arum, knock-knock.
+a:mmrp...who is there?
+g:Ash.
+a:ash who?
+g:Sounds like you have a cold!
+a:no, ARUM THE TITAN does not get sick
+g:*sigh*

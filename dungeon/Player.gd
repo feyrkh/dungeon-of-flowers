@@ -47,6 +47,7 @@ func _ready():
 	connect("move_complete", self, "_on_move_complete")
 	connect("turn_complete", self, "_on_turn_complete")
 	connect("tile_move_complete", QuestMgr, "on_tile_move_complete")
+	connect("tile_move_complete", ChatMgr, "on_tile_move_complete")
 	GameData.player = self
 
 func on_pre_new_game():

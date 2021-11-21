@@ -1,0 +1,7 @@
+!no_repeat
+g:Hey, Echs...what metal do thieves love most?
+e:Gold, one would presume.
+g:Wrong, it's steel!
+e:...
+g:Because they like to steal things.
+e:Oh, I understood the pun. Understanding does not signify approval.

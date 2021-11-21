@@ -1,0 +1,5 @@
+!no_repeat
+g:Hey Chin, know what they make magic skillets out of?
+e:I couldn't begin to guess.
+g:Cast iron! Get it?
+e:...

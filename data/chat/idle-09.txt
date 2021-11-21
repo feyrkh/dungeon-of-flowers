@@ -1,0 +1,5 @@
+!no_repeat
+g:Chin, what do you call a lost lycanthrope?
+e:I expect you're about to tell me.
+g:A where-wolf! Like 'where am I', y'know?
+e:...

@@ -151,3 +151,16 @@ static func read_lines(filename, default=null):
 	if text == null:
 		return default
 	return text.split("\n")
+
+static func pre_save_game(object:Object, prefix:String, save_items:Array):
+	for item in save_items:
+		var val = object.get(item)
+		GameData.set_state(prefix+item, val)
+
+static func post_load_game(object, prefix:String, save_items:Array):
+	for item in save_items:
+		var val = GameData.get_state(prefix+item)
+		if val == null:
+			val = object.get(item)
+		object.set(item, val)
+		

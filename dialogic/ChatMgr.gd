@@ -4,6 +4,16 @@ const INTERRUPT_IF_BUSY = "0"
 const QUEUE_IF_BUSY = "1"
 const SKIP_IF_BUSY = "2"
 
+const SAVE_ITEMS = ["chat_queue", "cur_speaker", "cur_line_timer", "chat_lock", "cur_priority", "cur_replay_after"]
+const SAVE_PREFIX = "ChatM_"
+func pre_save_game():
+	Util.pre_save_game(self, SAVE_PREFIX, SAVE_ITEMS)
+
+func post_load_game():
+	Util.post_load_game(self, SAVE_PREFIX, SAVE_ITEMS)
+	if is_chatting():
+		send_chat_msg()
+
 var chat_synonyms = {}
 
 var chat_queue = []
@@ -12,7 +22,6 @@ var cur_line_timer = 0
 var chat_lock = {}
 var cur_priority
 var cur_replay_after
-
 
 var nicknames = {
 	"e": {
@@ -29,25 +38,25 @@ var nicknames = {
 	}
 }
 
-var interrupt_lines = {
+const interrupt_lines = {
 	"e": ["Hold a moment, {p}.", "Apologies {p}, please allow me to interrupt."],
 	"a": ["hey {p}, shut up for a second!", "hsst! hold up, {p}!"],
 	"g": ["Pardon, {p}...", "Hold that thought {p}..."],
 }
 
-var self_interrupt_lines = {
+const self_interrupt_lines = {
 	"e": ["...just a tick, something important came up."],
 	"a": ["...whoa, hold up."],
 	"g": ["...wait, what's that?"],
 }
 
-var self_resume_lines = {
+const self_resume_lines = {
 	"e": ["Now, where was I?", "Resuming our former conversation..."],
 	"a": ["anyway, like ARUM THE TITAN was saying...", "what was ARUM talking about? oh yeah!"],
 	"g": ["Anyway...", "As I was saying..."],
 }
 
-var resume_lines = {
+const resume_lines = {
 	"e": ["If you are quite finished, {n}? I believe I was saying..."],
 	"a": ["as ARUM was saying before being so rudely interrupted...", "...k. anyway..."],
 	"g": ["Was that all, {n}?", "Thanks, {n}. As I was saying before.."],
@@ -55,6 +64,8 @@ var resume_lines = {
 
 func _ready():
 	EventBus.connect("start_chat", self, "start_chat")
+	EventBus.connect("pre_save_game", self, "pre_save_game")
+	EventBus.connect("post_load_game", self, "post_load_game")
 	chat_queue = []
 	cur_speaker = ''
 	cur_line_timer = 0
@@ -171,6 +182,7 @@ func send_chat_msg():
 		set_process(false)
 		EventBus.emit_signal("chat_msg", "")
 		return
+	set_process(true)
 	var chunks = chat_queue[0].split(":")
 	if chunks[0] == "pause":
 		cur_line_timer = float(chunks[1])

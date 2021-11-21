@@ -96,6 +96,7 @@ func check_combat_introduction():
 				EventBus.emit_signal("show_tutorial", "UsingShield", false)
 				GameData.allies[1].moves[0].disabled = false
 				GameData.allies[0].moves.append(MoveList.get_move("poultice"))
+				GameData.allies[0].moves[0].disabled = true
 				GameData.set_state(INTRO, INTRO_HEAL_SKILL)
 		INTRO_HEAL_SKILL:
 			if combat_phase == "select_character":
@@ -108,6 +109,8 @@ func check_combat_introduction():
 					EventBus.emit_signal("show_tutorial", "WrongCategorySkill", false)
 				elif skill_menu_open == "skill":
 					EventBus.emit_signal("show_tutorial", "SelectPoulticeSkill", false)
+			elif combat_phase == "enemy_turn":
+				GameData.allies[0].moves[0].disabled = false
 			else:
 				EventBus.emit_signal("hide_tutorial")
 

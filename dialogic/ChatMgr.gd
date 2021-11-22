@@ -21,10 +21,10 @@ func post_load_game():
 
 var chat_synonyms = {}
 
-var chat_queue = []
-var cur_speaker = ''
-var cur_line_timer = 0
-var chat_lock = {}
+var chat_queue = []  # speech lines and commands that are currently queued for display
+var cur_speaker = '' # nametag (like 'e') of character who is speaking the current line
+var cur_line_timer = 0 # how many seconds the currently displayed line will remain displayed
+var chat_lock = {} # map of chat ids to number of seconds before the chat can be played
 var cur_priority
 var cur_replay_after
 var ambient_chats = []
@@ -171,7 +171,7 @@ func is_chatting():
 
 func find_valid_chat(chat_id, party_members={"g":1, "e":1, "a":1}):
 	var chat_options:Array
-	if chat_lock.get(chat_id, 0) > OS.get_system_time_secs():
+	if chat_lock.get(chat_id, 0) > GameData.game_time:
 		return null
 	if chat_synonyms.has(chat_id):
 		chat_options = chat_synonyms[chat_id].duplicate()
@@ -184,6 +184,8 @@ func find_valid_chat(chat_id, party_members={"g":1, "e":1, "a":1}):
 		if disabled_chats.has(cur_option):
 			invalid = true
 			continue
+		if chat_lock.get(cur_option, 0) > GameData.game_time:
+			return null
 		var lines = load_file(cur_option)
 		for line in lines:
 			var chunks = line.split(":")
@@ -210,13 +212,15 @@ func process_config_line(line, cur_file_name):
 	match chunks[0]:
 		"!priority": 
 			cur_priority = chunks[1]
-		"!replay_after": 
+		"!replay_after": # !replay_after:<delay in seconds>   ex: !replay_after:300
 			cur_replay_after = float(chunks[1])
 		"!no_repeat":
 			disabled_chats[cur_file_name] = true
-		"!ambient":
+		"!ambient": # !ambient:<chat_id>[:<delay in seconds>]   ex: "!ambient:poetry1:300" or "!ambient:poetry1"
 			if ambient_chats.find(chunks[1]) < 0:
 				ambient_chats.append(chunks[1])
+				if chunks.size() > 2:
+					chat_lock[chunks[1]] = float(chunks[2]) + GameData.game_time
 		_: 
 			printerr("Unexpected chat config line: ", line)
 
@@ -268,7 +272,7 @@ func send_chat_msg():
 	if chunks[0] == "pause":
 		cur_line_timer = float(chunks[1])
 	elif chunks[0] == "replay_after":
-		chat_lock[chunks[1]] = OS.get_system_time_secs()+float(chunks[2])
+		chat_lock[chunks[1]] = GameData.game_time+float(chunks[2])
 	else:
 		cur_speaker = chunks[0]
 		cur_line_timer = calculate_line_timer()	

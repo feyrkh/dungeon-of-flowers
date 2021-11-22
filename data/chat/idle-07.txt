@@ -1,5 +1,5 @@
 !no_repeat
-!ambient:poetry1
+!ambient:poetry1:300
 g:Chin, why do floriculturists make good poets?
 e:Our careful attention to detail and eye for natural beauty, I would presume.
 g:No, it's your skill with flowery language! Wait, do you actually write poetry?

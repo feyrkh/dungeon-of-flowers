@@ -31,6 +31,7 @@ var cur_dungeon = "intro"
 var dungeon setget set_dungeon, get_dungeon
 var _dungeon_scene
 var player:Spatial
+var game_time = 0  # number of seconds that the game has been running
 
 var settings = { # default settings go here
 	MUSIC_VOLUME: 65,
@@ -91,6 +92,9 @@ func _ready():
 	randomize()
 	load_settings()
 
+func _process(delta):
+	game_time += delta
+
 func post_new_game():
 	pass
 
@@ -125,6 +129,7 @@ func save_game(save_file):
 	f.store_var(cur_dungeon)
 	f.store_var(inventory)
 	f.store_var(map_data)
+	f.store_var(game_time)
 	f.close()
 	EventBus.emit_signal("post_save_game")
 	return true
@@ -163,6 +168,8 @@ func load_game(save_file):
 	if inventory == null: inventory = {}
 	map_data = f.get_var()
 	if map_data == null: map_data = {}
+	game_time = f.get_var()
+	if game_time == null: game_time = 0
 	f.close()
 	get_tree().change_scene("res://dungeon/GeneratedDungeon.tscn")
 	yield(get_tree(), "idle_frame")

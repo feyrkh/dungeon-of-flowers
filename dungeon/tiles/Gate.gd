@@ -7,16 +7,13 @@ func _ready():
 	EventBus.connect("finalize_load_game", self, "finalize_load_game")
 
 func pre_save_game():
-	if is_open:
-		GameData.set_map_data(map_layer, map_position, is_open)
-	else:
-		GameData.set_map_data(map_layer, map_position, null)
+	GameData.set_map_data(map_layer, map_position, {"is_open":is_open})
 
 func finalize_load_game():
-	var save_data = GameData.get_map_data(map_layer, map_position)
-	if save_data:
-		#set_is_open(save_data)
+	if is_open:
 		open(0)
+	else:
+		close(0)
 
 func set_is_open(val):
 	is_open = val
@@ -24,7 +21,10 @@ func set_is_open(val):
 
 func on_map_place(dungeon, layer_name:String, cell:Vector2):
 	.on_map_place(dungeon, layer_name, cell)
-	set_is_open(is_open)
+	if is_open:
+		open(0)
+	else:
+		close(0)
 
 func is_interactable():
 	return !animating
@@ -47,15 +47,19 @@ func interact():
 	EventBus.emit_signal("refresh_interactables")
 
 func open(open_time=2):
-	var tween:Tween = Util.one_shot_tween(self)
-	tween.interpolate_property(self, "translation:y", 0, 3, open_time, Tween.TRANS_CUBIC, Tween.EASE_IN)
-	tween.start()
-	animating = true
-	is_open = true # set before tween finish in case they save partway through
-	yield(tween, "tween_all_completed")
-	animating = false
-	set_is_open(true)
-	EventBus.emit_signal("refresh_interactables")
+	if open_time > 0:
+		var tween:Tween = Util.one_shot_tween(self)
+		tween.interpolate_property(self, "translation:y", 0, 3, open_time, Tween.TRANS_CUBIC, Tween.EASE_IN)
+		tween.start()
+		animating = true
+		is_open = true # set before tween finish in case they save partway through
+		yield(tween, "tween_all_completed")
+		animating = false
+		set_is_open(true)
+		EventBus.emit_signal("refresh_interactables")
+	else:
+		set_is_open(true)
+		translation.y = 3
 
 func locked():
 	var tween:Tween = Util.one_shot_tween(self)
@@ -69,13 +73,16 @@ func locked():
 	EventBus.emit_signal("refresh_interactables")
 	EventBus.emit_signal("start_chat", map_config.get("locked_chat"))
 
-func close():
-	var tween:Tween = Util.one_shot_tween(self)
-	var open_time = 2
-	tween.interpolate_property(self, "translation:y", 3, 0, open_time, Tween.TRANS_CUBIC, Tween.EASE_OUT)
-	tween.start()
-	animating = true
-	set_is_open(false)
-	yield(tween, "tween_all_completed")
-	animating = false
-	EventBus.emit_signal("refresh_interactables")
+func close(open_time=2):
+	if open_time > 0:
+		var tween:Tween = Util.one_shot_tween(self)
+		tween.interpolate_property(self, "translation:y", 3, 0, open_time, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+		tween.start()
+		animating = true
+		set_is_open(false)
+		yield(tween, "tween_all_completed")
+		animating = false
+		EventBus.emit_signal("refresh_interactables")
+	else:
+		set_is_open(false)
+		translation.y = 0

@@ -98,7 +98,7 @@ func on_tile_move_complete():
 				if ambient_chat != null:
 					ambient_chats.remove(0)
 				else:
-					ambient_chat.shuffle()
+					ambient_chats.shuffle()
 		if ambient_chat != null:
 			start_chat(ambient_chat)
 		else:

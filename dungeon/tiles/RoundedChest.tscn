@@ -2,9 +2,9 @@
 
 [ext_resource path="res://3D assets/Chest/Chest Mat.material" type="Material" id=1]
 [ext_resource path="res://3D assets/Chest/Rounded Chest.gltf" type="PackedScene" id=2]
-[ext_resource path="res://dungeon/tiles/RoundedChest.gd" type="Script" id=3]
+[ext_resource path="res://dungeon/tiles/TreasureChest.gd" type="Script" id=3]
 
-[sub_resource type="ArrayMesh" id=2]
+[sub_resource type="ArrayMesh" id=1]
 resource_name = "Lid"
 surfaces/0 = {
 "aabb": AABB( -5.77821, -0.0243616, -20.9993, 11.5564, 3.82917, 20.9993 ),
@@ -24,7 +24,7 @@ script = ExtResource( 3 )
 
 [node name="Lid" type="MeshInstance" parent="." index="0"]
 transform = Transform( 0.086532, 0, 0, 0, -4.37114e-09, -0.0476206, 0, 0.1, -2.08156e-09, 0, 0.5187, 0.476206 )
-mesh = SubResource( 2 )
+mesh = SubResource( 1 )
 material/0 = null
 
 [node name="Chest" parent="." index="1"]

@@ -11,6 +11,9 @@ func on_map_place(_dungeon, layer_name:String, cell:Vector2):
 	self.map_position = cell
 	self.map_layer = layer_name
 	self.map_config = dungeon.get_tile_config(cell.x, cell.y)
+	if !EventBus.is_connected("pre_save_game", self, "pre_save_game"):
+		EventBus.connect("pre_save_game", self, "pre_save_game")
+		EventBus.connect("post_load_game", self, "post_load_game")
 	if map_config == null:
 		map_config = {}
 	if typeof(map_config) == TYPE_DICTIONARY:
@@ -25,3 +28,9 @@ func change_tile(val):
 		val = dungeon.get_tileset(map_layer).find_tile_by_name(val)
 	if dungeon:
 		dungeon.set_tile(map_layer, map_position.x, map_position.y, val)
+
+func pre_save_game():
+	pass
+
+func post_load_game():
+	pass

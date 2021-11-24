@@ -1,4 +1,4 @@
-extends Spatial
+tool extends Spatial
 
 const FRONT_VEC = Vector3(0, 0, 1)
 const BACK_VEC = Vector3(0, 0, -1)
@@ -13,15 +13,21 @@ const VALID_FRAME_VECS = [FRONT_VEC, BACK_VEC, LEFT_VEC, RIGHT_VEC, FRONT_LEFT_V
 
 export(Array, String) var defined_frames = ["front", "back", "left", "front-left", "back-left"]
 export(Array, Texture) var frames
+export(Array, Vector3) var image_offsets
 export(float) var width_in_meters = 1
 
 # views[VECTOR] = [texture, pixel_size, aspect_ratio, flip]
 var views = {}
 var current_view_vec = null
 
-func _ready():
+func _get_configuration_warning() -> String:
 	if defined_frames.size() != frames.size():
-		printerr("Must have exactly the same number of frame textures as entries in defined_frames")
+		return "Must have exactly the same number of frame textures as entries in defined_frames"
+	if defined_frames.size() != image_offsets.size():
+		return "Must have exactly the same number of frame textures as entries in defined_frames"
+	return ""
+
+func _ready():
 	EventBus.connect("refresh_perspective_sprites", self, "refresh_perspective")
 	for i in defined_frames.size():
 		var idx = VALID_FRAME_NAMES.find(defined_frames[i])
@@ -49,16 +55,18 @@ func _ready():
 				views[BACK_LEFT_VEC] = get_view(i, true)
 			var v:
 				views[v] = get_view(i, false)
-	refresh_perspective(Vector3.FORWARD)
+	if is_instance_valid(GameData.player):
+		refresh_perspective(-GameData.player.global_transform.basis.z)
 
 func get_view(i, flip_h):
-	return [frames[i], # texture
-		width_in_meters/frames[i].get_width(), # pixel size of main texture
-		width_in_meters*frames[i].get_height()/float(frames[i].get_width())/2 + 0.011, # y height of image 
-		flip_h, # flip horizontally
+	return [frames[i], # 0: texture
+		width_in_meters/frames[i].get_width(), # 1: pixel size of main texture
+		width_in_meters*frames[i].get_height()/float(frames[i].get_width())/2 + 0.011, # 2: y height of image 
+		flip_h, # 3: flip horizontally
+		image_offsets[i], # 4: offset of the image
 		]
 
-func refresh_perspective(player_facing:Vector3):
+func refresh_perspective(player_facing:Vector3 = -GameData.player.global_transform.basis.z):
 	var best_dist = null
 	var best_face
 	var best_global_face
@@ -74,7 +82,8 @@ func refresh_perspective(player_facing:Vector3):
 		var view = views[best_face]
 		$Sprite3D.texture = view[0]
 		$Sprite3D.pixel_size = view[1]
-		$Sprite3D.transform.origin.y = view[2]
+		$Sprite3D.transform.origin = view[4]
+		$Sprite3D.transform.origin.y += view[2]
 		$Sprite3D.flip_h = view[3]
 		#$Sprite3D.global_transform.basis.z = -player_facing
 

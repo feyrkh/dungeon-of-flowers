@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://dungeon/Player.gd" type="Script" id=1]
 [ext_resource path="res://sound/thump.mp3" type="AudioStream" id=2]
@@ -8,6 +8,9 @@
 
 [sub_resource type="RayShape" id=1]
 length = 0.1
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.5, 1, 0.5 )
 
 [node name="Player" type="Spatial"]
 script = ExtResource( 1 )
@@ -79,5 +82,13 @@ script = ExtResource( 6 )
 [node name="Timer" type="Timer" parent="FogShadows/FogShadow"]
 wait_time = 5.0
 autostart = true
+
+[node name="TrapCollision" type="Area" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="TrapCollision"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 2 )
 
 [connection signal="timeout" from="PerspectiveSpriteUpdateTimer" to="." method="_on_PerspectiveSpriteUpdateTimer_timeout"]

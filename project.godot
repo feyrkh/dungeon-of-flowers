@@ -79,6 +79,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://dungeon/DungeonEntity.gd"
 }, {
+"base": "Spatial",
+"class": "DungeonTransient",
+"language": "GDScript",
+"path": "res://dungeon/DungeonTransient.gd"
+}, {
 "base": "Resource",
 "class": "Effect",
 "language": "GDScript",
@@ -179,6 +184,7 @@ _global_script_class_icons={
 "DialogicUtil": "",
 "DisableMovementTile": "",
 "DungeonEntity": "",
+"DungeonTransient": "",
 "Effect": "",
 "EffectBubble": "",
 "EffectDamage": "",
@@ -241,6 +247,7 @@ enabled=PoolStringArray( "res://addons/dialogic/plugin.cfg" )
 [global]
 
 error=false
+collision=false
 
 [importer_defaults]
 
@@ -382,6 +389,8 @@ debug_skip_combat={
 3d_physics/layer_1="can_move"
 2d_physics/layer_2="minigame1"
 3d_physics/layer_2="wall_metadata"
+3d_physics/layer_3="trap_projectile"
+3d_physics/layer_4="trap_projectile_collide"
 
 [physics]
 

@@ -33,6 +33,7 @@ script = ExtResource( 4 )
 [node name="PerspectiveSprite" parent="." instance=ExtResource( 5 )]
 defined_frames = [ "front" ]
 frames = [ ExtResource( 2 ) ]
+image_offsets = [ Vector3( 0, 0, 0 ) ]
 width_in_meters = 1.5
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]

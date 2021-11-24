@@ -32,6 +32,7 @@ var dungeon setget set_dungeon, get_dungeon
 var _dungeon_scene
 var player:Spatial
 var game_time = 0  # number of seconds that the game has been running
+var transients = []
 
 var settings = { # default settings go here
 	MUSIC_VOLUME: 65,
@@ -108,6 +109,7 @@ func on_use_item(item_name, amount):
 	Util.inc(inventory, item_name, amount, 0)
 
 func save_game(save_file):
+	transients = []
 	EventBus.emit_signal("pre_save_game")
 	var f := File.new()
 	#var err = f.open_encrypted_with_pass(save_file, File.WRITE, "dof"+str(c)+str(2021)+"|"+"liquid"+"enthusiasm")
@@ -130,6 +132,7 @@ func save_game(save_file):
 	f.store_var(inventory)
 	f.store_var(map_data)
 	f.store_var(game_time)
+	f.store_var(transients)
 	f.close()
 	EventBus.emit_signal("post_save_game")
 	return true
@@ -170,14 +173,32 @@ func load_game(save_file):
 	if map_data == null: map_data = {}
 	game_time = f.get_var()
 	if game_time == null: game_time = 0
+	transients = f.get_var()
+	if transients == null: transients = []
 	f.close()
 	get_tree().change_scene("res://dungeon/GeneratedDungeon.tscn")
+	dungeon = get_tree().root
+	load_transients()
 	yield(get_tree(), "idle_frame")
 	EventBus.emit_signal("post_load_game")
 	yield(get_tree(), "idle_frame")
 	EventBus.emit_signal("finalize_load_game")
 	return true
 
+func add_transient(scene_filename, scene_config, scene_transform):
+	transients.append({"f":scene_filename, "c":scene_config, "t":scene_transform})
+
+func load_transients():
+	for transient in transients:
+		var scene = load(transient.get("f"))
+		if scene == null:
+			printerr("Unable to load scene for transient: ", transient)
+			continue
+		var instance = scene.instance()
+		instance.set_transient_data(transient.get("c"))
+		instance.transform = transient.get("t")
+		dungeon.add_child(instance)
+	transients = []
 
 func on_dialogic_signal(arg):
 	match arg:
@@ -205,7 +226,6 @@ func load_settings():
 		f.close()
 		for setting in new_settings.keys():
 			update_setting(setting, new_settings[setting])
-
 
 func update_setting(setting, val):
 	var old_value = settings.get(setting, null)

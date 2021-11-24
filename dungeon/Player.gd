@@ -273,3 +273,6 @@ func turn(dir):
 
 func _on_PerspectiveSpriteUpdateTimer_timeout():
 	EventBus.emit_signal("refresh_perspective_sprites", -global_transform.basis.z)
+
+func trap_hit(trap):
+	print("Hit by a trap for ", trap.damage)

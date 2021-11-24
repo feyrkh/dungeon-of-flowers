@@ -109,7 +109,8 @@ menu_entries = [ "NewGame", "LoadGame", "Tutorial", "Options", "Exit" ]
 paused_on_start = false
 
 [node name="CenterContainer" type="CenterContainer" parent="MainMenu"]
-margin_right = 1920.0
+margin_left = 50.0255
+margin_right = 1970.03
 margin_bottom = 1080.0
 __meta__ = {
 "_edit_use_anchors_": false

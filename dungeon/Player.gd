@@ -295,11 +295,12 @@ func knockback(global_dir):
 			else:
 				print("knockback not ok")
 				break
-		start_position = global_transform.origin
-		target_position = final_pos
-		move_time = 0
-		if tiles_moved > 0:
-			move_multiplier = 4.0/tiles_moved
+		if global_transform.origin != final_pos:
+			start_position = global_transform.origin
+			target_position = final_pos
+			move_time = 0
+			if tiles_moved > 0:
+				move_multiplier = 4.0/tiles_moved
 
 func center_in_tile():
 	if is_instance_valid(bump_tween):

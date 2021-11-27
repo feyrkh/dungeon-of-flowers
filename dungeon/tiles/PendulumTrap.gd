@@ -6,6 +6,7 @@ export(float) var seconds_per_rotation = 5
 export(Curve) var rotation_curve:Curve
 export(float) var rotation_percent = 0
 var prev_rotation = 0
+var pause_percent = 0.2
 
 onready var Rotating = find_node("Rotating")
 
@@ -29,8 +30,8 @@ func _process(delta):
 	if CombatMgr.is_in_combat: 
 		return
 	rotation_percent += delta/seconds_per_rotation
-	if rotation_percent > 1:
-		rotation_percent -= 1
+	if rotation_percent > 1 + pause_percent:
+		rotation_percent = fmod(rotation_percent, 1+pause_percent)
 	var next_rotation = rotation_curve.interpolate(rotation_percent)
 	#Rotating.transform.basis = Rotating.transform.basis.rotated(Vector3.BACK, deg2rad(new_rotation))
 	Rotating.rotation_degrees.z = next_rotation

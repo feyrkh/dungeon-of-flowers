@@ -189,10 +189,11 @@ func _process(delta):
 	if is_knockback > 0:
 		is_knockback = max(0, is_knockback-delta)
 		if is_knockback > 0:
+			center_in_tile()
 			global_transform.origin.x = round(global_transform.origin.x) + 0.1 - fmod(randf(), 0.2)
 			global_transform.origin.z = round(global_transform.origin.z) + 0.1 - fmod(randf(), 0.2)
 		else:
-			global_transform.origin = global_transform.origin.round()
+			center_in_tile()
 	process_input()
 	if target_position:
 		move_time += delta*move_multiplier
@@ -305,12 +306,14 @@ func knockback(global_dir):
 func center_in_tile():
 	if is_instance_valid(bump_tween):
 		bump_tween.stop_all()
-	global_transform.origin = global_transform.origin.round()
+	global_transform.origin = (global_transform.origin/3).round()*3
 
 func turn(dir):
 	if is_moving or is_bumping: 
 		return
 	is_moving = true
+	target_position = null
+	start_position = null
 	move_multiplier = 1
 	#print("start rotate at ", OS.get_system_time_msecs())
 	start_rotation = transform.basis

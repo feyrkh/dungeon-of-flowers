@@ -15,7 +15,7 @@ extents = Vector3( 0.35, 0.49, 0.51 )
 [node name="PendulumTrap" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 script = ExtResource( 2 )
-seconds_per_rotation = 15.0
+seconds_per_rotation = 4.0
 rotation_curve = SubResource( 1 )
 
 [node name="Rotating" type="Spatial" parent="."]
@@ -24,16 +24,19 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05 )
 [node name="Sprite3D" type="Sprite3D" parent="Rotating"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.06, 0 )
 pixel_size = 0.005
+shaded = true
 texture = ExtResource( 1 )
 
 [node name="Sprite3D2" type="Sprite3D" parent="Rotating"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.06, -0.57 )
 pixel_size = 0.005
+shaded = true
 texture = ExtResource( 1 )
 
 [node name="Sprite3D3" type="Sprite3D" parent="Rotating"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.06, 0.62 )
 pixel_size = 0.005
+shaded = true
 texture = ExtResource( 1 )
 
 [node name="Area" type="Area" parent="Rotating"]
@@ -81,6 +84,51 @@ texture = ExtResource( 3 )
 transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, -1.49, -0.97, 0.62 )
 modulate = Color( 0, 0, 0, 1 )
 pixel_size = 0.1
+texture = ExtResource( 3 )
+
+[node name="Frame" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0 )
+
+[node name="Sprite3D4" type="Sprite3D" parent="Frame"]
+transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, 0 )
+modulate = Color( 0.388235, 0.117647, 0, 1 )
+pixel_size = 0.1
+shaded = true
+texture = ExtResource( 3 )
+
+[node name="Sprite3D5" type="Sprite3D" parent="Frame"]
+transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, 0.1 )
+modulate = Color( 0.388235, 0.117647, 0, 1 )
+pixel_size = 0.1
+shaded = true
+texture = ExtResource( 3 )
+
+[node name="Sprite3D6" type="Sprite3D" parent="Frame"]
+transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, 0.62 )
+modulate = Color( 0.388235, 0.117647, 0, 1 )
+pixel_size = 0.1
+shaded = true
+texture = ExtResource( 3 )
+
+[node name="Sprite3D7" type="Sprite3D" parent="Frame"]
+transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, 0.72 )
+modulate = Color( 0.388235, 0.117647, 0, 1 )
+pixel_size = 0.1
+shaded = true
+texture = ExtResource( 3 )
+
+[node name="Sprite3D8" type="Sprite3D" parent="Frame"]
+transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, -0.6 )
+modulate = Color( 0.388235, 0.117647, 0, 1 )
+pixel_size = 0.1
+shaded = true
+texture = ExtResource( 3 )
+
+[node name="Sprite3D9" type="Sprite3D" parent="Frame"]
+transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, -0.5 )
+modulate = Color( 0.388235, 0.117647, 0, 1 )
+pixel_size = 0.1
+shaded = true
 texture = ExtResource( 3 )
 
 [connection signal="area_entered" from="Rotating/Area" to="." method="_on_Area_area_entered"]

@@ -33,6 +33,7 @@ onready var forwardSensor:Area = find_node("forwardSensor")
 onready var backwardSensor:Area = find_node("backwardSensor")
 onready var leftSensor:Area = find_node("leftSensor")
 onready var rightSensor:Area = find_node("rightSensor")
+onready var knockbackSensor:Area = find_node("knockbackSensor")
 
 const wall_bump_sfx = preload("res://sound/thump.mp3")
 const walk_sfx = preload("res://sound/footsteps.wav")
@@ -132,19 +133,14 @@ func bump_sideways(dir):
 	Util.delay_call(BUMP_HALF_TIME*2+0.01, self, "set_is_bumping", [false])
 	bump_tween.start()
 	
-func can_move(sensor):
-	var areas = sensor.get_overlapping_areas()
-	if areas.size() == 0:
-		#print("Can't move, no open space ahead")
+func can_move(sensor:Area):
+	var tile_scene = GameData.dungeon.get_tile_scene("ground", Util.map_coords(sensor.global_transform.origin))
+	if !tile_scene:
 		return false
-	else:
-		#print(areas.size(), " areas overlapping")
-		for area in areas:
-			#print(area.name)
-			var tile_metadata:TileMetadata = area.owner.find_node("TileMetadata", true, false)
-			if tile_metadata:
-				return tile_metadata.can_move_onto
+	var tile_metadata:TileMetadata = tile_scene.find_node("TileMetadata", true, false)
+	if !tile_metadata:
 		return false
+	return tile_metadata.can_move_onto
 
 func _on_move_start():
 	interactable = []
@@ -192,6 +188,11 @@ func interact():
 func _process(delta):
 	if is_knockback > 0:
 		is_knockback = max(0, is_knockback-delta)
+		if is_knockback > 0:
+			global_transform.origin.x = round(global_transform.origin.x) + 0.1 - fmod(randf(), 0.2)
+			global_transform.origin.z = round(global_transform.origin.z) + 0.1 - fmod(randf(), 0.2)
+		else:
+			global_transform.origin = global_transform.origin.round()
 	process_input()
 	if target_position:
 		move_time += delta*move_multiplier
@@ -266,15 +267,39 @@ func sidestep(dir, ignore_bumping=false):
 	EventBus.emit_signal("player_start_move")
 	find_interactables(get_facing_tile_coords((target_position/3).round(), global_transform.basis.z, 1))
 
-func knockback(dir):
+func knockback(global_dir):
 	is_knockback = 0.5
+	set_process(true)
 	if is_bumping:
 		center_in_tile()
-	if is_moving:
+	if is_moving and global_dir == null or global_dir == Vector3.ZERO:
 		target_position = start_position
 		start_position = global_transform.origin
 		move_time = 0
 		move_multiplier = 4.0
+	elif global_dir != null and global_dir != Vector3.ZERO:
+		var cur_tile_pos = (global_transform.origin/3).round() * 3
+		var tiles_to_move = round(global_dir.length()/3)
+		var final_pos = cur_tile_pos
+		var tiles_moved = 0
+		global_dir = global_dir.normalized()*3
+		knockbackSensor.global_transform.origin = cur_tile_pos
+		for i in range(tiles_to_move):
+			knockbackSensor.global_transform.origin -= global_dir
+			knockbackSensor.force_update_transform()
+			print("Checking knockback from ", cur_tile_pos, " to ", knockbackSensor.global_transform.origin)
+			if can_move(knockbackSensor):
+				tiles_moved += 1
+				final_pos = knockbackSensor.global_transform.origin
+				print("knockback ok")
+			else:
+				print("knockback not ok")
+				break
+		start_position = global_transform.origin
+		target_position = final_pos
+		move_time = 0
+		if tiles_moved > 0:
+			move_multiplier = 4.0/tiles_moved
 
 func center_in_tile():
 	if is_instance_valid(bump_tween):
@@ -298,6 +323,6 @@ func turn(dir):
 func _on_PerspectiveSpriteUpdateTimer_timeout():
 	EventBus.emit_signal("refresh_perspective_sprites", -global_transform.basis.z)
 
-func trap_hit(trap):
+func trap_hit(trap, knockback_amt):
 	print("Hit by a trap for ", trap.damage)
-	knockback(null)
+	knockback(knockback_amt)

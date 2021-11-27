@@ -11,7 +11,7 @@ func post_load_game():
 
 func _on_Area_area_entered(area):
 	if area.owner.has_method("trap_hit"):
-		area.owner.trap_hit(self)
+		area.owner.trap_hit(self, transform.basis.z*3)
 	queue_free()
 
 func _physics_process(delta):

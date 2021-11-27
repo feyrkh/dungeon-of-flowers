@@ -21,6 +21,6 @@ func _process(delta):
 func trigger_trap():
 	var arrow = ArrowFlight.instance()
 	arrow.transform.basis = transform.basis
-	arrow.transform.origin = transform.origin + transform.basis.z*0.01
+	arrow.transform.origin = transform.origin + transform.basis.z*2.95
 	arrow.setup(map_config)
 	dungeon.add_child(arrow)

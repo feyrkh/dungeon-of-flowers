@@ -164,3 +164,5 @@ static func post_load_game(object, prefix:String, save_items:Array):
 			val = object.get(item)
 		object.set(item, val)
 		
+static func map_coords(v3:Vector3):
+	return Vector2(int(round(v3.x/3)), int(round(v3.z/3)))

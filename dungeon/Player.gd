@@ -13,6 +13,7 @@ const BUMP_DISTANCE = 0.3
 const BUMP_HALF_TIME = 0.125
 
 var is_moving = false
+var is_knockback = 0
 var start_rotation
 var target_rotation
 var start_position
@@ -23,6 +24,7 @@ var move_multiplier = 1.0
 var is_bumping = false setget set_is_bumping
 var is_in_combat = false
 var interactable = []
+var bump_tween:Tween
 
 func set_is_bumping(val):
 	is_bumping = val
@@ -74,6 +76,8 @@ func _on_combat_end():
 func process_input():
 	if is_in_combat:
 		return
+	if is_knockback > 0:
+		return
 	if Input.is_action_just_pressed("ui_accept"):
 		interact()
 	if is_moving or is_bumping: 
@@ -120,13 +124,13 @@ func make_bump_noise():
 
 func bump_sideways(dir):
 	set_is_bumping(true)
-	var tween:Tween = Util.one_shot_tween(self)
+	bump_tween = Util.one_shot_tween(self)
 	var move_vec = Vector3.LEFT.rotated(Vector3.UP, self.global_transform.basis.get_euler().y) * BUMP_DISTANCE * dir
-	tween.interpolate_property(self, "translation", self.translation, self.translation + move_vec, BUMP_HALF_TIME)
-	tween.interpolate_property(self, "translation", self.translation + move_vec, self.translation, BUMP_HALF_TIME, 0, 2, BUMP_HALF_TIME)
+	bump_tween.interpolate_property(self, "translation", self.translation, self.translation + move_vec, BUMP_HALF_TIME)
+	bump_tween.interpolate_property(self, "translation", self.translation + move_vec, self.translation, BUMP_HALF_TIME, 0, 2, BUMP_HALF_TIME)
 	Util.delay_call(BUMP_HALF_TIME, self, "make_bump_noise")
 	Util.delay_call(BUMP_HALF_TIME*2+0.01, self, "set_is_bumping", [false])
-	tween.start()
+	bump_tween.start()
 	
 func can_move(sensor):
 	var areas = sensor.get_overlapping_areas()
@@ -186,6 +190,8 @@ func interact():
 		interactable[0].interact()
 
 func _process(delta):
+	if is_knockback > 0:
+		is_knockback = max(0, is_knockback-delta)
 	process_input()
 	if target_position:
 		move_time += delta*move_multiplier
@@ -233,6 +239,7 @@ func query_tile_metadata(tile_x, tile_z):
 func move(dir, ignore_bumping=false):
 	if is_moving or (!ignore_bumping and is_bumping): 
 		return
+	move_multiplier = 1
 	is_moving = true
 	if !is_bumping:
 		AudioPlayerPool.play(walk_sfx)
@@ -247,6 +254,7 @@ func move(dir, ignore_bumping=false):
 func sidestep(dir, ignore_bumping=false):
 	if is_moving or (!ignore_bumping and is_bumping):
 		return
+	move_multiplier = 1
 	is_moving = true
 	if !is_bumping:
 		AudioPlayerPool.play(walk_sfx)
@@ -258,10 +266,26 @@ func sidestep(dir, ignore_bumping=false):
 	EventBus.emit_signal("player_start_move")
 	find_interactables(get_facing_tile_coords((target_position/3).round(), global_transform.basis.z, 1))
 
+func knockback(dir):
+	is_knockback = 0.5
+	if is_bumping:
+		center_in_tile()
+	if is_moving:
+		target_position = start_position
+		start_position = global_transform.origin
+		move_time = 0
+		move_multiplier = 4.0
+
+func center_in_tile():
+	if is_instance_valid(bump_tween):
+		bump_tween.stop_all()
+	global_transform.origin = global_transform.origin.round()
+
 func turn(dir):
 	if is_moving or is_bumping: 
 		return
 	is_moving = true
+	move_multiplier = 1
 	#print("start rotate at ", OS.get_system_time_msecs())
 	start_rotation = transform.basis
 	target_rotation = transform.basis.rotated(Vector3.DOWN, deg2rad(90*dir))
@@ -276,3 +300,4 @@ func _on_PerspectiveSpriteUpdateTimer_timeout():
 
 func trap_hit(trap):
 	print("Hit by a trap for ", trap.damage)
+	knockback(null)

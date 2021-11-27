@@ -23,6 +23,9 @@ func on_map_place(_dungeon, layer_name:String, cell:Vector2):
 				map_config[k] = save_data[k]
 		Util.config(self, map_config)
 
+func update_config(c:Dictionary):
+	GameData.set_map_data(map_layer, map_position, c)
+
 func change_tile(val):
 	if val is String:
 		val = dungeon.get_tileset(map_layer).find_tile_by_name(val)

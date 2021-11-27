@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/arrow_flight_front.png-d65b2b068366f61111e2b1d3f5db9444.stex"
+path="res://.import/pendulum.png-5521d21fa51f39fe36e3ae920627da44.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/dungeon/arrow_flight_front.png"
-dest_files=[ "res://.import/arrow_flight_front.png-d65b2b068366f61111e2b1d3f5db9444.stex" ]
+source_file="res://img/dungeon/pendulum.png"
+dest_files=[ "res://.import/pendulum.png-5521d21fa51f39fe36e3ae920627da44.stex" ]
 
 [params]
 

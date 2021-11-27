@@ -18,7 +18,7 @@ tile_data = PoolIntArray( 196612, 1, 0, 196613, 1, 0, 196614, 1, 0, 196615, 1, 0
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 50, 50 )
 format = 1
-tile_data = PoolIntArray( 262153, 698, 0, 262158, 570, 0, 327692, 310, 0, 458757, 310, 0, 458762, 570, 0, 589838, 570, 0, 655368, 570, 0, 720908, 893, 0, 851982, 72, 0 )
+tile_data = PoolIntArray( 262150, 598, 0, 262153, 698, 0, 262158, 570, 0, 327692, 310, 0, 458757, 310, 0, 458762, 570, 0, 589838, 570, 0, 655368, 570, 0, 720908, 893, 0, 851982, 72, 0 )
 
 [node name="pollen" type="TileMap" parent="."]
 tile_set = ExtResource( 3 )
@@ -29,7 +29,7 @@ format = 1
 tile_set = ExtResource( 4 )
 cell_size = Vector2( 50, 50 )
 format = 1
-tile_data = PoolIntArray( 262153, 2, 0, 262158, 0, 0, 458762, 2, 0, 458763, 1, 0, 589838, 1, 0, 655368, 3, 0, 655370, 3, 0 )
+tile_data = PoolIntArray( 262150, 2, 0, 262153, 2, 0, 262158, 0, 0, 458762, 2, 0, 458763, 1, 0, 589838, 1, 0, 655368, 3, 0, 655370, 3, 0 )
 
 [node name="config" type="TileMap" parent="."]
 tile_set = ExtResource( 5 )

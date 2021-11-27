@@ -250,9 +250,9 @@ func process_tilemap_layer(layer:TileMap, layer_name:String):
 			var tile_scene = tile_packed_scene.instance()
 			add_child(tile_scene)
 			set_tile_scene(layer_name, cell, tile_scene)
+			tile_scene.transform.origin = Vector3(3*cell.x, 0, 3*cell.y)
 			if tile_scene.has_method("on_map_place"):
 				tile_scene.on_map_place(self, layer_name, cell)
-			tile_scene.transform.origin = Vector3(3*cell.x, 0, 3*cell.y)
 			if layer_name != "ground":
 				var orientation_tile = get_tile("orientation", cell.x, cell.y)
 				var orientation_vector = orientation_tiles.get(orientation_tile, null)

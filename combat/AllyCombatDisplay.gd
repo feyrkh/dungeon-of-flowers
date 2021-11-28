@@ -168,5 +168,5 @@ func _on_damage_all_allies(damage):
 	DamageIndicator.take_damage(damage)
 	yield(get_tree().create_timer(0.5), "timeout")
 	DamageIndicator.apply_damage(data)
-	yield(DamageIndicator, "all_damage_applied")
+	yield(get_tree().create_timer(0.5), "timeout")
 	EventBus.emit_signal("check_explore_gameover")

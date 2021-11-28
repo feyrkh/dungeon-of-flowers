@@ -50,7 +50,7 @@ func take_damage(amt):
 var applying_damage = false
 func apply_damage(_ally_data):
 	if applying_damage:
-		yield(self, "all_damage_applied")
+		yield(get_tree().create_timer(CombatMgr.combat_animation_delay + 0.1), "timeout")
 	applying_damage = true
 	var damage_total = 0
 	var wait_counter = 15

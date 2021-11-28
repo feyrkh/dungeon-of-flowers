@@ -3,7 +3,7 @@
 [ext_resource path="res://shader/mask_transition.shader" type="Shader" id=1]
 [ext_resource path="res://dialogic/ChatDialog.gd" type="Script" id=2]
 [ext_resource path="res://art_exports/ui_dialog/ui_speechbubble_transition_mask.png" type="Texture" id=3]
-[ext_resource path="res://art_exports/ui_dialog/ui_speechbubble01.png" type="Texture" id=4]
+[ext_resource path="res://art_exports/ui_dialog/ui_HUDbubble.png" type="Texture" id=4]
 [ext_resource path="res://font/dialog_font.tres" type="DynamicFont" id=5]
 
 [sub_resource type="ShaderMaterial" id=1]
@@ -35,10 +35,14 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = 63.0
-margin_top = 18.0
-margin_right = 450.0
-margin_bottom = 191.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 13.0
+margin_top = 11.4999
+margin_right = -17.0
+margin_bottom = -38.5001
+grow_horizontal = 2
+grow_vertical = 2
 rect_scale = Vector2( 0.998947, 1 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )

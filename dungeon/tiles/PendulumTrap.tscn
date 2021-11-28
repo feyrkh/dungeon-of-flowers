@@ -119,14 +119,14 @@ shaded = true
 texture = ExtResource( 3 )
 
 [node name="Sprite3D8" type="Sprite3D" parent="Frame"]
-transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, -0.6 )
+transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, -0.57 )
 modulate = Color( 0.388235, 0.117647, 0, 1 )
 pixel_size = 0.1
 shaded = true
 texture = ExtResource( 3 )
 
 [node name="Sprite3D9" type="Sprite3D" parent="Frame"]
-transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, -0.5 )
+transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, -0.47 )
 modulate = Color( 0.388235, 0.117647, 0, 1 )
 pixel_size = 0.1
 shaded = true

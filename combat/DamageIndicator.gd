@@ -47,20 +47,27 @@ func take_damage(amt):
 	slash.rotation_degrees = rand_range(0, 360)
 	slash.set_damage(amt)
 
+var applying_damage = false
 func apply_damage(_ally_data):
+	if applying_damage:
+		yield(self, "all_damage_applied")
+	applying_damage = true
 	var damage_total = 0
+	var wait_counter = 15
 	self.ally_data = _ally_data
 	for slash in SlashContainer.get_children():
 		damage_total = slash.damage
 		slash.apply_damage(ally_data, self, randf()*0.5 + 0.1)
 		CombatMgr.emit_signal("combat_animation", 0.6)
-	while SlashContainer.get_children().size() > 0:
+	while SlashContainer.get_children().size() > 0 and wait_counter > 0:
 		yield(get_tree().create_timer(0.1), "timeout")
 		CombatMgr.emit_signal("combat_animation", 0.3)
+		wait_counter -= 1
 	ally_data.hp = round(ally_data.hp)
 	set_process(true)
 	while CombatMgr.combat_animation_delay > 0:
 		yield(get_tree().create_timer(CombatMgr.combat_animation_delay), "timeout")
+	applying_damage = false
 	emit_signal("all_damage_applied", damage_total)
 
 func count_damage(amt):

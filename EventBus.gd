@@ -26,6 +26,8 @@ signal player_finish_turn()
 signal update_interactable(interactables_list)
 signal refresh_interactables()
 signal refresh_perspective_sprites(global_facing)
+signal damage_all_allies(damage) # for stuff like party-wide trap damage
+signal check_explore_gameover()
 
 # party chat
 signal start_chat(chat_filename)

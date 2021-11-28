@@ -15,6 +15,7 @@ extents = Vector3( 0.35, 0.49, 0.51 )
 [node name="PendulumTrap" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 script = ExtResource( 2 )
+damage = 0.0
 seconds_per_rotation = 4.0
 rotation_curve = SubResource( 1 )
 
@@ -51,37 +52,76 @@ shape = SubResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05 )
 
 [node name="Sprite3D4" type="Sprite3D" parent="WallSlits"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, 1.49, -0.97, 0 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, 1.49, -0.97, -0.01 )
 modulate = Color( 0, 0, 0, 1 )
 pixel_size = 0.1
 texture = ExtResource( 3 )
 
 [node name="Sprite3D5" type="Sprite3D" parent="WallSlits"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, 1.49, -0.97, -0.57 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, 1.49, -0.97, -0.58 )
 modulate = Color( 0, 0, 0, 1 )
 pixel_size = 0.1
 texture = ExtResource( 3 )
 
 [node name="Sprite3D6" type="Sprite3D" parent="WallSlits"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, 1.49, -0.97, 0.62 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, 1.49, -0.97, 0.61 )
 modulate = Color( 0, 0, 0, 1 )
 pixel_size = 0.1
 texture = ExtResource( 3 )
 
 [node name="Sprite3D7" type="Sprite3D" parent="WallSlits"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, -1.49, -0.97, 0 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, -1.49, -0.97, -0.01 )
 modulate = Color( 0, 0, 0, 1 )
 pixel_size = 0.1
 texture = ExtResource( 3 )
 
 [node name="Sprite3D8" type="Sprite3D" parent="WallSlits"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, -1.49, -0.97, -0.57 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, -1.49, -0.97, -0.58 )
 modulate = Color( 0, 0, 0, 1 )
 pixel_size = 0.1
 texture = ExtResource( 3 )
 
 [node name="Sprite3D9" type="Sprite3D" parent="WallSlits"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, -1.49, -0.97, 0.62 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, -1.49, -0.97, 0.61 )
+modulate = Color( 0, 0, 0, 1 )
+pixel_size = 0.1
+texture = ExtResource( 3 )
+
+[node name="WallSlits2" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.06 )
+
+[node name="Sprite3D4" type="Sprite3D" parent="WallSlits2"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, 1.49, -0.97, -0.01 )
+modulate = Color( 0, 0, 0, 1 )
+pixel_size = 0.1
+texture = ExtResource( 3 )
+
+[node name="Sprite3D5" type="Sprite3D" parent="WallSlits2"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, 1.49, -0.97, -0.58 )
+modulate = Color( 0, 0, 0, 1 )
+pixel_size = 0.1
+texture = ExtResource( 3 )
+
+[node name="Sprite3D6" type="Sprite3D" parent="WallSlits2"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, 1.49, -0.97, 0.61 )
+modulate = Color( 0, 0, 0, 1 )
+pixel_size = 0.1
+texture = ExtResource( 3 )
+
+[node name="Sprite3D7" type="Sprite3D" parent="WallSlits2"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, -1.49, -0.97, -0.01 )
+modulate = Color( 0, 0, 0, 1 )
+pixel_size = 0.1
+texture = ExtResource( 3 )
+
+[node name="Sprite3D8" type="Sprite3D" parent="WallSlits2"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, -1.49, -0.97, -0.58 )
+modulate = Color( 0, 0, 0, 1 )
+pixel_size = 0.1
+texture = ExtResource( 3 )
+
+[node name="Sprite3D9" type="Sprite3D" parent="WallSlits2"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 20, 0, -1, 0, -4.37114e-08, -1.49, -0.97, 0.61 )
 modulate = Color( 0, 0, 0, 1 )
 pixel_size = 0.1
 texture = ExtResource( 3 )
@@ -118,14 +158,14 @@ shaded = true
 texture = ExtResource( 3 )
 
 [node name="Sprite3D8" type="Sprite3D" parent="Frame"]
-transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, -0.6 )
+transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, -0.57 )
 modulate = Color( 0.388235, 0.117647, 0, 1 )
 pixel_size = 0.1
 shaded = true
 texture = ExtResource( 3 )
 
 [node name="Sprite3D9" type="Sprite3D" parent="Frame"]
-transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, -0.5 )
+transform = Transform( -2.18557e-07, -40, 0, 5, -1.74846e-06, 0, 0, 0, 1, 0.00999999, -0.25, -0.47 )
 modulate = Color( 0.388235, 0.117647, 0, 1 )
 pixel_size = 0.1
 shaded = true

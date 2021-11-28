@@ -16,7 +16,7 @@
 		"2": {"key": "intro_key_2", "locked_chat": "generic_locked_door"},
 		"3": {"is_open": true},
 		"4": {"rotation_percent": 0},
-		"5": {"rotation_percent": 0.075},
-		"6": {"rotation_percent": 0.15},
+		"5": {"rotation_percent": 0.05},
+		"6": {"rotation_percent": 0.1},
 	}
 }

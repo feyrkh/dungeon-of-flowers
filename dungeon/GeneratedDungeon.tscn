@@ -158,3 +158,8 @@ visible_when_chatting = true
 [node name="PauseMenuRoot" parent="." instance=ExtResource( 8 )]
 
 [node name="FogTween" type="Tween" parent="."]
+
+[node name="ExploreGameoverChecker" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="ExploreGameoverChecker" to="." method="_on_ExploreGameoverChecker_timeout"]

@@ -25,6 +25,7 @@ var is_bumping = false setget set_is_bumping
 var is_in_combat = false
 var interactable = []
 var bump_tween:Tween
+var trap_damage_immunity = 0
 
 func set_is_bumping(val):
 	is_bumping = val
@@ -328,6 +329,9 @@ func _on_PerspectiveSpriteUpdateTimer_timeout():
 	EventBus.emit_signal("refresh_perspective_sprites", -global_transform.basis.z)
 
 func trap_hit(trap, knockback_amt):
+	if OS.get_system_time_msecs() < trap_damage_immunity:
+		return
+	trap_damage_immunity = OS.get_system_time_msecs() + 1000
 	print("Hit by a trap for ", trap.damage)
 	knockback(knockback_amt)
 	EventBus.emit_signal("damage_all_allies", trap.damage)

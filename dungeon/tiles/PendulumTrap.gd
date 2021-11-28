@@ -27,7 +27,7 @@ func _on_Area_area_entered(area):
 		area.owner.trap_hit(self, null)
 
 func _process(delta):
-	if CombatMgr.is_in_combat: 
+	if CombatMgr.is_in_combat or !firing: 
 		return
 	rotation_percent += delta/seconds_per_rotation
 	if rotation_percent > 1 + pause_percent:

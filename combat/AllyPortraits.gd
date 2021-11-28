@@ -5,6 +5,7 @@ signal target_cancelled()
 signal self_target_complete(target_ally, move_data)
 
 const TargetMarker = preload("res://combat/TargetMarker.tscn")
+const PixelFader = preload("res://util/pixelFader.tscn")
 
 onready var Allies = [find_node("Ally1"), find_node("Ally2"), find_node("Ally3")]
 onready var TargetIcons = find_node("TargetIcons")
@@ -75,6 +76,8 @@ func combat_mode():
 		ally.combat_mode()
 
 func explore_mode():
+	if !EventBus.is_connected("check_explore_gameover", self, "check_explore_gameover"):
+		EventBus.connect("check_explore_gameover", self, "check_explore_gameover")
 	for ally in Allies:
 		if ally:
 			ally.explore_mode()
@@ -90,6 +93,16 @@ func get_live_allies():
 		if ally and ally.is_alive():
 			result.append(ally)
 	return result
+
+func check_explore_gameover():
+	var live_allies = get_live_allies()
+	if live_allies.size() == 0:
+		var fader = PixelFader.instance()
+		GameData.dungeon.Fader.add_child(fader)
+		fader.fade_out(0.2, 1)
+		yield(fader, "fade_complete")
+		get_tree().change_scene_to(preload("res://dungeon/Gameover.tscn"))
+		
 
 func start_targeting(_active_move_data, cur_ally):
 	match _active_move_data.target:

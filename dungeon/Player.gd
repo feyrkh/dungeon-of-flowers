@@ -330,3 +330,4 @@ func _on_PerspectiveSpriteUpdateTimer_timeout():
 func trap_hit(trap, knockback_amt):
 	print("Hit by a trap for ", trap.damage)
 	knockback(knockback_amt)
+	EventBus.emit_signal("damage_all_allies", trap.damage)

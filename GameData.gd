@@ -138,6 +138,7 @@ func save_game(save_file):
 	return true
 
 func load_game(save_file):
+	get_tree().paused = false
 	EventBus.emit_signal("pre_load_game")
 	var f := File.new()
 	#var err = f.open_encrypted_with_pass(save_file, File.READ, "dof"+str(c)+str(2021)+"|"+"liquid"+"enthusiasm")
@@ -280,6 +281,7 @@ func setup_allies():
 		allies = [new_char_echincea(), new_char_grias(), mock_shantae()]
 
 func new_game():
+	get_tree().paused = false
 	EventBus.emit_signal("pre_new_game")
 	set_state(TUTORIAL_ON, get_setting(TUTORIAL_ON))	
 	setup_allies()

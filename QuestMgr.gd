@@ -157,11 +157,12 @@ func play_cutscene(_cutscene_name):
 func on_timeline_end(timeline_name):
 	print("cutscene ended: ", timeline_name)
 	Util.delete_children(cutscene_bg_chars)
-	emit_signal("cutscene_end", timeline_name)
+	#emit_signal("cutscene_end", timeline_name)
 	EventBus.emit_signal("enable_pause_menu")
 	EventBus.emit_signal("show_minimap")
 	cutscene = null
 	get_tree().paused = false
+	emit_signal("cutscene_end", timeline_name)
 
 func on_dialogic_signal(val:String):
 	# char_join$res://art_exports/characters/enemy_puddle.png$sneakleft$0.5$300

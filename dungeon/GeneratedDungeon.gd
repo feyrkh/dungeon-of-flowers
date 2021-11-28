@@ -299,3 +299,7 @@ func pollen_infest(coords, pollen_level):
 			2: new_tile = pollen_3_tile_id
 			3: new_tile = pollen_4_tile_id
 		set_tile("pollen", coords.x, coords.y, new_tile)
+
+
+func _on_ExploreGameoverChecker_timeout():
+	EventBus.emit_signal("check_explore_gameover")

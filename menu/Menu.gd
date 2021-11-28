@@ -29,14 +29,14 @@ func process_menu_entry_names():
 				menu_entries[i].setup_menu(self)
 
 func pause_menu():
-	set_process(false)
+	set_process_input(false)
 	visible = false
 
 func resume_menu():
 	for i in range(menu_entries.size()):
 		if i != selected_idx and menu_entries[i].has_method("menu_deselected"):
 			menu_entries[i].menu_deselected(self)
-	set_process(true)
+	set_process_input(true)
 	visible = true
 
 func release_focus():
@@ -55,28 +55,28 @@ func select_entry(entry_idx):
 	if menu_entries[selected_idx].has_method("menu_selected"):
 		menu_entries[selected_idx].menu_selected(self)
 
-func _process(delta):
-	if Input.is_action_just_pressed("ui_up"):
+func _input(event):
+	if event.is_action_pressed("ui_up"):
 		var new_selected_idx = selected_idx - 1
 		if new_selected_idx < 0: 
 			new_selected_idx += menu_entries.size()
 		select_entry(new_selected_idx)
 		AudioPlayerPool.play(menu_item_change_sfx, 3.0)
-	elif Input.is_action_just_pressed("ui_down"):
+	elif event.is_action_pressed("ui_down"):
 		var new_selected_idx = (selected_idx + 1)%menu_entries.size()
 		if new_selected_idx < 0: 
 			new_selected_idx += menu_entries.size()
 		select_entry(new_selected_idx)
 		AudioPlayerPool.play(menu_item_change_sfx, 3.0)
-	elif Input.is_action_just_pressed("ui_right"):
+	elif event.is_action_pressed("ui_right"):
 		if menu_entries[selected_idx].has_method("menu_increment"):
 			if menu_entries[selected_idx].increment_sfx: AudioPlayerPool.play(menu_item_action_sfx, 1.0)
 			menu_entries[selected_idx].menu_increment(self)
-	elif Input.is_action_just_pressed("ui_left"):
+	elif event.is_action_pressed("ui_left"):
 		if menu_entries[selected_idx].has_method("menu_decrement"):
 			if menu_entries[selected_idx].increment_sfx: AudioPlayerPool.play(menu_item_action_sfx, 1.0)
 			menu_entries[selected_idx].menu_decrement(self)
-	elif Input.is_action_just_pressed("ui_accept"):
+	elif event.is_action_pressed("ui_accept"):
 		if menu_entries[selected_idx].has_method("menu_action"):
 			if menu_entries[selected_idx].disabled:
 				AudioPlayerPool.play(menu_item_disabled_sfx, 1.0)

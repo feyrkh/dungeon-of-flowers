@@ -38,6 +38,7 @@ func _ready():
 	CombatMgr.connect("start_enemy_turn", self, "_on_CombatScreen_start_enemy_turn")
 	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
 	CombatMgr.connect("enemy_move_complete", self, "_on_enemy_move_complete")
+	EventBus.connect("damage_all_allies", self, "_on_damage_all_allies")
 
 func get_shields():
 	return data.get_shields()
@@ -64,7 +65,7 @@ func disable_combat_features():
 	find_node("BulletStrikeArea").queue_free()
 
 func is_alive():
-	return data.hp > 0
+	return data.hp > 0.01
 
 func deselect():
 	AllyPortrait.deselect()
@@ -162,3 +163,10 @@ func add_positive_effect_bubble(effect_bubble):
 	effect_bubble.bubble_setup("apply_positive_ally_effects", Vector2(-180, POSITIVE_BUBBLE_HEIGHT-20), Vector2(180, POSITIVE_BUBBLE_HEIGHT+20))
 	#CombatMgr.emit_signal("add_ally_effect_bubble", effect_bubble)
 	find_node("EffectBubbles").add_child(effect_bubble)
+
+func _on_damage_all_allies(damage):
+	DamageIndicator.take_damage(damage)
+	yield(get_tree().create_timer(0.5), "timeout")
+	DamageIndicator.apply_damage(data)
+	yield(DamageIndicator, "all_damage_applied")
+	EventBus.emit_signal("check_explore_gameover")

@@ -377,10 +377,11 @@ func _input(event: InputEvent) -> void:
 		else:
 			if waiting_for_answer == false and waiting_for_input == false and while_dialog_animation == false:
 				_load_next_event()
+		var propagate_input:bool = false
 		if settings.has_section_key('dialog', 'propagate_input'):
-			var propagate_input: bool = settings.get_value('dialog', 'propagate_input')
-			if not propagate_input:
-				get_tree().set_input_as_handled()
+			propagate_input = settings.get_value('dialog', 'propagate_input')
+		if not propagate_input:
+			get_tree().set_input_as_handled()
 
 
 func show_dialog():

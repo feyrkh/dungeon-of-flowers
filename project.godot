@@ -248,6 +248,7 @@ enabled=PoolStringArray( "res://addons/dialogic/plugin.cfg" )
 
 error=false
 collision=false
+repeat=false
 
 [importer_defaults]
 
@@ -391,6 +392,10 @@ debug_skip_combat={
 3d_physics/layer_2="wall_metadata"
 3d_physics/layer_3="trap_projectile"
 3d_physics/layer_4="trap_projectile_collide"
+
+[memory]
+
+limits/message_queue/max_size_kb=8096
 
 [physics]
 

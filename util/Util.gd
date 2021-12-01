@@ -2,11 +2,13 @@ extends Object
 class_name Util
 
 const IGNORE_FIELD_NAMES = ["Reference", "script", "Script Variables"]
+var prop_cache = {}
 
 static func config(obj, c):
 	var props = obj.get_property_list()
 	var propNames = {}
 	var propTypes = {}
+	# TODO: find a way to reduce the wasted cycles here
 	for prop in props:
 		propNames[prop.name] = true
 		propTypes[prop.name] = prop.type

@@ -13,6 +13,7 @@ export(float) var energy = 1.0
 var speed = 1.0
 
 func _ready():
+	rotation_degrees = randi()%360
 	Spark1.visible = energy >= 1
 	Spark2.visible = energy >= 2
 	Spark3.visible = energy >= 3

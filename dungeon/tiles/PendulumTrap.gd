@@ -1,6 +1,6 @@
 extends DungeonEntity
 
-export(bool) var firing = true
+export(bool) var firing = true setget set_firing
 export(float) var damage = 20
 export(float) var seconds_per_rotation = 5
 export(Curve) var rotation_curve:Curve
@@ -9,6 +9,12 @@ var prev_rotation = 0
 var pause_percent = 0.2
 
 onready var Rotating = find_node("Rotating")
+
+func set_firing(val):
+	firing = val
+
+func _ready():
+	pass
 
 func post_config(map_config):
 	transform.origin.y = transform.origin.y + 3

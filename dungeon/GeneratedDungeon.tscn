@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://dungeon/PollenProcessor.gd" type="Script" id=1]
 [ext_resource path="res://shader/pixel.shader" type="Shader" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://util/controls/ui_button_accept.tscn" type="PackedScene" id=9]
 [ext_resource path="res://dungeon/InteractablePrompt.gd" type="Script" id=10]
 [ext_resource path="res://dungeon/GeneratedDungeon.gd" type="Script" id=11]
+[ext_resource path="res://util/TilemapMgr.gd" type="Script" id=12]
 
 [sub_resource type="Environment" id=1]
 background_energy = 0.0
@@ -161,5 +162,8 @@ visible_when_chatting = true
 
 [node name="ExploreGameoverChecker" type="Timer" parent="."]
 autostart = true
+
+[node name="TilemapMgr" type="Node" parent="."]
+script = ExtResource( 12 )
 
 [connection signal="timeout" from="ExploreGameoverChecker" to="." method="_on_ExploreGameoverChecker_timeout"]

@@ -12,3 +12,6 @@ func _ready():
 
 func on_map_place(tilemap_mgr, layer_name, cell):
 	pass
+
+func get_component_label():
+	return "Locked Core"

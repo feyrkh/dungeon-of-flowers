@@ -1,4 +1,5 @@
 extends Node
+class_name TilemapMgr
 
 export var tile_name_prefix = "~"
 export var tile_size = 3 # how many units (or pixels) each tile takes up in width/height
@@ -12,9 +13,9 @@ var property_types:Dictionary = {}
 var tile_config = {}
 var tiles
 
-func load_from_file(map_config_file, map_scene_file_or_node, tiles):
+func load_from_file(map_config_file, map_scene_file_or_node, _tiles):
 	GameData.set_rand_seed()
-	self.tiles = tiles
+	self.tiles = _tiles
 	map_index = {}
 	tilemaps = {}
 	tilesets = {}
@@ -71,7 +72,7 @@ func get_tile_scene(layer:String, coords:Vector2):
 		return null
 	return scene	
 
-func set_tile_scene(layer:String, coords:Vector2, scene:Spatial):
+func set_tile_scene(layer:String, coords:Vector2, scene:Node):
 	if !map_index.has(layer):
 		map_index[layer] = {}
 	map_index[layer][coords] = scene
@@ -147,15 +148,15 @@ func process_tilemap_layer(layer:TileMap, layer_name:String):
 			if owner.custom_tile_handler(layer, layer_name, tileset, cell, tile_name, tile_id):
 				continue
 		var tile_packed_scene = tiles.get(tile_name)
-		var tile_config = null
+		var t_config = null
 		if tile_packed_scene is Dictionary:
-			tile_config = tile_packed_scene["props"]
+			t_config = tile_packed_scene["props"]
 			tile_packed_scene = tile_packed_scene["scene"]
 		if tile_packed_scene:
 			var tile_scene = tile_packed_scene.instance()
 			tile_scene_parent.add_child(tile_scene)
-			if tile_config:
-				Util.config(tile_scene, tile_config)
+			if t_config:
+				Util.config(tile_scene, t_config)
 			set_tile_scene(layer_name, cell, tile_scene)
 			if tile_scene is Spatial:
 				tile_scene.transform.origin = Vector3(tile_size*cell.x, 0, tile_size*cell.y)

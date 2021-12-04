@@ -8,12 +8,21 @@ const TILE_SIZE = Vector2(64, 64)
 const HALF_SCREEN = (Vector2(1920, 1080) - TILE_SIZE)/2
 const SCREEN_SLIDE_AMOUNT = 400
 const SCREEN_SLIDE_SPEED = SCREEN_SLIDE_AMOUNT * 5.0
+const FOG_TRANSLATE = {
+	"chaos1":"Disordered Energy", 
+	"chaos2": "Chaotic Energy", 
+	"chaos3": "Frenzied Energy",
+	"chaos4": "Anarchic Energy", 
+	"outside": "Body Boundary"
+	}
 
 onready var Grid = find_node("Grid")
 onready var Cursor = find_node("Cursor")
 onready var CursorMode = find_node("CursorMode")
 onready var ComponentMode = find_node("ComponentMode")
-onready var TilemapMgr = find_node("TilemapMgr")
+onready var Overlay = find_node("Overlay")
+onready var OverlayLabel = find_node("OverlayLabel")
+onready var TilemapMgr:TilemapMgr = find_node("TilemapMgr")
 onready var Tilemaps = find_node("Tilemaps")
 
 var state = INACTIVE setget set_state
@@ -33,7 +42,19 @@ func set_cursor(val:Vector2):
 	Cursor.position = cursor_pos*64 - CURSOR_OVERFLOW
 	desired_grid_pos = -(Cursor.position - HALF_SCREEN)
 	Grid.position = desired_grid_pos
+	update_cursor_label()
 
+func update_cursor_label():
+	var bits = PoolStringArray()
+	var fog = TilemapMgr.get_tile_name("fog", cursor_pos.x, cursor_pos.y)
+	if fog:
+		bits.append(FOG_TRANSLATE.get(fog, fog))
+	var component = TilemapMgr.get_tile_scene("component", cursor_pos)
+	if component:
+		component = component.get_component_label()
+	if component:
+		bits.append(component)
+	OverlayLabel.text = bits.join("\n")
 
 func _ready():
 	set_state(INACTIVE)
@@ -41,7 +62,8 @@ func _ready():
 	if get_tree().root == get_parent():
 		enter_levelup()
 	load_from_file()
-	find_node("Components").visible = false
+	find_node("component").visible = false
+	update_cursor_label()
 
 func load_from_file():
 	TilemapMgr.load_from_file("res://levelup/grias_levelup_map.json", Tilemaps, {})
@@ -114,6 +136,7 @@ func slide_component_mode_to(pos):
 	var move_amt = pos - cur_pos
 	var move_time = abs(move_amt) / SCREEN_SLIDE_SPEED
 	tween.interpolate_property(CursorMode, "position:x", CursorMode.position.x, CursorMode.position.x+move_amt, move_time)
+	tween.interpolate_property(Overlay, "position:x", Overlay.position.x, Overlay.position.x+move_amt/2, move_time)
 	tween.interpolate_property(Grid, "position:x", Grid.position.x, Grid.position.x-move_amt/2, move_time)
 	tween.interpolate_property(ComponentMode, "position:x", ComponentMode.position.x, ComponentMode.position.x+move_amt*2, move_time)
 	tween.start()

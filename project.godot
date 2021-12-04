@@ -159,6 +159,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://dungeon/TileMetadata.gd"
 }, {
+"base": "Node",
+"class": "TilemapMgr",
+"language": "GDScript",
+"path": "res://util/TilemapMgr.gd"
+}, {
 "base": "Control",
 "class": "Tutorial",
 "language": "GDScript",
@@ -205,6 +210,7 @@ _global_script_class_icons={
 "ShieldHard": "",
 "SpinBullet": "",
 "TileMetadata": "",
+"TilemapMgr": "",
 "Tutorial": "",
 "TutorialTipResume": "",
 "Util": ""

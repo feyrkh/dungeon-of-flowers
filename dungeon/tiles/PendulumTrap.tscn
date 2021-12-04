@@ -10,7 +10,7 @@
 [sub_resource type="Curve" id=1]
 min_value = -45.0
 max_value = 45.01
-_data = [ Vector2( 0, -45 ), 0.0, 0.0, 0, 0, Vector2( 0.137168, -45 ), 0.0, 0.0, 0, 0, Vector2( 0.39823, 45.01 ), 0.0, 0.0, 0, 0, Vector2( 0.641593, 45.01 ), 0.0, 0.0, 0, 0, Vector2( 1, -45 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, -45 ), 0.0, 0.0, 0, 0, Vector2( 0.50116, -45 ), 0.0, 0.0, 0, 0, Vector2( 0.74478, 45.01 ), 7.10513, 7.10513, 0, 0, Vector2( 1, -45 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 0.35, 0.49, 0.51 )
@@ -105,56 +105,56 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0 )
 
 [node name="Sprite3D6" type="Sprite3D" parent="Frame"]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.01, 0.2, 0.651 )
-pixel_size = 0.0032
+pixel_size = 0.0051
 shaded = true
 double_sided = false
 texture = ExtResource( 5 )
 
 [node name="Sprite3D7" type="Sprite3D" parent="Frame"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, 0.2, 0.705 )
-pixel_size = 0.0032
+pixel_size = 0.0051
 shaded = true
 double_sided = false
 texture = ExtResource( 5 )
 
 [node name="Sprite3D8" type="Sprite3D" parent="Frame"]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.01, 0.2, -0.531 )
-pixel_size = 0.0032
+pixel_size = 0.0051
 shaded = true
 double_sided = false
 texture = ExtResource( 5 )
 
 [node name="Sprite3D9" type="Sprite3D" parent="Frame"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, 0.2, -0.498 )
-pixel_size = 0.0032
+pixel_size = 0.0051
 shaded = true
 double_sided = false
 texture = ExtResource( 5 )
 
 [node name="Sprite3D10" type="Sprite3D" parent="Frame"]
-transform = Transform( 1.1, 0, 0, 0, 1.1, 0, 0, 0, 1, 0.01, 0.234, -0.523 )
-pixel_size = 0.0032
+transform = Transform( 1.1, 0, 0, 0, 1.1, 0, 0, 0, 1, 0.01, 0.248, -0.523 )
+pixel_size = 0.0051
 shaded = true
 double_sided = false
 texture = ExtResource( 1 )
 
 [node name="Sprite3D11" type="Sprite3D" parent="Frame"]
-transform = Transform( 1.1, 0, 0, 0, 1.1, 0, 0, 0, 1, 0.01, 0.245, 0.668 )
-pixel_size = 0.0032
+transform = Transform( 1.1, 0, 0, 0, 1.1, 0, 0, 0, 1, 0.01, 0.259, 0.668 )
+pixel_size = 0.0051
 shaded = true
 double_sided = false
 texture = ExtResource( 1 )
 
 [node name="Sprite3D12" type="Sprite3D" parent="Frame"]
-transform = Transform( -1.1, 0, -8.74228e-08, 0, 1.1, 0, 9.61651e-08, 0, -1, 0.01, 0.233, 0.671 )
-pixel_size = 0.0032
+transform = Transform( -1.1, 0, -8.74228e-08, 0, 1.1, 0, 9.61651e-08, 0, -1, 0.01, 0.247, 0.671 )
+pixel_size = 0.0051
 shaded = true
 double_sided = false
 texture = ExtResource( 1 )
 
 [node name="Sprite3D13" type="Sprite3D" parent="Frame"]
-transform = Transform( -1.1, 0, -8.74228e-08, 0, 1.1, 0, 9.61651e-08, 0, -1, 0.01, 0.236, -0.51 )
-pixel_size = 0.0032
+transform = Transform( -1.1, 0, -8.74228e-08, 0, 1.1, 0, 9.61651e-08, 0, -1, 0.01, 0.25, -0.51 )
+pixel_size = 0.0051
 shaded = true
 double_sided = false
 texture = ExtResource( 1 )

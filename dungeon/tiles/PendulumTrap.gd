@@ -1,6 +1,6 @@
 extends DungeonEntity
 
-export(bool) var firing = true setget set_firing
+export(bool) var firing = true
 export(float) var damage = 20
 export(float) var seconds_per_rotation = 5
 export(Curve) var rotation_curve:Curve
@@ -9,12 +9,6 @@ var prev_rotation = 0
 var pause_percent = 0.2
 
 onready var Rotating = find_node("Rotating")
-
-func set_firing(val):
-	firing = val
-
-func _ready():
-	pass
 
 func post_config(map_config):
 	transform.origin.y = transform.origin.y + 3
@@ -38,6 +32,6 @@ func _process(delta):
 	rotation_percent += delta/seconds_per_rotation
 	if rotation_percent > 1 + pause_percent:
 		rotation_percent = fmod(rotation_percent, 1+pause_percent)
-	var next_rotation = rotation_curve.interpolate(rotation_percent)
+	var next_rotation = rotation_curve.interpolate(rotation_percent) * 1.01
 	#Rotating.transform.basis = Rotating.transform.basis.rotated(Vector3.BACK, deg2rad(new_rotation))
 	Rotating.rotation_degrees.z = next_rotation

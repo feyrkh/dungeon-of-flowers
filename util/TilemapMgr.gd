@@ -2,6 +2,7 @@ extends Node
 
 export var tile_name_prefix = "~"
 export var tile_size = 3 # how many units (or pixels) each tile takes up in width/height
+export var add_under_tilemap = false # if true, new scenes are attached to to the tilemap layer, otherwise to this object
 
 var map_scene:Node # The loaded scene which contains each of the TileMap layers which are used to render the 3d map
 var map_index:Dictionary = {} # The loaded scenes which were created by reading the map_scene TileMap layers; map_index["ground"][Vector2(0,0)] is the top-left corner of the ground layer
@@ -124,6 +125,13 @@ func process_tileset(layer):
 
 func process_tilemap_layer(layer:TileMap, layer_name:String):
 	var tileset:TileSet = layer.tile_set
+	var tile_scene_parent:Node
+	if add_under_tilemap:
+		tile_scene_parent = Node2D.new()
+		tile_scene_parent.name = layer_name+"_children"
+		layer.get_parent().add_child_below_node(layer, tile_scene_parent, true)
+	else:
+		tile_scene_parent = self
 	var override_data = GameData.get_map_layer_data(layer_name).get("_tiles", {})
 	for override_cell in override_data.keys():
 		layer.set_cell(override_cell.x, override_cell.y, override_data.get(override_cell, -1))
@@ -145,11 +153,14 @@ func process_tilemap_layer(layer:TileMap, layer_name:String):
 			tile_packed_scene = tile_packed_scene["scene"]
 		if tile_packed_scene:
 			var tile_scene = tile_packed_scene.instance()
-			add_child(tile_scene)
+			tile_scene_parent.add_child(tile_scene)
 			if tile_config:
 				Util.config(tile_scene, tile_config)
 			set_tile_scene(layer_name, cell, tile_scene)
-			tile_scene.transform.origin = Vector3(tile_size*cell.x, 0, tile_size*cell.y)
+			if tile_scene is Spatial:
+				tile_scene.transform.origin = Vector3(tile_size*cell.x, 0, tile_size*cell.y)
+			else:
+				tile_scene.position = Vector2(tile_size*cell.x, tile_size*cell.y)
 			if tile_scene.has_method("on_map_place"):
 				tile_scene.on_map_place(self, layer_name, cell)
 			if has_tile_instance_handler:

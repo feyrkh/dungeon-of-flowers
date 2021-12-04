@@ -6,13 +6,15 @@ const COMPONENT = 2
 const CURSOR_OVERFLOW = Vector2(3, 3)
 const TILE_SIZE = Vector2(64, 64)
 const HALF_SCREEN = (Vector2(1920, 1080) - TILE_SIZE)/2
-const SCREEN_SLIDE_AMOUNT = 300
+const SCREEN_SLIDE_AMOUNT = 400
 const SCREEN_SLIDE_SPEED = SCREEN_SLIDE_AMOUNT * 5.0
 
 onready var Grid = find_node("Grid")
 onready var Cursor = find_node("Cursor")
 onready var CursorMode = find_node("CursorMode")
 onready var ComponentMode = find_node("ComponentMode")
+onready var TilemapMgr = find_node("TilemapMgr")
+onready var Tilemaps = find_node("Tilemaps")
 
 var state = INACTIVE setget set_state
 var cursor_pos = Vector2(14, 7) setget set_cursor
@@ -32,12 +34,17 @@ func set_cursor(val:Vector2):
 	desired_grid_pos = -(Cursor.position - HALF_SCREEN)
 	Grid.position = desired_grid_pos
 
+
 func _ready():
 	set_state(INACTIVE)
 	set_cursor(Vector2(14, 7))
 	if get_tree().root == get_parent():
 		enter_levelup()
-		
+	load_from_file()
+	find_node("Components").visible = false
+
+func load_from_file():
+	TilemapMgr.load_from_file("res://levelup/grias_levelup_map.json", Tilemaps, {})
 
 func _input(event):
 	if state == CURSOR:
@@ -106,7 +113,7 @@ func slide_component_mode_to(pos):
 	var cur_pos = CursorMode.position.x
 	var move_amt = pos - cur_pos
 	var move_time = abs(move_amt) / SCREEN_SLIDE_SPEED
-	tween.interpolate_property(CursorMode, "position:x", CursorMode.position.x, pos, move_time)
-	tween.interpolate_property(Grid, "position:x", Grid.position.x, -pos/2, move_time)
-	tween.interpolate_property(ComponentMode, "position:x", ComponentMode.position.x, pos, move_time)
+	tween.interpolate_property(CursorMode, "position:x", CursorMode.position.x, CursorMode.position.x+move_amt, move_time)
+	tween.interpolate_property(Grid, "position:x", Grid.position.x, Grid.position.x-move_amt/2, move_time)
+	tween.interpolate_property(ComponentMode, "position:x", ComponentMode.position.x, ComponentMode.position.x+move_amt*2, move_time)
 	tween.start()

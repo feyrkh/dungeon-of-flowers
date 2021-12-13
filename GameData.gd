@@ -85,6 +85,7 @@ func _init():
 	set_state("randseed", randi())
 
 func _ready():
+	save_game_defaults()
 	EventBus.connect("new_player_location", self, "on_new_player_location")
 	EventBus.connect("acquire_item", self, "on_acquire_item")
 	EventBus.connect("post_load_game", self, "post_load_game")
@@ -107,6 +108,14 @@ func on_acquire_item(item_name, amount):
 
 func on_use_item(item_name, amount):
 	Util.inc(inventory, item_name, amount, 0)
+
+func save_game_defaults():
+	save_game_default("grias_levelup_energy", [1, 1, 1, 0])
+
+func save_game_default(k, default_val_if_missing):
+	if game_state.has(k):
+		return
+	game_state[k] = default_val_if_missing
 
 func save_game(save_file):
 	transients = []
@@ -179,6 +188,7 @@ func load_game(save_file):
 	f.close()
 	get_tree().change_scene("res://dungeon/GeneratedDungeon.tscn")
 	dungeon = get_tree().root
+	save_game_defaults()
 	load_transients()
 	yield(get_tree(), "idle_frame")
 	EventBus.emit_signal("post_load_game")
@@ -242,7 +252,9 @@ func get_setting(setting, defaultVal=null):
 	return settings.get(setting, defaultVal)
 
 func get_state(state_entry, default_val=null):
-	return game_state.get(state_entry, default_val)
+	if !game_state.has(state_entry):
+		game_state[state_entry] = default_val
+	return game_state.get(state_entry)
 
 func set_state(state_entry, val):
 	update_state(state_entry, val)
@@ -259,7 +271,7 @@ func inc_state(state_entry, delta, default_val=0, min_val=null, max_val=null):
 func update_state(state_entry, val):
 	var old_value = game_state.get(state_entry, null)
 	game_state[state_entry] = val
-	if !state_entry.begins_with("_") and old_value != val:
+	if !state_entry.begins_with("_") and (val is Array or old_value != val):
 		emit_signal("state_updated", state_entry, old_value, val)
 		print("State ", state_entry, "=", val)
 
@@ -284,6 +296,7 @@ func new_game():
 	get_tree().paused = false
 	EventBus.emit_signal("pre_new_game")
 	set_state(TUTORIAL_ON, get_setting(TUTORIAL_ON))	
+	save_game_defaults()
 	setup_allies()
 	if get_state(TUTORIAL_ON):
 		cur_dungeon = "intro"
@@ -360,7 +373,7 @@ func new_char_grias():
 func set_rand_seed():
 	var s = get_state("randseed")
 	print("setting randseed to: ", s)
-	rand_seed(get_state("randseed"))
+	rand_seed(get_state("randseed", 0))
 
 func get_allies_in_party():
 	var result = {}
@@ -372,3 +385,9 @@ func get_allies_in_party():
 			"Echincea": result["e"] = true # oops
 			"Arum": result["a"] = true
 	return result
+
+func pay_cost(currency_arr_name, cost_map):
+	var currency = get_state(currency_arr_name, [0, 0, 0, 0, 0, 0, 0])
+	for k in cost_map:
+		currency[k] -= cost_map[k]
+	set_state(currency_arr_name, currency)

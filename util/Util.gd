@@ -56,6 +56,12 @@ static func inc(dict:Dictionary, key:String, amt, clamp_lower=null, clamp_higher
 static func delete_children(node):
 	for n in node.get_children():
 		n.queue_free()
+		
+static func resize_children(container):
+	for child in container.get_children():
+		if child is Container:
+			resize_children(child)
+	container.set_size(container.get_minimum_size())
 
 static func randi_range(min_val, max_val):
 	min_val = int(round(min_val))
@@ -64,7 +70,7 @@ static func randi_range(min_val, max_val):
 		return min_val
 	return (randi() % (max_val - min_val)) + min_val
 
-static func wrap_range(val, min_val, max_val): 
+static func wrap_range(val, min_val, max_val=0): 
 	if max_val < min_val:
 		var swap = min_val
 		min_val = max_val
@@ -168,3 +174,11 @@ static func post_load_game(object, prefix:String, save_items:Array):
 		
 static func map_coords(v3:Vector3):
 	return Vector2(int(round(v3.x/3)), int(round(v3.z/3)))
+
+static func get_element_color(element_name):
+	match element_name:
+		"water": return Color.aqua
+		"soil": return Color.chocolate
+		"sun": return Color.yellow
+		"decay": return Color.purple
+		_: return Color.white

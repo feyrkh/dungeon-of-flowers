@@ -1,7 +1,8 @@
-[gd_resource type="TileSet" load_steps=6 format=2]
+[gd_resource type="TileSet" load_steps=7 format=2]
 
 [ext_resource path="res://img/levelup/chaos.png" type="Texture" id=1]
 [ext_resource path="res://img/levelup/outside.png" type="Texture" id=2]
+[ext_resource path="res://img/levelup/clear.png" type="Texture" id=3]
 [ext_resource path="res://img/levelup/chaos4.png" type="Texture" id=12]
 [ext_resource path="res://img/levelup/chaos3.png" type="Texture" id=13]
 [ext_resource path="res://img/levelup/chaos2.png" type="Texture" id=14]
@@ -77,3 +78,17 @@
 13/shape_one_way_margin = 0.0
 13/shapes = [  ]
 13/z_index = 0
+14/name = "cleared"
+14/texture = ExtResource( 3 )
+14/tex_offset = Vector2( 0, 0 )
+14/modulate = Color( 1, 1, 1, 1 )
+14/region = Rect2( 0, 0, 64, 64 )
+14/tile_mode = 0
+14/occluder_offset = Vector2( 0, 0 )
+14/navigation_offset = Vector2( 0, 0 )
+14/shape_offset = Vector2( 0, 0 )
+14/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+14/shape_one_way = false
+14/shape_one_way_margin = 0.0
+14/shapes = [  ]
+14/z_index = 0

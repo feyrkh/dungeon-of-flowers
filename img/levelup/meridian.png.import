@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/water_egg.png-af7ecb7324eb929a2d5951f9359d53bc.stex"
+path="res://.import/meridian.png-f4c3e791c850a5d185191f382ae47a62.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/levelup/water_egg.png"
-dest_files=[ "res://.import/water_egg.png-af7ecb7324eb929a2d5951f9359d53bc.stex" ]
+source_file="res://img/levelup/meridian.png"
+dest_files=[ "res://.import/meridian.png-f4c3e791c850a5d185191f382ae47a62.stex" ]
 
 [params]
 
@@ -23,7 +23,7 @@ flags/repeat=0
 flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
-flags/srgb=2
+flags/srgb=1
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false

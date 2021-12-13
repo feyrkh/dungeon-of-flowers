@@ -119,6 +119,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://combat/EnemyData.gd"
 }, {
+"base": "MapEntity",
+"class": "GriasCore",
+"language": "GDScript",
+"path": "res://levelup/GriasCore.gd"
+}, {
 "base": "Node2D",
 "class": "MapEntity",
 "language": "GDScript",
@@ -202,6 +207,7 @@ _global_script_class_icons={
 "EffectShield": "",
 "Enemy": "",
 "EnemyData": "",
+"GriasCore": "",
 "MapEntity": "",
 "Menu": "",
 "MoveData": "",
@@ -224,6 +230,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+C="*res://util/C.tscn"
 EventBus="*res://EventBus.gd"
 EnemyList="*res://combat/EnemyList.gd"
 MoveList="*res://combat/MoveList.gd"
@@ -261,6 +268,7 @@ enabled=PoolStringArray( "res://addons/dialogic/plugin.cfg" )
 error=false
 collision=false
 repeat=false
+temp=false
 
 [importer_defaults]
 

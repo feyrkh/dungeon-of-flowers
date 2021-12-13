@@ -1,5 +1,7 @@
 extends Node2D
 
+const GriasSpark = preload("res://levelup/GriasSpark.tscn")
+
 const INACTIVE = 0
 const CURSOR = 1
 const COMPONENT = 2
@@ -9,7 +11,8 @@ const HALF_SCREEN = (Vector2(1920, 1080) - TILE_SIZE)/2
 const SCREEN_SLIDE_AMOUNT = 400
 const SCREEN_SLIDE_SPEED = SCREEN_SLIDE_AMOUNT * 5.0
 const FOG_TRANSLATE = {
-	"chaos1":"Disordered Energy", 
+	"cleared": "",
+	"chaos1": "Disordered Energy", 
 	"chaos2": "Chaotic Energy", 
 	"chaos3": "Frenzied Energy",
 	"chaos4": "Anarchic Energy", 
@@ -24,11 +27,20 @@ onready var Overlay = find_node("Overlay")
 onready var OverlayLabel = find_node("OverlayLabel")
 onready var TilemapMgr:TilemapMgr = find_node("TilemapMgr")
 onready var Tilemaps = find_node("Tilemaps")
+onready var EnergyOrbContainer = find_node("EnergyOrbContainer")
+onready var ComponentMenuList = find_node("ComponentMenuList")
+onready var ComponentMenuText = find_node("ComponentMenuText")
+onready var ComponentMenuArrow = find_node("ComponentMenuArrow")
+onready var EnergyContainer = find_node("EnergyContainer")
 
 var state = INACTIVE setget set_state
-var cursor_pos = Vector2(14, 7) setget set_cursor
+var cursor_pos = Vector2(14, 7) setget set_cursor # Tilemap coordinates
+var component_cursor_pos = 0 # index of the child of ComponentMenuList the cursor is currently pointed at
+var component_input_captured = null # if input was captured by a component, this will be set
 var desired_grid_pos = Vector2(0, 0)
 var tween:Tween
+var clear_tile_id = -1
+var chaos1_tile_id = -1
 
 func set_state(val):
 	state = val
@@ -47,7 +59,7 @@ func set_cursor(val:Vector2):
 func update_cursor_label():
 	var bits = PoolStringArray()
 	var fog = TilemapMgr.get_tile_name("fog", cursor_pos.x, cursor_pos.y)
-	if fog:
+	if fog and fog != "":
 		bits.append(FOG_TRANSLATE.get(fog, fog))
 	var component = TilemapMgr.get_tile_scene("component", cursor_pos)
 	if component:
@@ -63,6 +75,67 @@ func _ready():
 		enter_levelup()
 	load_from_file()
 	find_node("component").visible = false
+	update_cursor_label()
+	EventBus.connect("grias_generate_energy", self, "grias_generate_energy")
+	EventBus.connect("grias_levelup_clear_fog", self, "grias_levelup_clear_fog")
+	EventBus.connect("grias_levelup_fail_clear_fog", self, "grias_levelup_fail_clear_fog")
+	EventBus.connect("map_tile_changed", self, "map_tile_changed")
+	EventBus.connect("grias_component_text", self, "grias_component_text")
+	EventBus.connect("grias_component_change", self, "grias_component_change")
+	EventBus.connect("grias_levelup_component_input_capture", self, "grias_levelup_component_input_capture")
+	EventBus.connect("grias_levelup_component_input_release", self, "grias_levelup_component_input_release")
+	EventBus.connect("grias_exit_component_mode", self, "exit_component_mode")
+
+func grias_component_change(change_type, cost_map, args):
+	var scene = TilemapMgr.get_tile_scene("component", cursor_pos)
+	if !scene or !scene.has_method("component_change"):
+		printerr("Unexpected component change at ", cursor_pos, "; ", [change_type, cost_map, args])
+		return
+	scene.component_change(change_type, cost_map, args)
+
+func pay_cost(cost_map):
+	var amts = GameData.get_state("grias_levelup_energy")
+	for cost_element in cost_map.keys():
+		var cost_amt = cost_map[cost_element]
+		amts[cost_element] -= cost_amt
+		GameData.set_state("grias_levelup_energy", amts)
+
+
+func grias_levelup_component_input_release():
+	if component_input_captured and component_input_captured.has_method("component_input_ended"):
+		component_input_captured.component_input_ended()
+	component_input_captured = null
+
+func grias_levelup_component_input_capture(component):
+	component_input_captured = component
+	if component_input_captured and component_input_captured.has_method("component_input_started"):
+		component_input_captured.component_input_started()
+
+func map_tile_changed(layer, x, y, tile):
+	if state == COMPONENT and layer == "fog" and cursor_pos.x == x and cursor_pos.y == y:
+		exit_component_mode()
+
+func grias_component_text(text):
+	ComponentMenuText.text = text
+
+func grias_generate_energy(core_node:GriasCore):
+	var spark = GriasSpark.instance()
+	EnergyOrbContainer.add_child(spark)
+	spark.setup(core_node)
+
+func grias_levelup_clear_fog(map_position:Vector2, fog_color:Color):
+	TilemapMgr.set_tile("fog", map_position.x, map_position.y, clear_tile_id)
+	var fade_swirl = preload("res://levelup/FogClear.tscn").instance()
+	fade_swirl.position = map_position * 64 + Vector2(32, 32)
+	EnergyOrbContainer.add_child(fade_swirl)
+	fade_swirl.fade(fog_color)
+	update_cursor_label()
+	
+func grias_levelup_fail_clear_fog(map_position:Vector2, fog_color:Color):
+	var fade_swirl = preload("res://levelup/FogClear.tscn").instance()
+	fade_swirl.position = map_position * 64 + Vector2(32, 32)
+	EnergyOrbContainer.add_child(fade_swirl)
+	fade_swirl.fail(fog_color)
 	update_cursor_label()
 
 func load_from_file():
@@ -81,7 +154,7 @@ func cursor_input(event):
 		 move_cursor(Vector2.RIGHT)
 	if event.is_action ("ui_up") and !event.is_action_released("ui_up"):
 		 move_cursor(Vector2.UP)
-	if event.is_action ("ui_down") and !event.is_action_released("ui_down"):
+	if event.is_action("ui_down") and !event.is_action_released("ui_down"):
 		 move_cursor(Vector2.DOWN)
 	if event.is_action_pressed("ui_accept"):
 		enter_component_mode()
@@ -89,10 +162,30 @@ func cursor_input(event):
 		exit_levelup()
 
 func component_input(event):
+	if component_input_captured != null:
+		if !component_input_captured.has_method("component_input"):
+			EventBus.emit_signal("grias_levelup_component_input_release")
+		else:
+			component_input_captured.component_input(event)
+			return
 	if event.is_action_pressed("ui_cancel"):
 		exit_component_mode()
+	elif event.is_action_pressed("ui_accept"):
+		var selected = selected_component_menu_item()
+		if selected and selected.has_method("menu_item_action"):
+			selected.menu_item_action()
+	elif event.is_action("ui_down") and !event.is_action_released("ui_down"):
+		update_arrow_position(1)
+	elif event.is_action ("ui_up") and !event.is_action_released("ui_up"):
+		update_arrow_position(-1)
 
+func selected_component_menu_item():
+	if component_cursor_pos < 0:
+		return null
+	return ComponentMenuList.get_child(component_cursor_pos)
+	
 func enter_levelup():
+	EnergyContainer.update_counts()
 	Grid.position = Vector2.ZERO
 	ComponentMode.position = Vector2(-SCREEN_SLIDE_AMOUNT, 0)
 	CursorMode.position = Vector2.ZERO
@@ -113,15 +206,104 @@ func exit_levelup():
 	visible = false
 	
 func enter_component_mode():
+	EnergyContainer.update_counts()
+	Util.delete_children(ComponentMenuList)
+	var fog_level = TilemapMgr.get_tile_name("fog", cursor_pos.x, cursor_pos.y)
+	var menu_items = []
+	match fog_level:
+		"chaos1": 
+			add_fog_menu_item(menu_items, fog_level)
+		"chaos2": 
+			add_fog_menu_item(menu_items, fog_level)
+		"chaos3": 
+			add_fog_menu_item(menu_items, fog_level)
+		"chaos4": 
+			add_fog_menu_item(menu_items, fog_level)
+		"outside":
+			add_fog_menu_item(menu_items, fog_level)
+		"cleared":
+			add_other_components(menu_items)
+		_:
+			add_fog_menu_item(menu_items, "external")
+	render_components(menu_items)
 	slide_component_mode_to(SCREEN_SLIDE_AMOUNT)
 	set_state(INACTIVE)
+	component_cursor_pos = -1
+	ComponentMenuArrow.visible = false
 	yield(tween, "tween_all_completed")
+	update_arrow_position(1)
 	set_state(COMPONENT)
 
+func update_arrow_position(dir=0):
+	if ComponentMenuList.get_child_count() == 0:
+		component_cursor_pos = -1
+		ComponentMenuArrow.visible = false
+		return
+	
+	if dir != 0:
+		for i in range(ComponentMenuList.get_child_count()):
+			if selected_component_menu_item() != null and selected_component_menu_item().has_method("menu_item_unhighlighted"):
+				selected_component_menu_item().menu_item_unhighlighted()
+			component_cursor_pos += dir
+			update_arrow_position(0)
+			if selected_component_menu_item() and selected_component_menu_item().has_method("can_highlight") and selected_component_menu_item().can_highlight():
+				break
+		if !selected_component_menu_item():
+			ComponentMenuArrow.visible = false
+		else:
+			if !selected_component_menu_item().has_method("can_highlight") or !selected_component_menu_item().can_highlight():
+				ComponentMenuArrow.visible = false
+			if selected_component_menu_item().has_method("menu_item_highlighted"):
+				selected_component_menu_item().menu_item_highlighted()
+	else:
+		component_cursor_pos = Util.wrap_range(component_cursor_pos, ComponentMenuList.get_child_count())
+		if !selected_component_menu_item() or (!selected_component_menu_item().has_method("can_highlight") or !selected_component_menu_item().can_highlight()):
+			ComponentMenuArrow.visible = false
+			return
+		ComponentMenuArrow.visible = true
+		var target_item = ComponentMenuList.get_child(component_cursor_pos)
+		ComponentMenuArrow.rect_global_position = target_item.rect_global_position - Vector2(ComponentMenuArrow.rect_size.x, -4)
+
+func add_fog_menu_item(menu_items, fog_level):
+	var fog_menu_item = preload("res://levelup/menu_items/FogMenuItem.tscn").instance()
+	fog_menu_item.setup(fog_level)
+	menu_items.append(fog_menu_item)
+	var core = preload("res://levelup/menu_items/AwakenCoreMenuItem.tscn").instance()
+	core.setup(C.ELEMENT_SOIL)
+	menu_items.append(core)
+
+func add_other_components(menu_items):
+	var tile_scene = TilemapMgr.get_tile_scene("component", cursor_pos)
+	if !tile_scene:
+		add_build_components(menu_items)
+	else:
+		add_scene_components(menu_items, tile_scene)
+
+func add_build_components(menu_items):
+	pass
+
+func add_scene_components(menu_items, tile_scene):
+	if !tile_scene:
+		return
+	if !tile_scene.has_method("get_component_menu_items"):
+		return
+	menu_items.append_array(tile_scene.get_component_menu_items())
+	
+func add_delete_component(menu_items):
+	pass
+
+func render_components(menu_items):
+	for menu_item in menu_items:
+		ComponentMenuList.add_child(menu_item)
+
 func exit_component_mode():
+	if state != COMPONENT:
+		return
+	EnergyContainer.update_counts()
 	slide_component_mode_to(0)
 	set_state(INACTIVE)
 	yield(tween, "tween_all_completed")
+	Util.delete_children(ComponentMenuList)
 	set_state(CURSOR)
 
 func move_cursor(dir:Vector2):
@@ -136,7 +318,14 @@ func slide_component_mode_to(pos):
 	var move_amt = pos - cur_pos
 	var move_time = abs(move_amt) / SCREEN_SLIDE_SPEED
 	tween.interpolate_property(CursorMode, "position:x", CursorMode.position.x, CursorMode.position.x+move_amt, move_time)
+	tween.interpolate_property(EnergyOrbContainer, "position:x", EnergyOrbContainer.position.x, EnergyOrbContainer.position.x+move_amt, move_time)
 	tween.interpolate_property(Overlay, "position:x", Overlay.position.x, Overlay.position.x+move_amt/2, move_time)
 	tween.interpolate_property(Grid, "position:x", Grid.position.x, Grid.position.x-move_amt/2, move_time)
 	tween.interpolate_property(ComponentMode, "position:x", ComponentMode.position.x, ComponentMode.position.x+move_amt*2, move_time)
 	tween.start()
+
+func custom_tile_handler(layer, layer_name, tileset, cell, tile_name, tile_id):
+	if layer_name == "fog" and tile_name == "cleared":
+		clear_tile_id = tile_id
+	elif layer_name == "fog" and tile_name == "chaos1":
+		chaos1_tile_id = tile_id

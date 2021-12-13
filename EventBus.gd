@@ -54,3 +54,13 @@ signal enable_pause_menu
 
 # UI control scheme
 signal control_scheme_changed(platform)
+
+# Grias levelup screen
+signal grias_exit_component_mode()
+signal grias_generate_energy(core_node)
+signal grias_component_text(text)
+signal grias_component_change(change_type, cost_map, args)
+signal grias_levelup_clear_fog(map_position, fog_color)
+signal grias_levelup_fail_clear_fog(map_position, fog_color)
+signal grias_levelup_component_input_capture(component)
+signal grias_levelup_component_input_release()

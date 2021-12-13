@@ -206,6 +206,7 @@ func exit_levelup():
 	visible = false
 	
 func enter_component_mode():
+	EventBus.emit_signal("grias_component_text", "This component didn't set any text!")
 	EnergyContainer.update_counts()
 	Util.delete_children(ComponentMenuList)
 	var fog_level = TilemapMgr.get_tile_name("fog", cursor_pos.x, cursor_pos.y)
@@ -268,9 +269,9 @@ func add_fog_menu_item(menu_items, fog_level):
 	var fog_menu_item = preload("res://levelup/menu_items/FogMenuItem.tscn").instance()
 	fog_menu_item.setup(fog_level)
 	menu_items.append(fog_menu_item)
-	var core = preload("res://levelup/menu_items/AwakenCoreMenuItem.tscn").instance()
-	core.setup(C.ELEMENT_SOIL)
-	menu_items.append(core)
+	#var core = preload("res://levelup/menu_items/AwakenCoreMenuItem.tscn").instance()
+	#core.setup(C.ELEMENT_SOIL)
+	#menu_items.append(core)
 
 func add_other_components(menu_items):
 	var tile_scene = TilemapMgr.get_tile_scene("component", cursor_pos)

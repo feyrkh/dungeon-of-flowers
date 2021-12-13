@@ -4,6 +4,7 @@ extends Control
 
 var element = 0
 var cost = 1
+var prefix = "Awaken"
 
 func _ready():
 	if GameData.get_state("grias_levelup_energy")[element] < cost:
@@ -12,12 +13,13 @@ func _ready():
 func can_highlight():
 	return true
 
-func setup(_element):
+func setup(_element, _prefix):
 	element = _element
+	prefix = _prefix
 	update_text()
 
 func update_text():
-	$VBoxContainer/DescriptionLabel.text = "Awaken "+C.element_name(element).capitalize()+" Core"
+	$VBoxContainer/DescriptionLabel.text = prefix+" "+C.element_name(element).capitalize()+" Core"
 
 func menu_item_highlighted():
 	EventBus.emit_signal("grias_component_text", "Use the power of "+C.element_name(element)+" pollen to awaken this core.")

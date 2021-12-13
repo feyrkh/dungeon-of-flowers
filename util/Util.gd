@@ -174,11 +174,3 @@ static func post_load_game(object, prefix:String, save_items:Array):
 		
 static func map_coords(v3:Vector3):
 	return Vector2(int(round(v3.x/3)), int(round(v3.z/3)))
-
-static func get_element_color(element_name):
-	match element_name:
-		"water": return Color.aqua
-		"soil": return Color.chocolate
-		"sun": return Color.yellow
-		"decay": return Color.purple
-		_: return Color.white

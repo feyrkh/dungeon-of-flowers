@@ -39,8 +39,8 @@ func setup(core_node:GriasCore):
 	self.map_position = core_node.map_position
 	self.tilemap_mgr = core_node.tilemap_mgr
 	self.position = self.map_position * 64 + Vector2(32, 32)
-	$Core.texture = load("res://img/levelup/"+core_node.element+"_egg.png")
-	fog_clear_color = Util.get_element_color(core_node.element)
+	$Core.texture = load("res://img/levelup/"+C.element_name(core_node.element)+"_egg.png")
+	fog_clear_color = C.get_element_color(core_node.element)
 	begin_move(map_position, map_position + direction)
 
 func begin_move(start, end):

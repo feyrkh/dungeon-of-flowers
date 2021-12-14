@@ -116,6 +116,11 @@ func get_component_menu_items():
 	var meridian_item = preload("res://levelup/menu_items/BuildMeridianMenuItem.tscn").instance()
 	meridian_item.upgrade(self)
 	menu_items.append(meridian_item)
+	#TODO:
+	#var shape_item = preload("res://levelup/menu_items/MeridianShapeMenuItem.tscn").instance()
+	#menu_items.append(shape_item)
+	#var facing_item = preload("res://levelup/menu_items/FacingMenuItem.tscn").instance()
+	#menu_items.append(facing_item)
 	return menu_items
 
 func get_description():

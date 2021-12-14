@@ -16,6 +16,7 @@ var direction:Vector2 = Vector2.ZERO
 var map_position:Vector2 = Vector2.ZERO
 var tilemap_mgr:TilemapMgr
 var fog_clear_color:Color = Color.black
+var element
 
 func _ready():
 	rotation_degrees = randi()%360
@@ -39,8 +40,9 @@ func setup(core_node:GriasCore):
 	self.map_position = core_node.map_position
 	self.tilemap_mgr = core_node.tilemap_mgr
 	self.position = self.map_position * 64 + Vector2(32, 32)
-	$Core.texture = load("res://img/levelup/"+C.element_name(core_node.element)+"_egg.png")
-	fog_clear_color = C.get_element_color(core_node.element)
+	$Core.texture = C.element_image(core_node.element)
+	fog_clear_color = C.element_color(core_node.element)
+	element = core_node.element
 	begin_move(map_position, map_position + direction)
 
 func begin_move(start, end):
@@ -62,6 +64,9 @@ func finish_move(end_position):
 	Spark2.visible = energy >= 2
 	Spark3.visible = energy >= 3
 	Spark4.visible = energy >= 4
+	var component = tilemap_mgr.get_tile_scene("component", end_position)
+	if component and component.has_method("spark_arrived"):
+		component.spark_arrived(self, end_position)
 	if energy <= 0:
 		queue_free()
 	begin_move(map_position, map_position+direction)
@@ -86,3 +91,10 @@ func _process(delta):
 	if energy < 0.5:
 		modulate.a = energy*2
 
+func add_meridian_energy(efficiency):
+	energy += ENERGY_PER_TILE * efficiency
+
+func redirect(new_dir):
+	if new_dir == null:
+		return
+	direction = new_dir

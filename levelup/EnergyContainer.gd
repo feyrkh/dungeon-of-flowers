@@ -10,8 +10,7 @@ func state_updated(state_name, old_value, new_value):
 		"grias_levelup_energy":
 			update_counts()
 
-func update_counts():
-	var amts = GameData.get_state("grias_levelup_energy")
+func update_counts(amts = GameData.get_state("grias_levelup_energy")):
 	update_count(amts, C.ELEMENT_SOIL)
 	update_count(amts, C.ELEMENT_WATER)
 	update_count(amts, C.ELEMENT_SUN)

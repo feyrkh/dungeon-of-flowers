@@ -110,7 +110,7 @@ func on_use_item(item_name, amount):
 	Util.inc(inventory, item_name, amount, 0)
 
 func save_game_defaults():
-	save_game_default("grias_levelup_energy", [1, 1, 1, 0])
+	save_game_default("grias_levelup_energy", [5, 5, 5, 0])
 
 func save_game_default(k, default_val_if_missing):
 	if game_state.has(k):
@@ -386,8 +386,25 @@ func get_allies_in_party():
 			"Arum": result["a"] = true
 	return result
 
-func pay_cost(currency_arr_name, cost_map):
-	var currency = get_state(currency_arr_name, [0, 0, 0, 0, 0, 0, 0])
-	for k in cost_map:
+func pay_cost(cost_map):
+	var currency = get_state("grias_levelup_energy", [0, 0, 0, 0, 0, 0, 0])
+	for k in cost_map.keys():
 		currency[k] -= cost_map[k]
-	set_state(currency_arr_name, currency)
+	set_state("grias_levelup_energy", currency)
+
+func can_afford(cost_map):
+	var currency = get_state("grias_levelup_energy", [0, 0, 0, 0, 0, 0, 0])
+	for k in cost_map.keys():
+		if currency[k] < cost_map[k]:
+			return false
+	return true
+
+func cost_after_investment(cost_map, invest_map):
+	# Subtract investments from cost and return the new map
+	var new_cost:Dictionary = cost_map.duplicate()
+	for k in invest_map:
+		if new_cost.has(k):
+			new_cost[k] = max(0, new_cost[k]-invest_map[k])
+			if new_cost[k] <= 0:
+				new_cost.erase(k)
+	return new_cost

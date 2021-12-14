@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://levelup/EnergySelector.gd" type="Script" id=1]
+[ext_resource path="res://img/levelup/all_egg.png" type="Texture" id=2]
+[ext_resource path="res://img/levelup/decay_egg.png" type="Texture" id=3]
+[ext_resource path="res://img/levelup/sun_egg.png" type="Texture" id=4]
+[ext_resource path="res://img/levelup/soil_egg.png" type="Texture" id=5]
+[ext_resource path="res://img/levelup/water_egg.png" type="Texture" id=6]
+[ext_resource path="res://art_exports/ui_HUD/ui_submenu_arrow.png" type="Texture" id=7]
+[ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=8]
+
+[node name="EnergySelector" type="MarginContainer"]
+margin_left = 290.0
+margin_right = 466.0
+margin_bottom = 32.0
+rect_pivot_offset = Vector2( -210, -210 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Selections" type="HBoxContainer" parent="."]
+margin_right = 176.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AllIcon" type="TextureRect" parent="Selections"]
+margin_right = 32.0
+margin_bottom = 32.0
+size_flags_horizontal = 6
+texture = ExtResource( 2 )
+
+[node name="SoilIcon" type="TextureRect" parent="Selections"]
+margin_left = 36.0
+margin_right = 68.0
+margin_bottom = 32.0
+size_flags_horizontal = 6
+texture = ExtResource( 5 )
+
+[node name="WaterIcon" type="TextureRect" parent="Selections"]
+margin_left = 72.0
+margin_right = 104.0
+margin_bottom = 32.0
+size_flags_horizontal = 6
+texture = ExtResource( 6 )
+
+[node name="SunIcon" type="TextureRect" parent="Selections"]
+margin_left = 108.0
+margin_right = 140.0
+margin_bottom = 32.0
+size_flags_horizontal = 6
+texture = ExtResource( 4 )
+
+[node name="DecayIcon" type="TextureRect" parent="Selections"]
+margin_left = 144.0
+margin_right = 176.0
+margin_bottom = 32.0
+size_flags_horizontal = 6
+texture = ExtResource( 3 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 4
+
+[node name="ComponentMenuArrow" parent="CanvasLayer" instance=ExtResource( 8 )]
+visible = false
+margin_left = 290.0
+margin_top = 0.0
+margin_right = 300.0
+margin_bottom = 22.0
+script = null
+
+[node name="arrow_img" type="Sprite" parent="CanvasLayer/ComponentMenuArrow"]
+position = Vector2( -1, -2 )
+rotation = -1.5708
+scale = Vector2( -0.5, 0.5 )
+texture = ExtResource( 7 )
+centered = false

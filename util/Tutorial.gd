@@ -27,4 +27,4 @@ func on_hide_tutorial(skip_pause=false):
 		tutorial_paused = false
 		get_tree().paused = false
 		EventBus.emit_signal("enable_pause_menu")
-	
+

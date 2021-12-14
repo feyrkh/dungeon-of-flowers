@@ -19,16 +19,16 @@ func _process(delta):
 	get_parent().modulate = lerp(startColor, pulseColor, 1-abs(sin(counter/periodSeconds)))
 	if timer:
 		timer -= delta
-		if timer < 0: 
+		if timer < 0:
 			stop()
 			queue_free()
 
 func start(pulseTime = null):
 	if pulseTime and timer:
 		timer = max(pulseTime, timer)
-	else: 
+	else:
 		timer = pulseTime
-	if enabled: 
+	if enabled:
 		return
 	counter = 0
 	set_process(true)

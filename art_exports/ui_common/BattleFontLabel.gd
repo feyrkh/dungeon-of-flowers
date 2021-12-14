@@ -56,6 +56,6 @@ func set_text(val:String):
 		var half_width = total_width / 2
 		for child in get_children():
 			child.position.x -= half_width
-			
-			
-	
+
+
+

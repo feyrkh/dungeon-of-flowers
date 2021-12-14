@@ -49,7 +49,7 @@ func _ready():
 	yield(get_tree().create_timer(0.5), "timeout")
 	if get_parent() == get_tree().root:
 		start()
-		
+
 func start():
 	started = true
 
@@ -146,8 +146,8 @@ func attack_text(phrase_array):
 
 func apply_handicap(amt):
 	GameData.set_state(GameData.ATTACK_RING_HANDICAP, max(-2, min(2, amt + GameData.get_state(GameData.ATTACK_RING_HANDICAP, 0))))
-	
-	
+
+
 func place_at(obj, degrees):
 	obj.position = center + endpoint.rotated(deg2rad(degrees))
 	obj.rotation_degrees = degrees

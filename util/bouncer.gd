@@ -9,11 +9,11 @@ onready var start_position = rect_position
 var counter = 0
 
 func _process(delta):
-	if !running: 
+	if !running:
 		counter = 0
 	else:
 		counter += delta
-	if counter > bounce_time: 
+	if counter > bounce_time:
 		counter -= bounce_time
 	var weight = counter/bounce_time
 	weight = ease_curve.interpolate_baked(weight)

@@ -76,7 +76,7 @@ func hit_chaos(pos, min_energy, fog_color):
 		EventBus.emit_signal("grias_levelup_clear_fog", pos, fog_clear_color)
 	else:
 		EventBus.emit_signal("grias_levelup_fail_clear_fog", pos, fog_clear_color)
-	energy -= 1.0
+		energy -= 1000
 
 func generate_spark_movement(spark, start, finish, offset):
 	$Tween.interpolate_property(spark, "position", start, finish, 1, 0, 2, offset)

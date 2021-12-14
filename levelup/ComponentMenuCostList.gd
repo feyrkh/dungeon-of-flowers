@@ -17,7 +17,7 @@ func grias_component_cost(cost_map):
 		var label = preload("res://levelup/menu_items/CostListLabel.tscn").instance()
 		label.text = "Cost: FREE"
 		add_child(label)
-		
+
 	else:
 		visible = true
 		for element_id in C.ELEMENT_IDS:

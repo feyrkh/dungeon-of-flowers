@@ -283,7 +283,7 @@ func on_new_player_location(x, y, rot_deg):
 		-90: facing = "east"
 		180,-180: facing = "south"
 		90: facing = "west"
-		_: 
+		_:
 			printerr("Unknown facing with angle ", int(round(rot_deg)))
 
 func setup_allies():
@@ -295,7 +295,7 @@ func setup_allies():
 func new_game():
 	get_tree().paused = false
 	EventBus.emit_signal("pre_new_game")
-	set_state(TUTORIAL_ON, get_setting(TUTORIAL_ON))	
+	set_state(TUTORIAL_ON, get_setting(TUTORIAL_ON))
 	save_game_defaults()
 	setup_allies()
 	if get_state(TUTORIAL_ON):
@@ -349,7 +349,7 @@ func mock_shantae():
 		#{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(0, -130), "scale": Vector2(1.0, 1.0)},
 	]
 	return ally
-	
+
 func new_char_grias():
 	var ally = AllyData.new()
 	ally.label = "Grias"
@@ -369,7 +369,7 @@ func new_char_grias():
 		#{"scene":"res://combat/ShieldHard.tscn", "pos": Vector2(150, -130), "scale": Vector2(2.0, 1.0)},
 	]
 	return ally
-	
+
 func set_rand_seed():
 	var s = get_state("randseed")
 	print("setting randseed to: ", s)

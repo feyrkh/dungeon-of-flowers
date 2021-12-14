@@ -13,7 +13,7 @@ func _ready():
 	pass
 
 func _process(delta):
-	if CombatMgr.is_in_combat: 
+	if CombatMgr.is_in_combat:
 		return
 	timer -= delta
 	if timer <= 0:

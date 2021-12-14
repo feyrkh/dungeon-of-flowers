@@ -28,7 +28,7 @@ var state = "starting"
 
 func set_minigame_config(_config:Dictionary, _source, _target):
 	game_config = _config
-	
+
 func _ready():
 	set_process(false)
 	if get_parent() == get_tree().root:
@@ -61,19 +61,19 @@ func _input(e:InputEvent):
 		return
 	if e.is_action_pressed("ui_accept"):
 		select_card()
-		get_tree().set_input_as_handled() 
+		get_tree().set_input_as_handled()
 	elif e.is_action_pressed("ui_left"):
 		move_cursor(-1, 0)
-		get_tree().set_input_as_handled() 
+		get_tree().set_input_as_handled()
 	elif e.is_action_pressed("ui_right"):
 		move_cursor(1, 0)
-		get_tree().set_input_as_handled() 
+		get_tree().set_input_as_handled()
 	elif e.is_action_pressed("ui_up"):
 		move_cursor(0, -1)
-		get_tree().set_input_as_handled() 
+		get_tree().set_input_as_handled()
 	elif e.is_action_pressed("ui_down"):
 		move_cursor(0, 1)
-		get_tree().set_input_as_handled() 
+		get_tree().set_input_as_handled()
 
 func select_card():
 	state = "scoring"
@@ -110,7 +110,7 @@ func select_card():
 				update_cursor_position()
 				found_good_position = true
 				break
-		if found_good_position: 
+		if found_good_position:
 			break
 	if goal_cards.size() > 0:
 		$Cursor.visible = true
@@ -118,11 +118,11 @@ func select_card():
 	else:
 		finish_game()
 
-	
+
 func move_cursor(xdir, ydir):
 	for i in range(max(matrix_rows, matrix_cols)):
 		cursor_idx.x = (cursor_idx.x + xdir)
-		if cursor_idx.x < 0: 
+		if cursor_idx.x < 0:
 			cursor_idx.x = matrix_cols - 1
 		elif cursor_idx.x >= matrix_cols:
 			cursor_idx.x = 0
@@ -204,42 +204,42 @@ func finish_game():
 		ending_tween.interpolate_property(card, "modulate", card.modulate, Color.white, 0.1, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 		card.flip(0.1, delay-0.25)
 		delay += 0.1
-		
+
 		#card.fade_icons(1.5)
 	for card in $ChoiceCards.get_children():
 		ending_tween.interpolate_property(card, "global_position", card.global_position, $PilePosition.global_position + Vector2(0, 440), 1.5, Tween.TRANS_BOUNCE, Tween.EASE_OUT, delay)
 		card.flip(0.1, delay-0.25)
 		delay += 0.1
 		#card.fade_icons(1.5)
-		
+
 		#card.fade_icons(1.5)
 	delay += 0.3
 	#for card in $ChosenCards.get_children():
-		#ending_tween.interpolate_property(card, "score", card.score, avg_score, 1.5, Tween.TRANS_BOUNCE, Tween.EASE_OUT, delay)	
+		#ending_tween.interpolate_property(card, "score", card.score, avg_score, 1.5, Tween.TRANS_BOUNCE, Tween.EASE_OUT, delay)
 	#	ending_tween.interpolate_property(card.find_node("Score"), "scale", card.find_node("Score").scale, Vector2.ZERO, 1.5, Tween.TRANS_LINEAR, 2, delay)
 	#	ending_tween.interpolate_property(card.find_node("ColorRect"), "modulate", card.find_node("ColorRect").modulate, card.get_color(avg_score), 1.5, 0, 2, delay)
 	#	ending_tween.interpolate_property(card, "global_position", card.global_position, $PilePosition.global_position + Vector2(0, 220), 1.5, Tween.TRANS_LINEAR, 2, delay)
 	#	card.fade_icons(1.5)
 	#	card.fade_score(0.5, delay, card.score)
-	
+
 	ending_tween.call_deferred("start")
 	yield(ending_tween, "tween_all_completed")
 	ending_tween.queue_free()
 	yield(get_tree().create_timer(0.5), "timeout")
-	
+
 	var perfects = 0
 	var terribles = 0
 	var heal_str = 0.1
 	var regen_str = 0
 	var regen_time = 0
-	
+
 	if scores.size() > 0:
 		heal_str = max(scores[0], game_config.get("min_effect", 0.25))
-	if scores.size() > 1: 
+	if scores.size() > 1:
 		regen_str = scores[1]
 	if scores.size() > 2:
 		 regen_time = scores[2]
-	
+
 	if heal_str < 0.5:
 		terribles += 1
 	if heal_str > 0.9:
@@ -248,15 +248,15 @@ func finish_game():
 		terribles += 1
 	if regen_str > 0.9:
 		perfects += 1
-	
-	if regen_time < 0.5: 
+
+	if regen_time < 0.5:
 		regen_time = 0
 		terribles += 1
-	elif regen_time < 0.75: 
+	elif regen_time < 0.75:
 		regen_time = 1
-	elif regen_time < 0.9: 
+	elif regen_time < 0.9:
 		regen_time = 2
-	else: 
+	else:
 		regen_time = 3
 		perfects += 1
 	if regen_str > 0:

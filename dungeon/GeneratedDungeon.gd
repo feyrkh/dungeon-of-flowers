@@ -31,10 +31,10 @@ var combatMusic:String
 var exploreMusic:String
 var wall_tile_id
 var corridor_tile_id
-var pollen_1_tile_id 
-var pollen_2_tile_id 
-var pollen_3_tile_id 
-var pollen_4_tile_id 
+var pollen_1_tile_id
+var pollen_2_tile_id
+var pollen_3_tile_id
+var pollen_4_tile_id
 var block_pollen_tile_id
 var orientation_tiles = {}
 var in_pollen = 0
@@ -77,10 +77,10 @@ func on_post_load_game():
 
 func on_finalize_load_game():
 	pass
-	
+
 func on_post_new_game():
 	load_from_file()
-	
+
 func on_finalize_new_game():
 	QuestMgr.check_quest_progress()
 
@@ -103,7 +103,7 @@ func get_tile_config(x:int, y:int):
 
 func get_tile_name(layer, x:int, y:int):
 	return TilemapMgr.get_tile_name(layer, x, y)
-	
+
 func get_tileset(layer):
 	return TilemapMgr.get_tileset(layer)
 
@@ -132,16 +132,16 @@ func _on_player_tile_move_complete():
 		if in_pollen > 0 and in_pollen*combat_chance_per_tile >= randf():
 			CombatMgr.trigger_combat(null)
 			combat_grace_period_counter = combat_grace_period
-	
+
 func get_pollen_level(coords):
 	match get_tile("pollen", coords.x, coords.y):
-		pollen_1_tile_id: 
+		pollen_1_tile_id:
 			return 1
-		pollen_2_tile_id: 
+		pollen_2_tile_id:
 			return 2
-		pollen_3_tile_id: 
+		pollen_3_tile_id:
 			return 3
-		pollen_4_tile_id: 
+		pollen_4_tile_id:
 			return 4
 	return 0
 
@@ -155,7 +155,7 @@ func can_pollen_spread(coords):
 		block_pollen_tile_id:
 			return false
 	return true
-	
+
 func pollen_infest(coords, pollen_level):
 	if pollen_level >= 4:
 		pollen_level = 4

@@ -47,47 +47,47 @@ func render_component():
 		DIR_ONE:
 			$Sprite.texture = load("res://img/levelup/redirect_1.png")
 			redirect_vector = [Vector2.UP]
-		DIR_TWO_STRAIGHT: 
+		DIR_TWO_STRAIGHT:
 			$Sprite.texture = load("res://img/levelup/redirect_2b.png")
 			redirect_vector = [Vector2.UP, Vector2.DOWN]
-		DIR_TWO_L: 
+		DIR_TWO_L:
 			$Sprite.texture = load("res://img/levelup/redirect_2a.png")
 			redirect_vector = [Vector2.UP, Vector2.RIGHT]
-		DIR_THREE: 
+		DIR_THREE:
 			$Sprite.texture = load("res://img/levelup/redirect_3.png")
 			redirect_vector = [Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
-		DIR_FOUR: 
+		DIR_FOUR:
 			$Sprite.texture = load("res://img/levelup/redirect_4.png")
 			redirect_vector = [Vector2.UP, Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT]
 		DIR_NONE:
 			$Sprite.texture = load("res://img/levelup/whirl.png")
 			redirect_vector = null
-		_: 
+		_:
 			$Sprite.texture = load("res://img/levelup/redirect_1.png")
 			redirect_vector = [Vector2.UP]
 	rotation_degrees = facing
 	match element:
-		C.ELEMENT_ALL: 
+		C.ELEMENT_ALL:
 			investment[C.ELEMENT_SOIL] = 1
 			investment[C.ELEMENT_WATER] = 1
 			investment[C.ELEMENT_SUN] = 1
-		C.ELEMENT_SOIL: 
+		C.ELEMENT_SOIL:
 			investment[element] = 1
-		C.ELEMENT_WATER: 
+		C.ELEMENT_WATER:
 			investment[element] = 1
-		C.ELEMENT_SUN: 
+		C.ELEMENT_SUN:
 			investment[element] = 1
-		C.ELEMENT_DECAY: 
+		C.ELEMENT_DECAY:
 			investment[element] = 1
-		_: 
+		_:
 			pass
 	modulate = C.element_color(element)
 	match efficiency_level:
-		0: 
+		0:
 			scale = Vector2(0.33, 0.33)
-		1: 
+		1:
 			scale = Vector2(0.66, 0.66)
-		_: 
+		_:
 			scale = Vector2.ONE
 	if range_level > 0:
 		set_process(true)

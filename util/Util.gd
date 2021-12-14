@@ -56,7 +56,7 @@ static func inc(dict:Dictionary, key:String, amt, clamp_lower=null, clamp_higher
 static func delete_children(node):
 	for n in node.get_children():
 		n.queue_free()
-		
+
 static func resize_children(container):
 	for child in container.get_children():
 		if child is Container:
@@ -70,7 +70,7 @@ static func randi_range(min_val, max_val):
 		return min_val
 	return (randi() % (max_val - min_val)) + min_val
 
-static func wrap_range(val, min_val, max_val=0): 
+static func wrap_range(val, min_val, max_val=0):
 	if max_val < min_val:
 		var swap = min_val
 		min_val = max_val
@@ -81,7 +81,7 @@ static func wrap_range(val, min_val, max_val=0):
 	while val >= max_val:
 		val -= diff
 	return val
-	
+
 
 static func delay_call(t:float, node:Node, method_name:String, args:Array=[]):
 	var timer := Timer.new()
@@ -90,9 +90,9 @@ static func delay_call(t:float, node:Node, method_name:String, args:Array=[]):
 	node.add_child(timer)
 	timer.connect("timeout", node, method_name, args)
 	timer.connect("timeout", timer, "queue_free")
-	
+
 static func shake(node:Node2D, shakeTime:float, shakeAmt:float, callback_target=null, callback_method=null):
-	if !node: 
+	if !node:
 		return
 	if node.has_meta('shaking'):
 		return
@@ -104,7 +104,7 @@ static func shake(node:Node2D, shakeTime:float, shakeAmt:float, callback_target=
 		if !node or !is_instance_valid(node): return
 		node.position = startPos + Vector2(rand_range(-shakeAmt, shakeAmt), rand_range(-shakeAmt, shakeAmt))
 		yield(node.get_tree().create_timer(0.05), "timeout")
-	if !node or !is_instance_valid(node): 
+	if !node or !is_instance_valid(node):
 		return
 	node.position = startPos
 	node.remove_meta('shaking')
@@ -112,7 +112,7 @@ static func shake(node:Node2D, shakeTime:float, shakeAmt:float, callback_target=
 		callback_target.call_deferred(callback_method)
 
 static func fadeout(node:Node2D, time:float):
-	if !node: 
+	if !node:
 		return
 	if node.has_meta('fadeout'):
 		return
@@ -171,6 +171,6 @@ static func post_load_game(object, prefix:String, save_items:Array):
 		if val == null:
 			val = object.get(item)
 		object.set(item, val)
-		
+
 static func map_coords(v3:Vector3):
 	return Vector2(int(round(v3.x/3)), int(round(v3.z/3)))

@@ -12,10 +12,10 @@ const SCREEN_SLIDE_AMOUNT = 400
 const SCREEN_SLIDE_SPEED = SCREEN_SLIDE_AMOUNT * 5.0
 const FOG_TRANSLATE = {
 	"cleared": "",
-	"chaos1": "Disordered Energy", 
-	"chaos2": "Chaotic Energy", 
+	"chaos1": "Disordered Energy",
+	"chaos2": "Chaotic Energy",
 	"chaos3": "Frenzied Energy",
-	"chaos4": "Anarchic Energy", 
+	"chaos4": "Anarchic Energy",
 	"outside": "Body Boundary"
 	}
 
@@ -102,7 +102,7 @@ func grias_component_change(change_type, cost_map, args):
 		TilemapMgr.set_tile_scene("component", cursor_pos, meridian)
 		exit_component_mode()
 		return
-	
+
 	var scene = TilemapMgr.get_tile_scene("component", cursor_pos)
 	if !scene or !scene.has_method("component_change"):
 		printerr("Unexpected component change at ", cursor_pos, "; ", [change_type, cost_map, args])
@@ -126,11 +126,11 @@ func map_tile_changed(layer, x, y, tile):
 
 func grias_component_cost(cost_map):
 	ComponentModeParentContainer.rect_size.x = 400
-	
+
 func grias_component_menu_text(text):
 	ComponentMenuText.text = text
 	ComponentModeParentContainer.rect_size.x = 400
-	
+
 func grias_component_description(text):
 	if text == null:
 		text = ""
@@ -153,7 +153,7 @@ func grias_levelup_clear_fog(map_position:Vector2, fog_color:Color):
 	EnergyOrbContainer.add_child(fade_swirl)
 	fade_swirl.fade(fog_color)
 	update_cursor_label()
-	
+
 func grias_levelup_fail_clear_fog(map_position:Vector2, fog_color:Color):
 	var fade_swirl = preload("res://levelup/FogClear.tscn").instance()
 	fade_swirl.position = map_position * 64 + Vector2(32, 32)
@@ -220,7 +220,7 @@ func selected_component_menu_item():
 	if component_cursor_pos < 0:
 		return null
 	return ComponentMenuList.get_child(component_cursor_pos)
-	
+
 func enter_levelup():
 	EnergyContainer.update_counts()
 	Grid.position = Vector2.ZERO
@@ -232,7 +232,7 @@ func enter_levelup():
 	self.pause_mode = Node.PAUSE_MODE_PROCESS
 	get_tree().paused = true
 	visible = true
-	
+
 func exit_levelup():
 	if get_tree().root == get_parent():
 		return # if this is the only thing running then we're in a temp scene
@@ -241,7 +241,7 @@ func exit_levelup():
 	self.pause_mode = Node.PAUSE_MODE_INHERIT
 	get_tree().paused = false
 	visible = false
-	
+
 func enter_component_mode():
 	EventBus.emit_signal("grias_component_description", "This component didn't set any description!")
 	EventBus.emit_signal("grias_component_menu_text", "")
@@ -251,13 +251,13 @@ func enter_component_mode():
 	var fog_level = TilemapMgr.get_tile_name("fog", cursor_pos.x, cursor_pos.y)
 	var menu_items = []
 	match fog_level:
-		"chaos1": 
+		"chaos1":
 			add_fog_menu_item(menu_items, fog_level)
-		"chaos2": 
+		"chaos2":
 			add_fog_menu_item(menu_items, fog_level)
-		"chaos3": 
+		"chaos3":
 			add_fog_menu_item(menu_items, fog_level)
-		"chaos4": 
+		"chaos4":
 			add_fog_menu_item(menu_items, fog_level)
 		"outside":
 			add_fog_menu_item(menu_items, fog_level)
@@ -283,7 +283,7 @@ func update_arrow_position(dir=0):
 		component_cursor_pos = -1
 		ComponentMenuArrow.visible = false
 		return
-	
+
 	if dir != 0:
 		for i in range(ComponentMenuList.get_child_count()):
 			if selected_component_menu_item() != null and selected_component_menu_item().has_method("menu_item_unhighlighted"):

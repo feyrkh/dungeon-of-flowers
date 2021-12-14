@@ -31,7 +31,7 @@ func disable_collision():
 	self.collision_mask = 0
 
 func shield_block(shield, max_blocked):
-	if blocked: 
+	if blocked:
 		return
 	CombatMgr.emit_signal("enemy_attack_blocked")
 	if max_blocked >= damage:
@@ -53,7 +53,7 @@ func ally_strike(ally_data):
 	self.blocked = true
 	self.fade_velocity = 1
 	CombatMgr.emit_signal("combat_animation", 1.0)
-	
+
 func get_damage():
 	return damage
 

@@ -31,10 +31,10 @@ func _ready():
 func on_cutscene_start(_cutscene_name):
 	cutscene_was_visible = visible
 	visible = false
-	
+
 func on_cutscene_end(_cutscene_name):
 	visible = cutscene_was_visible
-	
+
 func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel"):
 		stop_targeting()
@@ -57,7 +57,7 @@ func process_ally_target_input():
 		select_next_valid_ally(-1)
 	elif Input.is_action_just_pressed("ui_right"):
 		select_next_valid_ally(1)
-		
+
 func setup(ally_data):
 	for i in range(ally_data.size()):
 		if ally_data[i] == null:
@@ -102,7 +102,7 @@ func check_explore_gameover():
 		fader.fade_out(0.2, 1)
 		yield(fader, "fade_complete")
 		get_tree().change_scene_to(preload("res://dungeon/Gameover.tscn"))
-		
+
 
 func start_targeting(_active_move_data, cur_ally):
 	match _active_move_data.target:
@@ -112,7 +112,7 @@ func start_targeting(_active_move_data, cur_ally):
 		"ally": target_ally(_active_move_data, cur_ally)
 		"all_allies":  printerr("targeting mode not implemented: all_allies")
 		"self": target_self(_active_move_data, cur_ally)
-		_: 
+		_:
 			printerr(active_target_type+" unexpected move target type")
 			return
 	self.active_move_data = _active_move_data
@@ -136,17 +136,17 @@ func select_next_valid_ally(dir):
 	var new_ally_idx = active_target_idx
 	for i in range(3):
 		new_ally_idx = (new_ally_idx + 1)%3
-		if new_ally_idx >= Allies.size() or Allies[new_ally_idx] == null: 
+		if new_ally_idx >= Allies.size() or Allies[new_ally_idx] == null:
 			continue
 		if active_move_data.valid_target(Allies[new_ally_idx]):
 			break
 	if new_ally_idx != active_target_idx:
 		target_ally_by_idx(new_ally_idx)
-		
+
 func target_ally_by_idx(ally_idx):
 	var old_target_icon
 	for icon in TargetIcons.get_children():
 		icon.visible = false
-	TargetIcons.get_child(ally_idx).visible = true 
+	TargetIcons.get_child(ally_idx).visible = true
 	active_target_idx = ally_idx
-	
+

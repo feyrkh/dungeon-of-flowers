@@ -91,7 +91,7 @@ func select_status_category():
 
 func select_no_category():
 	CombatIcons.select_no_category()
-	
+
 func open_category_submenu(category_idx):
 	for icon in category_zoom_icons:
 		icon.visible = false
@@ -108,7 +108,7 @@ func on_targeting_started(move_data):
 
 func on_targeting_cancelled():
 	CurrentMoveLabel.visible = false
-	
+
 func on_targeting_completed():
 	CurrentMoveLabel.visible = false
 	for icon in category_zoom_icons:

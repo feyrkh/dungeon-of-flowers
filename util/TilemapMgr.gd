@@ -25,7 +25,7 @@ func load_from_file(map_config_file, map_scene_file_or_node, _tiles):
 	for k in json.keys():
 		process_config_line(k, json[k])
 	process_map(map_scene_file_or_node)
-	
+
 
 func get_tile(layer:String, x:int, y:int) -> int:
 	var tilemap:TileMap = tilemaps.get(layer, null)
@@ -70,7 +70,7 @@ func get_tile_scene(layer:String, coords:Vector2):
 	var scene = map_index[layer].get(coords, null)
 	if !is_instance_valid(scene):
 		return null
-	return scene	
+	return scene
 
 func set_tile_scene(layer:String, coords:Vector2, scene:Node):
 	if !map_index.has(layer):
@@ -88,7 +88,7 @@ func load_tile(tile_name, tile_val):
 		tiles[tile_name_prefix+tile_name] = tile_val
 		if tile_val["scene"] is String:
 			tile_val["scene"] = load("res://"+tile_val["scene"])
-	
+
 func process_config_line(key, val):
 	if key == "tiles":
 		for tile_name in val.keys():

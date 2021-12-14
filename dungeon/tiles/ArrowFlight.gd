@@ -16,6 +16,6 @@ func _on_Area_area_entered(area):
 	queue_free()
 
 func _physics_process(delta):
-	if CombatMgr.is_in_combat: 
+	if CombatMgr.is_in_combat:
 		return
 	transform.origin -= transform.basis.z * delta * units_per_second

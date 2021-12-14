@@ -13,9 +13,9 @@ func is_interactable():
 	return !is_open
 
 func get_interactable_prompt():
-	if !is_open: 
+	if !is_open:
 		return "Open Chest"
-	else: 
+	else:
 		return ""
 
 func interact():

@@ -50,7 +50,7 @@ func select_entry(entry_idx):
 		menu_entries[selected_idx].menu_deselected(self)
 	selected_idx = entry_idx
 	var entry = menu_entries[entry_idx]
-	Arrow.rect_global_position.y = entry.rect_global_position.y + entry.rect_size.y/2 - Arrow.rect_size.y/2 
+	Arrow.rect_global_position.y = entry.rect_global_position.y + entry.rect_size.y/2 - Arrow.rect_size.y/2
 	Arrow.rect_global_position.x = entry.get_parent().rect_global_position.x - 15
 	if menu_entries[selected_idx].has_method("menu_selected"):
 		menu_entries[selected_idx].menu_selected(self)
@@ -58,13 +58,13 @@ func select_entry(entry_idx):
 func _input(event):
 	if event.is_action_pressed("ui_up"):
 		var new_selected_idx = selected_idx - 1
-		if new_selected_idx < 0: 
+		if new_selected_idx < 0:
 			new_selected_idx += menu_entries.size()
 		select_entry(new_selected_idx)
 		AudioPlayerPool.play(menu_item_change_sfx, 3.0)
 	elif event.is_action_pressed("ui_down"):
 		var new_selected_idx = (selected_idx + 1)%menu_entries.size()
-		if new_selected_idx < 0: 
+		if new_selected_idx < 0:
 			new_selected_idx += menu_entries.size()
 		select_entry(new_selected_idx)
 		AudioPlayerPool.play(menu_item_change_sfx, 3.0)

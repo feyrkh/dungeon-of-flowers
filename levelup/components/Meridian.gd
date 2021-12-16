@@ -1,13 +1,5 @@
 extends Node2D
 
-
-const DIR_ONE = 0
-const DIR_TWO_STRAIGHT = 1
-const DIR_TWO_L = 2
-const DIR_THREE = 3
-const DIR_FOUR = 4
-const DIR_NONE = 5
-
 const FACING_UP = 0
 const FACING_RIGHT = 90
 const FACING_DOWN = 180
@@ -19,10 +11,11 @@ const EFFICIENCY = [0.75, 0.9, 1.0]
 var efficiency_level = 2
 var range_level = 3
 var element = C.ELEMENT_ALL
-var direction = DIR_NONE
+var direction = C.MERIDIAN_DIR_NONE
 var facing = FACING_UP
 var redirect_vector = null
 var investment = {}
+var unlocked_directions = [0]
 
 func _ready():
 	render_component()
@@ -42,24 +35,30 @@ func unlock_element(_element, cost):
 		investment[k] = investment.get(k, 0) + cost[k]
 	render_component()
 
+func unlock_direction(_direction):
+	if !unlocked_directions.has(_direction):
+		unlocked_directions.append(_direction)
+	direction = _direction
+	render_component()
+
 func render_component():
 	match direction:
-		DIR_ONE:
+		C.MERIDIAN_DIR_1:
 			$Sprite.texture = load("res://img/levelup/redirect_1.png")
 			redirect_vector = [Vector2.UP]
-		DIR_TWO_STRAIGHT:
+		C.MERIDIAN_DIR_2a:
 			$Sprite.texture = load("res://img/levelup/redirect_2b.png")
 			redirect_vector = [Vector2.UP, Vector2.DOWN]
-		DIR_TWO_L:
+		C.MERIDIAN_DIR_2b:
 			$Sprite.texture = load("res://img/levelup/redirect_2a.png")
 			redirect_vector = [Vector2.UP, Vector2.RIGHT]
-		DIR_THREE:
+		C.MERIDIAN_DIR_3:
 			$Sprite.texture = load("res://img/levelup/redirect_3.png")
 			redirect_vector = [Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
-		DIR_FOUR:
+		C.MERIDIAN_DIR_4:
 			$Sprite.texture = load("res://img/levelup/redirect_4.png")
 			redirect_vector = [Vector2.UP, Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT]
-		DIR_NONE:
+		C.MERIDIAN_DIR_NONE:
 			$Sprite.texture = load("res://img/levelup/whirl.png")
 			redirect_vector = null
 		_:
@@ -90,12 +89,14 @@ func render_component():
 		_:
 			scale = Vector2.ONE
 	if range_level > 0:
-		set_process(true)
+		if direction == C.MERIDIAN_DIR_NONE:
+			set_process(true)
 	else:
 		set_process(false)
 
 func _process(delta):
-	rotation_degrees -= ROTATION_PER_LEVEL * delta * range_level
+	if direction == C.MERIDIAN_DIR_NONE:
+		rotation_degrees -= ROTATION_PER_LEVEL * delta * range_level
 
 func get_next_direction():
 	if redirect_vector == null:
@@ -116,9 +117,9 @@ func get_component_menu_items():
 	var meridian_item = preload("res://levelup/menu_items/BuildMeridianMenuItem.tscn").instance()
 	meridian_item.upgrade(self)
 	menu_items.append(meridian_item)
-	#TODO:
-	#var shape_item = preload("res://levelup/menu_items/MeridianShapeMenuItem.tscn").instance()
-	#menu_items.append(shape_item)
+	var shape_item = preload("res://levelup/menu_items/MeridianShapeMenuItem.tscn").instance()
+	shape_item.setup(self, unlocked_directions)
+	menu_items.append(shape_item)
 	#var facing_item = preload("res://levelup/menu_items/FacingMenuItem.tscn").instance()
 	#menu_items.append(facing_item)
 	return menu_items

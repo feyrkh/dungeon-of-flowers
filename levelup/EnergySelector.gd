@@ -11,7 +11,8 @@ var disabled_elements = []
 func _ready():
 	pass
 
-func setup(has_all, cost=1, investment={}):
+func setup(has_all, cost=1, _investment={}):
+	investment = _investment
 	for element_id in C.ELEMENT_IDS:
 		update_options({element_id:cost}, element_id)
 	if has_all:
@@ -23,7 +24,7 @@ func setup(has_all, cost=1, investment={}):
 func update_options(_cost_map, element_id):
 	var cost_map = GameData.cost_after_investment(_cost_map, investment)
 	var element_name = C.element_name(element_id).capitalize()
-	if !GameData.can_afford(cost_map) or disabled_elements.find(element_id) >= 0:
+	if !GameData.can_afford(cost_map) or disabled_elements.has(element_id):
 		find_node(element_name+"Icon").modulate = Color.dimgray
 		if element_id == C.ELEMENT_DECAY:
 			find_node(element_name+"Icon").visible = false

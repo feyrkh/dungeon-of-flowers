@@ -387,6 +387,8 @@ func get_allies_in_party():
 	return result
 
 func pay_cost(cost_map):
+	if cost_map == null:
+		return
 	var currency = get_state("grias_levelup_energy", [0, 0, 0, 0, 0, 0, 0])
 	for k in cost_map.keys():
 		currency[k] -= cost_map[k]
@@ -401,6 +403,8 @@ func can_afford(cost_map):
 
 func cost_after_investment(cost_map, invest_map):
 	# Subtract investments from cost and return the new map
+	if !cost_map:
+		return null
 	var new_cost:Dictionary = cost_map.duplicate()
 	for k in invest_map:
 		if new_cost.has(k):

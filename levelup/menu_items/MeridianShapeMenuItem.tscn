@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://levelup/menu_items/MeridianShapeMenuItem.gd" type="Script" id=1]
+[ext_resource path="res://font/default_font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://levelup/MeridianShapeSelector.tscn" type="PackedScene" id=3]
+[ext_resource path="res://util/ConfirmDialog.tscn" type="PackedScene" id=4]
+
+[node name="MarginContainer" type="MarginContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 290.0
+margin_bottom = 59.0
+rect_min_size = Vector2( 290, 0 )
+
+[node name="DescriptionContainer" type="HBoxContainer" parent="HBoxContainer"]
+margin_right = 290.0
+margin_bottom = 23.0
+
+[node name="DescriptionLabel" type="Label" parent="HBoxContainer/DescriptionContainer"]
+margin_right = 106.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 2 )
+text = "Direct energy"
+
+[node name="ConfirmDialog" parent="HBoxContainer/DescriptionContainer" instance=ExtResource( 4 )]
+margin_left = 110.0
+margin_right = 133.0
+margin_bottom = 23.0
+
+[node name="MeridianShapeSelector" parent="HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 0.0
+margin_top = 27.0
+margin_right = 290.0
+margin_bottom = 59.0
+cost_maps = [ {
+}, {
+0: 1
+}, {
+0: 1
+}, {
+1: 1
+}, {
+1: 1
+}, {
+2: 1
+} ]

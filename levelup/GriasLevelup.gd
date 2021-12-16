@@ -91,6 +91,10 @@ func _ready():
 	EventBus.connect("grias_levelup_component_input_capture", self, "grias_levelup_component_input_capture")
 	EventBus.connect("grias_levelup_component_input_release", self, "grias_levelup_component_input_release")
 	EventBus.connect("grias_exit_component_mode", self, "exit_component_mode")
+	EventBus.connect("grias_component_hide_main_arrow", self, "grias_component_hide_main_arrow")
+
+func grias_component_hide_main_arrow():
+	ComponentMenuArrow.visible = false
 
 func grias_component_change(change_type, cost_map, args):
 	if change_type == "build_meridian":

@@ -26,7 +26,7 @@ static func to_config(obj):
 	var props = obj.get_property_list()
 	var result = {}
 	for prop in props:
-		if IGNORE_FIELD_NAMES.find(prop.name) >= 0:
+		if IGNORE_FIELD_NAMES.has(prop.name):
 			continue
 		result[prop.name] = to_config_field(obj, prop)
 

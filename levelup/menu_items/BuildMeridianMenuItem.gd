@@ -30,6 +30,7 @@ func can_highlight():
 
 func menu_item_highlighted():
 	EnergySelector.start_selecting()
+	EventBus.emit_signal("grias_component_hide_main_arrow")
 	update_text()
 
 func menu_item_unhighlighted():

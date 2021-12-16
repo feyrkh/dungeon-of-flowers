@@ -1,0 +1,144 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://levelup/MeridianShapeSelector.gd" type="Script" id=1]
+[ext_resource path="res://img/levelup/whirl.png" type="Texture" id=2]
+[ext_resource path="res://img/levelup/redirect_1.png" type="Texture" id=3]
+[ext_resource path="res://img/levelup/redirect_2b.png" type="Texture" id=4]
+[ext_resource path="res://img/levelup/redirect_3.png" type="Texture" id=5]
+[ext_resource path="res://img/levelup/redirect_2a.png" type="Texture" id=6]
+[ext_resource path="res://art_exports/ui_HUD/ui_submenu_arrow.png" type="Texture" id=7]
+[ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=8]
+[ext_resource path="res://img/levelup/redirect_4.png" type="Texture" id=9]
+
+[node name="MeridianShapeSelector" type="MarginContainer"]
+margin_left = 290.0
+margin_right = 466.0
+margin_bottom = 32.0
+rect_pivot_offset = Vector2( -210, -210 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+icon_values = [ 0, 1, 2, 3, 4, 5 ]
+cost_maps = [ {
+}, {
+0: 1
+}, {
+0: 1
+}, {
+1: 1
+}, {
+1: 1
+}, {
+2: 1
+} ]
+
+[node name="Selections" type="HBoxContainer" parent="."]
+margin_right = 290.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 290, 0 )
+size_flags_horizontal = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Selections"]
+margin_right = 32.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_horizontal = 2
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Selections/MarginContainer"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 2 )
+expand = true
+
+[node name="MarginContainer3" type="MarginContainer" parent="Selections"]
+margin_left = 49.0
+margin_right = 81.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_horizontal = 2
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Selections/MarginContainer3"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 3 )
+expand = true
+
+[node name="MarginContainer5" type="MarginContainer" parent="Selections"]
+margin_left = 98.0
+margin_right = 130.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_horizontal = 2
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Selections/MarginContainer5"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 4 )
+expand = true
+
+[node name="MarginContainer4" type="MarginContainer" parent="Selections"]
+margin_left = 147.0
+margin_right = 179.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_horizontal = 2
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Selections/MarginContainer4"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 6 )
+expand = true
+
+[node name="MarginContainer6" type="MarginContainer" parent="Selections"]
+margin_left = 196.0
+margin_right = 228.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_horizontal = 2
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Selections/MarginContainer6"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 5 )
+expand = true
+
+[node name="MarginContainer7" type="MarginContainer" parent="Selections"]
+margin_left = 245.0
+margin_right = 277.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_horizontal = 2
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Selections/MarginContainer7"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 9 )
+expand = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 4
+
+[node name="ComponentMenuArrow" parent="CanvasLayer" instance=ExtResource( 8 )]
+visible = false
+margin_left = 290.0
+margin_top = 0.0
+margin_right = 300.0
+margin_bottom = 22.0
+script = null
+
+[node name="arrow_img" type="Sprite" parent="CanvasLayer/ComponentMenuArrow"]
+position = Vector2( -1, -2 )
+rotation = -1.5708
+scale = Vector2( -0.5, 0.5 )
+texture = ExtResource( 7 )
+centered = false

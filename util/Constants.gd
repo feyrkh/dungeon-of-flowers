@@ -27,3 +27,16 @@ static func element_color(element_name):
 		C.ELEMENT_SUN: return Color.yellow
 		C.ELEMENT_DECAY: return Color.purple
 		_: return Color.white
+
+const MERIDIAN_DIR_NONE = 0
+const MERIDIAN_DIR_1 = 1
+const MERIDIAN_DIR_2a = 2
+const MERIDIAN_DIR_2b = 3
+const MERIDIAN_DIR_3 = 4
+const MERIDIAN_DIR_4 = 5
+
+const MERIDIAN_DIR_NAMES = ["undirected", "directing", "opposing", "diverting", "fanning", "distributing"]
+
+static func meridian_dir_name(dir):
+
+	return MERIDIAN_DIR_NAMES[dir]

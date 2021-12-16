@@ -7,13 +7,13 @@ var flipped = false
 const POSITION_OFFSET = 90
 
 const POSITIONS = [
-	[], 
-	[Vector2(180/2-POSITION_OFFSET, 180/2-POSITION_OFFSET)], 
-	[Vector2(90-POSITION_OFFSET, 40-POSITION_OFFSET), Vector2(90-POSITION_OFFSET, 140-POSITION_OFFSET)], 
+	[],
+	[Vector2(180/2-POSITION_OFFSET, 180/2-POSITION_OFFSET)],
+	[Vector2(90-POSITION_OFFSET, 40-POSITION_OFFSET), Vector2(90-POSITION_OFFSET, 140-POSITION_OFFSET)],
 	[Vector2(90-POSITION_OFFSET, 40-POSITION_OFFSET), Vector2(40-POSITION_OFFSET, 140-POSITION_OFFSET), Vector2(140-POSITION_OFFSET, 140-POSITION_OFFSET)],
 	[Vector2(90-POSITION_OFFSET, 40-POSITION_OFFSET), Vector2(40-POSITION_OFFSET, 90-POSITION_OFFSET), Vector2(90-POSITION_OFFSET, 140-POSITION_OFFSET), Vector2(140-POSITION_OFFSET, 90-POSITION_OFFSET)],
 	[Vector2(40-POSITION_OFFSET, 40-POSITION_OFFSET), Vector2(140-POSITION_OFFSET, 40-POSITION_OFFSET), Vector2(40-POSITION_OFFSET, 140-POSITION_OFFSET), Vector2(140-POSITION_OFFSET, 140-POSITION_OFFSET)] # alternate 4-tile with icons in corners, unused currently
-] 
+]
 
 func _ready():
 	if get_tree().root == get_parent():
@@ -63,7 +63,7 @@ func setup(good_icons:Array, bad_icons:Array, icon_texture:Texture, badness:int)
 	var sprites = [$CardFront/Sprite1, $CardFront/Sprite2, $CardFront/Sprite3, $CardFront/Sprite4]
 	var poses = POSITIONS[good_icons.size()]
 	for i in range(poses.size()):
-		sprites[i].position = poses[i] 
+		sprites[i].position = poses[i]
 	for icon_idx in range(good_icons.size()):
 		sprites[icon_idx].texture = icon_texture
 		sprites[icon_idx].region_enabled = true
@@ -77,43 +77,43 @@ func get_similarity_score(expected_icons):
 		var expected_icon = expected_icons[i]
 		if actual_icon == expected_icon:
 			points += 2
-		elif expected_icons.find(actual_icon) >= 0:
+		elif expected_icons.has(actual_icon):
 			points += 1
 	return float(points) / expected_points
-		
+
 func set_score(_score):
 	score = _score
 	$CardFront/Score/Label.text = "%d%%" % (score * 100)
 	$CardFront/Score.visible = true
 	#$Score.modulate = lerp(Color.darkred, Color.darkgreen, score)
 	# Perfect, great, good, ok, oops
-	
+
 func get_summary(_score):
 	var summary
-	if _score >= 1.0: 
+	if _score >= 1.0:
 		summary = "Great!"
-	elif _score >= 0.75: 
+	elif _score >= 0.75:
 		summary = "Good!"
-	elif _score >= 0.5: 
+	elif _score >= 0.5:
 		summary = "Not Bad!"
-	elif _score >= 0.25: 
+	elif _score >= 0.25:
 		summary = "Oops!"
-	else: 
+	else:
 		summary = "Yikes!"
 	$CardFront/ScoreSummary.text = summary
 	return summary
-	
+
 func get_color(_score):
 	var color
-	if _score >= 1.0: 
+	if _score >= 1.0:
 		color = Color.green
-	elif _score >= 0.75: 
+	elif _score >= 0.75:
 		color = Color.greenyellow
-	elif _score >= 0.5: 
+	elif _score >= 0.5:
 		color = Color.orange
-	elif _score >= 0.25: 
+	elif _score >= 0.25:
 		color = Color.orangered
-	else: 
+	else:
 		color = Color.red
 	return color
 

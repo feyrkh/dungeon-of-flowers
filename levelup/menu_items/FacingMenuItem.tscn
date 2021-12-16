@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://levelup/menu_items/BuildMeridianMenuItem.gd" type="Script" id=1]
+[ext_resource path="res://levelup/menu_items/FacingMenuItem.gd" type="Script" id=1]
 [ext_resource path="res://font/default_font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://levelup/EnergySelector.tscn" type="PackedScene" id=3]
+[ext_resource path="res://levelup/menu_items/FacingSelector.tscn" type="PackedScene" id=3]
 [ext_resource path="res://util/ConfirmDialog.tscn" type="PackedScene" id=4]
 
 [node name="MarginContainer" type="MarginContainer"]
@@ -14,27 +14,32 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="VBoxContainer" parent="."]
-margin_right = 290.0
+margin_right = 380.0
 margin_bottom = 59.0
 rect_min_size = Vector2( 290, 0 )
 
 [node name="DescriptionContainer" type="HBoxContainer" parent="HBoxContainer"]
-margin_right = 290.0
+margin_right = 380.0
 margin_bottom = 23.0
 
 [node name="DescriptionLabel" type="Label" parent="HBoxContainer/DescriptionContainer"]
-margin_right = 147.0
+margin_right = 126.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 2 )
-text = "Empower meridian"
+text = "Rotate meridian"
 
 [node name="ConfirmDialog" parent="HBoxContainer/DescriptionContainer" instance=ExtResource( 4 )]
-margin_left = 151.0
-margin_right = 174.0
+margin_left = 130.0
+margin_right = 153.0
 margin_bottom = 23.0
 
-[node name="EnergySelector" parent="HBoxContainer" instance=ExtResource( 3 )]
+[node name="FacingSelector" parent="HBoxContainer" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 27.0
-margin_right = 290.0
+margin_right = 380.0
 margin_bottom = 59.0
+cost_maps = [ {
+}, {
+}, {
+}, {
+} ]

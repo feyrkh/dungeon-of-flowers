@@ -2,7 +2,7 @@
 
 [ext_resource path="res://levelup/menu_items/MeridianShapeMenuItem.gd" type="Script" id=1]
 [ext_resource path="res://font/default_font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://levelup/MeridianShapeSelector.tscn" type="PackedScene" id=3]
+[ext_resource path="res://levelup/menu_items/MeridianShapeSelector.tscn" type="PackedScene" id=3]
 [ext_resource path="res://util/ConfirmDialog.tscn" type="PackedScene" id=4]
 
 [node name="MarginContainer" type="MarginContainer"]
@@ -14,12 +14,12 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="VBoxContainer" parent="."]
-margin_right = 290.0
+margin_right = 380.0
 margin_bottom = 59.0
 rect_min_size = Vector2( 290, 0 )
 
 [node name="DescriptionContainer" type="HBoxContainer" parent="HBoxContainer"]
-margin_right = 290.0
+margin_right = 380.0
 margin_bottom = 23.0
 
 [node name="DescriptionLabel" type="Label" parent="HBoxContainer/DescriptionContainer"]
@@ -36,17 +36,5 @@ margin_bottom = 23.0
 [node name="MeridianShapeSelector" parent="HBoxContainer" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 27.0
-margin_right = 290.0
+margin_right = 380.0
 margin_bottom = 59.0
-cost_maps = [ {
-}, {
-0: 1
-}, {
-0: 1
-}, {
-1: 1
-}, {
-1: 1
-}, {
-2: 1
-} ]

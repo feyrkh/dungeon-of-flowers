@@ -395,6 +395,8 @@ func pay_cost(cost_map):
 	set_state("grias_levelup_energy", currency)
 
 func can_afford(cost_map):
+	if cost_map == null:
+		return true
 	var currency = get_state("grias_levelup_energy", [0, 0, 0, 0, 0, 0, 0])
 	for k in cost_map.keys():
 		if currency[k] < cost_map[k]:

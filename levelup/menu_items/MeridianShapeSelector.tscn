@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://levelup/MeridianShapeSelector.gd" type="Script" id=1]
+[ext_resource path="res://levelup/IconSelector.gd" type="Script" id=1]
 [ext_resource path="res://img/levelup/whirl.png" type="Texture" id=2]
 [ext_resource path="res://img/levelup/redirect_1.png" type="Texture" id=3]
 [ext_resource path="res://img/levelup/redirect_2b.png" type="Texture" id=4]
@@ -14,29 +14,18 @@
 margin_left = 290.0
 margin_right = 466.0
 margin_bottom = 32.0
+rect_min_size = Vector2( 380, 0 )
 rect_pivot_offset = Vector2( -210, -210 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 icon_values = [ 0, 1, 2, 3, 4, 5 ]
-cost_maps = [ {
-}, {
-0: 1
-}, {
-0: 1
-}, {
-1: 1
-}, {
-1: 1
-}, {
-2: 1
-} ]
 
 [node name="Selections" type="HBoxContainer" parent="."]
-margin_right = 290.0
+margin_right = 380.0
 margin_bottom = 32.0
-rect_min_size = Vector2( 290, 0 )
+rect_min_size = Vector2( 380, 0 )
 size_flags_horizontal = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -56,8 +45,8 @@ texture = ExtResource( 2 )
 expand = true
 
 [node name="MarginContainer3" type="MarginContainer" parent="Selections"]
-margin_left = 49.0
-margin_right = 81.0
+margin_left = 64.0
+margin_right = 96.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 size_flags_horizontal = 2
@@ -70,8 +59,8 @@ texture = ExtResource( 3 )
 expand = true
 
 [node name="MarginContainer5" type="MarginContainer" parent="Selections"]
-margin_left = 98.0
-margin_right = 130.0
+margin_left = 128.0
+margin_right = 160.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 size_flags_horizontal = 2
@@ -84,8 +73,8 @@ texture = ExtResource( 4 )
 expand = true
 
 [node name="MarginContainer4" type="MarginContainer" parent="Selections"]
-margin_left = 147.0
-margin_right = 179.0
+margin_left = 192.0
+margin_right = 224.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 size_flags_horizontal = 2
@@ -98,8 +87,8 @@ texture = ExtResource( 6 )
 expand = true
 
 [node name="MarginContainer6" type="MarginContainer" parent="Selections"]
-margin_left = 196.0
-margin_right = 228.0
+margin_left = 256.0
+margin_right = 288.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 size_flags_horizontal = 2
@@ -112,8 +101,8 @@ texture = ExtResource( 5 )
 expand = true
 
 [node name="MarginContainer7" type="MarginContainer" parent="Selections"]
-margin_left = 245.0
-margin_right = 277.0
+margin_left = 320.0
+margin_right = 352.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 size_flags_horizontal = 2

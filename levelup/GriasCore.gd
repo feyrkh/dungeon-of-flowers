@@ -4,7 +4,7 @@ class_name GriasCore
 const COSTS = [1, 5, 10, 20, 30, 60, 90, 130, 170, 230, 290]
 
 var level = 0
-var frequency = 5
+var frequency = 1
 var power = 1
 var element = -1
 var directions = [Vector2.UP, Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT]

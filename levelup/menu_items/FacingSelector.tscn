@@ -1,0 +1,110 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://levelup/menu_items/FacingSelector.gd" type="Script" id=1]
+[ext_resource path="res://img/levelup/facing_down.png" type="Texture" id=2]
+[ext_resource path="res://img/levelup/facing_up.png" type="Texture" id=3]
+[ext_resource path="res://img/levelup/facing_right.png" type="Texture" id=4]
+[ext_resource path="res://img/levelup/facing_left.png" type="Texture" id=5]
+[ext_resource path="res://art_exports/ui_HUD/ui_submenu_arrow.png" type="Texture" id=7]
+[ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=8]
+
+[node name="FacingSelector" type="MarginContainer"]
+margin_left = 290.0
+margin_right = 466.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 380, 0 )
+rect_pivot_offset = Vector2( -210, -210 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+icon_values = [ 0, 90, 180, 270 ]
+
+[node name="Selections" type="HBoxContainer" parent="."]
+margin_right = 380.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 380, 0 )
+size_flags_horizontal = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FacingUp" type="MarginContainer" parent="Selections"]
+margin_left = 30.0
+margin_right = 62.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Selections/FacingUp"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 3 )
+expand = true
+
+[node name="FacingRight" type="MarginContainer" parent="Selections"]
+margin_left = 126.0
+margin_right = 158.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+rect_pivot_offset = Vector2( 16, 16 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Selections/FacingRight"]
+margin_right = 32.0
+margin_bottom = 32.0
+rect_pivot_offset = Vector2( 16, 16 )
+texture = ExtResource( 4 )
+expand = true
+
+[node name="FacingDown" type="MarginContainer" parent="Selections"]
+margin_left = 222.0
+margin_right = 254.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+rect_pivot_offset = Vector2( 16, 16 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Selections/FacingDown"]
+margin_right = 32.0
+margin_bottom = 32.0
+rect_pivot_offset = Vector2( 16, 16 )
+texture = ExtResource( 2 )
+expand = true
+
+[node name="FacingLeft" type="MarginContainer" parent="Selections"]
+margin_left = 318.0
+margin_right = 350.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+rect_pivot_offset = Vector2( 16, 16 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Selections/FacingLeft"]
+margin_right = 32.0
+margin_bottom = 32.0
+rect_pivot_offset = Vector2( 16, 16 )
+texture = ExtResource( 5 )
+expand = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 4
+
+[node name="ComponentMenuArrow" parent="CanvasLayer" instance=ExtResource( 8 )]
+visible = false
+margin_left = 290.0
+margin_top = 0.0
+margin_right = 300.0
+margin_bottom = 22.0
+script = null
+
+[node name="arrow_img" type="Sprite" parent="CanvasLayer/ComponentMenuArrow"]
+position = Vector2( -1, -2 )
+rotation = -1.5708
+scale = Vector2( -0.5, 0.5 )
+texture = ExtResource( 7 )
+centered = false

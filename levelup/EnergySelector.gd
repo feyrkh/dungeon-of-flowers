@@ -24,12 +24,17 @@ func setup(has_all, cost=1, _investment={}):
 func update_options(_cost_map, element_id):
 	var cost_map = GameData.cost_after_investment(_cost_map, investment)
 	var element_name = C.element_name(element_id).capitalize()
-	if !GameData.can_afford(cost_map) or disabled_elements.has(element_id):
+	if !GameData.can_afford(cost_map):
 		find_node(element_name+"Icon").modulate = Color.dimgray
+		find_node(element_name+"Icon").find_node("whirl").visible = false
 		if element_id == C.ELEMENT_DECAY:
 			find_node(element_name+"Icon").visible = false
+	elif disabled_elements.has(element_id):
+		find_node(element_name+"Icon").modulate = Color(1, 1, 0.99)
+		find_node(element_name+"Icon").find_node("whirl").visible = true
 	else:
 		find_node(element_name+"Icon").modulate = Color.white
+		find_node(element_name+"Icon").find_node("whirl").visible = false
 		if element_id == C.ELEMENT_DECAY:
 			find_node(element_name+"Icon").visible = true
 

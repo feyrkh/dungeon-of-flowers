@@ -124,6 +124,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://levelup/GriasCore.gd"
 }, {
+"base": "Container",
+"class": "IconSelector",
+"language": "GDScript",
+"path": "res://levelup/IconSelector.gd"
+}, {
 "base": "Node2D",
 "class": "MapEntity",
 "language": "GDScript",
@@ -208,6 +213,7 @@ _global_script_class_icons={
 "Enemy": "",
 "EnemyData": "",
 "GriasCore": "",
+"IconSelector": "",
 "MapEntity": "",
 "Menu": "",
 "MoveData": "",

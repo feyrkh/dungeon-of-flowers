@@ -1,12 +1,13 @@
 tool
 extends Container
+class_name IconSelector
 
 onready var ComponentMenuArrow = find_node("ComponentMenuArrow")
 
 var selected_icon = 0
 var unlocked_icons = []
 var disabled_icons = []
-export(Array) var icon_values = []
+export(Array, int) var icon_values = []
 export(Array, Dictionary) var cost_maps = []
 
 onready var Selections = find_node("Selections", true, false)
@@ -24,7 +25,7 @@ func _get_configuration_warning():
 func _ready():
 	pass
 
-func setup(_cost_maps=[], _disabled_icons=[], _unlocked_icons=[], cur_selected=-1):
+func setup(_cost_maps=[], _disabled_icons=[], _unlocked_icons=[], cur_selected_value=-1):
 	Selections = find_node("Selections")
 	cost_maps = _cost_maps.duplicate()
 	disabled_icons = _disabled_icons
@@ -32,7 +33,7 @@ func setup(_cost_maps=[], _disabled_icons=[], _unlocked_icons=[], cur_selected=-
 	for icon in unlocked_icons:
 		cost_maps[icon] = null
 	for icon_id in range(Selections.get_child_count()):
-		update_options(cost_maps[icon_id], icon_id, icon_id==cur_selected)
+		update_options(cost_maps[icon_id], icon_id, icon_values[icon_id]==cur_selected_value)
 
 func update_options(cost_map, icon_id, is_selected):
 	var icon_node = Selections.get_child(icon_id)

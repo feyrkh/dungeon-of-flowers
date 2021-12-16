@@ -2,6 +2,13 @@ extends Node
 
 const HALF_VECTOR = Vector2(0.5, 0.5)
 
+const FACING_UP = 0
+const FACING_RIGHT = 90
+const FACING_DOWN = 180
+const FACING_LEFT = 270
+
+const FACINGS = [FACING_UP, FACING_RIGHT, FACING_DOWN, FACING_LEFT]
+
 const ELEMENT_SOIL = 0
 const ELEMENT_WATER = 1
 const ELEMENT_SUN = 2
@@ -38,5 +45,4 @@ const MERIDIAN_DIR_4 = 5
 const MERIDIAN_DIR_NAMES = ["undirected", "directing", "opposing", "diverting", "fanning", "distributing"]
 
 static func meridian_dir_name(dir):
-
 	return MERIDIAN_DIR_NAMES[dir]

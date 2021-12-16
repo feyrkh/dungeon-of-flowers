@@ -1,9 +1,5 @@
 extends Node2D
 
-const FACING_UP = 0
-const FACING_RIGHT = 90
-const FACING_DOWN = 180
-const FACING_LEFT = 270
 
 const ROTATION_PER_LEVEL = 30
 const EFFICIENCY = [0.75, 0.9, 1.0]
@@ -12,7 +8,7 @@ var efficiency_level = 2
 var range_level = 3
 var element = C.ELEMENT_ALL
 var direction = C.MERIDIAN_DIR_NONE
-var facing = FACING_UP
+var facing = C.FACING_UP
 var redirect_vector = null
 var investment = {}
 var unlocked_directions = [0]
@@ -101,9 +97,9 @@ func _process(delta):
 func get_next_direction():
 	if redirect_vector == null:
 		return null
-	var retval = redirect_vector.pop_front()
+	var retval:Vector2 = redirect_vector.pop_front()
 	redirect_vector.push_back(retval)
-	return retval
+	return retval.rotated(deg2rad(facing))
 
 func spark_arrived(spark, tile_coords):
 	if element != C.ELEMENT_ALL and element != spark.element:
@@ -120,8 +116,9 @@ func get_component_menu_items():
 	var shape_item = preload("res://levelup/menu_items/MeridianShapeMenuItem.tscn").instance()
 	shape_item.setup(self, unlocked_directions)
 	menu_items.append(shape_item)
-	#var facing_item = preload("res://levelup/menu_items/FacingMenuItem.tscn").instance()
-	#menu_items.append(facing_item)
+	var facing_item = preload("res://levelup/menu_items/FacingMenuItem.tscn").instance()
+	facing_item.setup(self)
+	menu_items.append(facing_item)
 	return menu_items
 
 func get_description():

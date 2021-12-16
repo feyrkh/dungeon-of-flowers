@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://levelup/EnergySelector.gd" type="Script" id=1]
 [ext_resource path="res://img/levelup/all_egg.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://img/levelup/water_egg.png" type="Texture" id=6]
 [ext_resource path="res://art_exports/ui_HUD/ui_submenu_arrow.png" type="Texture" id=7]
 [ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=8]
+[ext_resource path="res://img/levelup/whirl.png" type="Texture" id=9]
 
 [node name="EnergySelector" type="MarginContainer"]
 margin_left = 290.0
@@ -33,12 +34,26 @@ margin_bottom = 32.0
 size_flags_horizontal = 6
 texture = ExtResource( 2 )
 
+[node name="whirl" type="Sprite" parent="Selections/AllIcon"]
+visible = false
+modulate = Color( 0.5, 1, 0.83, 1 )
+show_behind_parent = true
+position = Vector2( 17, 16 )
+texture = ExtResource( 9 )
+
 [node name="SoilIcon" type="TextureRect" parent="Selections"]
 margin_left = 36.0
 margin_right = 68.0
 margin_bottom = 32.0
 size_flags_horizontal = 6
 texture = ExtResource( 5 )
+
+[node name="whirl" type="Sprite" parent="Selections/SoilIcon"]
+visible = false
+modulate = Color( 0.5, 1, 0.83, 1 )
+show_behind_parent = true
+position = Vector2( 17, 16 )
+texture = ExtResource( 9 )
 
 [node name="WaterIcon" type="TextureRect" parent="Selections"]
 margin_left = 72.0
@@ -47,6 +62,13 @@ margin_bottom = 32.0
 size_flags_horizontal = 6
 texture = ExtResource( 6 )
 
+[node name="whirl" type="Sprite" parent="Selections/WaterIcon"]
+visible = false
+modulate = Color( 0.5, 1, 0.83, 1 )
+show_behind_parent = true
+position = Vector2( 17, 16 )
+texture = ExtResource( 9 )
+
 [node name="SunIcon" type="TextureRect" parent="Selections"]
 margin_left = 108.0
 margin_right = 140.0
@@ -54,12 +76,26 @@ margin_bottom = 32.0
 size_flags_horizontal = 6
 texture = ExtResource( 4 )
 
+[node name="whirl" type="Sprite" parent="Selections/SunIcon"]
+visible = false
+modulate = Color( 0.5, 1, 0.83, 1 )
+show_behind_parent = true
+position = Vector2( 17, 16 )
+texture = ExtResource( 9 )
+
 [node name="DecayIcon" type="TextureRect" parent="Selections"]
 margin_left = 144.0
 margin_right = 176.0
 margin_bottom = 32.0
 size_flags_horizontal = 6
 texture = ExtResource( 3 )
+
+[node name="whirl" type="Sprite" parent="Selections/DecayIcon"]
+visible = false
+modulate = Color( 0.5, 1, 0.83, 1 )
+show_behind_parent = true
+position = Vector2( 17, 16 )
+texture = ExtResource( 9 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 4

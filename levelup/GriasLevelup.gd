@@ -66,10 +66,17 @@ func update_cursor_label():
 		bits.append(FOG_TRANSLATE.get(fog, fog))
 	var component = TilemapMgr.get_tile_scene("component", cursor_pos)
 	if component:
-		component = component.get_component_label()
-	if component:
-		bits.append(component)
+		update_cursor_rotate(component)
+		var component_label = component.get_component_label()
+		if component_label:
+			bits.append(component_label)
+	else:
+		Cursor.show_rotation_icon(false)
 	OverlayLabel.text = bits.join("\n")
+
+func update_cursor_rotate(component):
+	var can_rotate = component.has_method("can_cursor_rotate") and component.can_cursor_rotate()
+	Cursor.show_rotation_icon(can_rotate)
 
 func _ready():
 	set_state(INACTIVE)
@@ -92,6 +99,54 @@ func _ready():
 	EventBus.connect("grias_levelup_component_input_release", self, "grias_levelup_component_input_release")
 	EventBus.connect("grias_exit_component_mode", self, "exit_component_mode")
 	EventBus.connect("grias_component_hide_main_arrow", self, "grias_component_hide_main_arrow")
+
+func _input(event):
+	if state == CURSOR:
+		cursor_input(event)
+	elif state == COMPONENT:
+		component_input(event)
+
+func cursor_input(event):
+	if event.is_action("ui_left") and !event.is_action_released("ui_left"):
+		 move_cursor(Vector2.LEFT)
+	if event.is_action ("ui_right") and !event.is_action_released("ui_right"):
+		 move_cursor(Vector2.RIGHT)
+	if event.is_action ("ui_up") and !event.is_action_released("ui_up"):
+		 move_cursor(Vector2.UP)
+	if event.is_action("ui_down") and !event.is_action_released("ui_down"):
+		 move_cursor(Vector2.DOWN)
+	if event.is_action_pressed("rotate_left"):
+		rotate_cursor(-1)
+	if event.is_action_pressed("rotate_right"):
+		rotate_cursor(1)
+	if event.is_action_pressed("ui_accept"):
+		enter_component_mode()
+	if event.is_action_pressed("ui_cancel"):
+		exit_levelup()
+
+func component_input(event):
+	if component_input_captured != null:
+		if !component_input_captured.has_method("component_input"):
+			EventBus.emit_signal("grias_levelup_component_input_release")
+		else:
+			component_input_captured.component_input(event)
+			return
+	if event.is_action_pressed("ui_cancel"):
+		exit_component_mode()
+	elif event.is_action_pressed("ui_accept"):
+		var selected = selected_component_menu_item()
+		if selected and selected.has_method("menu_item_action"):
+			if selected.has_method("can_menu_item_action") and !selected.can_menu_item_action():
+				print("Unable to perform menu item action")
+				# TODO: sound effects and stuff
+			else:
+				selected.menu_item_action()
+	elif event.is_action("ui_down") and !event.is_action_released("ui_down"):
+		update_arrow_position(1)
+	elif event.is_action ("ui_up") and !event.is_action_released("ui_up"):
+		update_arrow_position(-1)
+	elif (event.is_action_pressed("ui_left") or event.is_action_pressed("ui_right")) and selected_component_menu_item() != null and selected_component_menu_item().has_method("unselected_component_input"):
+		selected_component_menu_item().unselected_component_input(event)
 
 func grias_component_hide_main_arrow():
 	ComponentMenuArrow.visible = false
@@ -176,49 +231,6 @@ func grias_levelup_major_component_upgrade(fog_color:Color):
 func load_from_file():
 	TilemapMgr.load_from_file("res://levelup/grias_levelup_map.json", Tilemaps, {})
 
-func _input(event):
-	if state == CURSOR:
-		cursor_input(event)
-	elif state == COMPONENT:
-		component_input(event)
-
-func cursor_input(event):
-	if event.is_action("ui_left") and !event.is_action_released("ui_left"):
-		 move_cursor(Vector2.LEFT)
-	if event.is_action ("ui_right") and !event.is_action_released("ui_right"):
-		 move_cursor(Vector2.RIGHT)
-	if event.is_action ("ui_up") and !event.is_action_released("ui_up"):
-		 move_cursor(Vector2.UP)
-	if event.is_action("ui_down") and !event.is_action_released("ui_down"):
-		 move_cursor(Vector2.DOWN)
-	if event.is_action_pressed("ui_accept"):
-		enter_component_mode()
-	if event.is_action_pressed("ui_cancel"):
-		exit_levelup()
-
-func component_input(event):
-	if component_input_captured != null:
-		if !component_input_captured.has_method("component_input"):
-			EventBus.emit_signal("grias_levelup_component_input_release")
-		else:
-			component_input_captured.component_input(event)
-			return
-	if event.is_action_pressed("ui_cancel"):
-		exit_component_mode()
-	elif event.is_action_pressed("ui_accept"):
-		var selected = selected_component_menu_item()
-		if selected and selected.has_method("menu_item_action"):
-			if selected.has_method("can_menu_item_action") and !selected.can_menu_item_action():
-				print("Unable to perform menu item action")
-				# TODO: sound effects and stuff
-			else:
-				selected.menu_item_action()
-	elif event.is_action("ui_down") and !event.is_action_released("ui_down"):
-		update_arrow_position(1)
-	elif event.is_action ("ui_up") and !event.is_action_released("ui_up"):
-		update_arrow_position(-1)
-	elif (event.is_action_pressed("ui_left") or event.is_action_pressed("ui_right")) and selected_component_menu_item() != null and selected_component_menu_item().has_method("unselected_component_input"):
-		selected_component_menu_item().unselected_component_input(event)
 
 func selected_component_menu_item():
 	if component_cursor_pos < 0:
@@ -362,6 +374,12 @@ func exit_component_mode():
 
 func move_cursor(dir:Vector2):
 	set_cursor(cursor_pos + dir)
+
+func rotate_cursor(dir:int):
+	var scene = TilemapMgr.get_tile_scene("component", cursor_pos)
+	if scene and scene.has_method("can_cursor_rotate") and scene.can_cursor_rotate():
+		scene.cursor_rotate(dir)
+		Cursor.perform_rotation(dir)
 
 func slide_component_mode_to(pos):
 	if is_instance_valid(tween):

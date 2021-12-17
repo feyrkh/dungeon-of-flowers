@@ -1,19 +1,18 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://util/controls/uiControl.gd" type="Script" id=1]
-[ext_resource path="res://art_exports/button icons/ui_btn_pc_Space.png" type="Texture" id=2]
-[ext_resource path="res://art_exports/button icons/ui_btn_pc_Enter.png" type="Texture" id=3]
-[ext_resource path="res://art_exports/button icons/ui_btn_XB_A.png" type="Texture" id=4]
+[ext_resource path="res://art_exports/button icons/ui_btn_XB_R1.png" type="Texture" id=2]
+[ext_resource path="res://art_exports/button icons/ui_btn_pc_E.png" type="Texture" id=3]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "default",
 "speed": 0.5
 } ]
 
-[node name="rotate_left" type="Node2D"]
+[node name="rotate_right" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="pc" type="AnimatedSprite" parent="."]
@@ -25,4 +24,4 @@ playing = true
 [node name="xbox" type="Sprite" parent="."]
 position = Vector2( 9, 10 )
 scale = Vector2( 0.33, 0.33 )
-texture = ExtResource( 4 )
+texture = ExtResource( 2 )

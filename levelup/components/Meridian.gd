@@ -4,8 +4,8 @@ extends Node2D
 const ROTATION_PER_LEVEL = 30
 const EFFICIENCY = [0.75, 0.9, 1.0]
 
-var efficiency_level = 2
-var range_level = 3
+var efficiency_level = 0
+var range_level = 0
 var element = C.ELEMENT_ALL
 var direction = C.MERIDIAN_DIR_NONE
 var facing = C.FACING_UP
@@ -94,6 +94,13 @@ func _process(delta):
 	if direction == C.MERIDIAN_DIR_NONE:
 		rotation_degrees -= ROTATION_PER_LEVEL * delta * range_level
 
+func can_cursor_rotate():
+	return direction != C.MERIDIAN_DIR_NONE
+
+func cursor_rotate(direction):
+	facing = posmod(round(facing + 90*direction), 360)
+	render_component()
+
 func get_next_direction():
 	if redirect_vector == null:
 		return null
@@ -116,9 +123,6 @@ func get_component_menu_items():
 	var shape_item = preload("res://levelup/menu_items/MeridianShapeMenuItem.tscn").instance()
 	shape_item.setup(self, unlocked_directions)
 	menu_items.append(shape_item)
-	var facing_item = preload("res://levelup/menu_items/FacingMenuItem.tscn").instance()
-	facing_item.setup(self)
-	menu_items.append(facing_item)
 	return menu_items
 
 func get_description():

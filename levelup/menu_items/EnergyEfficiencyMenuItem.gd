@@ -99,7 +99,7 @@ func efficiency_item_cost_maps():
 		Util.inc(cost_map, C.ELEMENT_WATER, 1)
 		costs.append(cost_map.duplicate())
 
-	if max_unlocked_efficiency_level >= 3: # 1.05
+	if max_unlocked_efficiency_level >= 3: # 1.1
 		costs.append(null)
 	else:
 		Util.inc(cost_map, C.ELEMENT_SUN, 2)

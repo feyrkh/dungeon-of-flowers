@@ -3,6 +3,7 @@ extends Node2D
 const ROTATE_SPEED_PER_ENERGY = 30
 const BASE_MOVE_SPEED = 64
 const ENERGY_PER_TILE = 0.25
+const TUNNEL_SCALE = Vector2(0.2, 0.2)
 
 onready var Core = find_node("Core")
 onready var Spark1 = find_node("Spark1")
@@ -12,6 +13,8 @@ onready var Spark4 = find_node("Spark4")
 
 export(float) var energy = 0.5
 var speed = 1.0
+var tunnel_distance = tunnel_distance
+var pre_tunnel_scale = null
 var direction:Vector2 = Vector2.ZERO
 var map_position:Vector2 = Vector2.ZERO
 var tilemap_mgr:TilemapMgr
@@ -52,14 +55,25 @@ func begin_move(start, end):
 	tween.interpolate_callback(self, move_time, "finish_move", end)
 	tween.start()
 
+func begin_tunnel(start, end):
+	var tween = Util.one_shot_tween(self)
+	var move_time = 64.0/BASE_MOVE_SPEED/speed
+	tween.interpolate_property(self, "position", position, position + direction * tunnel_distance * BASE_MOVE_SPEED * speed, move_time)
+	tween.interpolate_callback(self, move_time, "finish_move", end)
+	tween.start()
+
 func finish_move(end_position):
 	map_position = end_position
+	if pre_tunnel_scale:
+		scale = pre_tunnel_scale
+		pre_tunnel_scale = null
 	match tilemap_mgr.get_tile_name("fog", end_position.x, end_position.y):
 		"chaos1": hit_chaos(end_position, -0.1, 0.5)
 		"chaos2": hit_chaos(end_position, 1, 0.6)
 		"chaos3": hit_chaos(end_position, 2, 0.7)
 		"chaos4": hit_chaos(end_position, 3, 0.8)
 	#energy -= ENERGY_PER_TILE
+	tunnel_distance = 0
 	Spark1.visible = energy >= 1
 	Spark2.visible = energy >= 2
 	Spark3.visible = energy >= 3
@@ -69,10 +83,15 @@ func finish_move(end_position):
 		component.spark_arrived(self, end_position)
 	if energy <= 0:
 		queue_free()
-	begin_move(map_position, map_position+direction)
+	if !tunnel_distance:
+		begin_move(map_position, map_position+direction)
+	else:
+		pre_tunnel_scale = scale
+		scale = TUNNEL_SCALE
+		begin_tunnel(map_position, map_position+(direction * tunnel_distance))
 
 func hit_chaos(pos, min_energy, fog_color):
-	if energy >= min_energy:
+	if energy >= min_energy and tunnel_distance == 0:
 		EventBus.emit_signal("grias_levelup_clear_fog", pos, fog_clear_color)
 	else:
 		EventBus.emit_signal("grias_levelup_fail_clear_fog", pos, fog_clear_color)
@@ -93,6 +112,9 @@ func _process(delta):
 
 func add_meridian_energy(efficiency):
 	energy += ENERGY_PER_TILE * efficiency
+
+func tunnel(tile_distance):
+	tunnel_distance = tile_distance
 
 func redirect(new_dir):
 	if new_dir == null:

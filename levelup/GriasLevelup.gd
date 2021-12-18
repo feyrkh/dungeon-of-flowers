@@ -208,6 +208,7 @@ func grias_component_description(text):
 		text = ""
 	ComponentMenuDescription.text = text
 	ComponentModeParentContainer.rect_size.x = 400
+	update_arrow_position()
 
 func grias_generate_energy(core_node:GriasCore):
 	var spark = GriasSpark.instance()

@@ -2,7 +2,7 @@ extends Node2D
 
 
 const ROTATION_PER_LEVEL = 30
-const EFFICIENCY = [0.75, 0.9, 1.0, 1.05]
+const EFFICIENCY = [0.75, 0.9, 1.0, 1.1]
 
 
 var efficiency_level = 0
@@ -125,6 +125,7 @@ func spark_arrived(spark, tile_coords):
 	if element != C.ELEMENT_ALL and element != spark.element:
 		return
 	spark.add_meridian_energy(get_meridian_efficiency())
+	spark.tunnel(range_level)
 	spark.redirect(get_next_direction())
 
 func get_component_menu_items():
@@ -147,5 +148,7 @@ func get_component_menu_items():
 
 func get_description():
 	var desc = "An orderly pathway for energy, allows "+C.element_name(element)+" energy to flow with less power loss and can even redirect energy with additional upgrades.\n"
-	desc += "Energy efficiency: "+str(round(get_meridian_efficiency()*100))+"%\nRange boost: "+str(range_level)
+	desc += "Energy efficiency: "+str(round(get_meridian_efficiency()*100))+"%"
+	if range_level > 0:
+		desc += "\nTunneling distance: "+str(range_level)
 	return desc

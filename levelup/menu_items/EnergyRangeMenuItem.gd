@@ -36,7 +36,7 @@ func update_text():
 	var cost = GameData.cost_after_investment(RangeSelector.selected_icon_cost(), {})
 	EventBus.emit_signal("grias_component_cost", cost)
 	if selected_icon == 0:
-		EventBus.emit_signal("grias_component_menu_text", "Energy passing through will move normally")
+		EventBus.emit_signal("grias_component_menu_text", "Energy passing through will move normally.")
 	else:
 		EventBus.emit_signal("grias_component_menu_text", "Energy passing through will swiftly travel "+str(RangeSelector.selected_icon_value())+" tiles without interacting with anything, but can not emerge into disordered tiles.")
 

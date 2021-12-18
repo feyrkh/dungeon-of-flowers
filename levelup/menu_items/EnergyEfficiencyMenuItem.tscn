@@ -36,7 +36,7 @@ margin_top = 27.0
 margin_right = 380.0
 margin_bottom = 50.0
 script = ExtResource( 3 )
-icon_values = [ 0.75, 0.9, 1.0, 1.05 ]
+icon_values = [ 0.75, 0.9, 1.0, 1.1 ]
 
 [node name="Selections" type="HBoxContainer" parent="PercentSelector"]
 margin_right = 380.0
@@ -75,7 +75,7 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "100%"
 align = 1
 
-[node name="Pct105" type="Label" parent="PercentSelector/Selections"]
+[node name="Pct110" type="Label" parent="PercentSelector/Selections"]
 margin_left = 313.0
 margin_right = 354.0
 margin_bottom = 23.0
@@ -83,7 +83,7 @@ size_flags_horizontal = 6
 size_flags_vertical = 6
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "105%"
+text = "110%"
 align = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="PercentSelector"]

@@ -4,15 +4,17 @@ const ELEMENT_ORDER = [C.ELEMENT_ALL, C.ELEMENT_SOIL, C.ELEMENT_WATER, C.ELEMENT
 
 onready var ComponentMenuArrow = find_node("ComponentMenuArrow")
 
-var selected_element = 0
+var selected_element = 0 # element the cursor is over
+var highlighted_element = -1 # element that was previously chosen and is currently highlighted
 var investment = {}
 var disabled_elements = []
 
 func _ready():
 	pass
 
-func setup(has_all, cost=1, _investment={}):
+func setup(has_all, cost=1, _investment={}, _highlighted_element_value=-1):
 	investment = _investment
+	highlighted_element = ELEMENT_ORDER.find(_highlighted_element_value)
 	for element_id in C.ELEMENT_IDS:
 		update_options({element_id:cost}, element_id)
 	if has_all:
@@ -57,6 +59,12 @@ func selected_element_node():
 	var element_name = C.element_name(selected_element_id()).capitalize()
 	return find_node(element_name+"Icon")
 
+func can_select_current():
+	return selected_element_node().modulate == Color.white
+
+func highlighted_icon_is_selected():
+	return selected_element == highlighted_element
+
 func update_arrow_pos():
 	var element_name = C.element_name(selected_element_id()).capitalize()
 	var selected_node = find_node(C.element_name(selected_element_id()).capitalize()+"Icon")
@@ -65,12 +73,13 @@ func update_arrow_pos():
 	ComponentMenuArrow.rect_global_position = target_position - Vector2(ComponentMenuArrow.rect_size.x, -8)
 
 func select_next(dir=1):
-	for i in range(ELEMENT_ORDER.size()):
-		selected_element = Util.wrap_range(selected_element+dir, ELEMENT_ORDER.size())
-		if selected_element_node().modulate == Color.white:
-			break
-	if !selected_element_node().modulate == Color.white:
-		# no selectable elements
-		selected_element = -1
-		stop_selecting()
+	selected_element = Util.wrap_range(selected_element+dir, ELEMENT_ORDER.size())
+#	for i in range(ELEMENT_ORDER.size()):
+#		selected_element = Util.wrap_range(selected_element+dir, ELEMENT_ORDER.size())
+#		if selected_element_node().modulate == Color.white:
+#			break
+#	if !selected_element_node().modulate == Color.white:
+#		# no selectable elements
+#		selected_element = -1
+#		stop_selecting()
 	update_arrow_pos()

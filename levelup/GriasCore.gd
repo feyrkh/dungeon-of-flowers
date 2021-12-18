@@ -102,5 +102,5 @@ func awaken_core(cost_map, el):
 		elements_unlocked.append(el)
 	element = el
 	update_render()
-	EventBus.emit_signal("grias_exit_component_mode")
+	#EventBus.emit_signal("grias_exit_component_mode")
 

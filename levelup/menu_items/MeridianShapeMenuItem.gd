@@ -30,6 +30,7 @@ func unselected_component_input(event):
 	update_text()
 
 func update_text():
+	find_node("DescriptionLabel").text = "Direct energy"
 	var selected_icon = MeridianShapeSelector.selected_icon_value()
 	var cost = GameData.cost_after_investment(MeridianShapeSelector.selected_icon_cost(), {})
 	EventBus.emit_signal("grias_component_cost", cost)
@@ -42,6 +43,12 @@ func component_input_ended():
 	find_node("DescriptionContainer").modulate = Color.white
 
 func menu_item_action():
+	if MeridianShapeSelector.highlighted_icon_is_selected():
+		EventBus.emit_signal("grias_component_menu_text", "Already selected!")
+		return
+	if !MeridianShapeSelector.can_select_current():
+		EventBus.emit_signal("grias_component_menu_text", "Can't afford!")
+		return
 	EventBus.emit_signal("grias_levelup_component_input_capture", self)
 	find_node("DescriptionLabel").text = "Reshape meridian?  "
 	find_node("ConfirmDialog").visible = true
@@ -65,4 +72,4 @@ func choice_made(was_yes):
 		existing_meridian.unlock_direction(MeridianShapeSelector.selected_icon_value())
 		existing_meridian.direction = MeridianShapeSelector.selected_icon_value()
 		EventBus.emit_signal("grias_levelup_major_component_upgrade", C.element_color(existing_meridian.element))
-		EventBus.emit_signal("grias_exit_component_mode")
+		#EventBus.emit_signal("grias_exit_component_mode")

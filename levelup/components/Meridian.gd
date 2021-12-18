@@ -2,7 +2,8 @@ extends Node2D
 
 
 const ROTATION_PER_LEVEL = 30
-const EFFICIENCY = [0.75, 0.9, 1.0]
+const EFFICIENCY = [0.75, 0.9, 1.0, 1.05]
+
 
 var efficiency_level = 0
 var range_level = 0
@@ -12,6 +13,8 @@ var facing = C.FACING_UP
 var redirect_vector = null
 var investment = {}
 var unlocked_directions = [0]
+var max_unlocked_efficiency_level = 0
+var max_unlocked_range_level = 0
 
 func _ready():
 	render_component()
@@ -35,6 +38,11 @@ func unlock_direction(_direction):
 	if !unlocked_directions.has(_direction):
 		unlocked_directions.append(_direction)
 	direction = _direction
+	render_component()
+
+func unlock_efficiency_level(_level):
+	if max_unlocked_efficiency_level < _level:
+		max_unlocked_efficiency_level = _level
 	render_component()
 
 func render_component():
@@ -123,7 +131,11 @@ func get_component_menu_items():
 	var shape_item = preload("res://levelup/menu_items/MeridianShapeMenuItem.tscn").instance()
 	shape_item.setup(self, unlocked_directions)
 	menu_items.append(shape_item)
+	var efficiency_item = preload("res://levelup/menu_items/EnergyEfficiencyMenuItem.tscn").instance()
+	efficiency_item.setup(self, EFFICIENCY[efficiency_level], max_unlocked_efficiency_level)
+	menu_items.append(efficiency_item)
 	return menu_items
+
 
 func get_description():
 	var desc = "An orderly pathway for energy, allows "+C.element_name(element)+" energy to flow with less power loss and can even redirect energy with additional upgrades.\n"

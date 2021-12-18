@@ -131,6 +131,11 @@ func component_input(event):
 		else:
 			component_input_captured.component_input(event)
 			return
+
+	if event.is_action_pressed("rotate_left"):
+		rotate_cursor(-1)
+	if event.is_action_pressed("rotate_right"):
+		rotate_cursor(1)
 	if event.is_action_pressed("ui_cancel"):
 		exit_component_mode()
 	elif event.is_action_pressed("ui_accept"):
@@ -159,7 +164,12 @@ func grias_component_change(change_type, cost_map, args):
 		meridian.element = args
 		TilemapMgr.set_tile("component", cursor_pos.x, cursor_pos.y, meridian_tile_id)
 		TilemapMgr.set_tile_scene("component", cursor_pos, meridian)
-		exit_component_mode()
+		yield(get_tree(), "idle_frame")
+		component_cursor_pos = -1
+		update_arrow_position(1)
+		if selected_component_menu_item().has_method("menu_item_highlighted"):
+			selected_component_menu_item().menu_item_highlighted()
+		#exit_component_mode()
 		return
 
 	var scene = TilemapMgr.get_tile_scene("component", cursor_pos)
@@ -226,6 +236,7 @@ func grias_levelup_major_component_upgrade(fog_color:Color):
 	fade_swirl.position = map_position * 64 + Vector2(32, 32)
 	EnergyOrbContainer.add_child(fade_swirl)
 	fade_swirl.fade(fog_color, 5, Vector2(2, 2))
+	refresh_component_menu()
 	update_cursor_label()
 
 func load_from_file():
@@ -264,6 +275,20 @@ func enter_component_mode():
 	EventBus.emit_signal("grias_component_cost", null)
 	EnergyContainer.update_counts()
 	Util.delete_children(ComponentMenuList)
+	refresh_component_menu()
+	slide_component_mode_to(SCREEN_SLIDE_AMOUNT)
+	set_state(INACTIVE)
+	component_cursor_pos = -1
+	ComponentMenuArrow.visible = false
+	update_arrow_position(1)
+	yield(tween, "tween_all_completed")
+	update_arrow_position(0)
+
+	if selected_component_menu_item() and selected_component_menu_item().has_method("menu_item_highlighted"):
+		selected_component_menu_item().menu_item_highlighted()
+	set_state(COMPONENT)
+
+func refresh_component_menu():
 	var fog_level = TilemapMgr.get_tile_name("fog", cursor_pos.x, cursor_pos.y)
 	var menu_items = []
 	match fog_level:
@@ -282,17 +307,6 @@ func enter_component_mode():
 		_:
 			add_fog_menu_item(menu_items, "external")
 	render_components(menu_items)
-	slide_component_mode_to(SCREEN_SLIDE_AMOUNT)
-	set_state(INACTIVE)
-	component_cursor_pos = -1
-	ComponentMenuArrow.visible = false
-	update_arrow_position(1)
-	yield(tween, "tween_all_completed")
-	update_arrow_position(0)
-
-	if selected_component_menu_item() and selected_component_menu_item().has_method("menu_item_highlighted"):
-		selected_component_menu_item().menu_item_highlighted()
-	set_state(COMPONENT)
 
 func update_arrow_position(dir=0):
 	if ComponentMenuList.get_child_count() == 0:
@@ -359,8 +373,18 @@ func add_delete_component(menu_items):
 	pass
 
 func render_components(menu_items):
+	var component_was_captured = component_input_captured != null
+	Util.delete_children(ComponentMenuList)
+	for child in ComponentMenuList.get_children():
+		ComponentMenuList.remove_child(child)
 	for menu_item in menu_items:
 		ComponentMenuList.add_child(menu_item)
+	if component_was_captured:
+		component_input_captured = selected_component_menu_item()
+	update_arrow_position()
+	call_deferred("update_arrow_position")
+	if selected_component_menu_item() and selected_component_menu_item().has_method("menu_item_highlighted"):
+		selected_component_menu_item().call_deferred("menu_item_highlighted")
 
 func exit_component_mode():
 	if state != COMPONENT:

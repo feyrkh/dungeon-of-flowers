@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://util/ConfirmDialog.tscn" type="PackedScene" id=3]
+[ext_resource path="res://font/default_font.tres" type="DynamicFont" id=4]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends MarginContainer
+
+var existing_component
+var selected_index
+var prop_name
+var label_prefix
+var levels
+var cost_maps
+
+func setup(_existing_component, _prop_name, _label_prefix, _levels, _cost_maps):
+	existing_component = _existing_component
+	prop_name = _prop_name
+	label_prefix = _label_prefix
+	levels = _levels
+	cost_maps = _cost_maps
+	selected_index = levels.find(get_current_value())
+	if selected_index < 0:
+		selected_index = 0
+	update_text()
+
+func get_current_value():
+	return existing_component.get(prop_name)
+
+func can_highlight():
+	return true
+
+func menu_item_highlighted():
+	update_text()
+
+func menu_item_unhighlighted():
+	update_text()
+
+func update_text():
+	EventBus.emit_signal(\"grias_component_cost\", cost_maps[selected_index])
+	EventBus.emit_signal(\"grias_component_menu_text\", existing_component.call(\"describe_\"+prop_name+\"_increase\"))
+"
+
+[node name="MarginContainer" type="MarginContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 290.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 290, 0 )
+
+[node name="DescriptionContainer" type="HBoxContainer" parent="HBoxContainer"]
+margin_right = 290.0
+margin_bottom = 23.0
+
+[node name="DescriptionLabel" type="Label" parent="HBoxContainer/DescriptionContainer"]
+margin_right = 203.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 4 )
+text = "Improve energy efficiency"
+
+[node name="ConfirmDialog" parent="HBoxContainer/DescriptionContainer" instance=ExtResource( 3 )]
+margin_left = 207.0
+margin_right = 230.0
+margin_bottom = 23.0

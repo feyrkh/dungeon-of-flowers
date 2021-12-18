@@ -34,5 +34,7 @@ func grias_component_cost(cost_map):
 			sprite.size_flags_horizontal = 0
 			var label = preload("res://levelup/menu_items/CostListLabel.tscn").instance()
 			label.text = str(cost_map[element_id])+"   "
+			if !GameData.can_afford({element_id:cost_map[element_id]}):
+				label.modulate = Color.red
 			#label.size_flags_horizontal = 0
 			add_child(label)

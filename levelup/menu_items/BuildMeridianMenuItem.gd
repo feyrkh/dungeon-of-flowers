@@ -16,9 +16,11 @@ var investment = {}
 onready var EnergySelector = find_node("EnergySelector")
 
 func _ready():
+	var highlighted_element = -1
 	if existing_meridian:
 		EnergySelector.disabled_elements = [existing_meridian.element]
-	EnergySelector.setup(true, 1, investment)
+		highlighted_element = existing_meridian.element
+	EnergySelector.setup(true, 1, investment, highlighted_element)
 	find_node("ConfirmDialog").visible = false
 
 func upgrade(_existing_meridian):
@@ -59,6 +61,12 @@ func component_input_ended():
 	find_node("DescriptionContainer").modulate = Color.white
 
 func menu_item_action():
+	if EnergySelector.highlighted_icon_is_selected():
+		EventBus.emit_signal("grias_component_menu_text", "Already selected!")
+		return
+	if !EnergySelector.can_select_current():
+		EventBus.emit_signal("grias_component_menu_text", "Can't afford!")
+		return
 	EventBus.emit_signal("grias_levelup_component_input_capture", self)
 	find_node("DescriptionLabel").text = "Empower meridian for "+C.element_name(element)+" energy?  "
 	find_node("ConfirmDialog").visible = true
@@ -84,4 +92,4 @@ func choice_made(was_yes):
 			GameData.pay_cost(cost)
 			existing_meridian.unlock_element(element, cost)
 			EventBus.emit_signal("grias_levelup_major_component_upgrade", C.element_color(element))
-			EventBus.emit_signal("grias_exit_component_mode")
+			#EventBus.emit_signal("grias_exit_component_mode")

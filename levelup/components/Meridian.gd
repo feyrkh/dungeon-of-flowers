@@ -95,6 +95,8 @@ func render_component():
 			scale = Vector2(0.33, 0.33)
 		1:
 			scale = Vector2(0.66, 0.66)
+		2:
+			scale = Vector2(0.9, 0.9)
 		_:
 			scale = Vector2.ONE
 	if range_level > 0:

@@ -1,0 +1,116 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://util/ConfirmDialog.tscn" type="PackedScene" id=1]
+[ext_resource path="res://font/default_font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://levelup/IconSelector.gd" type="Script" id=3]
+[ext_resource path="res://levelup/menu_items/EnergyRangeMenuItem.gd" type="Script" id=4]
+[ext_resource path="res://art_exports/ui_HUD/ui_submenu_arrow.png" type="Texture" id=5]
+[ext_resource path="res://util/Bouncer.tscn" type="PackedScene" id=6]
+
+[node name="EnergyRangeMenuItem" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1540.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DescriptionContainer" type="HBoxContainer" parent="."]
+margin_right = 380.0
+margin_bottom = 23.0
+
+[node name="DescriptionLabel" type="Label" parent="DescriptionContainer"]
+margin_right = 216.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 2 )
+text = "Improve tunneling distance"
+
+[node name="ConfirmDialog" parent="DescriptionContainer" instance=ExtResource( 1 )]
+margin_left = 220.0
+margin_right = 243.0
+margin_bottom = 23.0
+
+[node name="RangeSelector" type="MarginContainer" parent="."]
+margin_top = 27.0
+margin_right = 380.0
+margin_bottom = 50.0
+script = ExtResource( 3 )
+icon_values = [ 0.0, 2.0, 3.0, 4.0, 5.0 ]
+
+[node name="Selections" type="HBoxContainer" parent="RangeSelector"]
+margin_right = 380.0
+margin_bottom = 23.0
+
+[node name="Range0" type="Label" parent="RangeSelector/Selections"]
+margin_left = 31.0
+margin_right = 40.0
+margin_bottom = 23.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 1
+
+[node name="Range2" type="Label" parent="RangeSelector/Selections"]
+margin_left = 108.0
+margin_right = 117.0
+margin_bottom = 23.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "2"
+align = 1
+
+[node name="Range3" type="Label" parent="RangeSelector/Selections"]
+margin_left = 185.0
+margin_right = 194.0
+margin_bottom = 23.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "3"
+align = 1
+
+[node name="Range4" type="Label" parent="RangeSelector/Selections"]
+margin_left = 262.0
+margin_right = 271.0
+margin_bottom = 23.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "4"
+align = 1
+
+[node name="Range5" type="Label" parent="RangeSelector/Selections"]
+margin_left = 339.0
+margin_right = 348.0
+margin_bottom = 23.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "5"
+align = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="RangeSelector"]
+layer = 4
+
+[node name="ComponentMenuArrow" parent="RangeSelector/CanvasLayer" instance=ExtResource( 6 )]
+visible = false
+margin_left = 290.0
+margin_top = 0.0
+margin_right = 300.0
+margin_bottom = 22.0
+script = null
+
+[node name="arrow_img" type="Sprite" parent="RangeSelector/CanvasLayer/ComponentMenuArrow"]
+position = Vector2( -1, -2 )
+rotation = -1.5708
+scale = Vector2( -0.5, 0.5 )
+texture = ExtResource( 5 )
+centered = false

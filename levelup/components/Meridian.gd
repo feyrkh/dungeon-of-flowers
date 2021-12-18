@@ -45,6 +45,11 @@ func unlock_efficiency_level(_level):
 		max_unlocked_efficiency_level = _level
 	render_component()
 
+func unlock_range_level(_level):
+	if max_unlocked_range_level < _level:
+		max_unlocked_range_level = _level
+	render_component()
+
 func render_component():
 	match direction:
 		C.MERIDIAN_DIR_1:
@@ -134,6 +139,9 @@ func get_component_menu_items():
 	var efficiency_item = preload("res://levelup/menu_items/EnergyEfficiencyMenuItem.tscn").instance()
 	efficiency_item.setup(self, EFFICIENCY[efficiency_level], max_unlocked_efficiency_level)
 	menu_items.append(efficiency_item)
+	var range_item = preload("res://levelup/menu_items/EnergyRangeMenuItem.tscn").instance()
+	range_item.setup(self, range_level, max_unlocked_range_level)
+	menu_items.append(range_item)
 	return menu_items
 
 

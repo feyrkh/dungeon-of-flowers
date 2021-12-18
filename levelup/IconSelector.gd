@@ -45,8 +45,8 @@ func update_options(cost_map, icon_id, is_selected):
 
 func start_selecting():
 	ComponentMenuArrow.visible = true
-	selected_icon = -1
-	select_next(1)
+	selected_icon = highlighted_icon
+	select_next(0)
 
 func stop_selecting():
 	ComponentMenuArrow.visible = false
@@ -79,6 +79,8 @@ func can_select_current():
 
 func select_next(dir=1):
 	var child_count = Selections.get_child_count()
+	if dir == 0 and selected_icon == -1:
+		selected_icon = 0
 	selected_icon = Util.wrap_range(selected_icon+dir, child_count)
 	# The code below lets you avoid highlighting icons you can't afford or which are disabled
 	# But it's probably better to allow highlighting but not allow selection

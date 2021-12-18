@@ -59,7 +59,7 @@ func menu_item_action():
 		EventBus.emit_signal("grias_component_menu_text", "Can't afford!")
 		return
 	EventBus.emit_signal("grias_levelup_component_input_capture", self)
-	find_node("DescriptionLabel").text = "Reshape meridian?  "
+	find_node("DescriptionLabel").text = "Adjust efficiency?  "
 	find_node("ConfirmDialog").visible = true
 	find_node("ConfirmDialog").cur_choice = false
 

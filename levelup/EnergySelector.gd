@@ -15,6 +15,9 @@ func _ready():
 func setup(has_all, cost=1, _investment={}, _highlighted_element_value=-1):
 	investment = _investment
 	highlighted_element = ELEMENT_ORDER.find(_highlighted_element_value)
+	selected_element = highlighted_element
+	if !GameData.can_afford({C.ELEMENT_DECAY:1}):
+		disabled_elements.append(ELEMENT_ORDER.find(C.ELEMENT_DECAY))
 	for element_id in C.ELEMENT_IDS:
 		update_options({element_id:cost}, element_id)
 	if has_all:
@@ -31,7 +34,7 @@ func update_options(_cost_map, element_id):
 		find_node(element_name+"Icon").find_node("whirl").visible = false
 		if element_id == C.ELEMENT_DECAY:
 			find_node(element_name+"Icon").visible = false
-	elif disabled_elements.has(element_id):
+	elif highlighted_element == ELEMENT_ORDER.find(element_id):
 		find_node(element_name+"Icon").modulate = Color(1, 1, 0.99)
 		find_node(element_name+"Icon").find_node("whirl").visible = true
 	else:
@@ -42,8 +45,8 @@ func update_options(_cost_map, element_id):
 
 func start_selecting():
 	ComponentMenuArrow.visible = true
-	selected_element = -1
-	select_next(1)
+	selected_element = highlighted_element
+	select_next(0)
 
 func stop_selecting():
 	ComponentMenuArrow.visible = false
@@ -73,13 +76,15 @@ func update_arrow_pos():
 	ComponentMenuArrow.rect_global_position = target_position - Vector2(ComponentMenuArrow.rect_size.x, -8)
 
 func select_next(dir=1):
-	selected_element = Util.wrap_range(selected_element+dir, ELEMENT_ORDER.size())
-#	for i in range(ELEMENT_ORDER.size()):
-#		selected_element = Util.wrap_range(selected_element+dir, ELEMENT_ORDER.size())
-#		if selected_element_node().modulate == Color.white:
-#			break
-#	if !selected_element_node().modulate == Color.white:
-#		# no selectable elements
-#		selected_element = -1
-#		stop_selecting()
+	if dir == 0 and selected_element == -1:
+		selected_element = 0
+	#selected_element = Util.wrap_range(selected_element+dir, ELEMENT_ORDER.size())
+	for i in range(ELEMENT_ORDER.size()):
+		selected_element = Util.wrap_range(selected_element+dir, ELEMENT_ORDER.size())
+		if !disabled_elements.has(selected_element):
+			break
+	if disabled_elements.has(selected_element):
+		# no selectable elements
+		selected_element = -1
+		stop_selecting()
 	update_arrow_pos()

@@ -18,6 +18,8 @@ const FOG_TRANSLATE = {
 	"chaos4": "Anarchic Energy",
 	"outside": "Body Boundary"
 	}
+const MIN_NODE_UNLOCK_INTERVAL = 15
+const MAX_NODE_UNLOCK_INTERVAL = 30
 
 onready var Grid = find_node("Grid")
 onready var Cursor = find_node("Cursor")
@@ -44,6 +46,7 @@ var tween:Tween
 var clear_tile_id = -1
 var chaos1_tile_id = -1
 var meridian_tile_id = -1
+var next_node_unlock = 5
 
 func set_state(val):
 	state = val
@@ -222,6 +225,13 @@ func grias_levelup_clear_fog(map_position:Vector2, fog_color:Color):
 	EnergyOrbContainer.add_child(fade_swirl)
 	fade_swirl.fade(fog_color)
 	update_cursor_label()
+	next_node_unlock -= 1
+	if next_node_unlock <= 0:
+		next_node_unlock = round(rand_range(MIN_NODE_UNLOCK_INTERVAL, MAX_NODE_UNLOCK_INTERVAL))
+		unlock_new_node(map_position)
+
+func unlock_new_node(map_position):
+	pass
 
 func grias_levelup_fail_clear_fog(map_position:Vector2, fog_color:Color):
 	var fade_swirl = preload("res://levelup/FogClear.tscn").instance()

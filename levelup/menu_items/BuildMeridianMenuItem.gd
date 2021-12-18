@@ -18,7 +18,6 @@ onready var EnergySelector = find_node("EnergySelector")
 func _ready():
 	var highlighted_element = -1
 	if existing_meridian:
-		EnergySelector.disabled_elements = [existing_meridian.element]
 		highlighted_element = existing_meridian.element
 	EnergySelector.setup(true, 1, investment, highlighted_element)
 	find_node("ConfirmDialog").visible = false

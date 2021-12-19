@@ -1,9 +1,7 @@
 extends Node2D
 
-
 const ROTATION_PER_LEVEL = 30
 const EFFICIENCY = [0.75, 0.9, 1.0, 1.1]
-
 
 var efficiency_level = 0
 var range_level = 0
@@ -146,7 +144,6 @@ func get_component_menu_items():
 	range_item.setup(self, range_level, max_unlocked_range_level)
 	menu_items.append(range_item)
 	return menu_items
-
 
 func get_description():
 	var desc = "An orderly pathway for energy, allows "+C.element_name(element)+" energy to flow with less power loss and can even redirect energy with additional upgrades.\n"

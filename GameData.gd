@@ -110,7 +110,7 @@ func on_use_item(item_name, amount):
 	Util.inc(inventory, item_name, amount, 0)
 
 func save_game_defaults():
-	save_game_default("grias_levelup_energy", [5, 5, 5, 0])
+	save_game_default("grias_levelup_energy", [25, 25, 25, 0])
 
 func save_game_default(k, default_val_if_missing):
 	if game_state.has(k):

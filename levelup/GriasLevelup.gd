@@ -20,6 +20,7 @@ const FOG_TRANSLATE = {
 	}
 const MIN_NODE_UNLOCK_INTERVAL = 15
 const MAX_NODE_UNLOCK_INTERVAL = 30
+const NEXT_NODE_STAT_TYPE = ["health"]
 
 onready var Grid = find_node("Grid")
 onready var Cursor = find_node("Cursor")
@@ -46,7 +47,9 @@ var tween:Tween
 var clear_tile_id = -1
 var chaos1_tile_id = -1
 var meridian_tile_id = -1
-var next_node_unlock = 5
+var powered_node_tile_id = -1
+var next_node_unlock = 4
+var next_node_stat_type = "health"
 
 func set_state(val):
 	state = val
@@ -102,6 +105,7 @@ func _ready():
 	EventBus.connect("grias_levelup_component_input_release", self, "grias_levelup_component_input_release")
 	EventBus.connect("grias_exit_component_mode", self, "exit_component_mode")
 	EventBus.connect("grias_component_hide_main_arrow", self, "grias_component_hide_main_arrow")
+	EventBus.connect("grias_levelup_powerup_node_change", self, "grias_levelup_powerup_node_change")
 
 func _input(event):
 	if state == CURSOR:
@@ -232,7 +236,13 @@ func grias_levelup_clear_fog(map_position:Vector2, fog_color:Color):
 		unlock_new_node(map_position)
 
 func unlock_new_node(map_position):
-	pass
+	var node = load("res://levelup/components/PoweredNode.tscn").instance()
+	node.position = map_position * 64 + Vector2(32, 32)
+	node.stat_name = next_node_stat_type
+	next_node_stat_type = NEXT_NODE_STAT_TYPE[randi()%NEXT_NODE_STAT_TYPE.size()]
+
+	TilemapMgr.set_tile("component", map_position.x, map_position.y, powered_node_tile_id)
+	TilemapMgr.set_tile_scene("component", map_position, node)
 
 func grias_levelup_fail_clear_fog(map_position:Vector2, fog_color:Color):
 	var fade_swirl = preload("res://levelup/FogClear.tscn").instance()
@@ -438,3 +448,5 @@ func custom_tile_handler(layer, layer_name, tileset, cell, tile_name, tile_id):
 		chaos1_tile_id = tile_id
 	elif layer_name == "component" and tile_name == "redirect_1":
 		meridian_tile_id = tile_id
+	elif layer_name == "component" and tile_name == "powered_node":
+		powered_node_tile_id = tile_id

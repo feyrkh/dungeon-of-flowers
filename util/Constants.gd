@@ -46,3 +46,17 @@ const MERIDIAN_DIR_NAMES = ["undirected", "directing", "opposing", "diverting", 
 
 static func meridian_dir_name(dir):
 	return MERIDIAN_DIR_NAMES[dir]
+
+const GRIAS_STAT_LABEL = {
+	"max_hp": "Max HP",
+	"walk_regen": "Noncombat Regen (hp per step)",
+}
+
+func grias_stat_effects_desc(effect_map, energy):
+	if !effect_map:
+		return ""
+	var desc:PoolStringArray = PoolStringArray()
+	var effects:Array = effect_map.keys()
+	for effect_name in effects:
+		desc.append("%s: %.1f" % [GRIAS_STAT_LABEL[effect_name], effect_map[effect_name] * energy])
+	return desc.join("\n")

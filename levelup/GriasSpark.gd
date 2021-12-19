@@ -49,25 +49,35 @@ func setup(core_node:GriasCore):
 	begin_move(map_position, map_position + direction)
 
 func begin_move(start, end):
+	start = start.round()
+	end = end.round()
+	print("Moving from ", start, " to ", end)
 	var tween = Util.one_shot_tween(self)
 	var move_time = 64.0/BASE_MOVE_SPEED/speed
-	tween.interpolate_property(self, "position", position, position + direction * BASE_MOVE_SPEED * speed, move_time)
+	var target = (position + direction * BASE_MOVE_SPEED * speed).round()
+	tween.interpolate_property(self, "position", position, target, move_time)
 	tween.interpolate_callback(self, move_time, "finish_move", end)
 	tween.start()
 
 func begin_tunnel(start, end):
+	start = start.round()
+	end = end.round()
+	print("Tunneling from ", start, " to ", end)
 	var tween = Util.one_shot_tween(self)
 	var move_time = 64.0/BASE_MOVE_SPEED/speed
-	tween.interpolate_property(self, "position", position, position + direction * tunnel_distance * BASE_MOVE_SPEED * speed, move_time)
+	var target = (position + direction * tunnel_distance * BASE_MOVE_SPEED * speed).round()
+	tween.interpolate_property(self, "position", position, target, move_time)
 	tween.interpolate_callback(self, move_time, "finish_move", end)
 	tween.start()
 
 func finish_move(end_position):
+	print("Finished moving to ", end_position)
 	map_position = end_position
 	if pre_tunnel_scale:
 		scale = pre_tunnel_scale
 		pre_tunnel_scale = null
-	match tilemap_mgr.get_tile_name("fog", end_position.x, end_position.y):
+	var fog_tile_name = tilemap_mgr.get_tile_name("fog", end_position.x, end_position.y)
+	match fog_tile_name:
 		"chaos1": hit_chaos(end_position, -0.1, 0.5)
 		"chaos2": hit_chaos(end_position, 1, 0.6)
 		"chaos3": hit_chaos(end_position, 2, 0.7)
@@ -91,7 +101,7 @@ func finish_move(end_position):
 		begin_tunnel(map_position, map_position+(direction * tunnel_distance))
 
 func hit_chaos(pos, min_energy, fog_color):
-	if energy >= min_energy and tunnel_distance == 0:
+	if energy >= min_energy and !tunnel_distance:
 		EventBus.emit_signal("grias_levelup_clear_fog", pos, fog_clear_color)
 	else:
 		EventBus.emit_signal("grias_levelup_fail_clear_fog", pos, fog_clear_color)
@@ -106,12 +116,14 @@ func generate_spark_movement(spark, start, finish, offset):
 
 func _process(delta):
 	rotation_degrees += ROTATE_SPEED_PER_ENERGY * energy * delta
-	energy -= delta * ENERGY_PER_TILE
-	if energy < 0.5:
-		modulate.a = energy*2
+	if !tunnel_distance:
+		energy -= delta * ENERGY_PER_TILE
+		if energy < 0.5:
+			modulate.a = energy*2
 
 func add_meridian_energy(efficiency):
-	energy += ENERGY_PER_TILE * efficiency
+	if !tunnel_distance:
+		energy += ENERGY_PER_TILE * efficiency
 
 func tunnel(tile_distance):
 	tunnel_distance = tile_distance

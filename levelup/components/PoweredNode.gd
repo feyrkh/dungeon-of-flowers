@@ -56,13 +56,13 @@ func spark_arrived(spark, tile_coords):
 		else:
 			energy = max(0, energy - spark.energy)
 	else:
-		if spark.energy > 0:
-			energy = energy + spark.energy
+		var energy_absorbed = min(min(1, spark.energy), max_energy-energy)
+		if energy_absorbed > 0:
+			energy = energy + energy_absorbed
 			target_color = C.element_color(element)
-		if energy > max_energy:
-			drain_protection = energy - max_energy
-			energy = max_energy
-		spark.queue_free()
+		spark.energy -= energy_absorbed
+		if energy >= max_energy:
+			drain_protection = max(0, spark.energy)
 	if energy > 0:
 		set_process(true)
 	#EventBus.emit_signal("grias_component_description", get_description())

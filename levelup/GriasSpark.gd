@@ -11,7 +11,7 @@ onready var Spark2 = find_node("Spark2")
 onready var Spark3 = find_node("Spark3")
 onready var Spark4 = find_node("Spark4")
 
-export(float) var energy = 0.5
+export(float) var energy = 1
 var speed = 1.0
 var tunnel_distance = tunnel_distance
 var pre_tunnel_scale = null

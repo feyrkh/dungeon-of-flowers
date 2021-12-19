@@ -105,7 +105,6 @@ func _ready():
 	EventBus.connect("grias_levelup_component_input_release", self, "grias_levelup_component_input_release")
 	EventBus.connect("grias_exit_component_mode", self, "exit_component_mode")
 	EventBus.connect("grias_component_hide_main_arrow", self, "grias_component_hide_main_arrow")
-	EventBus.connect("grias_levelup_powerup_node_change", self, "grias_levelup_powerup_node_change")
 
 func _input(event):
 	if state == CURSOR:

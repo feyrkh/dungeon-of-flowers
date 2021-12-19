@@ -5,8 +5,8 @@
 [node name="CostListLabel" type="Label"]
 margin_right = 40.0
 margin_bottom = 14.0
+size_flags_horizontal = 11
 custom_fonts/font = ExtResource( 1 )
-align = 2
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false

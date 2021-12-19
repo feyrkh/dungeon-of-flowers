@@ -49,7 +49,12 @@ static func meridian_dir_name(dir):
 
 const GRIAS_STAT_LABEL = {
 	"max_hp": "Max HP",
-	"walk_regen": "Noncombat Regen (hp per step)",
+	"walk_regen": "Noncombat Regen",
+}
+
+const GRIAS_STAT_FORMAT = {
+	"max_hp": "%.1f",
+	"walk_regen": "%.2f",
 }
 
 func grias_stat_effects_desc(effect_map, energy):

@@ -296,6 +296,19 @@ margin_bottom = 140.0
 size_flags_horizontal = 8
 texture = ExtResource( 13 )
 
+[node name="BonusContainer" type="GridContainer" parent="CanvasLayer4"]
+margin_left = 1716.0
+margin_top = 181.0
+margin_right = 1916.0
+margin_bottom = 681.0
+grow_horizontal = 0
+rect_min_size = Vector2( 200, 500 )
+size_flags_horizontal = 9
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="TilemapMgr" type="Node2D" parent="."]
 script = ExtResource( 7 )
 tile_name_prefix = ""
@@ -303,7 +316,7 @@ tile_size = 64
 add_under_tilemap = true
 
 [node name="LabelUpdateTimer" type="Timer" parent="."]
-wait_time = 0.25
 autostart = true
 
-[connection signal="timeout" from="LabelUpdateTimer" to="." method="update_cursor_label"]
+[connection signal="timeout" from="LabelUpdateTimer" to="." method="update_cursor_label" flags=3]
+[connection signal="timeout" from="LabelUpdateTimer" to="." method="update_bonus_display" flags=3]

@@ -37,6 +37,7 @@ onready var ComponentMenuDescription = find_node("ComponentMenuDescription")
 onready var ComponentMenuText = find_node("ComponentMenuText")
 onready var ComponentMenuArrow = find_node("ComponentMenuArrow")
 onready var EnergyContainer = find_node("EnergyContainer")
+onready var BonusContainer = find_node("BonusContainer")
 
 var state = INACTIVE setget set_state
 var cursor_pos = Vector2(14, 7) setget set_cursor # Tilemap coordinates
@@ -449,3 +450,23 @@ func custom_tile_handler(layer, layer_name, tileset, cell, tile_name, tile_id):
 		meridian_tile_id = tile_id
 	elif layer_name == "component" and tile_name == "powered_node":
 		powered_node_tile_id = tile_id
+
+func update_bonus_display() -> void:
+	GameData.update_grias_bonuses()
+	Util.delete_children(BonusContainer)
+	var effect_map = GameData.get_state("grias_bonuses")
+	var effects = {}
+	for effect_name in effect_map:
+		effects[C.GRIAS_STAT_LABEL.get(effect_name, effect_name)] = C.GRIAS_STAT_FORMAT.get(effect_name, "  %d")%[effect_map[effect_name]]
+	var effect_names = effects.keys()
+	effect_names.sort()
+	for effect_name in effect_names:
+		var effect_value = effects[effect_name]
+		var name_label:Label = preload("res://levelup/menu_items/BonusListLabel.tscn").instance()
+		name_label.align = Label.ALIGN_RIGHT
+		name_label.text = effect_name
+		var value_label = preload("res://levelup/menu_items/BonusListLabel.tscn").instance()
+		value_label.align = Label.ALIGN_RIGHT
+		value_label.text = effect_value
+		BonusContainer.add_child(name_label)
+		BonusContainer.add_child(value_label)

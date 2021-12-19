@@ -20,6 +20,7 @@ var map_position:Vector2 = Vector2.ZERO
 var tilemap_mgr:TilemapMgr
 var fog_clear_color:Color = Color.black
 var element
+var tiles_visited = 0
 
 func _ready():
 	rotation_degrees = randi()%360
@@ -72,6 +73,9 @@ func begin_tunnel(start, end):
 
 func finish_move(end_position):
 	print("Finished moving to ", end_position)
+	tiles_visited += 1
+	if tiles_visited > 200:
+		energy -= 0.1
 	map_position = end_position
 	if pre_tunnel_scale:
 		scale = pre_tunnel_scale

@@ -414,3 +414,13 @@ func cost_after_investment(cost_map, invest_map):
 			if new_cost[k] <= 0:
 				new_cost.erase(k)
 	return new_cost
+
+func update_grias_bonuses():
+	var bonus_display = []
+	var total_bonuses = {}
+	var bonus_providers = get_tree().get_nodes_in_group("grias_bonus_provider")
+	for bonus_provider in bonus_providers:
+		var cur_bonuses = bonus_provider.get_grias_bonus()
+		for bonus_name in cur_bonuses:
+			Util.inc(total_bonuses, bonus_name, cur_bonuses[bonus_name])
+	set_state("grias_bonuses", total_bonuses)

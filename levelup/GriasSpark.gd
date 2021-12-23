@@ -52,7 +52,7 @@ func setup(core_node:GriasCore):
 func begin_move(start, end):
 	start = start.round()
 	end = end.round()
-	print("Moving from ", start, " to ", end)
+	#print("Moving from ", start, " to ", end)
 	var tween = Util.one_shot_tween(self)
 	var move_time = 64.0/BASE_MOVE_SPEED/speed
 	var target = (position + direction * BASE_MOVE_SPEED * speed).round()
@@ -63,7 +63,7 @@ func begin_move(start, end):
 func begin_tunnel(start, end):
 	start = start.round()
 	end = end.round()
-	print("Tunneling from ", start, " to ", end)
+	#print("Tunneling from ", start, " to ", end)
 	var tween = Util.one_shot_tween(self)
 	var move_time = 64.0/BASE_MOVE_SPEED/speed
 	var target = (position + direction * tunnel_distance * BASE_MOVE_SPEED * speed).round()
@@ -72,7 +72,7 @@ func begin_tunnel(start, end):
 	tween.start()
 
 func finish_move(end_position):
-	print("Finished moving to ", end_position)
+	#print("Finished moving to ", end_position)
 	tiles_visited += 1
 	if tiles_visited > 200:
 		energy -= 0.1

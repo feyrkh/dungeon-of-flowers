@@ -22,9 +22,9 @@ func get_meridian_efficiency():
 
 func get_component_label():
 	if element != C.ELEMENT_ALL:
-		return C.element_name(element).capitalize()+" Meridian (Lvl "+str(efficiency_level+range_level+1)+")"
+		return C.element_name(element).capitalize()+" Meridian (Lvl "+str(max_unlocked_efficiency_level)+")"
 	else:
-		return "Meridian (Lvl "+str(efficiency_level+range_level+1)+")"
+		return "Meridian (Lvl "+str(max_unlocked_efficiency_level)+")"
 
 func unlock_element(_element, cost):
 	element = _element

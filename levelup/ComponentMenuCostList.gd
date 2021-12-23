@@ -4,6 +4,7 @@ var SPRITE_SCALE = Vector2(0.5, 0.5)
 
 func _ready():
 	EventBus.connect("grias_component_cost", self, "grias_component_cost")
+	EventBus.connect("grias_component_refund", self, "grias_component_cost")
 
 func grias_component_cost(cost_map):
 	Util.delete_children(self)

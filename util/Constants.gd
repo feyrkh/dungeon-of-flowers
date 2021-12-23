@@ -48,13 +48,46 @@ static func meridian_dir_name(dir):
 	return MERIDIAN_DIR_NAMES[dir]
 
 const GRIAS_STAT_LABEL = {
-	"max_hp": "Max HP",
-	"walk_regen": "Noncombat Regen",
+	"max_hp": "Max HP+", # increase max HP by a flat amount
+	"walk_regen": "Walk Regen", # regen HP per step
+	"max_sp": "Max SP+", # increase max SP by a flat amount
+	"heal_sp": "Heal SP+", # when healing SP, multiply the amount healed by this %
+	"heal_hp": "Heal HP+", # when healing HP, multiply the amount healed by this %
+	"damage": "Damage+", # when dealing damage, increase it by this %
+	"critical_chance": "Crit Chance+", # increase size of critical areas by this %
+	"critical_damage": "Crit Damage+", # when dealing critical damage, increase it by this %
+	"damage_reduce": "Dmg Reduce", # when taking damage, reduce it by a flat amount
+	"damage_avoid": "Dmg Avoid", # when taking damage, this % chance to avoid damage entirely
+	"damage_absorb": "Dmg->SP Absorb", # when taking damage, this % is converted to SP
+	"damage_reflect": "Dmg Reflect", # when taking damage, this % chance to reflect it back at the enemy
+	"pollen_bonus": "Pollen Bonus", # when consuming pollen, increase pollen points by this %
+	"slash:hits": "Slash: Hit+",
+	"slash:damage": "Slash: Damage+",
+	"slash:cost": "Slash: Cost-",
+	"bodyguard:hits": "Bodyguard: Hit+",
+	"bodyguard:speed": "Bodyguard: Speed+",
+	"bodyguard:cost": "Bodyguard: Cost-",
 }
 
 const GRIAS_STAT_FORMAT = {
-	"max_hp": "%.1f",
-	"walk_regen": "%.2f",
+	"max_hp": "%.0f HP",
+	"walk_regen": "%.2f HP/step",
+	"max_sp": "%.0f SP",
+	"heal_sp": "%.1f%%",
+	"heal_hp": "%.1f%%",
+	"damage": "%.1f%%",
+	"critical_chance": "%.1f%%",
+	"critical_damage": "%.1f%%",
+	"damage_reduce": "%.1f",
+	"damage_avoid": "%.1f%%",
+	"damage_absorb": "%.1f%%",
+	"damage_reflect": "%.1f%%",
+	"slash:hits": "%.0f Hit",
+	"slash:damage": "%.1f HP",
+	"slash:cost": "%.0f SP",
+	"bodyguard:hits": "%d%% Toughness",
+	"bodyguard:speed": "+%d%% Speed",
+	"bodyguard:cost": "%d SP",
 }
 
 func grias_stat_effects_desc(effect_map, energy):

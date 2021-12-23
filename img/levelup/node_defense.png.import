@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/node_crit.png-54c9a0b6aa253dfb442e06b5e09054b0.stex"
+path="res://.import/node_defense.png-f7c10d8df4fe14886a481f05732de321.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/levelup/node_crit.png"
-dest_files=[ "res://.import/node_crit.png-54c9a0b6aa253dfb442e06b5e09054b0.stex" ]
+source_file="res://img/levelup/node_defense.png"
+dest_files=[ "res://.import/node_defense.png-f7c10d8df4fe14886a481f05732de321.stex" ]
 
 [params]
 

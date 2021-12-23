@@ -271,9 +271,9 @@ func inc_state(state_entry, delta, default_val=0, min_val=null, max_val=null):
 func update_state(state_entry, val):
 	var old_value = game_state.get(state_entry, null)
 	game_state[state_entry] = val
-	if !state_entry.begins_with("_") and (val is Array or old_value != val):
+	if !state_entry.begins_with("_"):
 		emit_signal("state_updated", state_entry, old_value, val)
-		print("State ", state_entry, "=", val)
+		#print("State ", state_entry, "=", val)
 
 func on_new_player_location(x, y, rot_deg):
 	world_tile_position = Vector2(x, y)
@@ -392,6 +392,14 @@ func pay_cost(cost_map):
 	var currency = get_state("grias_levelup_energy", [0, 0, 0, 0, 0, 0, 0])
 	for k in cost_map.keys():
 		currency[k] -= cost_map[k]
+	set_state("grias_levelup_energy", currency)
+
+func refund_cost(cost_map):
+	if cost_map == null:
+		return
+	var currency = get_state("grias_levelup_energy", [0, 0, 0, 0, 0, 0, 0])
+	for k in cost_map.keys():
+		currency[k] += cost_map[k]
 	set_state("grias_levelup_energy", currency)
 
 func can_afford(cost_map):

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/node_armor.png-8580859a1db8a5178105d2b960788afe.stex"
+path="res://.import/node_skill.png-bea182f1c151e8f1346d10bd0a9ef6fa.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/levelup/node_armor.png"
-dest_files=[ "res://.import/node_armor.png-8580859a1db8a5178105d2b960788afe.stex" ]
+source_file="res://img/levelup/node_skill.png"
+dest_files=[ "res://.import/node_skill.png-bea182f1c151e8f1346d10bd0a9ef6fa.stex" ]
 
 [params]
 

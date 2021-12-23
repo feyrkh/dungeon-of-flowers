@@ -18,9 +18,10 @@ const FOG_TRANSLATE = {
 	"chaos4": "Anarchic Energy",
 	"outside": "Body Boundary"
 	}
-const MIN_NODE_UNLOCK_INTERVAL = 15
-const MAX_NODE_UNLOCK_INTERVAL = 30
-const NEXT_NODE_STAT_TYPE = ["health"]
+const MIN_NODE_UNLOCK_INTERVAL = 25
+const MAX_NODE_UNLOCK_INTERVAL = 35
+const NODE_UNLOCK_CHANCE = 0.03
+const NEXT_NODE_STAT_TYPE = ["health", "sp", "attack", "defense", "efficiency", ]
 
 onready var Grid = find_node("Grid")
 onready var Cursor = find_node("Cursor")
@@ -49,6 +50,7 @@ var clear_tile_id = -1
 var chaos1_tile_id = -1
 var meridian_tile_id = -1
 var powered_node_tile_id = -1
+var focus_tile_id = -1
 var next_node_unlock = 4
 var next_node_stat_type = "health"
 
@@ -101,6 +103,8 @@ func _ready():
 	EventBus.connect("grias_component_menu_text", self, "grias_component_menu_text")
 	EventBus.connect("grias_component_description", self, "grias_component_description")
 	EventBus.connect("grias_component_cost", self, "grias_component_cost")
+	EventBus.connect("grias_destroy_node", self, "grias_destroy_node")
+	EventBus.connect("grias_component_refund", self, "grias_component_refund")
 	EventBus.connect("grias_component_change", self, "grias_component_change")
 	EventBus.connect("grias_levelup_component_input_capture", self, "grias_levelup_component_input_capture")
 	EventBus.connect("grias_levelup_component_input_release", self, "grias_levelup_component_input_release")
@@ -178,13 +182,23 @@ func grias_component_change(change_type, cost_map, args):
 			selected_component_menu_item().menu_item_highlighted()
 		#exit_component_mode()
 		return
-
+	elif change_type == "build_focus":
+		GameData.pay_cost(cost_map)
+		var focus = load("res://levelup/components/FocusNode.tscn").instance()
+		focus.position = cursor_pos * 64 + Vector2(32, 32)
+		focus.setup(TilemapMgr, cursor_pos)
+		TilemapMgr.set_tile("component", cursor_pos.x, cursor_pos.y, focus_tile_id)
+		TilemapMgr.set_tile_scene("component", cursor_pos, focus)
+		exit_component_mode()
 	var scene = TilemapMgr.get_tile_scene("component", cursor_pos)
 	if !scene or !scene.has_method("component_change"):
 		printerr("Unexpected component change at ", cursor_pos, "; ", [change_type, cost_map, args])
 		return
 	scene.component_change(change_type, cost_map, args)
 	update_cursor_label()
+
+func grias_destroy_node(node, refund_map):
+	GameData.refund_cost(refund_map)
 
 func grias_levelup_component_input_release():
 	if component_input_captured and component_input_captured.has_method("component_input_ended"):
@@ -201,6 +215,9 @@ func map_tile_changed(layer, x, y, tile):
 		exit_component_mode()
 
 func grias_component_cost(cost_map):
+	ComponentModeParentContainer.rect_size.x = 400
+
+func grias_component_refund(cost_map):
 	ComponentModeParentContainer.rect_size.x = 400
 
 func grias_component_menu_text(text):
@@ -231,7 +248,7 @@ func grias_levelup_clear_fog(map_position:Vector2, fog_color:Color):
 	fade_swirl.fade(fog_color)
 	update_cursor_label()
 	next_node_unlock -= 1
-	if next_node_unlock <= 0:
+	if next_node_unlock <= 0 or randf() < NODE_UNLOCK_CHANCE and TilemapMgr.get_tile_scene("component", map_position) == null:
 		next_node_unlock = round(rand_range(MIN_NODE_UNLOCK_INTERVAL, MAX_NODE_UNLOCK_INTERVAL))
 		unlock_new_node(map_position)
 
@@ -240,6 +257,7 @@ func unlock_new_node(map_position):
 	node.position = map_position * 64 + Vector2(32, 32)
 	node.stat_name = next_node_stat_type
 	next_node_stat_type = NEXT_NODE_STAT_TYPE[randi()%NEXT_NODE_STAT_TYPE.size()]
+	node.setup(TilemapMgr, map_position)
 
 	TilemapMgr.set_tile("component", map_position.x, map_position.y, powered_node_tile_id)
 	TilemapMgr.set_tile_scene("component", map_position, node)
@@ -377,7 +395,9 @@ func add_other_components(menu_items):
 func add_build_components(menu_items):
 	EventBus.emit_signal("grias_component_description", "Grias has ordered the energy here, and could focus it toward useful ends, given enough pollen.")
 	var meridian_item = preload("res://levelup/menu_items/BuildMeridianMenuItem.tscn").instance()
+	var focus_item = preload("res://levelup/menu_items/BuildFocusNodeMenuItem.tscn").instance()
 	menu_items.append(meridian_item)
+	menu_items.append(focus_item)
 
 func add_scene_components(menu_items, tile_scene):
 	if !tile_scene:
@@ -450,6 +470,8 @@ func custom_tile_handler(layer, layer_name, tileset, cell, tile_name, tile_id):
 		meridian_tile_id = tile_id
 	elif layer_name == "component" and tile_name == "powered_node":
 		powered_node_tile_id = tile_id
+	elif layer_name == "component" and tile_name == "focus":
+		focus_tile_id = tile_id
 
 func update_bonus_display() -> void:
 	GameData.update_grias_bonuses()

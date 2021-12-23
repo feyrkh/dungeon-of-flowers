@@ -97,7 +97,7 @@ func _process(delta):
 	if drain_protection > 0:
 		drain_protection -= delta * 2
 		return
-	var energy_ratio = energy/max_energy
+	var energy_ratio = energy/get_max_energy()
 	if energy_ratio > 1.0:
 		energy_ratio = 0.99
 	energy = max(0, energy - (drain_speed * delta) * (1.01 - energy_ratio))
@@ -132,12 +132,12 @@ func spark_arrived(spark, tile_coords):
 		else:
 			energy = max(0, energy - energy_absorbed)
 	else:
-		energy_absorbed = min(min(1, spark.energy), max_energy-energy)
+		energy_absorbed = min(min(1, spark.energy), get_max_energy()-energy)
 		if energy_absorbed > 0:
 			energy = energy + energy_absorbed
 			target_color = C.element_color(element)
 		spark.energy -= max(energy_absorbed*2, 0.05)
-		if energy >= max_energy:
+		if energy >= get_max_energy():
 			drain_protection = max(0, spark.energy)
 	if energy_absorbed > 0:
 		EventBus.emit_signal("grias_levelup_fail_clear_fog", tile_coords, spark.fog_clear_color)

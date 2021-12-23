@@ -32,6 +32,8 @@ func component_input_ended():
 	find_node("DescriptionContainer").modulate = Color.white
 
 func menu_item_action():
+	if !GameData.can_afford(COSTS):
+		return
 	EventBus.emit_signal("grias_levelup_component_input_capture", self)
 	find_node("DescriptionLabel").text = "Empower focus node?  "
 	find_node("ConfirmDialog").visible = true

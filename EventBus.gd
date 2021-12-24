@@ -56,6 +56,8 @@ signal enable_pause_menu
 signal control_scheme_changed(platform)
 
 # Grias levelup screen
+signal grias_pre_save_levelup()
+signal grias_post_load_levelup()
 signal grias_exit_component_mode()
 signal grias_generate_energy(core_node)
 signal grias_component_description(text)

@@ -1,4 +1,4 @@
-extends Node2D
+extends MapEntity
 
 const ROTATION_PER_LEVEL = 30
 const EFFICIENCY = [0.75, 0.9, 1.0, 1.1]
@@ -14,7 +14,28 @@ var unlocked_directions = [0]
 var max_unlocked_efficiency_level = 0
 var max_unlocked_range_level = 0
 
+func grias_pre_save_levelup():
+	var save_data = {
+		"efficiency_level": efficiency_level,
+		"range_level": range_level,
+		"element": element,
+		"direction": direction,
+		"facing": facing,
+		"redirect_vector": redirect_vector,
+		"investment": investment,
+		"unlocked_directions": unlocked_directions,
+		"max_unlocked_efficiency_level": max_unlocked_efficiency_level,
+		"max_unlocked_range_level": max_unlocked_range_level,
+	}
+	update_config(save_data)
+
+func on_map_place(tilemap_mgr, layer_name, cell):
+	.on_map_place(tilemap_mgr, layer_name, cell)
+	position = position + Vector2(32, 32)
+	render_component()
+	
 func _ready():
+	EventBus.connect("grias_pre_save_levelup", self, "grias_pre_save_levelup")
 	render_component()
 
 func get_meridian_efficiency():

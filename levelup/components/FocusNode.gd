@@ -1,4 +1,4 @@
-extends Node2D
+extends MapEntity
 
 const DIRS = {
 	Vector2.UP: C.FACING_DOWN,
@@ -10,18 +10,30 @@ const DIRS = {
 var efficiency = 0.5
 var facing = C.FACING_UP setget set_facing
 var _focus_power_cache = null
-var tilemap_mgr:TilemapMgr
-var map_coords
 
-func setup(_tilemap_mgr, _map_coords):
-	self.tilemap_mgr = _tilemap_mgr
-	self.map_coords = _map_coords
+func grias_pre_save_levelup():
+	var save_data = {
+		"efficiency": efficiency,
+		"facing": facing,
+	}
+	update_config(save_data)
+	
+func on_map_place(_tilemap_mgr, layer_name:String, cell:Vector2):
+	.on_map_place(_tilemap_mgr, layer_name, cell)
+	position = position + Vector2(32, 32)
 	EventBus.emit_signal("grias_reset_focus_power_cache")
-	for dir in DIRS:
-		var possible_focuser = tilemap_mgr.get_tile_scene("component", map_coords + dir)
-		if possible_focuser and possible_focuser.has_method("get_focus_power"):
-			facing = 180 - DIRS[dir]
-			break
+	render_component()
+
+func set_initial_rotation(dir:Vector2, initial_facing:float):
+	var possible_focuser = tilemap_mgr.get_tile_scene("component", map_position + dir)
+	if possible_focuser and possible_focuser.has_method("get_focus_power"):
+		facing = initial_facing
+
+func set_rotation_on_build():
+	set_initial_rotation(Vector2.LEFT, C.FACING_LEFT)
+	set_initial_rotation(Vector2.DOWN, C.FACING_DOWN)
+	set_initial_rotation(Vector2.RIGHT, C.FACING_RIGHT)
+	set_initial_rotation(Vector2.UP, C.FACING_UP)
 
 func get_component_label():
 	return "Focus (+"+str(round(get_focus_power()*100))+"%)"
@@ -45,7 +57,7 @@ func reset_focus_power_cache():
 func calculate_focus_power():
 	_focus_power_cache = efficiency
 	for dir in DIRS:
-		var possible_focuser = tilemap_mgr.get_tile_scene("component", map_coords + dir)
+		var possible_focuser = tilemap_mgr.get_tile_scene("component", map_position + dir)
 		if possible_focuser and possible_focuser.has_method("get_focus_power") and possible_focuser.get("facing") != null:
 			var opposite_dir = DIRS[dir]
 			if possible_focuser.facing != opposite_dir:
@@ -57,6 +69,7 @@ func set_facing(val):
 	reset_focus_power_cache()
 
 func _ready() -> void:
+	EventBus.connect("grias_pre_save_levelup", self, "grias_pre_save_levelup")
 	EventBus.connect("grias_reset_focus_power_cache", self, "reset_focus_power_cache")
 	set_facing(facing)
 	render_component()
@@ -66,7 +79,7 @@ func render_component():
 
 func spark_arrived(spark, tile_coords):
 	spark.queue_free()
-	EventBus.emit_signal("grias_levelup_fail_clear_fog", map_coords, Color.black)
+	EventBus.emit_signal("grias_levelup_fail_clear_fog", map_position, Color.black)
 
 func can_cursor_rotate():
 	return true

@@ -77,6 +77,7 @@ func _input(event):
 			if menu_entries[selected_idx].increment_sfx: AudioPlayerPool.play(menu_item_action_sfx, 1.0)
 			menu_entries[selected_idx].menu_decrement(self)
 	elif event.is_action_pressed("ui_accept"):
+		yield(get_tree(), "idle_frame")
 		if menu_entries[selected_idx].has_method("menu_action"):
 			if menu_entries[selected_idx].disabled:
 				AudioPlayerPool.play(menu_item_disabled_sfx, 1.0)

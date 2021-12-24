@@ -1,10 +1,12 @@
 extends Object
 class_name Util
 
-const IGNORE_FIELD_NAMES = ["Reference", "script", "Script Variables"]
+const IGNORE_FIELD_NAMES = ["Reference", "script", "Script Variables", "owner"]
 var prop_cache = {}
 
 static func config(obj, c):
+	if c == null:
+		return
 	var props = obj.get_property_list()
 	var propNames = {}
 	var propTypes = {}

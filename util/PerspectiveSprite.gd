@@ -55,6 +55,7 @@ func _ready():
 				views[BACK_LEFT_VEC] = get_view(i, true)
 			var v:
 				views[v] = get_view(i, false)
+	yield(get_tree(), "idle_frame")
 	if is_instance_valid(GameData.player):
 		refresh_perspective(-GameData.player.global_transform.basis.z)
 

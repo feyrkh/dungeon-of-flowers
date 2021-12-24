@@ -1,5 +1,8 @@
 {
 	"tiles": {
 		"locked_core": "levelup/GriasCore.tscn",
+		"redirect_1": "levelup/components/Meridian.tscn",
+		"powered_node": "levelup/components/PoweredNode.tscn",
+		"focus": "levelup/components/FocusNode.tscn",
 	},
 }

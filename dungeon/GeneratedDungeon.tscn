@@ -166,4 +166,6 @@ autostart = true
 [node name="TilemapMgr" type="Node" parent="."]
 script = ExtResource( 12 )
 
+[node name="LevelupContainer" type="Node" parent="."]
+
 [connection signal="timeout" from="ExploreGameoverChecker" to="." method="_on_ExploreGameoverChecker_timeout"]

@@ -54,6 +54,41 @@ var focus_tile_id = -1
 var next_node_unlock = 4
 var next_node_stat_type = "health"
 
+func save_levelup():
+	EventBus.emit_signal("grias_pre_save_levelup")
+	var save_data = {
+		"next_node_unlock": next_node_unlock,
+		"next_node_stat_type": next_node_stat_type,
+	}
+	GameData.set_state("__grias_levelup_state", save_data)
+
+func restore_levelup():
+	Util.config(self, GameData.get_state("__grias_levelup_state"))
+
+func enter_levelup():
+	restore_levelup()
+	EnergyContainer.update_counts()
+	Grid.position = Vector2.ZERO
+	ComponentMode.position = Vector2(-SCREEN_SLIDE_AMOUNT, 0)
+	CursorMode.position = Vector2.ZERO
+	set_cursor(Vector2(14, 7))
+	set_state(CURSOR)
+	EventBus.emit_signal("disable_pause_menu")
+	self.pause_mode = Node.PAUSE_MODE_PROCESS
+	get_tree().paused = true
+	visible = true
+
+func exit_levelup():
+	if get_tree().root == get_parent():
+		return # if this is the only thing running then we're in a temp scene
+	save_levelup()
+	set_state(INACTIVE)
+	EventBus.emit_signal("enable_pause_menu")
+	self.pause_mode = Node.PAUSE_MODE_INHERIT
+	get_tree().paused = false
+	visible = false
+	queue_free()
+
 func set_state(val):
 	state = val
 	if state == INACTIVE:
@@ -90,8 +125,7 @@ func update_cursor_rotate(component):
 func _ready():
 	set_state(INACTIVE)
 	set_cursor(Vector2(14, 7))
-	if get_tree().root == get_parent():
-		enter_levelup()
+	enter_levelup()
 	load_from_file()
 	find_node("component").visible = false
 	update_cursor_label()
@@ -171,7 +205,8 @@ func grias_component_change(change_type, cost_map, args):
 	if change_type == "build_meridian":
 		GameData.pay_cost(cost_map)
 		var meridian = load("res://levelup/components/Meridian.tscn").instance()
-		meridian.position = cursor_pos * 64 + Vector2(32, 32)
+		meridian.position = cursor_pos * 64
+		meridian.on_map_place(TilemapMgr, "component", cursor_pos)
 		meridian.element = args
 		TilemapMgr.set_tile("component", cursor_pos.x, cursor_pos.y, meridian_tile_id)
 		TilemapMgr.set_tile_scene("component", cursor_pos, meridian)
@@ -185,11 +220,13 @@ func grias_component_change(change_type, cost_map, args):
 	elif change_type == "build_focus":
 		GameData.pay_cost(cost_map)
 		var focus = load("res://levelup/components/FocusNode.tscn").instance()
-		focus.position = cursor_pos * 64 + Vector2(32, 32)
-		focus.setup(TilemapMgr, cursor_pos)
+		focus.position = cursor_pos * 64
+		focus.on_map_place(TilemapMgr, "component", cursor_pos)
 		TilemapMgr.set_tile("component", cursor_pos.x, cursor_pos.y, focus_tile_id)
 		TilemapMgr.set_tile_scene("component", cursor_pos, focus)
 		exit_component_mode()
+		focus.set_rotation_on_build()
+		focus.render_component()
 	var scene = TilemapMgr.get_tile_scene("component", cursor_pos)
 	if !scene or !scene.has_method("component_change"):
 		printerr("Unexpected component change at ", cursor_pos, "; ", [change_type, cost_map, args])
@@ -254,10 +291,10 @@ func grias_levelup_clear_fog(map_position:Vector2, fog_color:Color):
 
 func unlock_new_node(map_position):
 	var node = load("res://levelup/components/PoweredNode.tscn").instance()
-	node.position = map_position * 64 + Vector2(32, 32)
+	node.position = map_position * 64
 	node.stat_name = next_node_stat_type
 	next_node_stat_type = NEXT_NODE_STAT_TYPE[randi()%NEXT_NODE_STAT_TYPE.size()]
-	node.setup(TilemapMgr, map_position)
+	node.on_map_place(TilemapMgr, "component", map_position)
 
 	TilemapMgr.set_tile("component", map_position.x, map_position.y, powered_node_tile_id)
 	TilemapMgr.set_tile_scene("component", map_position, node)
@@ -287,26 +324,6 @@ func selected_component_menu_item():
 		return null
 	return ComponentMenuList.get_child(component_cursor_pos)
 
-func enter_levelup():
-	EnergyContainer.update_counts()
-	Grid.position = Vector2.ZERO
-	ComponentMode.position = Vector2(-SCREEN_SLIDE_AMOUNT, 0)
-	CursorMode.position = Vector2.ZERO
-	set_cursor(Vector2(14, 7))
-	set_state(CURSOR)
-	EventBus.emit_signal("disable_pause_menu")
-	self.pause_mode = Node.PAUSE_MODE_PROCESS
-	get_tree().paused = true
-	visible = true
-
-func exit_levelup():
-	if get_tree().root == get_parent():
-		return # if this is the only thing running then we're in a temp scene
-	set_state(INACTIVE)
-	EventBus.emit_signal("enable_pause_menu")
-	self.pause_mode = Node.PAUSE_MODE_INHERIT
-	get_tree().paused = false
-	visible = false
 
 func enter_component_mode():
 	EventBus.emit_signal("grias_component_description", "This component didn't set any description!")
@@ -461,17 +478,21 @@ func slide_component_mode_to(pos):
 	tween.interpolate_property(ComponentMode, "position:x", ComponentMode.position.x, ComponentMode.position.x+move_amt*2, move_time)
 	tween.start()
 
-func custom_tile_handler(layer, layer_name, tileset, cell, tile_name, tile_id):
-	if layer_name == "fog" and tile_name == "cleared":
-		clear_tile_id = tile_id
-	elif layer_name == "fog" and tile_name == "chaos1":
-		chaos1_tile_id = tile_id
-	elif layer_name == "component" and tile_name == "redirect_1":
-		meridian_tile_id = tile_id
-	elif layer_name == "component" and tile_name == "powered_node":
-		powered_node_tile_id = tile_id
-	elif layer_name == "component" and tile_name == "focus":
-		focus_tile_id = tile_id
+func process_tileset(layer):
+	var tileset:TileSet = layer.tile_set
+	var layer_name = layer.name
+	for tile_id in tileset.get_tiles_ids():
+		var tile_name = tileset.tile_get_name(tile_id)
+		if layer_name == "fog" and tile_name == "cleared":
+			clear_tile_id = tile_id
+		elif layer_name == "fog" and tile_name == "chaos1":
+			chaos1_tile_id = tile_id
+		elif layer_name == "component" and tile_name == "redirect_1":
+			meridian_tile_id = tile_id
+		elif layer_name == "component" and tile_name == "powered_node":
+			powered_node_tile_id = tile_id
+		elif layer_name == "component" and tile_name == "focus":
+			focus_tile_id = tile_id
 
 func update_bonus_display() -> void:
 	GameData.update_grias_bonuses()

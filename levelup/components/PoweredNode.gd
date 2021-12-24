@@ -1,4 +1,4 @@
-extends Node2D
+extends MapEntity
 
 const DIRS = {
 	Vector2.UP: C.FACING_DOWN,
@@ -37,7 +37,7 @@ const STATS = {
 	},
 	"defense": {
 		"label": "Defense Nexus",
-		"icon": "armor",
+		"icon": "shield",
 		"desc": "An energy nexus connected to Grias' sturdiness and reflexes. Power it with elemental energy to improve her defense.",
 		C.ELEMENT_SOIL: {"damage_reduce": 1},
 		C.ELEMENT_WATER: {"damage_avoid": 0.2},
@@ -64,8 +64,21 @@ var drain_protection = 0
 var target_color = Color.white
 var _focus_power_cache = null
 
-var tilemap_mgr:TilemapMgr
-var map_coords
+func grias_pre_save_levelup():
+	var save_data = {
+		"stat_name": stat_name,
+		"element": element,
+		"energy": energy,
+		"max_energy": max_energy,
+		"drain_speed": drain_speed,
+		"drain_protection": drain_protection,
+		"target_color": target_color
+	}
+	update_config(save_data)
+
+func on_map_place(tilemap_mgr, layer_name, cell):
+	.on_map_place(tilemap_mgr, layer_name, cell)
+	render_component()
 
 func set_max_energy(val):
 	max_energy = val
@@ -73,15 +86,12 @@ func set_max_energy(val):
 func get_max_energy():
 	return max_energy + get_focus_power()
 
-func setup(_tilemap_mgr, _map_coords):
-	self.tilemap_mgr = _tilemap_mgr
-	self.map_coords = _map_coords
-
 func _ready():
+	EventBus.connect("grias_pre_save_levelup", self, "grias_pre_save_levelup")
 	EventBus.connect("grias_reset_focus_power_cache", self, "reset_focus_power_cache")
 	render_component()
 	add_to_group("grias_bonus_provider")
-
+	
 func get_grias_bonus():
 	if energy <= 0:
 		energy = 0
@@ -155,8 +165,10 @@ func reset_focus_power_cache():
 
 func calculate_focus_power():
 	_focus_power_cache = 0.0
+	if !tilemap_mgr:
+		return
 	for dir in DIRS:
-		var possible_focus = tilemap_mgr.get_tile_scene("component", map_coords + dir)
+		var possible_focus = tilemap_mgr.get_tile_scene("component", map_position + dir)
 		if possible_focus and possible_focus.has_method("get_focus_power") and possible_focus.get("facing") != null:
 			var opposite_dir = DIRS[dir]
 			if possible_focus.facing != opposite_dir:

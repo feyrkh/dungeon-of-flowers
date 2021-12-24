@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://img/levelup/body_tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://img/levelup/body_male_nervous.png" type="Texture" id=2]
@@ -21,12 +21,19 @@
 [ext_resource path="res://util/controls/rotate_right.tscn" type="PackedScene" id=19]
 [ext_resource path="res://util/controls/rotate_left.tscn" type="PackedScene" id=20]
 [ext_resource path="res://img/levelup/rotate_left.png" type="Texture" id=21]
+[ext_resource path="res://util/pixel.png" type="Texture" id=22]
 
 [node name="GriasLevelup" type="Node2D"]
 pause_mode = 2
 script = ExtResource( 5 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Background" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 0, 0, 0, 1 )
+scale = Vector2( 1920, 1080 )
+texture = ExtResource( 22 )
+centered = false
 
 [node name="Grid" type="Node2D" parent="CanvasLayer"]
 position = Vector2( 406, 25 )
@@ -43,7 +50,7 @@ texture = ExtResource( 2 )
 [node name="component" type="TileMap" parent="CanvasLayer/Grid/CursorMode/Tilemaps"]
 tile_set = ExtResource( 1 )
 format = 1
-tile_data = PoolIntArray( -1245170, 2, 0, -458738, 2, 0, 393221, 2, 0, 393239, 2, 0, 458766, 2, 0, 1179662, 2, 0, 1703936, 2, 0, 1703965, 2, 0, 2097166, 2, 0, 3342345, 2, 0, 3342356, 2, 0 )
+tile_data = PoolIntArray( 458766, 2, 0, 1179662, 2, 0 )
 
 [node name="fog" type="TileMap" parent="CanvasLayer/Grid/CursorMode/Tilemaps"]
 tile_set = ExtResource( 6 )

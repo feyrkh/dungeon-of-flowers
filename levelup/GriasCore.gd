@@ -13,13 +13,28 @@ var elements_unlocked = []
 var directions_unlocked = []
 
 func _ready():
+	EventBus.connect("grias_pre_save_levelup", self, "grias_pre_save_levelup")
 	update_render()
+
+func grias_pre_save_levelup():
+	var save_data = {
+		"level": level,
+		"frequency": frequency,
+		"power": power,
+		"element": element,
+		"directions": directions,
+		"counter": counter,
+		"elements_unlocked": elements_unlocked,
+		"directions_unlocked": directions_unlocked
+	}
+	update_config(save_data)
 
 func update_render():
 	modulate = C.element_color(element)
 
 func on_map_place(tilemap_mgr, layer_name, cell):
 	.on_map_place(tilemap_mgr, layer_name, cell)
+	update_render()
 
 func get_component_label():
 	if element >= 0:

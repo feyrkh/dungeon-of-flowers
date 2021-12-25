@@ -131,8 +131,8 @@ func _process(delta):
 func can_cursor_rotate():
 	return direction != C.MERIDIAN_DIR_NONE
 
-func cursor_rotate(direction):
-	facing = posmod(round(facing + 90*direction), 360)
+func cursor_rotate(_direction):
+	facing = posmod(round(facing + 90*_direction), 360)
 	render_component()
 
 func get_next_direction():

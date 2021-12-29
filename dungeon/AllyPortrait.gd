@@ -21,9 +21,9 @@ func setup(_data:AllyData):
 	Portrait.texture = load(data.texture)
 
 func update_labels():
-	HpLabel.text = str(int(data.hp)) + "/" + str(int(data.max_hp))
+	HpLabel.text = str(int(data.hp.value)) + "/" + str(int(data.hp.max_value))
 	SpLabel.text = str(int(data.sp)) + "/" + str(int(data.max_sp))
-	HpFill.rect_scale.x = max(0, float(data.hp) / float(data.max_hp))
+	HpFill.rect_scale.x = max(0, data.hp.get_max_value_ratio())
 	SpFill.rect_scale.x = max(0, float(data.sp) / float(data.max_sp))
 
 func deselect():

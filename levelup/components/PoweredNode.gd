@@ -91,7 +91,7 @@ func _ready():
 	EventBus.connect("grias_reset_focus_power_cache", self, "reset_focus_power_cache")
 	render_component()
 	add_to_group("grias_bonus_provider")
-	
+
 func get_grias_bonus():
 	if energy <= 0:
 		energy = 0

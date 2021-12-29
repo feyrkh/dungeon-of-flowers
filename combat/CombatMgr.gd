@@ -57,13 +57,13 @@ func _ready():
 
 func on_enemy_damage_applied(amount):
 	Util.inc(combat_stats, "damage_given", amount)
-	
+
 func on_ally_damage_applied(amount):
 	Util.inc(combat_stats, "damage_taken", amount)
 
 func on_enemy_attack_blocked():
 	Util.inc(combat_stats, "blocks_made", 1)
-	
+
 func on_enemy_attack_struck():
 	Util.inc(combat_stats, "blocks_missed", 1)
 
@@ -190,4 +190,4 @@ func get_bullet_timing_total(timing_curve:Curve):
 			total += timing_curve.interpolate(i*0.01)
 		bullet_timing_cache[timing_curve] = total
 	return bullet_timing_cache[timing_curve]
-	
+

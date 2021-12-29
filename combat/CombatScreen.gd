@@ -32,7 +32,7 @@ var input_delayed = 0
 # player_move_selected() - hide player control panel, show move results, await player_move_complete
 # player_move_complete() - if enemies are dead, combat_complete(); otherwise start_enemy_turn()
 # start_enemy_turn() - collect moves from each enemy, call enemy_move_selected() for the first one;
-#					   await enemy_move_complete(); 
+#					   await enemy_move_complete();
 #					   if more unfinished moves, call enemy_move_selected() for the next
 #					   otherwise call enemy_turn_complete()
 # enemy_turn_complete() - if enemies are dead, combat_complete; otherwise start_player_turn()
@@ -88,7 +88,7 @@ func _process(delta):
 
 func process_input():
 	match(cur_input_phase):
-		InputPhase.NO_INPUT: 
+		InputPhase.NO_INPUT:
 			return
 		InputPhase.PLAYER_SELECT_CHARACTER:
 			input_select_character()
@@ -153,11 +153,11 @@ func open_category_submenu(ally_idx, category_idx, open_only):
 		var ally = allies[ally_idx]
 		ally.open_category_submenu(category_idx)
 		QuestMgr.combat_phase = "open_submenu"
-		
+
 func _on_Ally_cancel_submenu():
 	EventBus.emit_signal("enable_pause_menu")
 	cur_input_phase = InputPhase.PLAYER_SELECT_CHARACTER
-	
+
 func select_next_category(direction):
 	var cur_ally = allies[selected_ally_idx]
 	selected_category_idx = cur_ally.select_category(selected_category_idx, direction)
@@ -169,7 +169,7 @@ func select_status_category():
 		var cur_ally = allies[selected_ally_idx]
 		restore_category_idx = selected_category_idx
 		selected_category_idx = cur_ally.select_status_category()
-	
+
 func input_select_target():
 	pass
 
@@ -184,7 +184,7 @@ func render_enemies():
 
 func enemies_all_dead():
 	for enemy in get_tree().get_nodes_in_group("enemy"):
-		if is_instance_valid(enemy) and enemy.data.hp > 0:
+		if is_instance_valid(enemy) and enemy.data.hp.value > 0:
 			return false
 	return true
 
@@ -266,12 +266,12 @@ func _on_CombatScreen_start_enemy_turn(_combat_data):
 	yield(get_tree().create_timer(1), "timeout")
 	if check_combat_over():
 		return
-	
+
 	while CombatMgr.combat_animation_delay > 0:
 		yield(get_tree().create_timer(CombatMgr.combat_animation_delay), "timeout")
 		_on_CombatScreen_start_enemy_turn(_combat_data)
 		return
-	
+
 	QuestMgr.combat_phase = "enemy_turn"
 	CombatMgr.emit_signal("execute_combat_intentions", AllyPortraits.get_live_allies(), Enemies.get_live_enemies())
 	while !check_enemy_turn_over():
@@ -336,13 +336,13 @@ func _on_Enemies_target_cancelled():
 	active_submenu.on_targeting_cancelled()
 	allies[selected_ally_idx].on_targeting_cancelled()
 	QuestMgr.combat_phase = "open_submenu"
-	
+
 func _on_AllyPortraits_target_cancelled():
 	print("_on_AllyPortraits_target_cancelled")
 	active_submenu.on_targeting_cancelled()
 	allies[selected_ally_idx].on_targeting_cancelled()
 	QuestMgr.combat_phase = "open_submenu"
-	
+
 func _on_Enemies_single_enemy_target_complete(target_enemy, move_data):
 	print("_on_Enemies_single_enemy_target_complete")
 	active_submenu.on_targeting_completed()
@@ -436,7 +436,7 @@ func _on_CombatScreen_player_move_selected(_combat_data, target, move_data):
 			yield(get_tree().create_timer(0.5), "timeout")
 			scene.start()
 			QuestMgr.combat_phase = "skill_minigame"
-		_: 
+		_:
 			CombatMgr.emit_signal("show_battle_header", allies[selected_ally_idx].data.label+" is confused...unknown skill type!")
 			yield(get_tree().create_timer(2), "timeout")
 			_on_ally_minigame_complete(null)

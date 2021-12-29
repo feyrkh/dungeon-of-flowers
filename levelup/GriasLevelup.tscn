@@ -152,7 +152,7 @@ autowrap = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer2/ComponentMode/ComponentModeParentContainer/HBoxContainer/VBoxContainer"]
 margin_top = 258.0
-margin_right = 52.0
+margin_right = 82.0
 margin_bottom = 308.0
 rect_min_size = Vector2( 0, 23 )
 size_flags_horizontal = 0
@@ -161,20 +161,19 @@ __meta__ = {
 }
 
 [node name="ComponentMenuCostLabel" type="Label" parent="CanvasLayer2/ComponentMode/ComponentModeParentContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 40.0
+margin_right = 70.0
 margin_bottom = 50.0
-rect_min_size = Vector2( 40, 23 )
+rect_min_size = Vector2( 70, 23 )
 size_flags_horizontal = 0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 11 )
 text = "Cost:"
-valign = 1
 autowrap = true
 script = ExtResource( 18 )
 
 [node name="ComponentMenuCostList" type="HBoxContainer" parent="CanvasLayer2/ComponentMode/ComponentModeParentContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 44.0
-margin_right = 44.0
+margin_left = 74.0
+margin_right = 74.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 23 )
 size_flags_horizontal = 0
@@ -182,8 +181,8 @@ size_flags_vertical = 3
 script = ExtResource( 17 )
 
 [node name="Spacer" type="Label" parent="CanvasLayer2/ComponentMode/ComponentModeParentContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 48.0
-margin_right = 52.0
+margin_left = 78.0
+margin_right = 82.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 text = " "

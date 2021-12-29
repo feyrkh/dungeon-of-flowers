@@ -63,7 +63,7 @@ func apply_damage(_ally_data):
 		yield(get_tree().create_timer(0.1), "timeout")
 		CombatMgr.emit_signal("combat_animation", 0.3)
 		wait_counter -= 1
-	ally_data.hp = round(ally_data.hp)
+	ally_data.hp.value = round(ally_data.hp.value)
 	set_process(true)
 	while CombatMgr.combat_animation_delay > 0:
 		yield(get_tree().create_timer(CombatMgr.combat_animation_delay), "timeout")

@@ -79,7 +79,7 @@ func choice_made(was_yes):
 		var cost = GameData.cost_after_investment(PercentSelector.selected_icon_cost(), {})
 		GameData.pay_cost(cost)
 		existing_meridian.efficiency_level = PercentSelector.selected_icon
-		existing_meridian.unlock_efficiency_level(PercentSelector.selected_icon)
+		existing_meridian.unlock_efficiency_level(PercentSelector.selected_icon, cost)
 		EventBus.emit_signal("grias_levelup_major_component_upgrade", C.element_color(existing_meridian.element))
 		#EventBus.emit_signal("grias_exit_component_mode")
 

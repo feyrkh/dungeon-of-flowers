@@ -1,11 +1,10 @@
 extends Reference
 class_name AllyData
 
+var hp:Reference = load("res://util/StatValue.gd").new()
+
 var label : String
 var className : String
-var hp : float setget set_hp
-var max_hp : int setget set_max_hp, get_max_hp
-var bonus_max_hp : float = 0 setget set_bonus_max_hp
 var sp : float setget set_sp
 var max_sp : int setget set_max_sp
 var shields = []
@@ -17,6 +16,9 @@ var precision = 100 # likely to get critical hit (high damage range increase)
 var texture : String
 
 var moves : Array # of MoveData
+
+func _init():
+	hp.connect("value_changed", self, "on_set_hp")
 
 func save_data():
 	var data = Util.to_config(self)
@@ -33,31 +35,12 @@ func post_config(c):
 		moves[i] = move_obj
 
 func round_stats():
-	hp = float(int(hp))
+	hp.value = float(int(hp.value))
 	sp = float(int(sp))
 
-func set_hp(val):
-	if val < hp and hp > 0:
-		CombatMgr.emit_signal("ally_damage_applied", min(hp, hp-val))
-	hp = val
-	EventBus.emit_signal("ally_status_updated", self)
-
-func set_max_hp(val):
-	max_hp = val
-	EventBus.emit_signal("ally_status_updated", self)
-
-func get_max_hp():
-	return max_hp + bonus_max_hp
-
-func set_bonus_max_hp(new_bonus_max_hp):
-	var prev_max_hp = bonus_max_hp + max_hp
-	var new_max_hp = new_bonus_max_hp + max_hp
-	var prev_hp = hp
-	var change_ratio = new_max_hp/prev_max_hp
-	hp = hp * change_ratio
-	if hp < 1:
-		hp = 1
-	bonus_max_hp = new_bonus_max_hp
+func on_set_hp(old_val, val):
+	if val < old_val and val > 0:
+		CombatMgr.emit_signal("ally_damage_applied", min(old_val, old_val-val))
 	EventBus.emit_signal("ally_status_updated", self)
 
 func set_sp(val):

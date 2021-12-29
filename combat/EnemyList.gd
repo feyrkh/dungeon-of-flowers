@@ -15,4 +15,4 @@ func get_enemy(enemy_id):
 		chosen = enemies[enemies.keys()[randi() % enemies.keys().size()]]
 	else:
 		chosen = enemies[enemy_id]
-	return EnemyData.new(chosen.label, chosen.max_hp, chosen.img)
+	return EnemyData.new(chosen.label, chosen.hp.max_value, chosen.img)

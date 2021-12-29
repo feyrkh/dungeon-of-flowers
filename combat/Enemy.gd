@@ -43,24 +43,24 @@ func setup_group():
 
 func add_follower(placement_pos):
 		var follower = Sprite.new()
-		follower.texture = data.img	
+		follower.texture = data.img
 		follower.set_material($Sprite.get_material().duplicate(true))
 		follower.modulate = Color.transparent
 		$Followers.add_child(follower)
 		follower.position = PLACEMENTS[placement_pos].get("pos") + Vector2(PLACEMENTS[placement_pos].get("pos").x * spread_factor, 0) + Vector2(randf()*2-1, randf()*2-1)
-		$Tween.interpolate_property(follower, "modulate", Color(0, 0, 0, 0), PLACEMENTS[placement_pos].color, PLACEMENTS[placement_pos].fade_delay, 
+		$Tween.interpolate_property(follower, "modulate", Color(0, 0, 0, 0), PLACEMENTS[placement_pos].color, PLACEMENTS[placement_pos].fade_delay,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		$Tween.interpolate_property(follower, "position", follower.position - Vector2(rand_range(-30, 30), 50), follower.position, PLACEMENTS[placement_pos].fade_delay,
 			Tween.TRANS_LINEAR, Tween.EASE_OUT)
 		CombatMgr.emit_signal("combat_animation", PLACEMENTS[placement_pos].fade_delay)
-		
+
 func is_alive():
-	return data.hp > 0
+	return data.hp.value > 0
 
 func _on_all_damage_applied(amt):
 	if amt > 0:
 		Util.shake(self, 0.2, 20, self, "check_death")
-		
+
 func apply_damage():
 	$DamageIndicator.apply_damage(data)
 
@@ -80,7 +80,7 @@ func check_death():
 			destroy_sprite(sprite, i)
 			GameData.inc_state("kills_"+self.data.label, 1)
 			CombatMgr.emit_signal("enemy_follower_dead", self)
-		
+
 		var cur_pos = data.dead_followers
 		while cur_pos < MAX_FOLLOWER_COUNT and cur_pos < $Followers.get_child_count() and empty_positions.size() > 0:
 			var sprite = $Followers.get_child(cur_pos)
@@ -93,18 +93,18 @@ func check_death():
 			$Tween.interpolate_property(sprite, "position", sprite.position, new_pos, 0.5)
 			$Tween.interpolate_property(sprite, "modulate", sprite.modulate, new_brightness, 0.5)
 			CombatMgr.emit_signal("combat_animation", 0.5)
-		
+
 		var already_existing_children = max(0, $Followers.get_child_count() - data.dead_followers)
 		if already_existing_children < data.group_count:
 			for i in min(data.group_count - already_existing_children, empty_positions.size()):
-				if i + already_existing_children >= MAX_FOLLOWER_COUNT: 
+				if i + already_existing_children >= MAX_FOLLOWER_COUNT:
 					break
 				add_follower(i + already_existing_children)
-	
+
 		data.dead_followers = 0
 		Util.delay_call($Sprite.material.get_shader_param("duration")+0.85, $Tween, "start")
 		CombatMgr.emit_signal("combat_animation", $Sprite.material.get_shader_param("duration")+0.85+0.5)
-	if self.data.hp <= 0:
+	if self.data.hp.value <= 0:
 		die()
 
 func die():

@@ -17,7 +17,12 @@ static func config(obj, c):
 	for fieldName in c.keys():
 		if propNames.has(fieldName):
 			if propTypes[fieldName] == TYPE_OBJECT:
-				print("Couldn't restore object: ", fieldName)
+				var existing_obj = obj.get(fieldName)
+				if existing_obj:
+					if existing_obj.has_method("_from_config"):
+						existing_obj._from_config(c[fieldName])
+					else:
+						config(existing_obj, c[fieldName])
 			else:
 				obj.set(fieldName, c[fieldName])
 	if obj.has_method("post_config"):
@@ -36,7 +41,13 @@ static func to_config(obj):
 
 static func to_config_field(obj, prop):
 	if prop["type"] == TYPE_OBJECT:
-		return to_config(obj.get(prop.name))
+		var fieldVal = obj.get(prop.name)
+		if !fieldVal:
+			return null
+		if fieldVal.has_method("_to_config"):
+			return fieldVal._to_config()
+		else:
+			return to_config(fieldVal)
 	if prop["type"] == TYPE_ARRAY:
 		var arr = []
 		for entry in obj.get(prop.name):

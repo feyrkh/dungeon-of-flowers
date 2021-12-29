@@ -74,7 +74,7 @@ func choice_made(was_yes):
 	if was_yes:
 		var cost = GameData.cost_after_investment(RangeSelector.selected_icon_cost(), {})
 		GameData.pay_cost(cost)
-		existing_meridian.unlock_range_level(RangeSelector.selected_icon)
+		existing_meridian.unlock_range_level(RangeSelector.selected_icon, cost)
 		existing_meridian.range_level = RangeSelector.selected_icon_value()
 		EventBus.emit_signal("grias_levelup_major_component_upgrade", C.element_color(existing_meridian.element))
 		#EventBus.emit_signal("grias_exit_component_mode")

@@ -33,7 +33,7 @@ func on_map_place(tilemap_mgr, layer_name, cell):
 	.on_map_place(tilemap_mgr, layer_name, cell)
 	position = position + Vector2(32, 32)
 	render_component()
-	
+
 func _ready():
 	EventBus.connect("grias_pre_save_levelup", self, "grias_pre_save_levelup")
 	render_component()
@@ -47,26 +47,34 @@ func get_component_label():
 	else:
 		return "Meridian (Lvl "+str(max_unlocked_efficiency_level)+")"
 
-func unlock_element(_element, cost):
-	element = _element
+func add_investment(cost):
+	if cost == null:
+		return
 	for k in cost:
 		investment[k] = investment.get(k, 0) + cost[k]
+
+func unlock_element(_element, cost):
+	element = _element
+	add_investment(cost)
 	render_component()
 
-func unlock_direction(_direction):
+func unlock_direction(_direction, cost):
 	if !unlocked_directions.has(_direction):
 		unlocked_directions.append(_direction)
 	direction = _direction
+	add_investment(cost)
 	render_component()
 
-func unlock_efficiency_level(_level):
+func unlock_efficiency_level(_level, cost):
 	if max_unlocked_efficiency_level < _level:
 		max_unlocked_efficiency_level = _level
+	add_investment(cost)
 	render_component()
 
-func unlock_range_level(_level):
+func unlock_range_level(_level, cost):
 	if max_unlocked_range_level < _level:
 		max_unlocked_range_level = _level
+	add_investment(cost)
 	render_component()
 
 func render_component():
@@ -93,21 +101,7 @@ func render_component():
 			$Sprite.texture = load("res://img/levelup/redirect_1.png")
 			redirect_vector = [Vector2.UP]
 	rotation_degrees = facing
-	match element:
-		C.ELEMENT_ALL:
-			investment[C.ELEMENT_SOIL] = 1
-			investment[C.ELEMENT_WATER] = 1
-			investment[C.ELEMENT_SUN] = 1
-		C.ELEMENT_SOIL:
-			investment[element] = 1
-		C.ELEMENT_WATER:
-			investment[element] = 1
-		C.ELEMENT_SUN:
-			investment[element] = 1
-		C.ELEMENT_DECAY:
-			investment[element] = 1
-		_:
-			pass
+
 	modulate = C.element_color(element)
 	match efficiency_level:
 		0:
@@ -164,6 +158,9 @@ func get_component_menu_items():
 	var range_item = preload("res://levelup/menu_items/EnergyRangeMenuItem.tscn").instance()
 	range_item.setup(self, range_level, max_unlocked_range_level)
 	menu_items.append(range_item)
+	var delete_item = preload("res://levelup/menu_items/DeleteNodeMenuItem.tscn").instance()
+	delete_item.setup(self, tilemap_mgr, GameData.partial_investment_refund(investment), map_position)
+	menu_items.append(delete_item)
 	return menu_items
 
 func get_description():

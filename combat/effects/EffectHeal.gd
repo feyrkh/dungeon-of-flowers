@@ -13,7 +13,7 @@ func apply_effect_single_target(source_data, source_node, target_data, target_no
 	var amt = round(heal_amt)
 	CombatMgr.emit_signal("combat_animation", 1.0)
 	# TODO: healing animation
-	target_data.set_hp(min(target_data.max_hp, amt + target_data.hp))
+	target_data.hp.value = min(target_data.hp.max_value, amt + target_data.hp.value)
 	if regen_amt > 0:
 		regen_rounds = max(1, regen_rounds)
 		var regen_bubble = load("res://combat/effects/EffectHealBubble.tscn").instance()

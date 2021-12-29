@@ -26,7 +26,7 @@ func _process(delta):
 			self.global_position += speed * delta
 
 func finish_damage():
-	ally_data.hp = ally_data.hp - damage
+	ally_data.hp.value = ally_data.hp.value - damage
 	damage_indicator.count_damage(damage)
 	damage = 0
 	queue_free()

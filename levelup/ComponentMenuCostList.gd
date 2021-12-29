@@ -3,10 +3,10 @@ extends HBoxContainer
 var SPRITE_SCALE = Vector2(0.5, 0.5)
 
 func _ready():
-	EventBus.connect("grias_component_cost", self, "grias_component_cost")
-	EventBus.connect("grias_component_refund", self, "grias_component_cost")
+	EventBus.connect("grias_component_cost", self, "grias_component_cost", [false])
+	EventBus.connect("grias_component_refund", self, "grias_component_cost", [true])
 
-func grias_component_cost(cost_map):
+func grias_component_cost(cost_map, is_refund):
 	Util.delete_children(self)
 	for child in get_children():
 		child.visible = false
@@ -16,7 +16,10 @@ func grias_component_cost(cost_map):
 	elif cost_map.size() == 0:
 		visible = true
 		var label = preload("res://levelup/menu_items/CostListLabel.tscn").instance()
-		label.text = "Cost: FREE"
+		if is_refund:
+			label.text = "Refund: NONE"
+		else:
+			label.text = "Cost: FREE"
 		add_child(label)
 
 	else:

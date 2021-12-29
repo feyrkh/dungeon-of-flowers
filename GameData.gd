@@ -47,6 +47,10 @@ var map_data = {}
 
 var inventory = {}
 
+var grias_data:AllyData
+var chin_data:AllyData
+var arum_data:AllyData
+
 func set_map_data(layer:String, coords:Vector2, val):
 	if !map_data.has(layer):
 		map_data[layer] = {}
@@ -174,6 +178,12 @@ func load_game(save_file):
 		if data != null:
 			allies[i] = AllyData.new()
 			allies[i].load_data(data)
+			if data.label == "Grias":
+				grias_data = allies[i]
+			elif data.label == "Echinacea":
+				chin_data = allies[i]
+			elif data.label == "Arum":
+				arum_data = allies[i]
 	world_tile_position = f.get_var()
 	player_rotation = f.get_var()
 	facing = f.get_var()
@@ -291,7 +301,7 @@ func setup_allies():
 	if get_state(TUTORIAL_ON):
 		allies = [null, new_char_grias(), null]
 	else:
-		allies = [new_char_echincea(), new_char_grias(), mock_shantae()]
+		allies = [new_char_echincea(), new_char_grias(), new_char_arum()]
 
 func new_game():
 	get_tree().paused = false
@@ -317,10 +327,11 @@ func gameover():
 
 func new_char_echincea():
 	var ally = AllyData.new()
+	chin_data = ally
 	ally.label = "Echinacea"
 	ally.className = "Floriculturist"
-	ally.max_hp = 100
-	ally.hp = 100
+	ally.hp.max_value = 100
+	ally.hp.value = 100
 	ally.sp = 20
 	ally.max_sp = 20
 	ally.texture = "res://img/hero1.png"
@@ -334,12 +345,13 @@ func new_char_echincea():
 	]
 	return ally
 
-func mock_shantae():
+func new_char_arum():
 	var ally = AllyData.new()
+	arum_data = ally
 	ally.label = "Arum"
 	ally.className = "Titan"
-	ally.max_hp = 100
-	ally.hp = 100
+	ally.hp.max_value = 100
+	ally.hp.value = 100
 	ally.sp = 20
 	ally.max_sp = 20
 	ally.texture = "res://img/hero3.jpg"
@@ -353,10 +365,11 @@ func mock_shantae():
 
 func new_char_grias():
 	var ally = AllyData.new()
+	grias_data = ally
 	ally.label = "Grias"
 	ally.className = "Knight"
-	ally.max_hp = 100
-	ally.hp = 100
+	ally.hp.max_value = 100
+	ally.hp.value = 100
 	ally.sp = 20
 	ally.max_sp = 20
 	ally.texture = "res://img/hero4.jpg"
@@ -424,6 +437,13 @@ func cost_after_investment(cost_map, invest_map):
 				new_cost.erase(k)
 	return new_cost
 
+func partial_investment_refund(invest_map):
+	var partial_refund = invest_map.duplicate()
+	for k in invest_map:
+		if partial_refund[k] != null:
+			partial_refund[k] = max(0, floor(invest_map[k]*0.5))
+	return partial_refund
+
 func update_grias_bonuses():
 	var bonus_display = []
 	var total_bonuses = {}
@@ -436,3 +456,8 @@ func update_grias_bonuses():
 
 func get_grias_bonus(bonus_name):
 	return get_state("grias_bonuses", {}).get(bonus_name, 0)
+
+func grias_apply_levelup_bonuses():
+	grias_data.hp.bonus_max_value_effect("grias_level", get_grias_bonus("max_hp"))
+	grias_data.round_stats()
+	EventBus.emit_signal("ally_status_updated", grias_data)

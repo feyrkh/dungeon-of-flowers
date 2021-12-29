@@ -64,7 +64,7 @@ func on_finalize_new_game():
 
 func on_post_load_game():
 	pass
-	
+
 func on_finalize_load_game():
 	find_interactables()
 	EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
@@ -82,7 +82,7 @@ func process_input():
 		return
 	if Input.is_action_just_pressed("ui_accept"):
 		interact()
-	if is_moving or is_bumping: 
+	if is_moving or is_bumping:
 		return
 	if Input.is_action_pressed("move_forward"):
 		#print("Moving forward: is_moving=", is_moving, "; is_bumping=", is_bumping)
@@ -119,7 +119,7 @@ func bump_forward(dir):
 	Util.delay_call(BUMP_HALF_TIME, self, "make_bump_noise")
 	Util.delay_call(BUMP_HALF_TIME*2+0.01, self, "set_is_bumping", [false])
 	tween.start()
-	
+
 func make_bump_noise():
 	var pitch_scale = randf()*0.3 + 0.85
 	AudioPlayerPool.play(wall_bump_sfx, pitch_scale)
@@ -133,7 +133,7 @@ func bump_sideways(dir):
 	Util.delay_call(BUMP_HALF_TIME, self, "make_bump_noise")
 	Util.delay_call(BUMP_HALF_TIME*2+0.01, self, "set_is_bumping", [false])
 	bump_tween.start()
-	
+
 func can_move(sensor:Area):
 	var tile_scene = GameData.dungeon.get_tile_scene("ground", Util.map_coords(sensor.global_transform.origin))
 	if !tile_scene:
@@ -240,7 +240,7 @@ func query_tile_metadata(tile_x, tile_z):
 	return "empty"
 
 func move(dir, ignore_bumping=false):
-	if is_moving or (!ignore_bumping and is_bumping): 
+	if is_moving or (!ignore_bumping and is_bumping):
 		return
 	move_multiplier = 1
 	is_moving = true
@@ -310,7 +310,7 @@ func center_in_tile():
 	global_transform.origin = (global_transform.origin/3).round()*3
 
 func turn(dir):
-	if is_moving or is_bumping: 
+	if is_moving or is_bumping:
 		return
 	is_moving = true
 	target_position = null

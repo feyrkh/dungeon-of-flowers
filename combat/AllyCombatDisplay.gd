@@ -65,7 +65,7 @@ func disable_combat_features():
 	find_node("BulletStrikeArea").queue_free()
 
 func is_alive():
-	return data.hp > 0.01
+	return data.hp.value > 0.01
 
 func deselect():
 	AllyPortrait.deselect()

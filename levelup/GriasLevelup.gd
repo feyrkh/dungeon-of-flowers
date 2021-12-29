@@ -209,6 +209,7 @@ func grias_component_change(change_type, cost_map, args):
 		meridian.position = cursor_pos * 64
 		meridian.on_map_place(TilemapMgr, "component", cursor_pos)
 		meridian.element = args
+		meridian.unlock_element(meridian.element, cost_map)
 		TilemapMgr.set_tile("component", cursor_pos.x, cursor_pos.y, meridian_tile_id)
 		TilemapMgr.set_tile_scene("component", cursor_pos, meridian)
 		yield(get_tree(), "idle_frame")
@@ -222,6 +223,7 @@ func grias_component_change(change_type, cost_map, args):
 		GameData.pay_cost(cost_map)
 		var focus = load("res://levelup/components/FocusNode.tscn").instance()
 		focus.position = cursor_pos * 64
+		focus.investment = cost_map
 		focus.on_map_place(TilemapMgr, "component", cursor_pos)
 		TilemapMgr.set_tile("component", cursor_pos.x, cursor_pos.y, focus_tile_id)
 		TilemapMgr.set_tile_scene("component", cursor_pos, focus)
@@ -235,8 +237,13 @@ func grias_component_change(change_type, cost_map, args):
 	scene.component_change(change_type, cost_map, args)
 	update_cursor_label()
 
-func grias_destroy_node(node, refund_map):
+func grias_destroy_node(node, map_coords, refund_map):
 	GameData.refund_cost(refund_map)
+	TilemapMgr.set_tile("component", map_coords.x, map_coords.y, -1)
+	TilemapMgr.set_tile_scene("component", map_coords, null)
+	GameData.set_map_data("component", map_coords, null)
+	node.queue_free()
+	exit_component_mode()
 
 func grias_levelup_component_input_release():
 	if component_input_captured and component_input_captured.has_method("component_input_ended"):

@@ -9,15 +9,17 @@ const DIRS = {
 
 var efficiency = 0.5
 var facing = C.FACING_UP setget set_facing
+var investment = null
 var _focus_power_cache = null
 
 func grias_pre_save_levelup():
 	var save_data = {
 		"efficiency": efficiency,
 		"facing": facing,
+		"investment": investment,
 	}
 	update_config(save_data)
-	
+
 func on_map_place(_tilemap_mgr, layer_name:String, cell:Vector2):
 	.on_map_place(_tilemap_mgr, layer_name, cell)
 	position = position + Vector2(32, 32)
@@ -42,9 +44,12 @@ func get_description():
 	return "A support node which can boost the energy capacity of a nearby powered nexus. Multiple focusing nodes may be chained together, with diminishing returns."
 
 func get_component_menu_items():
+	var menu_items = []
 	EventBus.emit_signal("grias_component_description", get_description())
-	# TODO: delete
-	return []
+	var delete_item = preload("res://levelup/menu_items/DeleteNodeMenuItem.tscn").instance()
+	delete_item.setup(self, tilemap_mgr, GameData.partial_investment_refund(investment), map_position)
+	menu_items.append(delete_item)
+	return menu_items
 
 func get_focus_power():
 	if _focus_power_cache == null:

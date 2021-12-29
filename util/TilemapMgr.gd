@@ -76,7 +76,7 @@ func set_tile_scene(layer:String, coords:Vector2, scene:Node):
 	if !map_index.has(layer):
 		map_index[layer] = {}
 	map_index[layer][coords] = scene
-	if scene.get_parent() == null:
+	if scene != null and scene.get_parent() == null:
 		var tile_scene_parent = get_parent().find_node(layer+"_children", true, false)
 		tile_scene_parent.add_child(scene)
 

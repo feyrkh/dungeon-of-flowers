@@ -91,6 +91,7 @@ func _ready():
 	EventBus.connect("post_load_game", self, "post_load_game")
 	EventBus.connect("post_new_game", self, "post_new_game")
 	EventBus.connect("map_tile_changed", self, "map_tile_changed")
+	EventBus.connect("grias_apply_levelup_bonuses", self, "grias_apply_levelup_bonuses")
 	randomize()
 	load_settings()
 
@@ -432,3 +433,6 @@ func update_grias_bonuses():
 		for bonus_name in cur_bonuses:
 			Util.inc(total_bonuses, bonus_name, cur_bonuses[bonus_name])
 	set_state("grias_bonuses", total_bonuses)
+
+func get_grias_bonus(bonus_name):
+	return get_state("grias_bonuses", {}).get(bonus_name, 0)

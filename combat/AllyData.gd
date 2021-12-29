@@ -4,7 +4,8 @@ class_name AllyData
 var label : String
 var className : String
 var hp : float setget set_hp
-var max_hp : int setget set_max_hp
+var max_hp : int setget set_max_hp, get_max_hp
+var bonus_max_hp : float = 0 setget set_bonus_max_hp
 var sp : float setget set_sp
 var max_sp : int setget set_max_sp
 var shields = []
@@ -43,6 +44,20 @@ func set_hp(val):
 
 func set_max_hp(val):
 	max_hp = val
+	EventBus.emit_signal("ally_status_updated", self)
+
+func get_max_hp():
+	return max_hp + bonus_max_hp
+
+func set_bonus_max_hp(new_bonus_max_hp):
+	var prev_max_hp = bonus_max_hp + max_hp
+	var new_max_hp = new_bonus_max_hp + max_hp
+	var prev_hp = hp
+	var change_ratio = new_max_hp/prev_max_hp
+	hp = hp * change_ratio
+	if hp < 1:
+		hp = 1
+	bonus_max_hp = new_bonus_max_hp
 	EventBus.emit_signal("ally_status_updated", self)
 
 func set_sp(val):

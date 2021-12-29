@@ -83,6 +83,7 @@ func exit_levelup():
 		return # if this is the only thing running then we're in a temp scene
 	save_levelup()
 	set_state(INACTIVE)
+	EventBus.emit_signal("grias_apply_levelup_bonuses")
 	EventBus.emit_signal("enable_pause_menu")
 	self.pause_mode = Node.PAUSE_MODE_INHERIT
 	get_tree().paused = false

@@ -119,3 +119,6 @@ func awaken_core(cost_map, el):
 	update_render()
 	#EventBus.emit_signal("grias_exit_component_mode")
 
+func spark_arrived(spark, tile_coords):
+	if spark.element == element:
+		spark.add_meridian_energy(1.1)

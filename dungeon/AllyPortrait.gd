@@ -22,9 +22,9 @@ func setup(_data:AllyData):
 
 func update_labels():
 	HpLabel.text = str(int(data.hp.value)) + "/" + str(int(data.hp.max_value))
-	SpLabel.text = str(int(data.sp)) + "/" + str(int(data.max_sp))
-	HpFill.rect_scale.x = max(0, data.hp.get_max_value_ratio())
-	SpFill.rect_scale.x = max(0, float(data.sp) / float(data.max_sp))
+	SpLabel.text = str(int(data.sp.value)) + "/" + str(int(data.sp.max_value))
+	HpFill.rect_scale.x = data.hp.get_max_value_ratio()
+	SpFill.rect_scale.x = data.sp.get_max_value_ratio()
 
 func deselect():
 	PortraitSelected.visible = false

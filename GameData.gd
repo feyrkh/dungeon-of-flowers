@@ -332,8 +332,8 @@ func new_char_echincea():
 	ally.className = "Floriculturist"
 	ally.hp.max_value = 100
 	ally.hp.value = 100
-	ally.sp = 20
-	ally.max_sp = 20
+	ally.sp.value = 20
+	ally.sp.max_value = 20
 	ally.texture = "res://img/hero1.png"
 	ally.moves = [
 		MoveList.get_move('thump'),
@@ -352,8 +352,8 @@ func new_char_arum():
 	ally.className = "Titan"
 	ally.hp.max_value = 100
 	ally.hp.value = 100
-	ally.sp = 20
-	ally.max_sp = 20
+	ally.sp.value = 20
+	ally.sp.max_value = 20
 	ally.texture = "res://img/hero3.jpg"
 	ally.moves = [
 		MoveList.get_move('thump'),
@@ -370,8 +370,8 @@ func new_char_grias():
 	ally.className = "Knight"
 	ally.hp.max_value = 100
 	ally.hp.value = 100
-	ally.sp = 20
-	ally.max_sp = 20
+	ally.sp.value = 20
+	ally.sp.max_value = 20
 	ally.texture = "res://img/hero4.jpg"
 	ally.moves = [
 		MoveList.get_move('slash'),
@@ -458,6 +458,7 @@ func get_grias_bonus(bonus_name):
 	return get_state("grias_bonuses", {}).get(bonus_name, 0)
 
 func grias_apply_levelup_bonuses():
-	grias_data.hp.bonus_max_value_effect("grias_level", get_grias_bonus("max_hp"))
+	grias_data.hp.bonus_max_value_effect("grias_level", round(get_grias_bonus("max_hp")))
+	grias_data.sp.bonus_max_value_effect("grias_level", round(get_grias_bonus("max_sp")))
 	grias_data.round_stats()
 	EventBus.emit_signal("ally_status_updated", grias_data)

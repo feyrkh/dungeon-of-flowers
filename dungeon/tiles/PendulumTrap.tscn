@@ -20,7 +20,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 script = ExtResource( 2 )
 firing = false
 damage = 10.0
-seconds_per_rotation = 4.0
+seconds_per_rotation = 7.0
 rotation_curve = SubResource( 1 )
 
 [node name="Rotating" type="Spatial" parent="."]

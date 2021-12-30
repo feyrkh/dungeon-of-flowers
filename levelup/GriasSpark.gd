@@ -19,7 +19,7 @@ var direction:Vector2 = Vector2.ZERO
 var map_position:Vector2 = Vector2.ZERO
 var tilemap_mgr:TilemapMgr
 var fog_clear_color:Color = Color.black
-var element
+var element setget set_element
 var tiles_visited = 0
 
 func _ready():
@@ -48,6 +48,19 @@ func setup(core_node:GriasCore):
 	fog_clear_color = C.element_color(core_node.element)
 	element = core_node.element
 	begin_move(map_position, map_position + direction)
+
+func setup_non_core(_direction:Vector2, _map_position:Vector2, _tilemap_mgr:TilemapMgr, _position:Vector2, _element):
+	self.direction = _direction
+	self.map_position = _map_position
+	self.tilemap_mgr = _tilemap_mgr
+	self.position = _position
+	set_element(_element)
+
+func set_element(val):
+	element = val
+	$Core.texture = C.element_image(element)
+	fog_clear_color = C.element_color(element)
+
 
 func begin_move(start, end):
 	start = start.round()
@@ -82,10 +95,12 @@ func finish_move(end_position):
 		pre_tunnel_scale = null
 	var fog_tile_name = tilemap_mgr.get_tile_name("fog", end_position.x, end_position.y)
 	match fog_tile_name:
+		"cleared": pass
 		"chaos1": hit_chaos(end_position, -0.1, 0.5)
 		"chaos2": hit_chaos(end_position, 1, 0.6)
 		"chaos3": hit_chaos(end_position, 2, 0.7)
 		"chaos4": hit_chaos(end_position, 3, 0.8)
+		_: hit_chaos(end_position, 99999, 0)
 	#energy -= ENERGY_PER_TILE
 	tunnel_distance = 0
 	Spark1.visible = energy >= 1
@@ -107,6 +122,7 @@ func finish_move(end_position):
 func hit_chaos(pos, min_energy, fog_color):
 	if energy >= min_energy and !tunnel_distance:
 		EventBus.emit_signal("grias_levelup_clear_fog", pos, fog_clear_color)
+		energy -= 0.25
 	else:
 		EventBus.emit_signal("grias_levelup_fail_clear_fog", pos, fog_clear_color)
 		energy -= 1000

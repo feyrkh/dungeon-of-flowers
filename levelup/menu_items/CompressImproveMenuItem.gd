@@ -8,11 +8,9 @@ var tilemap_mgr
 func _ready():
 	find_node("ConfirmDialog").visible = false
 
-func setup(_node, _tilemap_mgr, _refund, _map_coords):
+func setup(_node):
 	self.node = _node
-	self.refund = _refund
-	self.map_coords = _map_coords
-	self.tilemap_mgr = _tilemap_mgr
+	update_text()
 
 func can_highlight():
 	return true
@@ -24,18 +22,23 @@ func menu_item_unhighlighted():
 	EventBus.emit_signal("grias_component_refund", null)
 
 func update_text():
-	EventBus.emit_signal("grias_component_refund", refund)
-	EventBus.emit_signal("grias_component_menu_text", "Destroy this node")
+	if !GameData.can_afford(get_upgrade_cost()):
+		modulate = Color.dimgray
+	EventBus.emit_signal("grias_component_cost", get_upgrade_cost())
+	EventBus.emit_signal("grias_component_menu_text", "Increase max compression to %.2f" % [node.threshold_upgrades * 0.25 + 1.25])
 
 func component_input_started():
-	find_node("DescriptionContainer").modulate = Color.red
+	find_node("DescriptionContainer").modulate = Color.yellow
 
 func component_input_ended():
 	find_node("DescriptionContainer").modulate = Color.white
 
+func can_menu_item_action():
+	return GameData.can_afford(get_upgrade_cost())
+
 func menu_item_action():
 	EventBus.emit_signal("grias_levelup_component_input_capture", self)
-	find_node("DescriptionLabel").text = "Destroy this node?  "
+	find_node("DescriptionLabel").text = "Increase max compression to %.2f?  " % [node.threshold_upgrades * 0.25 + 1.25]
 	find_node("ConfirmDialog").visible = true
 	find_node("ConfirmDialog").cur_choice = false
 
@@ -48,9 +51,14 @@ func component_input(event):
 		choice_made(find_node("ConfirmDialog").cur_choice)
 
 func choice_made(was_yes):
-	update_text()
 	find_node("ConfirmDialog").visible = false
 	EventBus.emit_signal("grias_levelup_component_input_release")
 	if was_yes:
-		EventBus.emit_signal("grias_destroy_node", node, map_coords, refund)
-		EventBus.emit_signal("grias_levelup_major_component_upgrade", Color.black)
+		GameData.pay_cost(get_upgrade_cost())
+		node.threshold_upgrades += 1
+		node.threshold += 0.25
+		update_text()
+		EventBus.emit_signal("grias_levelup_major_component_upgrade", Color.white)
+
+func get_upgrade_cost():
+	return {C.ELEMENT_SOIL: floor(node.threshold_upgrades/2) + 1}

@@ -15,7 +15,7 @@ var INTRO_THIRD_COMBAT = "intro_5"
 var INTRO_COMPLETE = "intro_complete"
 
 var cutscene
-var cutscene_bg_chars 
+var cutscene_bg_chars
 var combat_phase setget set_combat_phase
 var skill_menu_open setget set_skill_menu_open
 var pollen_spread_enabled
@@ -64,7 +64,7 @@ func check_combat_introduction():
 			if combat_phase == "select_character":
 				EventBus.emit_signal("show_tutorial", "SelectCategory", false)
 			elif combat_phase == "open_submenu":
-				if skill_menu_open == "attack": 
+				if skill_menu_open == "attack":
 					EventBus.emit_signal("show_tutorial", "SelectSlashSkill", false)
 				else:
 					EventBus.emit_signal("show_tutorial", "WrongCategoryFight", false)
@@ -122,7 +122,7 @@ func check_noncombat_introduction():
 				yield(cutscene, "timeline_end")
 				GameData.set_state(INTRO, INTRO_INTRODUCED_GRIAS)
 				return true
-		INTRO_INTRODUCED_GRIAS: 
+		INTRO_INTRODUCED_GRIAS:
 			if GameData.get_state(GameData.STEP_COUNTER, 0) == 3:
 				GameData.set_state(GameData.STEP_COUNTER, 0)
 				play_cutscene(INTRO_FIRST_COMBAT)

@@ -1,18 +1,13 @@
 extends MarginContainer
 
-var node
-var refund = {}
-var map_coords
-var tilemap_mgr
+const COSTS = {
+	C.ELEMENT_SOIL: 4,
+	C.ELEMENT_WATER: 4,
+	C.ELEMENT_SUN: 4,
+}
 
 func _ready():
 	find_node("ConfirmDialog").visible = false
-
-func setup(_node, _tilemap_mgr, _refund, _map_coords):
-	self.node = _node
-	self.refund = _refund
-	self.map_coords = _map_coords
-	self.tilemap_mgr = _tilemap_mgr
 
 func can_highlight():
 	return true
@@ -21,21 +16,26 @@ func menu_item_highlighted():
 	update_text()
 
 func menu_item_unhighlighted():
-	EventBus.emit_signal("grias_component_refund", null)
+	update_text()
 
 func update_text():
-	EventBus.emit_signal("grias_component_refund", refund)
-	EventBus.emit_signal("grias_component_menu_text", "Destroy this node")
+	EventBus.emit_signal("grias_component_cost", COSTS)
+	if !GameData.can_afford(COSTS):
+		EventBus.emit_signal("grias_component_menu_text", "Can't afford!")
+		return
+	EventBus.emit_signal("grias_component_menu_text", "Compress multiple sparks into more powerful packets of energy, or split them apart.")
 
 func component_input_started():
-	find_node("DescriptionContainer").modulate = Color.red
+	find_node("DescriptionContainer").modulate = Color.yellow
 
 func component_input_ended():
 	find_node("DescriptionContainer").modulate = Color.white
 
 func menu_item_action():
+	if !GameData.can_afford(COSTS):
+		return
 	EventBus.emit_signal("grias_levelup_component_input_capture", self)
-	find_node("DescriptionLabel").text = "Destroy this node?  "
+	find_node("DescriptionLabel").text = "Empower compression node?  "
 	find_node("ConfirmDialog").visible = true
 	find_node("ConfirmDialog").cur_choice = false
 
@@ -52,5 +52,5 @@ func choice_made(was_yes):
 	find_node("ConfirmDialog").visible = false
 	EventBus.emit_signal("grias_levelup_component_input_release")
 	if was_yes:
-		EventBus.emit_signal("grias_destroy_node", node, map_coords, refund)
-		EventBus.emit_signal("grias_levelup_major_component_upgrade", Color.black)
+		EventBus.emit_signal("grias_component_change", "build_compress", COSTS, null)
+		EventBus.emit_signal("grias_levelup_major_component_upgrade", Color.white)

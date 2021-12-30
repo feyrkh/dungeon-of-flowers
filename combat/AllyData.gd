@@ -2,11 +2,10 @@ extends Reference
 class_name AllyData
 
 var hp:Reference = load("res://util/StatValue.gd").new()
+var sp:Reference = load("res://util/StatValue.gd").new()
 
 var label : String
 var className : String
-var sp : float setget set_sp
-var max_sp : int setget set_max_sp
 var shields = []
 
 var agility = 100 # likely to hit (low damage range increase)
@@ -19,6 +18,7 @@ var moves : Array # of MoveData
 
 func _init():
 	hp.connect("value_changed", self, "on_set_hp")
+	sp.connect("value_changed", self, "on_set_sp")
 
 func save_data():
 	var data = Util.to_config(self)
@@ -36,20 +36,16 @@ func post_config(c):
 
 func round_stats():
 	hp.value = float(int(hp.value))
-	sp = float(int(sp))
+	sp.value = float(int(sp.value))
 
 func on_set_hp(old_val, val):
 	if val < old_val and val > 0:
 		CombatMgr.emit_signal("ally_damage_applied", min(old_val, old_val-val))
 	EventBus.emit_signal("ally_status_updated", self)
 
-func set_sp(val):
-	sp = val
+func on_set_sp(old_val, val):
 	EventBus.emit_signal("ally_status_updated", self)
 
-func set_max_sp(val):
-	max_sp = val
-	EventBus.emit_signal("ally_status_updated", self)
 
 func get_moves(move_type:String):
 	var result = []

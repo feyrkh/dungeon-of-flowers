@@ -51,6 +51,7 @@ var chaos1_tile_id = -1
 var meridian_tile_id = -1
 var powered_node_tile_id = -1
 var focus_tile_id = -1
+var compress_tile_id = -1
 var next_node_unlock = 4
 var next_node_stat_type = "health"
 
@@ -131,6 +132,7 @@ func _ready():
 	find_node("component").visible = false
 	update_cursor_label()
 	EventBus.connect("grias_generate_energy", self, "grias_generate_energy")
+	EventBus.connect("grias_compress_energy", self, "grias_compress_energy")
 	EventBus.connect("grias_levelup_clear_fog", self, "grias_levelup_clear_fog")
 	EventBus.connect("grias_levelup_fail_clear_fog", self, "grias_levelup_fail_clear_fog")
 	EventBus.connect("grias_levelup_major_component_upgrade", self, "grias_levelup_major_component_upgrade")
@@ -221,15 +223,26 @@ func grias_component_change(change_type, cost_map, args):
 		return
 	elif change_type == "build_focus":
 		GameData.pay_cost(cost_map)
-		var focus = load("res://levelup/components/FocusNode.tscn").instance()
-		focus.position = cursor_pos * 64
-		focus.investment = cost_map
-		focus.on_map_place(TilemapMgr, "component", cursor_pos)
+		var node = load("res://levelup/components/FocusNode.tscn").instance()
+		node.position = cursor_pos * 64
+		node.investment = cost_map
+		node.on_map_place(TilemapMgr, "component", cursor_pos)
 		TilemapMgr.set_tile("component", cursor_pos.x, cursor_pos.y, focus_tile_id)
-		TilemapMgr.set_tile_scene("component", cursor_pos, focus)
+		TilemapMgr.set_tile_scene("component", cursor_pos, node)
 		exit_component_mode()
-		focus.set_rotation_on_build()
-		focus.render_component()
+		node.set_rotation_on_build()
+		node.render_component()
+	elif change_type == "build_compress":
+		GameData.pay_cost(cost_map)
+		var node = load("res://levelup/components/CompressNode.tscn").instance()
+		node.position = cursor_pos * 64
+		node.investment = cost_map
+		node.on_map_place(TilemapMgr, "component", cursor_pos)
+		TilemapMgr.set_tile("component", cursor_pos.x, cursor_pos.y, compress_tile_id)
+		TilemapMgr.set_tile_scene("component", cursor_pos, node)
+		exit_component_mode()
+		node.render_component()
+
 	var scene = TilemapMgr.get_tile_scene("component", cursor_pos)
 	if !scene or !scene.has_method("component_change"):
 		printerr("Unexpected component change at ", cursor_pos, "; ", [change_type, cost_map, args])
@@ -284,6 +297,13 @@ func grias_generate_energy(core_node:GriasCore):
 	fade_swirl.position = core_node.position + Vector2(32, 32)
 	EnergyOrbContainer.add_child(fade_swirl)
 	fade_swirl.fade(C.element_color(core_node.element), 0.25, Vector2.ZERO, Vector2.ONE)
+
+func grias_compress_energy(spark):
+	EnergyOrbContainer.add_child(spark)
+	var fade_swirl = preload("res://levelup/FogClear.tscn").instance()
+	fade_swirl.position = spark.position
+	EnergyOrbContainer.add_child(fade_swirl)
+	fade_swirl.fade(C.element_color(spark.element), 0.25, Vector2.ZERO, Vector2.ONE)
 
 func grias_levelup_clear_fog(map_position:Vector2, fog_color:Color):
 	TilemapMgr.set_tile("fog", map_position.x, map_position.y, clear_tile_id)
@@ -421,8 +441,10 @@ func add_build_components(menu_items):
 	EventBus.emit_signal("grias_component_description", "Grias has ordered the energy here, and could focus it toward useful ends, given enough pollen.")
 	var meridian_item = preload("res://levelup/menu_items/BuildMeridianMenuItem.tscn").instance()
 	var focus_item = preload("res://levelup/menu_items/BuildFocusNodeMenuItem.tscn").instance()
+	var compress_item = preload("res://levelup/menu_items/BuildCompressNodeMenuItem.tscn").instance()
 	menu_items.append(meridian_item)
 	menu_items.append(focus_item)
+	menu_items.append(compress_item)
 
 func add_scene_components(menu_items, tile_scene):
 	if !tile_scene:
@@ -501,6 +523,8 @@ func process_tileset(layer):
 			powered_node_tile_id = tile_id
 		elif layer_name == "component" and tile_name == "focus":
 			focus_tile_id = tile_id
+		elif layer_name == "component" and tile_name == "compress":
+			compress_tile_id = tile_id
 
 func update_bonus_display() -> void:
 	GameData.update_grias_bonuses()

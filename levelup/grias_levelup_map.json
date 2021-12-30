@@ -4,5 +4,6 @@
 		"redirect_1": "levelup/components/Meridian.tscn",
 		"powered_node": "levelup/components/PoweredNode.tscn",
 		"focus": "levelup/components/FocusNode.tscn",
+		"compress": "levelup/components/CompressNode.tscn",
 	},
 }

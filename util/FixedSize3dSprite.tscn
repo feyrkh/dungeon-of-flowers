@@ -3,4 +3,5 @@
 [ext_resource path="res://util/FixedSize3dSprite.gd" type="Script" id=1]
 
 [node name="FixedSize3dSprite" type="Sprite3D"]
+shaded = true
 script = ExtResource( 1 )

@@ -9,6 +9,7 @@ var INTRO = "intro"
 var INTRO_INTRODUCED_GRIAS = "intro_1"
 var INTRO_FIRST_COMBAT = "intro_2"
 var INTRO_NEED_SHIELD = "intro_need_shield"
+var INTRO_MULTI_ATTACK = "intro_multiattack"
 var INTRO_ENCHINACEA = "intro_chin"
 var INTRO_SECOND_COMBAT = "intro_3"
 var INTRO_HEAL_SKILL = "intro_4"
@@ -112,6 +113,15 @@ func check_combat_introduction():
 			if combat_phase == "enemy_turn":
 				EventBus.emit_signal("show_tutorial", "UsingShield", false)
 				GameData.allies[1].moves[0].disabled = false
+				GameData.set_state(INTRO, INTRO_MULTI_ATTACK)
+		INTRO_MULTI_ATTACK:
+			if combat_phase == "select_character":
+				if GameData.allies[1].get_shields().size() == 0:
+					EventBus.emit_signal("show_tutorial", "MultiAttack_NoShield", false)
+				else:
+					EventBus.emit_signal("show_tutorial", "MultiAttack_WithShield", false)
+				GameData.set_state(INTRO, INTRO_ENCHINACEA)
+
 				#GameData.allies[0].moves.append(MoveList.get_move("poultice"))
 				#GameData.allies[0].moves[0].disabled = true
 #				GameData.set_state(INTRO, INTRO_HEAL_SKILL)
@@ -191,13 +201,15 @@ func on_dialogic_signal(val:String):
 	if val.begins_with("char_join"):
 		var bits = val.split("$")
 		var new_char = BG_CHAR.instance()
-		var offset_y = int(bits[4])
 		new_char.img_path = bits[1]
 		if !new_char.img_path.begins_with("res:"):
 			new_char.img_path = "res://art_exports/characters/"+new_char.img_path+".png"
-		new_char.pos = bits[2]
-		new_char.pos_offset = Vector2(0, -offset_y)
-		new_char.target_position_offset_widths = float(bits[3])
+		var config = JSON.parse(bits[2]).result
+		Util.config(new_char, config)
+#		new_char.pos = bits[2]
+#		var offset_y = int(bits[4])
+#		new_char.pos_offset = Vector2(0, -offset_y)
+#		new_char.target_position_offset_widths = float(bits[3])
 		cutscene_bg_chars.add_child(new_char)
 
 

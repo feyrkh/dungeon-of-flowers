@@ -292,6 +292,7 @@ press        when the cursor hits the center of
 the strike zone for max damage.
 Missing will throw you off balance and 
 make the next strike harder, so be careful!"
+align = 1
 
 [node name="ui_accept" parent="Tutorial/AttackMinigame/Label" instance=ExtResource( 20 )]
 position = Vector2( 67.3748, 84.5329 )
@@ -322,6 +323,30 @@ __meta__ = {
 }
 delayed_tutorial = "EnemyAttack_Delayed"
 
+[node name="MultiAttack_NoShield" type="MarginContainer" parent="Tutorial"]
+visible = false
+margin_left = 1070.0
+margin_top = 521.0
+margin_right = 1577.0
+margin_bottom = 646.0
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+delayed_tutorial = "MultiAttack_NoShield_Delayed"
+
+[node name="MultiAttack_WithShield" type="MarginContainer" parent="Tutorial"]
+visible = false
+margin_left = 1070.0
+margin_top = 521.0
+margin_right = 1577.0
+margin_bottom = 646.0
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+delayed_tutorial = "MultiAttack_WithShield_Delayed"
+
 [node name="EnemyAttack_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
 margin_left = 641.885
@@ -336,20 +361,60 @@ margin_bottom = 118.0
 text = "The enemies are attacking! Grias left her shield
 behind and won't be able to block right now.
 Stay tough!"
+align = 1
+
+[node name="MultiAttack_NoShield_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
+margin_left = 659.723
+margin_top = 255.807
+margin_right = 1210.72
+margin_bottom = 532.807
+script = ExtResource( 17 )
+
+[node name="Label" parent="Tutorial/MultiAttack_NoShield_Delayed" instance=ExtResource( 12 )]
+margin_right = 544.0
+margin_bottom = 270.0
+text = "Grias blocked much of the enemy's attack, but
+her shield took too much damage and her stance 
+is weak now. She could use Defensive Stance again 
+to regain a more powerful shield, or attack.
+
+Her Slash attack skill can hit twice, potentially 
+slaying two enemies at once!"
+
+[node name="MultiAttack_WithShield_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
+visible = false
+margin_left = 659.723
+margin_top = 255.807
+margin_right = 1210.72
+margin_bottom = 532.807
+script = ExtResource( 17 )
+
+[node name="Label" parent="Tutorial/MultiAttack_WithShield_Delayed" instance=ExtResource( 12 )]
+margin_top = 25.0
+margin_right = 565.0
+margin_bottom = 250.0
+text = "Grias's stance is still strong, whether because she 
+blocked few attacks or because her Defensive Stance
+was so successful. Now it's time to take the offensive!
+
+Her Slash attack skill can hit twice, potentially 
+slaying two enemies at once!"
+align = 1
 
 [node name="SelectDefendCategory" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
 margin_left = 722.752
 margin_top = 411.593
-margin_right = 1229.75
+margin_right = 1153.75
 margin_bottom = 536.593
 
 [node name="Label" parent="Tutorial/SelectDefendCategory" instance=ExtResource( 12 )]
-margin_right = 499.998
+margin_right = 424.0
 margin_bottom = 118.0
-text = "The enemies are going to attack Echinacea!
+text = "The enemies are going to attack!
 Luckily Grias has her shield now. 
 Select the Defend skill menu to ready it."
+align = 1
 
 [node name="Line2D" type="Line2D" parent="Tutorial/SelectDefendCategory/Label"]
 position = Vector2( -1096.75, -497.058 )
@@ -415,6 +480,7 @@ text = "Press       to ready your poultice and then select a target.
 The amount of healing will depend on how well you
 perform in the minigame, so take a deep breath and
 get ready to focus!"
+align = 1
 
 [node name="ui_accept" parent="Tutorial/SelectPoulticeSkill/Label" instance=ExtResource( 20 )]
 position = Vector2( 63.8521, 8.42914 )
@@ -441,21 +507,21 @@ delayed_tutorial = "UsingShield_Delayed"
 
 [node name="UsingShield_Delayed" parent="Tutorial" instance=ExtResource( 10 )]
 visible = false
-margin_left = 761.696
-margin_top = 465.908
-margin_right = 1186.7
-margin_bottom = 704.908
+margin_left = 186.696
+margin_top = 163.908
+margin_right = 659.696
+margin_bottom = 516.908
 script = ExtResource( 17 )
 
 [node name="Label" parent="Tutorial/UsingShield_Delayed" instance=ExtResource( 12 )]
-margin_right = 476.0
+margin_right = 466.0
 margin_bottom = 346.0
 text = "The enemy attacks are incoming!
 Use           to move your shield into
-position to block. The Bodyguard skill
-gives you shields that are small when
-protecting Grias, but larger when protecting
-her allies.
+position to block. The Defensive Stance skill
+gives you a shield that can deflect enemy
+attacks at the cost of durability.
+
 If your shields have enough durability
 left after the attack, they will be available
 during your next round!"

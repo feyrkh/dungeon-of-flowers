@@ -1,5 +1,5 @@
 {
-	"label": "Turtle",
+	"label": "Defensive Stance",
 	"type": "defend",
 	"name": "turtle",
 	"target": "self",
@@ -19,13 +19,13 @@
 					{"type": "shield_speed", "amt": 1},
 				],
 				"shield_strength": [
-					{"type": "shield_strength", "amt": 2},
-					{"type": "shield_strength", "amt": 2},
+					{"type": "shield_strength", "amt": 10},
+					{"type": "shield_strength", "amt": 5},
 					{"type": "shield_wall", "amt": 3},
-					{"type": "shield_strength", "amt": 2},
-					{"type": "shield_strength", "amt": 2},
+					{"type": "shield_strength", "amt": 5},
+					{"type": "shield_strength", "amt": 5},
 					{"type": "shield_wall", "amt": 3},
-					{"type": "shield_strength", "amt": 3}
+					{"type": "shield_strength", "amt": 5}
 				],
 				"shield_size": [
 					{"type": "shield_size", "amt": 1},

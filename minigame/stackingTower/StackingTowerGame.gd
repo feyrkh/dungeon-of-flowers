@@ -80,7 +80,7 @@ func start(with_tutorial=true):
 	started = true
 
 func _physics_process(delta):
-	if !started: 
+	if !started:
 		return
 	if DangerZone.rect_position.y != danger_zone_target:
 		DangerZone.rect_position.y = lerp(DangerZone.rect_position.y, danger_zone_target, delta)
@@ -144,7 +144,7 @@ func finish_game():
 		GameData.set_state(GameData.STACKING_TOWER_HANDICAP, max(GameData.get_state(GameData.STACKING_TOWER_HANDICAP, 0) - 0.005, -0.15))
 	elif total_bonuses <= 9:
 		GameData.set_state(GameData.STACKING_TOWER_HANDICAP, min(GameData.get_state(GameData.STACKING_TOWER_HANDICAP, 0) + 0.01, 0.08))
-		
+
 	var shield_effect = load("res://combat/effects/EffectShield.gd").new()
 	shield_effect.shield_data = get_earned_bonuses()
 	emit_signal("minigame_success", shield_effect)
@@ -157,7 +157,7 @@ func set_emblem_location(bonus_type, location):
 		find_node("DurabilityEmblem").position = location
 	else:
 		find_node("SizeEmblem").position = location
-		
+
 func get_earned_bonuses():
 	var result = game_config.duplicate() # {"action": game_config.get("action"), "scene": game_config.get("scene")}
 	for bonus_track in BonusTracks.get_children():

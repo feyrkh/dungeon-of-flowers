@@ -75,7 +75,7 @@
 			"text": "Knightfulness...beknightitude...the knight life...you know what I mean!"
 		},
 		{
-			"emit_signal": "char_join$enemy_puddle$sneakright$0.75$330",
+			"emit_signal": "char_join$enemy_puddle${\"pos\":\"sneakright\", \"target_position_offset_widths\":0.75, \"offset_y\": 330}",
 			"event_id": "dialogic_040"
 		},
 		{

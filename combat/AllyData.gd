@@ -46,7 +46,6 @@ func on_set_hp(old_val, val):
 func on_set_sp(old_val, val):
 	EventBus.emit_signal("ally_status_updated", self)
 
-
 func get_moves(move_type:String):
 	var result = []
 	for move in moves:

@@ -23,6 +23,7 @@ var move_time
 var move_multiplier = 1.0
 var is_bumping = false setget set_is_bumping
 var is_in_combat = false
+var is_in_cutscene = false
 var interactable = []
 var bump_tween:Tween
 var trap_damage_immunity = 0
@@ -39,7 +40,6 @@ onready var knockbackSensor:Area = find_node("knockbackSensor")
 const wall_bump_sfx = preload("res://sound/thump.mp3")
 const walk_sfx = preload("res://sound/footsteps.wav")
 
-
 func _ready():
 	EventBus.connect("pre_new_game", self, "on_pre_new_game")
 	EventBus.connect("finalize_new_game", self, "on_finalize_new_game")
@@ -48,6 +48,8 @@ func _ready():
 	EventBus.connect("player_start_move", self, "_on_move_start")
 	EventBus.connect("player_start_turn", self, "_on_move_start")
 	EventBus.connect("refresh_interactables", self, "find_interactables")
+	QuestMgr.connect("cutscene_start", self, "cutscene_start")
+	QuestMgr.connect("cutscene_end", self, "cutscene_end", [], CONNECT_DEFERRED)
 	connect("move_complete", self, "_on_move_complete")
 	connect("turn_complete", self, "_on_turn_complete")
 	connect("tile_move_complete", QuestMgr, "on_tile_move_complete")
@@ -73,10 +75,22 @@ func _on_combat_start():
 	is_in_combat = true
 
 func _on_combat_end():
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
 	is_in_combat = false
+
+func cutscene_start(cutscene_name):
+	is_in_cutscene = true
+
+func cutscene_end(cutscene_name):
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	is_in_cutscene = false
 
 func process_input():
 	if is_in_combat:
+		return
+	if is_in_cutscene:
 		return
 	if is_knockback > 0:
 		return

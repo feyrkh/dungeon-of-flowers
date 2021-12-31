@@ -15,7 +15,7 @@
 			}
 		},
 		{
-			"emit_signal": "char_join$res://art_exports/characters/enemy_puddle.png$sneakright$3$330",
+			"emit_signal": "char_join$enemy_puddle${\"pos\":\"sneakright\", \"target_position_offset_widths\":3, \"offset_y\": 330}",
 			"event_id": "dialogic_040"
 		},
 		{
@@ -25,7 +25,7 @@
 			"text": "A puddle, how cute! He looks just like my old pet Slimjim! But...this one has the eyes of a killer!"
 		},
 		{
-			"emit_signal": "char_join$res://art_exports/characters/enemy_puddle.png$sneakleft$0.75$330",
+			"emit_signal": "char_join$enemy_puddle${\"pos\":\"sneakleft\", \"target_position_offset_widths\":0.75, \"offset_y\": 330}",
 			"event_id": "dialogic_040"
 		},
 		{

@@ -1,5 +1,12 @@
 extends Node2D
 
+# default shield for Grias if she doesn't have a defensive stance set up
+const BASIC_SHIELD = {
+	"pos": Vector2(0, -200),
+	"shield_strength": 1,
+	"shield_size": 0.5,
+}
+
 var shields = []
 
 func _ready():
@@ -27,6 +34,8 @@ func render_shields(allies):
 	position = Vector2.ZERO
 	for ally in allies:
 		var shield_list = ally.get_shields()
+		if ally.data.label == "Grias" and shield_list.size() == 0 and GameData.inventory.get("shield"):
+			shield_list.append(BASIC_SHIELD)
 		for shield_data in shield_list:
 			add_shield(ally, shield_data)
 

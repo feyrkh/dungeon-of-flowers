@@ -37,14 +37,14 @@ func setup(_enemy, _intention):
 	self.intention = _intention
 	var intention_texture = INTENTION_UNKNOWN_IMG
 	match intention.get("type"):
-		"attack": 
+		"attack":
 			intention_texture = INTENTION_ATTACK_IMG
 			base_damage = intention.get("base_damage", 0.5)
 			bullet_patterns = intention.get("bullet_pattern", "slime/dribble")
 			if bullet_patterns is String:
 				bullet_patterns = [bullet_patterns]
 
-		"defend": 
+		"defend":
 			intention_texture = INTENTION_DEFEND_IMG
 	visible = true
 	texture = load(intention_texture)
@@ -58,12 +58,12 @@ func select_target():
 		ally = allies[intention.get("force_target")]
 	print(enemy.data.label, " targeting ", ally.data.label)
 	target = ally.rect_global_position + Vector2(50, 0) #ally.get_target(target_scatter)
-		
+
 func on_execute_combat_intentions(_allies, _enemies):
 	print(self, ": Executing intention: ", intention)
 	self.add_to_group("bullets")
 	match intention.get("type"):
-		"attack": 
+		"attack":
 			perform_attacks(_allies, _enemies)
 
 
@@ -110,4 +110,4 @@ func perform_next_attack():
 func finish_current_attack():
 	Util.delay_call(30, current_attack_scene, "queue_free")
 	Util.delay_call(1, self, "perform_next_attack")
-	
+

@@ -5,7 +5,8 @@ var img_path:String
 var pos = "right"
 var flipped = false
 var target_position
-var pos_offset = Vector2.ZERO
+var offset_x = 0
+var offset_y = 0
 var target_position_offset_widths = 1
 
 var pixels_per_sec = 100
@@ -18,21 +19,21 @@ func _ready():
 	sprite.texture = load(img_path)
 	set_process(false)
 	if pos == "right":
-		position = Vector2(1920+pos_offset.x, 1080-sprite.texture.get_height()+pos_offset.y)
+		position = Vector2(1920+offset_x, 1080-sprite.texture.get_height()-offset_y)
 		flipped = true
-	elif pos == "sneakright": 
-		position = Vector2(1920+pos_offset.x, 1080-sprite.texture.get_height()+pos_offset.y)
+	elif pos == "sneakright":
+		position = Vector2(1920+offset_x, 1080-sprite.texture.get_height()-offset_y)
 		target_position = position - Vector2(sprite.texture.get_width() * target_position_offset_widths, 0)
 		flipped = false
 		set_process(true)
-	elif pos == "sneakleft": 
-		position = Vector2(0, 1080-sprite.texture.get_height()+pos_offset.y)
+	elif pos == "sneakleft":
+		position = Vector2(0, 1080-sprite.texture.get_height()-offset_y)
 		target_position = Vector2(sprite.texture.get_width() * target_position_offset_widths, 0)
 		flipped = true
 		set_process(true)
 	if flipped:
 		sprite.scale.x = -sprite.scale.x
-		
+
 func _process(delta):
 	if is_pausing:
 		counter -= delta

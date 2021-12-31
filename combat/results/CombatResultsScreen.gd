@@ -157,10 +157,6 @@ func hide_rewards_amt(val):
 func trigger_gleam(delay, gleam_node):
 	gleam_node.visible = true
 	$Tween.interpolate_property(gleam_node, "position:x", gleam_node.position.x, gleam_node.position.x + 1250, 0.95, Tween.TRANS_CUBIC, Tween.EASE_IN, delay)
-	Util.delay_call(0.95 + delay, self, "hide_gleam", [gleam_node])
-
-func hide_gleam(gleam_node):
-	gleam_node.visible = false
 
 func trigger_counter(delay, label_node, value):
 	$Tween.interpolate_property(label_node, "number", 0, value, 1, Tween.TRANS_LINEAR, Tween.EASE_OUT, delay)

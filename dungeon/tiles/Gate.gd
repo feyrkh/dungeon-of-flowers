@@ -34,10 +34,9 @@ func is_interactable():
 	return !animating
 
 func get_interactable_prompt():
-	if is_open:
-		return "Close Gate"
-	else:
-		return "Open Gate"
+	if !is_open and GameData.inventory.get("pickaxe"):
+		return "Break Boulder"
+	return null
 
 func interact():
 	var key_needed = map_config.get("key")

@@ -1,0 +1,41 @@
+{
+	"events": [
+		{
+			"action": "join",
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_002",
+			"mirror": false,
+			"portrait": "",
+			"position": {
+				"0": false,
+				"1": false,
+				"2": false,
+				"3": false,
+				"4": false
+			}
+		},
+		{
+			"emit_signal": "char_join$enemy_puddle${\"pos\":\"sneakright\", \"target_position_offset_widths\":0.75, \"offset_y\": 410, \"offset_x\": -300, \"counter\": 0.2, \"pause_interval_sec\": 0.3}",
+			"event_id": "dialogic_040"
+		},
+		{
+			"emit_signal": "char_join$enemy_puddle${\"pos\":\"sneakright\", \"target_position_offset_widths\":1, \"offset_y\": 270, \"offset_x\": -350, \"pixels_per_sec\":140, \"counter\": 0, \"pause_interval_sec\": 0.45}",
+			"event_id": "dialogic_040"
+		},
+		{
+			"emit_signal": "char_join$enemy_puddle${\"pos\":\"sneakright\", \"target_position_offset_widths\":0.75, \"offset_y\": 130, \"offset_x\": -320, \"pixels_per_sec\": 120, \"counter\": 0.6, \"pause_interval_sec\": 0.27}",
+			"event_id": "dialogic_040"
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "More!? Where did these guys come from?"
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.2.5",
+		"file": "timeline-1640973987.json",
+		"name": "intro_3"
+	}
+}

@@ -159,10 +159,10 @@ __meta__ = {
 }
 
 [node name="FirstTimeTooltip_Msg1" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
-margin_left = -375.0
-margin_top = -121.0
-margin_right = 203.0
-margin_bottom = 4.0
+margin_left = -337.0
+margin_top = -120.0
+margin_right = 241.0
+margin_bottom = 5.0
 
 [node name="Label" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg1" instance=ExtResource( 5 )]
 margin_right = 571.0
@@ -170,14 +170,15 @@ margin_bottom = 118.0
 text = "Blocks will move from left to right along the top
 of the game board, then back again. Use         to 
 drop the block, and make the highest towers you can!"
+align = 1
 
 [node name="ui_accept" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg1/Label" instance=ExtResource( 26 )]
-position = Vector2( 440, 47 )
+position = Vector2( 472, 47 )
 
 [node name="Line2D" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg1"]
 position = Vector2( -740, -435 )
 scale = Vector2( 1, 0.725581 )
-points = PoolVector2Array( 1318, 675.321, 1497, 667.052 )
+points = PoolVector2Array( 1318, 675.321, 1498, 711.154 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 
@@ -195,6 +196,7 @@ Spread your efforts evenly or focus, but keep in mind
 that the danger zone is constantly rising - if you neglect
 one pillar then you can't change your mind once
 it sinks beneath the waves!"
+align = 1
 
 [node name="Line2D" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg2"]
 position = Vector2( -740, -435 )
@@ -214,6 +216,60 @@ default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 position = Vector2( -740, -435 )
 scale = Vector2( 1, 0.725581 )
 points = PoolVector2Array( 1048, 876.539, 1190, 1109.46 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="FirstTimeTooltip_Msg3" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
+margin_left = 522.0
+margin_top = 151.0
+margin_right = 731.0
+margin_bottom = 200.0
+
+[node name="Label" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg3" instance=ExtResource( 5 )]
+margin_right = 202.0
+text = "Shield move speed"
+align = 1
+
+[node name="Line2D" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg3"]
+position = Vector2( -826, -802 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 788, 701.507, 916, 1110.83 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="FirstTimeTooltip_Msg4" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
+margin_left = 671.0
+margin_top = 87.0
+margin_right = 880.0
+margin_bottom = 136.0
+
+[node name="Label" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg4" instance=ExtResource( 5 )]
+margin_right = 202.0
+text = "Shield toughness"
+align = 1
+
+[node name="Line2D" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg4"]
+position = Vector2( -826, -802 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 715, 782.821, 916, 1110.83 )
+width = 3.0
+default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+
+[node name="FirstTimeTooltip_Msg5" parent="Tutorial/FirstTimeTooltip_Delayed" instance=ExtResource( 4 )]
+margin_left = 790.0
+margin_top = 25.0
+margin_right = 914.0
+margin_bottom = 74.0
+
+[node name="Label" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg5" instance=ExtResource( 5 )]
+margin_right = 117.0
+text = "Shield size"
+align = 1
+
+[node name="Line2D" type="Line2D" parent="Tutorial/FirstTimeTooltip_Delayed/FirstTimeTooltip_Msg5"]
+position = Vector2( -826, -802 )
+scale = Vector2( 1, 0.725581 )
+points = PoolVector2Array( 678, 865.513, 916, 1110.83 )
 width = 3.0
 default_color = Color( 0.290196, 0.290196, 0.290196, 1 )
 

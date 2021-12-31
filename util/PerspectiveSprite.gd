@@ -21,6 +21,8 @@ var views = {}
 var current_view_vec = null
 
 func _get_configuration_warning() -> String:
+	if Engine.editor_hint:
+		refresh_perspective(Vector3.BACK)
 	if defined_frames.size() != frames.size():
 		return "Must have exactly the same number of frame textures as entries in defined_frames"
 	if defined_frames.size() != image_offsets.size():
@@ -31,7 +33,7 @@ func _ready():
 	EventBus.connect("refresh_perspective_sprites", self, "refresh_perspective")
 	for i in defined_frames.size():
 		var idx = VALID_FRAME_NAMES.find(defined_frames[i])
-		if idx < 0: 
+		if idx < 0:
 			printerr("Unexpected frame name: ", defined_frames[i])
 			continue
 		match VALID_FRAME_VECS[idx]:
@@ -62,7 +64,7 @@ func _ready():
 func get_view(i, flip_h):
 	return [frames[i], # 0: texture
 		width_in_meters/frames[i].get_width(), # 1: pixel size of main texture
-		width_in_meters*frames[i].get_height()/float(frames[i].get_width())/2 + 0.011, # 2: y height of image 
+		width_in_meters*frames[i].get_height()/float(frames[i].get_width())/2 + 0.011, # 2: y height of image
 		flip_h, # 3: flip horizontally
 		image_offsets[i], # 4: offset of the image
 		]

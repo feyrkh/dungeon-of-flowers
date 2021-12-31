@@ -1,6 +1,6 @@
 extends Node2D
 
-var data 
+var data
 
 func _ready():
 	if data == null:
@@ -27,7 +27,7 @@ func _ready():
 	trigger_counter(delay+0.55, find_node("SunLabel"), data.get("pollen_sun", 0))
 	trigger_counter(delay+0.7, find_node("WaterLabel"), data.get("pollen_water", 0))
 	trigger_counter(delay+0.85, find_node("DecayLabel"), data.get("pollen_decay", 0))
-	
+
 	trigger_gleam(delay, find_node("DamageGleam"))
 	trigger_counter(delay+0.7, find_node("DamageGivenLabel"), data.get("damage_given", 0))
 	trigger_counter(delay+0.7, find_node("DamageTakenLabel"), data.get("damage_taken", 0))
@@ -93,6 +93,7 @@ func set_badge_texture(block_pct, damage_pct):
 
 func _process(delta):
 	if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_cancel"):
+		$RankResults/Gleam.visible = false
 		CombatMgr.close_results(self)
 
 func populate_rewards(delay):
@@ -143,31 +144,36 @@ func reveal_item_label(label):
 
 func reveal_rank(delay):
 	$Tween.interpolate_method(self, "reveal_rank_amt", 1.0, 0.0, 1.0, Tween.TRANS_CUBIC, Tween.EASE_IN, delay)
-	
+
 func hide_rewards(delay):
 	$Tween.interpolate_method(self, "hide_rewards_amt", 0.0, 1.0, 1.0, Tween.TRANS_CUBIC, Tween.EASE_IN, delay)
 
 func reveal_rank_amt(val):
-	$RankResults/S.material.set_shader_param("manual_progress", val)	
+	$RankResults/S.material.set_shader_param("manual_progress", val)
 
 func hide_rewards_amt(val):
-	$StatsRows/Reward.material.set_shader_param("manual_progress", val)	
+	$StatsRows/Reward.material.set_shader_param("manual_progress", val)
 
 func trigger_gleam(delay, gleam_node):
+	gleam_node.visible = true
 	$Tween.interpolate_property(gleam_node, "position:x", gleam_node.position.x, gleam_node.position.x + 1250, 0.95, Tween.TRANS_CUBIC, Tween.EASE_IN, delay)
+	Util.delay_call(0.95 + delay, self, "hide_gleam", [gleam_node])
+
+func hide_gleam(gleam_node):
+	gleam_node.visible = false
 
 func trigger_counter(delay, label_node, value):
 	$Tween.interpolate_property(label_node, "number", 0, value, 1, Tween.TRANS_LINEAR, Tween.EASE_OUT, delay)
 
 func trigger_damage_bar(delay):
 	var bar = find_node("DamageBar")
-	$Tween.interpolate_property(bar, "left_val", 0, data.get("damage_given", 0), 1, Tween.TRANS_BOUNCE, Tween.EASE_IN_OUT, delay) 
-	$Tween.interpolate_property(bar, "right_val", 0, data.get("damage_taken", 0), 0.8, Tween.TRANS_BOUNCE, Tween.EASE_IN_OUT, delay) 
+	$Tween.interpolate_property(bar, "left_val", 0, data.get("damage_given", 0), 1, Tween.TRANS_BOUNCE, Tween.EASE_IN_OUT, delay)
+	$Tween.interpolate_property(bar, "right_val", 0, data.get("damage_taken", 0), 0.8, Tween.TRANS_BOUNCE, Tween.EASE_IN_OUT, delay)
 
 func trigger_block_bar(delay):
 	var bar = find_node("BlockBar")
-	$Tween.interpolate_property(bar, "left_val", 0, data.get("blocks_made", 0), 1, Tween.TRANS_BOUNCE, Tween.EASE_IN_OUT, delay) 
-	$Tween.interpolate_property(bar, "right_val", 0, data.get("blocks_missed", 0), 0.8, Tween.TRANS_BOUNCE, Tween.EASE_IN_OUT, delay) 
+	$Tween.interpolate_property(bar, "left_val", 0, data.get("blocks_made", 0), 1, Tween.TRANS_BOUNCE, Tween.EASE_IN_OUT, delay)
+	$Tween.interpolate_property(bar, "right_val", 0, data.get("blocks_missed", 0), 0.8, Tween.TRANS_BOUNCE, Tween.EASE_IN_OUT, delay)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	find_node("AnimationPlayer").play("rank_gleam")

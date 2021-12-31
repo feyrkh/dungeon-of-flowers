@@ -1,7 +1,7 @@
 {
 	"map_name": "vestibule",
 	"combat_grace_period": 5,
-	"combat_chance_per_tile":0.05,
+	"combat_chance_per_tile":0.00,
 	"tiles": {
 		"wall": "dungeon/Wall.tscn",
 		"floor": "dungeon/Corridor.tscn",
@@ -11,13 +11,15 @@
 		"trap_arrow": "dungeon/tiles/ArrowTrap.tscn",
 		"trap_blade": {"scene":"dungeon/tiles/PendulumTrap.tscn", "props":{"firing":true}},
 		"forge": "dungeon/tiles/GriasLevelupStation.tscn",
+		"boulder": "dungeon/tiles/GateBoulder.tscn",
+		"dialogue": "dungeon/tiles/TileEventDialogue.tscn",
+		"cultist": "dungeon/tiles/TileEventCombat.tscn",
 	},
 	"config": {
-		"1": {"key": "intro_key_1", "chest_chat": "first_chest", "locked_chat": "generic_locked_door"},
-		"2": {"key": "intro_key_2", "locked_chat": "generic_locked_door"},
-		"3": {"is_open": true},
-		"4": {"rotation_percent": 0},
-		"5": {"rotation_percent": 0.05},
-		"6": {"rotation_percent": 0.1},
+		"1": {"event_dialogue": "intro_1"},
+		"2": {"set_state": {"intro":"intro_2"}, "event_dialogue": "intro_2", "event_combat": "tutorial"},
+		"3": {"event_dialogue": "intro_boulder_block"},
+		"4": {"chest_dialogue": "chest_shield", "chest_items": ["shield", "pickaxe"]},
+		"5": {"set_state": {"intro":"intro_3"}, "event_require_item": "shield", "event_dialogue": "intro_3", "event_combat": "tutorial2"},
 	}
 }

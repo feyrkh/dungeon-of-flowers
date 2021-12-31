@@ -1,3 +1,8 @@
+# Map configs:
+# chest_items: array of item names to acquire
+# chest_chat: party chat to start when opened
+# chest_dialogue: dialogue to start when opened
+# key: name of a key given to the player when opened; equivalent to adding it to chest_items, so maybe this should be changed to be the key the chest is locked with.
 extends DisableMovementTile
 
 var is_open
@@ -67,9 +72,13 @@ func open(open_time=2):
 	$AnimatedSprite3D.modulate.a = 1.0
 	$PerspectiveSprite.visible = true
 	$AnimatedSprite3D.visible = false
+	if map_config.get("chest_dialogue"):
+		QuestMgr.play_cutscene(map_config.get("chest_dialogue"))
 
 func acquire_items():
 	var items = map_config.get("chest_items", [])
+	if !items is Array:
+		items = [items]
 	var key = map_config.get("key", null)
 	if key:
 		items.append(key)

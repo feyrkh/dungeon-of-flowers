@@ -207,6 +207,7 @@ func _process(delta):
 			#print("ended move at ", OS.get_system_time_msecs())
 			if !is_bumping:
 				emit_signal("tile_move_complete")
+				EventBus.emit_signal("tile_entered", Vector2(round(global_transform.origin.x/3), round(global_transform.origin.z/3)), self)
 				#EventBus.emit_signal("new_player_location", global_transform.origin.x/3, global_transform.origin.z/3, rad2deg(global_transform.basis.get_euler().y))
 				update_minimap()
 	if target_rotation != null:

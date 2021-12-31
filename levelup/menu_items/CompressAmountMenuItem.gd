@@ -38,6 +38,7 @@ func update_text():
 	find_node("DescriptionLabel").text = "Compression threshold:         "
 	find_node("ThresholdLabel").text = "%.2f" % [existing_node.threshold]
 	EventBus.emit_signal("grias_component_menu_text", "Energy will be absorbed until it exceeds the threshold, then emitted in the same direction as the last energy spark.")
+	EventBus.emit_signal("grias_component_cost", null)
 
 func adjust_threshold(dir):
 	existing_node.threshold = wrapi(round(existing_node.threshold / 0.25)+dir, 1, existing_node.threshold_upgrades+5) * 0.25

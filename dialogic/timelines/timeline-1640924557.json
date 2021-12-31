@@ -1,0 +1,29 @@
+{
+	"events": [
+		{
+			"action": "join",
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_002",
+			"mirror": false,
+			"portrait": "",
+			"position": {
+				"0": true,
+				"1": false,
+				"2": false,
+				"3": false,
+				"4": false
+			}
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "annoyed",
+			"text": "Tch! Guess I need a shield after all. Those puddles are a lot more aggressive than the ones I fought during my training mission."
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.2.5",
+		"file": "timeline-1640924557.json",
+		"name": "intro_need_shield"
+	}
+}

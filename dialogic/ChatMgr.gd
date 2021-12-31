@@ -7,7 +7,7 @@ const QUEUE_IF_BUSY = "1"
 const SKIP_IF_BUSY = "2"
 var CHAT_DIR
 
-const SAVE_ITEMS = ["chat_queue", "cur_speaker", "cur_line_timer", "chat_lock", 
+const SAVE_ITEMS = ["chat_queue", "cur_speaker", "cur_line_timer", "chat_lock",
 	"cur_priority", "cur_replay_after", "ambient_chats", "steps_since_last_chat",
 	"disabled_chats"]
 const SAVE_PREFIX = "ChatM_"
@@ -194,7 +194,7 @@ func find_valid_chat(chat_id, party_members={"g":1, "e":1, "a":1}):
 				break
 		if !invalid:
 			return cur_option
-		
+
 func load_file(chat_id):
 	var chat_filename = chat_id
 	if !chat_filename.begins_with("res:"):
@@ -210,7 +210,7 @@ func load_file(chat_id):
 func process_config_line(line, cur_file_name):
 	var chunks = line.split(":")
 	match chunks[0]:
-		"!priority": 
+		"!priority":
 			cur_priority = chunks[1]
 		"!replay_after": # !replay_after:<delay in seconds>   ex: !replay_after:300
 			cur_replay_after = float(chunks[1])
@@ -221,7 +221,7 @@ func process_config_line(line, cur_file_name):
 				ambient_chats.append(chunks[1])
 				if chunks.size() > 2:
 					chat_lock[chunks[1]] = float(chunks[2]) + GameData.game_time
-		_: 
+		_:
 			printerr("Unexpected chat config line: ", line)
 
 func start_chat(chat_id):
@@ -275,7 +275,7 @@ func send_chat_msg():
 		chat_lock[chunks[1]] = GameData.game_time+float(chunks[2])
 	else:
 		cur_speaker = chunks[0]
-		cur_line_timer = calculate_line_timer()	
+		cur_line_timer = calculate_line_timer()
 		EventBus.emit_signal("chat_msg", chat_queue[0])
 
 func calculate_line_timer():

@@ -1,7 +1,7 @@
 extends DungeonEntity
 
 export(bool) var firing = true
-export(float) var damage = 20
+export(float) var damage = 3
 export(float) var seconds_per_rotation = 5
 export(Curve) var rotation_curve:Curve
 export(float) var rotation_percent = 0

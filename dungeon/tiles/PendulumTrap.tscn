@@ -10,7 +10,7 @@
 [sub_resource type="Curve" id=1]
 min_value = -45.0
 max_value = 45.01
-_data = [ Vector2( 0, -45 ), 0.0, 0.0, 0, 0, Vector2( 0.50116, -45 ), 0.0, 0.0, 0, 0, Vector2( 0.74478, 45.01 ), 7.10513, 7.10513, 0, 0, Vector2( 1, -45 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, -45 ), 0.0, 0.0, 0, 0, Vector2( 0.711974, -45 ), 0.0, 0.0, 0, 0, Vector2( 0.864078, 45.01 ), 7.10513, 7.10513, 0, 0, Vector2( 1, -45 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 0.35, 0.49, 0.51 )

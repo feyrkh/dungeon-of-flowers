@@ -1,0 +1,35 @@
+{
+	"events": [
+		{
+			"action": "join",
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_002",
+			"mirror": false,
+			"portrait": "",
+			"position": {
+				"0": true,
+				"1": false,
+				"2": false,
+				"3": false,
+				"4": false
+			}
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "happy",
+			"text": "Wow, a pickaxe! This will be perfect for breaking up that boulder!\nAnd...a shield? That seems a little too convenient..."
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "thoughtful",
+			"text": "Oh well!"
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.2.5",
+		"file": "timeline-1640928168.json",
+		"name": "chest_shield"
+	}
+}

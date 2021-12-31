@@ -20,6 +20,7 @@ func grias_pre_save_levelup():
 	var save_data = {
 		"element": element,
 		"threshold": threshold,
+		"threshold_upgrades": threshold_upgrades,
 		"efficiency": efficiency,
 		"investment": investment,
 		"accumulated": accumulated,

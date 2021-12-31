@@ -330,10 +330,10 @@ func new_char_echincea():
 	chin_data = ally
 	ally.label = "Echinacea"
 	ally.className = "Floriculturist"
-	ally.hp.max_value = 100
-	ally.hp.value = 100
-	ally.sp.value = 20
+	ally.hp.max_value = 10
+	ally.hp.value = ally.hp.max_value
 	ally.sp.max_value = 20
+	ally.sp.value = ally.sp.max_value
 	ally.texture = "res://img/hero1.png"
 	ally.moves = [
 		MoveList.get_move('thump'),
@@ -350,10 +350,10 @@ func new_char_arum():
 	arum_data = ally
 	ally.label = "Arum"
 	ally.className = "Titan"
-	ally.hp.max_value = 100
-	ally.hp.value = 100
-	ally.sp.value = 20
-	ally.sp.max_value = 20
+	ally.hp.max_value = 15
+	ally.hp.value = ally.hp.max_value
+	ally.sp.max_value = 15
+	ally.sp.value = ally.sp.max_value
 	ally.texture = "res://img/hero3.jpg"
 	ally.moves = [
 		MoveList.get_move('thump'),
@@ -368,10 +368,10 @@ func new_char_grias():
 	grias_data = ally
 	ally.label = "Grias"
 	ally.className = "Knight"
-	ally.hp.max_value = 100
-	ally.hp.value = 100
-	ally.sp.value = 20
-	ally.sp.max_value = 20
+	ally.hp.max_value = 20
+	ally.hp.value = ally.hp.max_value
+	ally.sp.max_value = 10
+	ally.sp.value = ally.sp.max_value
 	ally.texture = "res://img/hero4.jpg"
 	ally.moves = [
 		MoveList.get_move('slash'),

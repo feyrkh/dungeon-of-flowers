@@ -1,3 +1,7 @@
+# Map config:
+# key: ID of the key that must be in your inventory
+# locked_chat: chat ID to play if locked
+
 extends DisableMovementTile
 export var is_open = false setget set_is_open
 var animating=false
@@ -30,9 +34,9 @@ func is_interactable():
 	return !animating
 
 func get_interactable_prompt():
-	if is_open: 
+	if is_open:
 		return "Close Gate"
-	else: 
+	else:
 		return "Open Gate"
 
 func interact():
@@ -63,7 +67,7 @@ func open(open_time=2):
 
 func locked():
 	var tween:Tween = Util.one_shot_tween(self)
-	for i in range(1):	
+	for i in range(1):
 		tween.interpolate_property(self, "transform:origin", transform.origin, transform.origin+transform.basis.z*0.05, 0.05, 0, 2, i*0.1)
 		tween.interpolate_property(self, "transform:origin", transform.origin+transform.basis.z*0.05, transform.origin, 0.05, 0, 2, i*0.1+0.1)
 	tween.start()

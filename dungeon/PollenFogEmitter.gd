@@ -25,7 +25,7 @@ func new_player_location(x, y, rot):
 	$Particles.emitting = true
 	$Particles.amount = pollen_level * PARTICLES_PER_POLLEN_LEVEL
 	$Particles.lifetime = pollen_level * LIFETIME_PER_POLLEN_LEVEL
-	
+
 func on_map_place(dungeon, layer_name:String, cell:Vector2):
 	self.map_position = cell
 	self.map_layer = layer_name

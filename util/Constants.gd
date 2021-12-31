@@ -49,23 +49,40 @@ static func meridian_dir_name(dir):
 
 const GRIAS_STAT_LABEL = {
 	"max_hp": "Max HP+", # increase max HP by a flat amount
+	# TODO: Implement
 	"walk_regen": "Walk Regen", # regen HP per step
 	"max_sp": "Max SP+", # increase max SP by a flat amount
+	# TODO: Implement
 	"heal_sp": "Heal SP+", # when healing SP, multiply the amount healed by this %
+	# TODO: Implement
 	"heal_hp": "Heal HP+", # when healing HP, multiply the amount healed by this %
+	# TODO: Implement
 	"damage": "Damage+", # when dealing damage, increase it by this %
+	# TODO: Implement
 	"critical_chance": "Crit Chance+", # increase size of critical areas by this %
+	# TODO: Implement
 	"critical_damage": "Crit Damage+", # when dealing critical damage, increase it by this %
+	# TODO: Implement
 	"damage_reduce": "Dmg Reduce", # when taking damage, reduce it by a flat amount
+	# TODO: Implement
 	"damage_avoid": "Dmg Avoid", # when taking damage, this % chance to avoid damage entirely
+	# TODO: Implement
 	"damage_absorb": "Dmg->SP Absorb", # when taking damage, this % is converted to SP
+	# TODO: Implement
 	"damage_reflect": "Dmg Reflect", # when taking damage, this % chance to reflect it back at the enemy
+	# TODO: Implement
 	"pollen_bonus": "Pollen Bonus", # when consuming pollen, increase pollen points by this %
+	# TODO: Implement
 	"slash:hits": "Slash: Hit+",
+	# TODO: Implement
 	"slash:damage": "Slash: Damage+",
+	# TODO: Implement
 	"slash:cost": "Slash: Cost-",
+	# TODO: Implement
 	"bodyguard:hits": "Bodyguard: Hit+",
+	# TODO: Implement
 	"bodyguard:speed": "Bodyguard: Speed+",
+	# TODO: Implement
 	"bodyguard:cost": "Bodyguard: Cost-",
 }
 

@@ -30,6 +30,10 @@
 		{
 			"name": "defeated",
 			"path": "res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png"
+		},
+		{
+			"name": "thoughtful",
+			"path": "res://art_exports/ui_dialog/ui_dialog_GRIAS_normal01.png"
 		}
 	],
 	"scale": 100

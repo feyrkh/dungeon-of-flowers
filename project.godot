@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://minigame/BaseMinigame.gd"
 }, {
+"base": "Node2D",
+"class": "BoulderBreakGame",
+"language": "GDScript",
+"path": "res://minigame/boulderBreak/BoulderBreakGame.gd"
+}, {
 "base": "Reference",
 "class": "CombatData",
 "language": "GDScript",
@@ -206,6 +211,7 @@ _global_script_class_icons={
 "AttackBullet": "",
 "BaseMenuItem": "",
 "BaseMinigame": "",
+"BoulderBreakGame": "",
 "CombatData": "",
 "Dialogic": "",
 "DialogicBackgroundMusic": "",

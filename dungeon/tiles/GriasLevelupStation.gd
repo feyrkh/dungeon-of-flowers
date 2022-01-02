@@ -17,4 +17,4 @@ func get_interactable_prompt():
 
 func interact():
 	var levelup_screen = GriasLevelup.instance()
-	get_tree().root.find_node("LevelupContainer", true, false).add_child(levelup_screen)
+	get_tree().root.find_node("FullScreenOverlayContainer", true, false).add_child(levelup_screen)

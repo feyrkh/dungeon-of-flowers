@@ -187,3 +187,6 @@ static func post_load_game(object, prefix:String, save_items:Array):
 
 static func map_coords(v3:Vector3):
 	return Vector2(int(round(v3.x/3)), int(round(v3.z/3)))
+
+static func hash_rand(id:String, salt:String=""):
+	return fmod(((id + salt).hash()) / 100000000.0, 1.0)

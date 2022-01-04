@@ -1,9 +1,12 @@
 extends TextureRect
 
+var map_position
 var toughness setget set_toughness
 var max_toughness
+var visited_for_flood_fill:bool = false
 
-func setup(hash_salt, pos, _max_toughness, dist_from_center_normalized):
+func setup(_map_position, hash_salt, pos, _max_toughness, dist_from_center_normalized):
+	map_position = _map_position
 	max_toughness = _max_toughness
 	var h:float = Util.hash_rand(str(pos), str(hash_salt))
 	if h > 0.35:

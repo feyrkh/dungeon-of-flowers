@@ -15,7 +15,7 @@ const SMASH_SPRITE = preload("res://img/levelup/node_focus.png")
 
 const TILE_SIZE = 64
 const MAX_TOUGHNESS = 4
-const POWERUP_SECONDS = 1.73/2
+const POWERUP_SECONDS = 0.73/2
 
 var boulder_gate
 var state = State.LOADING
@@ -174,6 +174,7 @@ func apply_smash(swing_strength, at_position):
 	var tile_data = BoulderTileGrid.get_tile_by_border_index(at_position)
 	var hit_coords = tile_data["tile_pos"]
 	var hit_vec = tile_data["vec"]
+	var delay = 0
 	while swing_strength > 0 and hit_coords.x >= 0 and hit_coords.y >= 0 and hit_coords.x < grid_size and hit_coords.y < grid_size:
 		var tile_node = BoulderTileGrid.get_tile_node_by_coords(hit_coords)
 		if tile_node.toughness > 0:
@@ -181,6 +182,7 @@ func apply_smash(swing_strength, at_position):
 			tile_node.toughness -= damage
 			swing_strength -= damage
 		hit_coords += hit_vec
+		BoulderTileGrid.destroy_small_chunks()
 
 func _process(delta):
 	if state == State.CHARGING:

@@ -11,12 +11,12 @@ func generate_grid(hash_salt, grid_size, max_toughness):
 			var pos = Vector2(x, y)
 			var tile = preload("res://minigame/boulderBreak/BoulderBreakTile.tscn").instance()
 			var dist_from_center_normalized = (center.distance_to(pos)/dist_to_center_from_corner)
-			tile.setup(hash_salt, pos, max_toughness, dist_from_center_normalized)
+			tile.setup(pos, hash_salt, pos, max_toughness, dist_from_center_normalized)
 			add_child(tile)
 			tiles[pos] = tile
 
 func get_tile_node_by_coords(coords:Vector2):
-	return tiles[coords]
+	return tiles.get(coords, null)
 
 # Border index starts starts at the top of the top-left tile with idx=0. For a 4x4 tile grid, the indices look like this:
 #    0  1  2  3
@@ -79,3 +79,39 @@ func get_tile_by_border_index(idx:int) -> Dictionary:
 
 func _ready() -> void:
 	pass
+
+
+func destroy_small_chunks():
+	var min_chunk_size = floor((columns * columns)/5)
+	var unvisited_tiles = tiles.values()
+	var cur_visited_tiles = []
+	for tile in unvisited_tiles:
+		tile.visited_for_flood_fill = false
+	while unvisited_tiles.size() > 0:
+		var cur_tile = unvisited_tiles.pop_back()
+		if cur_tile.toughness <= 0:
+			continue
+		cur_visited_tiles = []
+		flood_fill(cur_tile, unvisited_tiles, cur_visited_tiles)
+		if cur_visited_tiles.size() <= min_chunk_size:
+			destroy_tiles(cur_visited_tiles)
+
+func destroy_tiles(tile_list):
+	for tile in tile_list:
+		tile.toughness = 0
+
+func flood_fill(cur_tile, unvisited_tiles, cur_visited_tiles):
+	if cur_tile == null or cur_tile.visited_for_flood_fill:
+		return
+	cur_tile.visited_for_flood_fill = true
+	unvisited_tiles.erase(cur_tile)
+	if cur_tile.toughness <= 0:
+		return
+	cur_visited_tiles.push_back(cur_tile)
+	flood_fill(get_tile_node_by_coords(cur_tile.map_position + Vector2.UP), unvisited_tiles, cur_visited_tiles)
+	flood_fill(get_tile_node_by_coords(cur_tile.map_position + Vector2.DOWN), unvisited_tiles, cur_visited_tiles)
+	flood_fill(get_tile_node_by_coords(cur_tile.map_position + Vector2.LEFT), unvisited_tiles, cur_visited_tiles)
+	flood_fill(get_tile_node_by_coords(cur_tile.map_position + Vector2.RIGHT), unvisited_tiles, cur_visited_tiles)
+
+
+

@@ -3,8 +3,8 @@
 [ext_resource path="res://minigame/boulderBreak/BoulderBreakGame.gd" type="Script" id=1]
 [ext_resource path="res://util/pixel.png" type="Texture" id=2]
 [ext_resource path="res://minigame/boulderBreak/chisel.png" type="Texture" id=3]
-[ext_resource path="res://minigame/boulderBreak/hammer.png" type="Texture" id=4]
 [ext_resource path="res://minigame/boulderBreak/BoulderTileGrid.gd" type="Script" id=5]
+[ext_resource path="res://util/controls/ui_button_accept.tscn" type="PackedScene" id=6]
 
 [node name="BoulderBreakGame" type="Node2D"]
 script = ExtResource( 1 )
@@ -44,14 +44,42 @@ position = Vector2( 397, 167 )
 position = Vector2( -1, -55 )
 texture = ExtResource( 3 )
 
-[node name="hammer" type="Sprite" parent="CanvasLayer/Cursor"]
-position = Vector2( 94, -121 )
-rotation = -1.5708
-texture = ExtResource( 4 )
-centered = false
-offset = Vector2( -17, -100 )
+[node name="MoveTween" type="Tween" parent="CanvasLayer/Cursor"]
 
-[node name="StrikeTween" type="Tween" parent="CanvasLayer/Cursor"]
+[node name="StartChargingLabel" type="Label" parent="CanvasLayer/Cursor"]
+margin_left = 29.0
+margin_top = -77.0
+margin_right = 69.0
+margin_bottom = -63.0
+text = "    Hold        to power up"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="rotate_left" parent="CanvasLayer/Cursor/StartChargingLabel" instance=ExtResource( 6 )]
+position = Vector2( 56, -4 )
+
+[node name="FinishChargingLabel" type="Label" parent="CanvasLayer/Cursor"]
+visible = false
+margin_left = 29.0
+margin_top = -77.0
+margin_right = 69.0
+margin_bottom = -63.0
+text = "Release        to strike"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ui_button_accept" parent="CanvasLayer/Cursor/FinishChargingLabel" instance=ExtResource( 6 )]
+position = Vector2( 57, -4 )
+
+[node name="StrengthDisplay" type="TextureRect" parent="CanvasLayer"]
+margin_right = 300.0
+margin_bottom = 600.0
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Timer" type="Timer" parent="."]
 process_mode = 0

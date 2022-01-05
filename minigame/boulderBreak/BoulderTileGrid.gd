@@ -49,7 +49,10 @@ func get_tile_by_border_index(idx:int) -> Dictionary:
 			x = side_offset
 			x_pix = BoulderBreakGame.TILE_SIZE / 2
 			y_pix = 0
-			rot = 0
+			if side_offset == 0:
+				rot = 360
+			else:
+				rot = 0
 			vec = Vector2.DOWN
 		1:
 			x = self.columns - 1
@@ -94,11 +97,24 @@ func destroy_small_chunks():
 		cur_visited_tiles = []
 		flood_fill(cur_tile, unvisited_tiles, cur_visited_tiles)
 		if cur_visited_tiles.size() <= min_chunk_size:
+			print("Destroying ", cur_visited_tiles.size(), " tiles")
 			destroy_tiles(cur_visited_tiles)
 
 func destroy_tiles(tile_list):
+	var rseed = randf()
+	var chunk = preload("res://minigame/boulderBreak/PoppedChunkContainer.tscn").instance()
+	var pos = Vector2.ZERO
 	for tile in tile_list:
+		pos += tile.rect_global_position
+	pos /= tile_list.size()
+	chunk.global_position = pos
+	get_parent().get_node("PoppedTileContainer").add_child(chunk)
+	for tile in tile_list:
+		var popped_tile = preload("res://minigame/boulderBreak/PoppedTile.tscn").instance()
+		chunk.add_child(popped_tile)
+		popped_tile.destroy_tile(rseed, tile)
 		tile.toughness = 0
+	pass
 
 func flood_fill(cur_tile, unvisited_tiles, cur_visited_tiles):
 	if cur_tile == null or cur_tile.visited_for_flood_fill:

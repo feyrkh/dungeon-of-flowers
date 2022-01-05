@@ -32,6 +32,8 @@ var rand_hash
 var first_move = true
 var move_progress:float = 0
 
+var cursor_pos_cache = []
+
 var BoulderTileGrid:GridContainer
 var Cursor:Node2D
 var MoveTween:Tween
@@ -52,6 +54,11 @@ func setup(_boulder_gate, _grid_size):
 	StrengthDisplay = find_node("StrengthDisplay")
 	seconds_per_move = $Timer.time_left * ticks_per_move
 	show_charging_message(true)
+
+func populate_cursor_pos_cache():
+	for i in range(grid_size * 4 + 1):
+		cursor_pos_cache.append(BoulderTileGrid.get_tile_by_border_index(i))
+
 
 func _ready() -> void:
 	if get_tree().root == self.get_parent():
@@ -80,13 +87,14 @@ func restore_minigame():
 	Util.config(self, boulder_gate.map_config.get("minigame", {}))
 
 func enter_minigame():
-	restore_minigame()
 	set_state(State.LOADING)
+	restore_minigame()
 	EventBus.emit_signal("disable_pause_menu")
 	self.pause_mode = Node.PAUSE_MODE_PROCESS
 	get_tree().paused = true
 	visible = true
 	BoulderTileGrid.generate_grid(boulder_gate.map_position, grid_size, MAX_TOUGHNESS)
+	populate_cursor_pos_cache()
 	set_state(State.MOVING)
 	update_movement()
 
@@ -131,10 +139,15 @@ func update_movement():
 				Cursor.position = new_position.get("pos")
 				Cursor.rotation_degrees = new_position.get("rot")
 			MoveTween.interpolate_property(Cursor, "position", Cursor.position, new_position.get("pos"), seconds_per_move)
-			if Cursor.rotation_degrees > 180 and new_position.get("rot") == 0:
-				Cursor.rotation_degrees = -90
-			elif Cursor.rotation_degrees < 90 and Cursor.rotation_degrees >= 0 and new_position.get("rot") == 270:
-				Cursor.rotation_degrees = 360
+			var rot_diff = Cursor.rotation_degrees - new_position.get("rot")
+			if rot_diff > 90:
+				Cursor.rotation_degrees -= 360
+			elif rot_diff < -90:
+				Cursor.rotation_degrees += 360
+#			if Cursor.rotation_degrees > 180 and new_position.get("rot") == 0:
+#				Cursor.rotation_degrees = -90
+#			elif Cursor.rotation_degrees < 90 and Cursor.rotation_degrees >= 0 and new_position.get("rot") == 270:
+#				Cursor.rotation_degrees = 360
 			MoveTween.interpolate_property(Cursor, "rotation_degrees", Cursor.rotation_degrees, new_position.get("rot"), seconds_per_move)
 			MoveTween.interpolate_property(self, "move_progress", 0, 1.0, seconds_per_move)
 			MoveTween.start()

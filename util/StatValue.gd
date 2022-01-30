@@ -7,6 +7,7 @@ const EMPTY = {}
 var value = 0 setget set_value, get_value
 var max_value = 0 setget set_max_value, get_max_value
 var effects = {} #{{"bonus_max":{"levelup":10}, "bonus_max_percent":...}
+var can_go_below_zero = false
 
 func _to_config() -> Dictionary:
 	return {"value":value, "max_value":max_value, "effects":effects}
@@ -19,6 +20,8 @@ func _from_config(c):
 	effects = c.get("effects", {})
 
 func set_value(val, skip_eventing=false):
+	if val < 0 and !can_go_below_zero:
+		val = 0
 	var old_val = value
 	value = val
 	if !skip_eventing and old_val != val:

@@ -336,7 +336,7 @@ func new_char_echincea():
 	ally.className = "Floriculturist"
 	ally.hp.max_value = 10
 	ally.hp.value = ally.hp.max_value
-	ally.sp.max_value = 200
+	ally.sp.max_value = 20
 	ally.sp.value = ally.sp.max_value
 	ally.texture = "res://img/hero1.png"
 	ally.moves = [
@@ -356,7 +356,7 @@ func new_char_arum():
 	ally.className = "Titan"
 	ally.hp.max_value = 15
 	ally.hp.value = ally.hp.max_value
-	ally.sp.max_value = 150
+	ally.sp.max_value = 15
 	ally.sp.value = ally.sp.max_value
 	ally.texture = "res://img/hero3.jpg"
 	ally.moves = [
@@ -374,7 +374,7 @@ func new_char_grias():
 	ally.className = "Knight"
 	ally.hp.max_value = 20
 	ally.hp.value = ally.hp.max_value
-	ally.sp.max_value = 100
+	ally.sp.max_value = 10
 	ally.sp.value = ally.sp.max_value
 	ally.texture = "res://img/hero4.jpg"
 	ally.moves = [

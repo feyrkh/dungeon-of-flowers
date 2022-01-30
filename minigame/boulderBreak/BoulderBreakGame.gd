@@ -10,6 +10,13 @@ const STRENGTH_SPRITES = [
 	preload("res://dungeon/tiles/4.png"),
 	preload("res://dungeon/tiles/5.png"),
 ]
+const TIRED_SPRITES = [
+	preload("res://dungeon/tiles/6.png"),
+	preload("res://dungeon/tiles/7.png"),
+	preload("res://dungeon/tiles/8.png"),
+	preload("res://dungeon/tiles/9.png"),
+	preload("res://dungeon/tiles/10.png"),
+]
 
 const SMASH_SPRITE = preload("res://img/levelup/node_focus.png")
 
@@ -167,8 +174,7 @@ func finish_smash():
 	swing_strength = 0
 	swing_progress = 0
 	update_swing_progress()
-	GameData.set_sp_damage_label(["stone", "smash", "slam", "slab", "slice", "stamina", "stonemason", "stability"])
-	GriasDisplay.data.sp.value -= 1
+	GameData.set_sp_damage_label(["stone", "smash", "slam", "slab", "slice", "swing", "stamina", "stonemason", "stability"])
 	yield(get_tree().create_timer(0.5), "timeout")
 	set_process(true)
 	MoveTween.resume_all()
@@ -181,6 +187,9 @@ func apply_smash(swing_strength):
 	var hit_coords = tile_data["tile_pos"]
 	var hit_vec = tile_data["vec"]
 	var delay = 0
+	if GriasDisplay.data.sp.value > 0:
+		swing_strength *= 2
+	GriasDisplay.data.sp.value -= 1
 	while swing_strength > 0 and hit_coords.x >= 0 and hit_coords.y >= 0 and hit_coords.x < grid_size and hit_coords.y < grid_size:
 		var tile_node = BoulderTileGrid.get_tile_node_by_coords(hit_coords)
 		if tile_node.toughness > 0:
@@ -202,7 +211,10 @@ func update_swing_progress():
 	if state == State.SMASHING:
 		StrengthDisplay.texture = SMASH_SPRITE
 	else:
-		StrengthDisplay.texture = STRENGTH_SPRITES[floor(swing_strength)]
+		if GriasDisplay.data.sp.value > 0:
+			StrengthDisplay.texture = STRENGTH_SPRITES[floor(swing_strength)]
+		else:
+			StrengthDisplay.texture = TIRED_SPRITES[floor(swing_strength)]
 
 func show_charging_message(show):
 	find_node("StartChargingLabel").visible = show

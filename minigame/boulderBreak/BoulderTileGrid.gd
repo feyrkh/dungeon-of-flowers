@@ -93,7 +93,7 @@ func _ready() -> void:
 
 
 func destroy_small_chunks():
-	var min_chunk_size = floor((columns * columns)/6)
+	var min_chunk_size = floor((columns * columns)/6) + 1
 	var unvisited_tiles = tiles.values()
 	var cur_visited_tiles = []
 	for tile in unvisited_tiles:

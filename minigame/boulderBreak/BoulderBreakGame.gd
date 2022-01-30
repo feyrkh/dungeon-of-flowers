@@ -1,7 +1,7 @@
 extends Node2D
 class_name BoulderBreakGame
 
-enum State {LOADING, MOVING, CHARGING, SMASHING, INACTIVE}
+enum State {LOADING, MOVING, ROTATING, CHARGING, SMASHING, INACTIVE}
 
 const STRENGTH_SPRITES = [
 	preload("res://dungeon/tiles/1.png"),
@@ -16,6 +16,8 @@ const SMASH_SPRITE = preload("res://img/levelup/node_focus.png")
 const TILE_SIZE = 64
 const MAX_TOUGHNESS = 4
 const POWERUP_SECONDS = 0.73/2
+const CURSOR_OFFSET = Vector2(0, -100)
+const CURSOR_MOVE_TIME = 2.0
 
 var boulder_gate
 var state = State.LOADING
@@ -24,16 +26,22 @@ var grid_size
 var ticks_per_move = 5
 var seconds_per_move
 var tick_counter = 0
-var cursor_pos
 var swing_progress = 0
 var swing_strength = 0
 var max_swing_strength = 3
 var rand_hash
 var first_move = true
-var move_progress:float = 0
 
-var cursor_pos_cache = []
+var bounds_top
+var bounds_left
+var bounds_bottom
+var bounds_right
+var cursor_x = 0
+var cursor_y = 0
+var cursor_vec = Vector2.DOWN
+var grid_top_left:Vector2
 
+var GriasDisplay
 var BoulderTileGrid:GridContainer
 var Cursor:Node2D
 var MoveTween:Tween
@@ -44,7 +52,10 @@ func setup(_boulder_gate, _grid_size):
 	rand_hash = randi()
 	boulder_gate = _boulder_gate
 	grid_size = _grid_size
-	cursor_pos = 0 #randi() % (4*grid_size)
+	bounds_left = 0
+	bounds_top = 0
+	bounds_bottom = grid_size-1
+	bounds_right = grid_size-1
 	direction = 1 #randi() % 2
 	if direction == 0:
 		direction = -1
@@ -52,20 +63,18 @@ func setup(_boulder_gate, _grid_size):
 	Cursor = find_node("Cursor")
 	MoveTween = find_node("MoveTween")
 	StrengthDisplay = find_node("StrengthDisplay")
+	GriasDisplay = find_node("GriasDisplay")
 	seconds_per_move = $Timer.time_left * ticks_per_move
 	show_charging_message(true)
-
-func populate_cursor_pos_cache():
-	for i in range(grid_size * 4 + 1):
-		cursor_pos_cache.append(BoulderTileGrid.get_tile_by_border_index(i))
-
 
 func _ready() -> void:
 	if get_tree().root == self.get_parent():
 		var mock_boulder = load("res://dungeon/tiles/GateBoulder.tscn").instance()
 		mock_boulder.map_config = {}
 		setup(mock_boulder, 9)
-	$Timer.connect("timeout", self, "update_movement")
+		GameData.setup_allies()
+	GriasDisplay.setup(GameData.allies[1])
+	#$Timer.connect("timeout", self, "update_movement")
 	enter_minigame()
 
 func set_state(val):
@@ -94,9 +103,15 @@ func enter_minigame():
 	get_tree().paused = true
 	visible = true
 	BoulderTileGrid.generate_grid(boulder_gate.map_position, grid_size, MAX_TOUGHNESS)
-	populate_cursor_pos_cache()
+	Cursor.visible = false
+	yield(get_tree(), "idle_frame")
+	grid_top_left = BoulderTileGrid.get_global_rect().position
+	Cursor.visible = true
+	MoveTween.interpolate_property(Cursor, "position", CURSOR_OFFSET + grid_top_left, CURSOR_OFFSET + grid_top_left + Vector2(BoulderTileGrid.get_global_rect().size.x, 0), CURSOR_MOVE_TIME)
+	MoveTween.interpolate_property(Cursor, "position", CURSOR_OFFSET + grid_top_left + Vector2(BoulderTileGrid.get_global_rect().size.x, 0), CURSOR_OFFSET + grid_top_left, CURSOR_MOVE_TIME, Tween.TRANS_LINEAR, 0, CURSOR_MOVE_TIME)
+	MoveTween.start()
 	set_state(State.MOVING)
-	update_movement()
+	#update_movement()
 
 func exit_minigame():
 	if get_tree().root == get_parent():
@@ -118,44 +133,22 @@ func _input(event):
 func moving_input(event):
 	if event.is_action_pressed("ui_accept"):
 		start_smash()
-	if event.is_action_pressed("ui_cancel"):
+	elif event.is_action_pressed("ui_cancel"):
 		exit_minigame()
+	elif Input.is_action_pressed("ui_left") or Input.is_action_pressed("rotate_left"):
+		rotate_grid(-1)
+	elif Input.is_action_pressed("ui_right") or Input.is_action_pressed("rotate_right"):
+		rotate_grid(1)
+
+func rotate_grid(dir):
+	BoulderTileGrid.rotate_grid(dir)
+	state = State.ROTATING
+	yield(BoulderTileGrid, "rotation_complete")
+	state = State.MOVING
 
 func charging_input(event):
 	if event.is_action_released("ui_accept"):
 		finish_smash()
-
-func update_movement():
-	if state == State.MOVING or state == State.CHARGING:
-		tick_counter += 1
-		if tick_counter >= ticks_per_move:
-			Cursor.visible = true
-			tick_counter = 0
-			move_cursor_pos(direction)
-			var new_position = BoulderTileGrid.get_tile_by_border_index(cursor_pos)
-			MoveTween.stop_all()
-			if first_move:
-				first_move = false
-				Cursor.position = new_position.get("pos")
-				Cursor.rotation_degrees = new_position.get("rot")
-			MoveTween.interpolate_property(Cursor, "position", Cursor.position, new_position.get("pos"), seconds_per_move)
-			var rot_diff = Cursor.rotation_degrees - new_position.get("rot")
-			if rot_diff > 90:
-				Cursor.rotation_degrees -= 360
-			elif rot_diff < -90:
-				Cursor.rotation_degrees += 360
-#			if Cursor.rotation_degrees > 180 and new_position.get("rot") == 0:
-#				Cursor.rotation_degrees = -90
-#			elif Cursor.rotation_degrees < 90 and Cursor.rotation_degrees >= 0 and new_position.get("rot") == 270:
-#				Cursor.rotation_degrees = 360
-			MoveTween.interpolate_property(Cursor, "rotation_degrees", Cursor.rotation_degrees, new_position.get("rot"), seconds_per_move)
-			MoveTween.interpolate_property(self, "move_progress", 0, 1.0, seconds_per_move)
-			MoveTween.start()
-			#Cursor.position = new_position.get("pos")
-			#Cursor.rotation_degrees = new_position.get("rot")
-
-func move_cursor_pos(direction):
-	cursor_pos = wrapi(cursor_pos + direction, 0, 4*grid_size)
 
 func start_smash():
 	set_process(true)
@@ -166,25 +159,25 @@ func start_smash():
 
 func finish_smash():
 	set_process(false)
-	if move_progress > 0.5:
-		apply_smash(swing_strength, cursor_pos)
-		MoveTween.stop_all()
-	else:
-		cursor_pos = cursor_pos-direction
-		apply_smash(swing_strength, cursor_pos)
-		MoveTween.stop_all()
+	apply_smash(swing_strength)
+	MoveTween.stop_all()
 	direction = -direction
 	state = State.SMASHING
 	show_charging_message(true)
 	swing_strength = 0
 	swing_progress = 0
 	update_swing_progress()
+	GameData.set_sp_damage_label(["stone", "smash", "slam", "slab", "slice", "stamina", "stonemason", "stability"])
+	GriasDisplay.data.sp.value -= 1
 	yield(get_tree().create_timer(0.5), "timeout")
 	set_process(true)
+	MoveTween.resume_all()
 	state = State.MOVING
 
-func apply_smash(swing_strength, at_position):
-	var tile_data = BoulderTileGrid.get_tile_by_border_index(at_position)
+func apply_smash(swing_strength):
+	var border_index = floor((Cursor.position.x -  grid_top_left.x) / TILE_SIZE)
+	border_index += BoulderTileGrid.down_vector_idx * grid_size
+	var tile_data = BoulderTileGrid.get_tile_by_border_index(border_index)
 	var hit_coords = tile_data["tile_pos"]
 	var hit_vec = tile_data["vec"]
 	var delay = 0
@@ -198,7 +191,9 @@ func apply_smash(swing_strength, at_position):
 		BoulderTileGrid.destroy_small_chunks()
 
 func _process(delta):
-	if state == State.CHARGING:
+	if state == State.MOVING:
+		pass
+	elif state == State.CHARGING:
 		swing_progress += delta / POWERUP_SECONDS
 		swing_strength = round((1 - abs(cos(swing_progress))) * max_swing_strength)
 	update_swing_progress()

@@ -1,6 +1,8 @@
 extends Reference
 class_name AllyData
 
+signal ally_sp_lost(amt)
+
 var hp:Reference = load("res://util/StatValue.gd").new()
 var sp:Reference = load("res://util/StatValue.gd").new()
 
@@ -44,6 +46,8 @@ func on_set_hp(old_val, val):
 	EventBus.emit_signal("ally_status_updated", self)
 
 func on_set_sp(old_val, val):
+	if val < old_val and val > 0:
+		emit_signal("ally_sp_lost", min(old_val, old_val-val))
 	EventBus.emit_signal("ally_status_updated", self)
 
 func get_moves(move_type:String):

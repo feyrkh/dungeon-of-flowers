@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://minigame/boulderBreak/BoulderBreakGame.gd" type="Script" id=1]
 [ext_resource path="res://util/pixel.png" type="Texture" id=2]
 [ext_resource path="res://minigame/boulderBreak/chisel.png" type="Texture" id=3]
+[ext_resource path="res://combat/AllyCombatDisplay.tscn" type="PackedScene" id=4]
 [ext_resource path="res://minigame/boulderBreak/BoulderTileGrid.gd" type="Script" id=5]
 [ext_resource path="res://util/controls/ui_button_accept.tscn" type="PackedScene" id=6]
 
@@ -48,6 +49,8 @@ position = Vector2( -1, -55 )
 texture = ExtResource( 3 )
 
 [node name="MoveTween" type="Tween" parent="CanvasLayer/Cursor"]
+repeat = true
+playback/repeat = true
 
 [node name="StartChargingLabel" type="Label" parent="CanvasLayer/Cursor"]
 margin_left = 29.0
@@ -84,7 +87,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="GriasDisplay" parent="CanvasLayer2" instance=ExtResource( 4 )]
+margin_left = 733.0
+margin_top = 934.0
+margin_right = 733.0
+margin_bottom = 934.0
+
 [node name="Timer" type="Timer" parent="."]
 process_mode = 0
 wait_time = 0.05
 autostart = true
+
+[connection signal="resized" from="CanvasLayer/MarginContainer/BoulderTileGrid" to="CanvasLayer/MarginContainer/BoulderTileGrid" method="_on_BoulderTileGrid_resized"]

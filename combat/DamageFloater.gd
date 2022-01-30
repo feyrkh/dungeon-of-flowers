@@ -2,8 +2,8 @@ extends Label
 
 var velocity
 
-func set_damage(damage):
-	text = "-" + str(damage)+" hp"
+func set_damage(damage, suffix="hp"):
+	text = "-" + str(damage)+" "+suffix
 
 func _ready():
 	velocity = Vector2((randf()-0.5) * 300, -200)

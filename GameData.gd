@@ -33,6 +33,8 @@ var _dungeon_scene
 var player:Spatial
 var game_time = 0  # number of seconds that the game has been running
 var transients = []
+var next_sp_label = null
+var sp_label_reset_timer:Timer = Timer.new()
 
 var settings = { # default settings go here
 	MUSIC_VOLUME: 65,
@@ -87,6 +89,8 @@ func listen_for_setting_change(listener):
 
 func _init():
 	set_state("randseed", randi())
+	sp_label_reset_timer.one_shot = true
+	sp_label_reset_timer.connect("timeout", self, "reset_sp_label")
 
 func _ready():
 	save_game_defaults()
@@ -332,7 +336,7 @@ func new_char_echincea():
 	ally.className = "Floriculturist"
 	ally.hp.max_value = 10
 	ally.hp.value = ally.hp.max_value
-	ally.sp.max_value = 20
+	ally.sp.max_value = 200
 	ally.sp.value = ally.sp.max_value
 	ally.texture = "res://img/hero1.png"
 	ally.moves = [
@@ -352,7 +356,7 @@ func new_char_arum():
 	ally.className = "Titan"
 	ally.hp.max_value = 15
 	ally.hp.value = ally.hp.max_value
-	ally.sp.max_value = 15
+	ally.sp.max_value = 150
 	ally.sp.value = ally.sp.max_value
 	ally.texture = "res://img/hero3.jpg"
 	ally.moves = [
@@ -370,7 +374,7 @@ func new_char_grias():
 	ally.className = "Knight"
 	ally.hp.max_value = 20
 	ally.hp.value = ally.hp.max_value
-	ally.sp.max_value = 10
+	ally.sp.max_value = 100
 	ally.sp.value = ally.sp.max_value
 	ally.texture = "res://img/hero4.jpg"
 	ally.moves = [
@@ -462,3 +466,22 @@ func grias_apply_levelup_bonuses():
 	grias_data.sp.bonus_max_value_effect("grias_level", round(get_grias_bonus("max_sp")))
 	grias_data.round_stats()
 	EventBus.emit_signal("ally_status_updated", grias_data)
+
+func get_sp_damage_label(dmg):
+	if next_sp_label == null:
+		return "sp"
+	else:
+		if dmg == 1:
+			return next_sp_label+" pt"
+		else:
+			return next_sp_label+" pts"
+
+func set_sp_damage_label(options):
+	sp_label_reset_timer.start(0.1)
+	if options is Array:
+		next_sp_label = options[randi()%options.size()]
+	else:
+		next_sp_label = options
+
+func reset_sp_label():
+	next_sp_label = null

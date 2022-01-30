@@ -139,6 +139,12 @@ valign = 1
 [node name="TargetArea" type="Position2D" parent="."]
 position = Vector2( 231, 71 )
 
+[node name="SpDamageOrigin" type="Position2D" parent="."]
+position = Vector2( 288, 85 )
+
+[node name="HpDamageOrigin" type="Position2D" parent="."]
+position = Vector2( 288, 40 )
+
 [node name="BulletStrikeArea" type="Area2D" parent="."]
 collision_layer = 0
 

@@ -1,6 +1,13 @@
 extends GridContainer
 
+signal rotation_complete
+
+const ROTATIONS = [0, 270, 180, 90]
+
+# changes when rotating, index into DOWN_VECTORS and ROTATIONS - Vector2.LEFT means that moving left will bring the chisel closer to the boulder
+var down_vector_idx:int = 0
 var tiles = {}
+var tween:Tween
 
 func generate_grid(hash_salt, grid_size, max_toughness):
 	self.columns = grid_size
@@ -81,11 +88,12 @@ func get_tile_by_border_index(idx:int) -> Dictionary:
 	return {"tile_pos":Vector2(x,y), "node": node, "pos": node.rect_global_position + Vector2(x_pix, y_pix), "rot": rot, "vec": vec}
 
 func _ready() -> void:
-	pass
+	tween = Tween.new()
+	get_parent().call_deferred("add_child", tween)
 
 
 func destroy_small_chunks():
-	var min_chunk_size = floor((columns * columns)/5)
+	var min_chunk_size = floor((columns * columns)/6)
 	var unvisited_tiles = tiles.values()
 	var cur_visited_tiles = []
 	for tile in unvisited_tiles:
@@ -129,5 +137,20 @@ func flood_fill(cur_tile, unvisited_tiles, cur_visited_tiles):
 	flood_fill(get_tile_node_by_coords(cur_tile.map_position + Vector2.LEFT), unvisited_tiles, cur_visited_tiles)
 	flood_fill(get_tile_node_by_coords(cur_tile.map_position + Vector2.RIGHT), unvisited_tiles, cur_visited_tiles)
 
+func rotate_grid(dir):
+	tween.stop_all()
+	down_vector_idx = posmod(down_vector_idx-dir, 4)
+	if rect_rotation <= 90 and ROTATIONS[down_vector_idx] > 180:
+		rect_rotation = rect_rotation + 360
+	elif rect_rotation >= 270 and ROTATIONS[down_vector_idx] < 90:
+		rect_rotation -= 360
+	tween.interpolate_property(self, "rect_rotation", self.rect_rotation, ROTATIONS[down_vector_idx], 0.25)
+	tween.start()
+	yield(tween, "tween_all_completed")
+	emit_signal("rotation_complete")
 
 
+
+
+func _on_BoulderTileGrid_resized() -> void:
+	rect_pivot_offset = rect_size/2.0

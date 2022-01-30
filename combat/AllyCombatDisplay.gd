@@ -14,6 +14,8 @@ onready var exhausted_position = rect_position - Vector2(0, -20)
 onready var category_zoom_icons = [find_node("IconZoomFight"), find_node("IconZoomSkill"), find_node("IconZoomDefend"), find_node("IconZoomItem")]
 onready var TargetArea:Position2D = find_node("TargetArea")
 onready var DamageIndicator = find_node("DamageIndicator")
+onready var HpDamageOrigin = find_node("HpDamageOrigin")
+onready var SpDamageOrigin = find_node("SpDamageOrigin")
 
 export(Color) var selected_color = Color.white
 export(Color) var deselected_color = Color(0.9, 0.9, 0.9)
@@ -31,6 +33,7 @@ func setup(_data:AllyData):
 		return
 	AllyPortrait.update_labels()
 	CombatIcons.setup(data)
+	_data.connect("ally_sp_lost", self, "ally_sp_lost")
 
 func _ready():
 	CombatIcons.categories.append(find_node("IconStatus"))
@@ -170,3 +173,9 @@ func _on_damage_all_allies(damage):
 	DamageIndicator.apply_damage(data)
 	yield(get_tree().create_timer(0.5), "timeout")
 	EventBus.emit_signal("check_explore_gameover")
+
+func ally_sp_lost(amt):
+	var floater = preload("res://combat/DamageFloater.tscn").instance()
+	floater.set_damage(amt, GameData.get_sp_damage_label(amt))
+	add_child(floater)
+	floater.rect_global_position = SpDamageOrigin.global_position

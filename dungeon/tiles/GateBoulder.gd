@@ -27,6 +27,8 @@ func finalize_load_game():
 func set_is_open(val):
 	is_open = val
 	disable_movement(!is_open)
+	if is_open:
+		minigame_config = null
 
 func on_map_place(dungeon, layer_name:String, cell:Vector2):
 	.on_map_place(dungeon, layer_name, cell)

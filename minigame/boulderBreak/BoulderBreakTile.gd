@@ -5,6 +5,17 @@ var toughness setget set_toughness
 var max_toughness
 var visited_for_flood_fill:bool = false
 
+func save_data():
+	return {
+		'toughness': toughness,
+		'max_toughness': max_toughness,
+	}
+
+func restore_data(pos, save_data):
+	map_position = pos
+	max_toughness = save_data.get('max_toughness', 4)
+	set_toughness(save_data.get('toughness', 1))
+
 func setup(_map_position, hash_salt, pos, _max_toughness, dist_from_center_normalized):
 	map_position = _map_position
 	max_toughness = _max_toughness

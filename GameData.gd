@@ -89,8 +89,6 @@ func listen_for_setting_change(listener):
 
 func _init():
 	set_state("randseed", randi())
-	sp_label_reset_timer.one_shot = true
-	sp_label_reset_timer.connect("timeout", self, "reset_sp_label")
 
 func _ready():
 	save_game_defaults()
@@ -102,6 +100,10 @@ func _ready():
 	EventBus.connect("grias_apply_levelup_bonuses", self, "grias_apply_levelup_bonuses")
 	randomize()
 	load_settings()
+	sp_label_reset_timer.one_shot = true
+	sp_label_reset_timer.pause_mode = PAUSE_MODE_PROCESS
+	add_child(sp_label_reset_timer)
+	sp_label_reset_timer.connect("timeout", self, "reset_sp_label")
 
 func _process(delta):
 	game_time += delta

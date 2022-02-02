@@ -1,7 +1,7 @@
 extends Node2D
 class_name BoulderBreakGame
 
-enum State {LOADING, MOVING, ROTATING, CHARGING, SMASHING, INACTIVE}
+enum State {LOADING, MOVING, ROTATING, CHARGING, SMASHING, INACTIVE, WINNING}
 
 const STRENGTH_SPRITES = [
 	preload("res://dungeon/tiles/1.png"),
@@ -25,6 +25,8 @@ const MAX_TOUGHNESS = 4
 const POWERUP_SECONDS = 0.73/2
 const CURSOR_OFFSET = Vector2(0, -100)
 const CURSOR_MOVE_TIME = 2.0
+
+var grid_save_data = null
 
 var boulder_gate
 var state = State.LOADING
@@ -96,11 +98,12 @@ func save_minigame():
 		"grid_size": grid_size,
 		"ticks_per_move": ticks_per_move,
 		"rand_hash": rand_hash,
+		"grid_save_data": BoulderTileGrid.save_data()
 	}
-	boulder_gate.map_config["minigame"] = save_data
+	boulder_gate.minigame_config = save_data
 
 func restore_minigame():
-	Util.config(self, boulder_gate.map_config.get("minigame", {}))
+	Util.config(self, boulder_gate.minigame_config)
 
 func enter_minigame():
 	set_state(State.LOADING)
@@ -109,7 +112,10 @@ func enter_minigame():
 	self.pause_mode = Node.PAUSE_MODE_PROCESS
 	get_tree().paused = true
 	visible = true
-	BoulderTileGrid.generate_grid(boulder_gate.map_position, grid_size, MAX_TOUGHNESS)
+	if grid_save_data == null:
+		BoulderTileGrid.generate_grid(boulder_gate.map_position, grid_size, MAX_TOUGHNESS)
+	else:
+		BoulderTileGrid.restore_data(grid_save_data)
 	Cursor.visible = false
 	yield(get_tree(), "idle_frame")
 	grid_top_left = BoulderTileGrid.get_global_rect().position
@@ -166,7 +172,8 @@ func start_smash():
 
 func finish_smash():
 	set_process(false)
-	apply_smash(swing_strength)
+	GameData.set_sp_damage_label(["stone", "smash", "slam", "slab", "slice", "swing", "stamina", "stonemason", "stability"])
+	apply_smash()
 	MoveTween.stop_all()
 	direction = -direction
 	state = State.SMASHING
@@ -174,13 +181,18 @@ func finish_smash():
 	swing_strength = 0
 	swing_progress = 0
 	update_swing_progress()
-	GameData.set_sp_damage_label(["stone", "smash", "slam", "slab", "slice", "swing", "stamina", "stonemason", "stability"])
 	yield(get_tree().create_timer(0.5), "timeout")
-	set_process(true)
-	MoveTween.resume_all()
-	state = State.MOVING
+	if !BoulderTileGrid.is_game_complete():
+		set_process(true)
+		MoveTween.resume_all()
+		state = State.MOVING
+	else:
+		state = State.WINNING
+		yield(get_tree().create_timer(1), "timeout")
+		boulder_gate.open()
+		exit_minigame()
 
-func apply_smash(swing_strength):
+func apply_smash():
 	var border_index = floor((Cursor.position.x -  grid_top_left.x) / TILE_SIZE)
 	border_index += BoulderTileGrid.down_vector_idx * grid_size
 	var tile_data = BoulderTileGrid.get_tile_by_border_index(border_index)

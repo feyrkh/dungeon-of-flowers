@@ -175,7 +175,8 @@ func _on_damage_all_allies(damage):
 	EventBus.emit_signal("check_explore_gameover")
 
 func ally_sp_lost(amt):
-	var floater = preload("res://combat/DamageFloater.tscn").instance()
-	floater.set_damage(amt, GameData.get_sp_damage_label(amt))
-	add_child(floater)
-	floater.rect_global_position = SpDamageOrigin.global_position
+	if !Util.is_node_paused(self, get_tree()):
+		var floater = preload("res://combat/DamageFloater.tscn").instance()
+		floater.set_damage(amt, GameData.get_sp_damage_label(amt))
+		add_child(floater)
+		floater.rect_global_position = SpDamageOrigin.global_position

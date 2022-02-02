@@ -9,13 +9,14 @@ const CLOSE_POSITION = -3
 export var is_open = false setget set_is_open
 var animating=false
 var minigame_grid_size = 8
+var minigame_config = {}
 
 func _ready():
 	EventBus.connect("pre_save_game", self, "pre_save_game")
 	EventBus.connect("finalize_load_game", self, "finalize_load_game")
 
 func pre_save_game():
-	GameData.set_map_data(map_layer, map_position, {"is_open":is_open})
+	GameData.set_map_data(map_layer, map_position, {"is_open":is_open, "minigame_config":minigame_config})
 
 func finalize_load_game():
 	if is_open:
@@ -35,7 +36,7 @@ func on_map_place(dungeon, layer_name:String, cell:Vector2):
 		close(0)
 
 func is_interactable():
-	return !animating
+	return !animating and !is_open
 
 func get_interactable_prompt():
 	if !is_open and GameData.inventory.get("pickaxe"):
@@ -49,7 +50,7 @@ func interact():
 
 func open_minigame():
 	var minigame = load("res://minigame/boulderBreak/BoulderBreakGame.tscn").instance()
-	minigame.setup(self)
+	minigame.setup(self, minigame_grid_size)
 	get_tree().root.find_node("FullScreenOverlayContainer", true, false).add_child(minigame)
 
 func open(open_time=2):

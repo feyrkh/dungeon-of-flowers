@@ -190,3 +190,14 @@ static func map_coords(v3:Vector3):
 
 static func hash_rand(id:String, salt:String=""):
 	return fmod(((id + salt).hash()) / 100000000.0, 1.0)
+
+static func is_node_paused(node:Node, tree:SceneTree):
+	if !tree.paused:
+		return false
+	if node == null:
+		return true
+	if node.pause_mode == Node.PAUSE_MODE_STOP:
+		return true
+	if node.pause_mode == Node.PAUSE_MODE_PROCESS:
+		return false
+	return is_node_paused(node.get_parent(), tree)

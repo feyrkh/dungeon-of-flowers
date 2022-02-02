@@ -22,6 +22,23 @@ func generate_grid(hash_salt, grid_size, max_toughness):
 			add_child(tile)
 			tiles[pos] = tile
 
+func save_data():
+	var tile_data = {}
+	for pos in tiles.keys():
+		var tile_scene = tiles.get(pos)
+		if is_instance_valid(tile_scene):
+			tile_data[pos] = tile_scene.save_data()
+	return {"tile_data": tile_data, "columns": self.columns}
+
+func restore_data(save_data):
+	self.columns = save_data.get("columns", 1)
+	var tile_data = save_data.get("tile_data", {})
+	for pos in tile_data.keys():
+		var tile = preload("res://minigame/boulderBreak/BoulderBreakTile.tscn").instance()
+		add_child(tile)
+		tile.restore_data(pos, tile_data[pos])
+		tiles[pos] = tile
+
 func get_tile_node_by_coords(coords:Vector2):
 	return tiles.get(coords, null)
 
@@ -91,9 +108,14 @@ func _ready() -> void:
 	tween = Tween.new()
 	get_parent().call_deferred("add_child", tween)
 
+func is_game_complete():
+	for tile in tiles.values():
+		if tile != null and tile.toughness > 0:
+			return false
+	return true
 
 func destroy_small_chunks():
-	var min_chunk_size = floor((columns * columns)/6) + 1
+	var min_chunk_size = floor((columns * columns)/6) + 2
 	var unvisited_tiles = tiles.values()
 	var cur_visited_tiles = []
 	for tile in unvisited_tiles:
@@ -148,9 +170,6 @@ func rotate_grid(dir):
 	tween.start()
 	yield(tween, "tween_all_completed")
 	emit_signal("rotation_complete")
-
-
-
 
 func _on_BoulderTileGrid_resized() -> void:
 	rect_pivot_offset = rect_size/2.0

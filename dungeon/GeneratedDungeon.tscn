@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://dungeon/PollenProcessor.gd" type="Script" id=1]
 [ext_resource path="res://shader/pixel.shader" type="Shader" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://dungeon/InteractablePrompt.gd" type="Script" id=10]
 [ext_resource path="res://dungeon/GeneratedDungeon.gd" type="Script" id=11]
 [ext_resource path="res://util/TilemapMgr.gd" type="Script" id=12]
+[ext_resource path="res://dungeon/FullScreenOverlayContainer.gd" type="Script" id=13]
 
 [sub_resource type="Environment" id=1]
 background_energy = 0.0
@@ -167,5 +168,6 @@ autostart = true
 script = ExtResource( 12 )
 
 [node name="FullScreenOverlayContainer" type="Node" parent="."]
+script = ExtResource( 13 )
 
 [connection signal="timeout" from="ExploreGameoverChecker" to="." method="_on_ExploreGameoverChecker_timeout"]

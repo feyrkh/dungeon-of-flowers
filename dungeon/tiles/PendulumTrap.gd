@@ -5,7 +5,6 @@ export(float) var damage = 3
 export(float) var seconds_per_rotation = 5
 export(Curve) var rotation_curve:Curve
 export(float) var rotation_percent = 0
-var prev_rotation = 0
 var pause_percent = 0.2
 
 onready var Rotating = find_node("Rotating")
@@ -17,7 +16,7 @@ func post_config(map_config):
 	#Rotating.transform.basis = Rotating.transform.basis.rotated(Vector3.BACK, deg2rad(new_rotation))
 
 func pre_save_game():
-	update_config({"firing":firing, "rotation_percent":rotation_percent, "prev_rotation":prev_rotation})
+	update_config({"firing":firing, "rotation_percent":rotation_percent})
 
 func post_load_game():
 	pass

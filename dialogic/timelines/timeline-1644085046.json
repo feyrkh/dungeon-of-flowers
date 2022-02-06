@@ -1,0 +1,57 @@
+{
+	"events": [
+		{
+			"action": "join",
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_002",
+			"mirror": false,
+			"portrait": "determined",
+			"position": {
+				"0": true,
+				"1": false,
+				"2": false,
+				"3": false,
+				"4": false
+			}
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "That thing must be the source of the fog. Time to take it out!"
+		},
+		{
+			"emit_signal": "screen_flash,0.3,ffffff",
+			"event_id": "dialogic_040"
+		},
+		{
+			"emit_signal": "sfx,res://sound/sword-block.wav",
+			"event_id": "dialogic_040"
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "defeated",
+			"text": "It's no good. These petals are harder than steel...it actually chipped my sword!"
+		},
+		{
+			"emit_signal": "screen_flash,0.3,ffffff",
+			"event_id": "dialogic_040"
+		},
+		{
+			"emit_signal": "sfx,res://sound/sword-block.wav",
+			"event_id": "dialogic_040"
+		},
+		{
+			"character": "character-1633228803.json",
+			"event_id": "dialogic_001",
+			"portrait": "thoughtful",
+			"text": "Can't damage the vines either...but there's some kind of energy flowing down them toward the flower. Maybe this is the source of the flower's crazy strength?"
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.2.5",
+		"file": "timeline-1644085046.json",
+		"name": "intro_pollen_source"
+	}
+}

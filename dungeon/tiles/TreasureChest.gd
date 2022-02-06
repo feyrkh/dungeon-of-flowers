@@ -29,6 +29,7 @@ func interact():
 	EventBus.emit_signal("refresh_interactables")
 
 func open(open_time=2):
+	QuestMgr.emit_signal("cutscene_start", "open_treasurechest")
 	$AnimatedSprite3D.pixel_size = $PerspectiveSprite/Sprite3D.pixel_size
 	$AnimatedSprite3D.transform.origin = $PerspectiveSprite/Sprite3D.transform.origin
 	$PerspectiveSprite.visible = true
@@ -72,6 +73,7 @@ func open(open_time=2):
 	$AnimatedSprite3D.modulate.a = 1.0
 	$PerspectiveSprite.visible = true
 	$AnimatedSprite3D.visible = false
+	QuestMgr.emit_signal("cutscene_end", "open_treasurechest")
 	if map_config.get("chest_dialogue"):
 		QuestMgr.play_cutscene(map_config.get("chest_dialogue"))
 

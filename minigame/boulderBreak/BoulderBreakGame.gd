@@ -138,6 +138,9 @@ func exit_minigame():
 	queue_free()
 
 func _input(event):
+	if Input.is_action_pressed("debug_skip_combat"):
+		boulder_gate.open()
+		exit_minigame()
 	if state == State.MOVING:
 		moving_input(event)
 	elif state == State.CHARGING:

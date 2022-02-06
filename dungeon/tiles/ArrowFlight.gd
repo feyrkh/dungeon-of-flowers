@@ -1,7 +1,7 @@
 extends DungeonTransient
 
 var units_per_second = 9
-var damage = 10
+var damage = 3
 
 func setup(map_config):
 	Util.config(self, map_config)

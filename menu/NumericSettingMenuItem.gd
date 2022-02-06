@@ -1,6 +1,6 @@
 extends BaseMenuItem
 
-const menu_item_tick_sfx = "res://sound/mixkit-metallic-sword-strike-2160.wav"
+const menu_item_tick_sfx = "res://sound/sword-block.wav"
 
 export(String) var setting_name = "?"
 export(int) var min_value = 0
@@ -27,7 +27,7 @@ func _process(delta):
 		adjust_value(-1, delta)
 	elif Input.is_action_pressed("ui_right"):
 		adjust_value(1, delta)
-	elif click_held > 0: 
+	elif click_held > 0:
 		click_held = 0.0
 		set_process(false)
 

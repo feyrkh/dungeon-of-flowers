@@ -3,7 +3,7 @@ extends Node2D
 const SkillButton = preload("res://combat/SkillButton.tscn")
 const STATUS_CATEGORY = 4
 
-const bullet_block_sfx = preload("res://sound/mixkit-metallic-sword-strike-2160.wav")
+const bullet_block_sfx = preload("res://sound/sword-block.wav")
 const bullet_strike_sfx = preload("res://sound/mixkit-sword-cutting-flesh-2788.wav")
 
 const end_combat_sfx = preload("res://sound/mixkit-winning-notification-2018.wav")

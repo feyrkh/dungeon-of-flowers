@@ -91,6 +91,7 @@ func _init():
 	set_state("randseed", randi())
 
 func _ready():
+	pause_mode = PAUSE_MODE_PROCESS
 	save_game_defaults()
 	EventBus.connect("new_player_location", self, "on_new_player_location")
 	EventBus.connect("acquire_item", self, "on_acquire_item")
@@ -228,11 +229,23 @@ func load_transients():
 		dungeon.add_child(instance)
 	transients = []
 
-func on_dialogic_signal(arg):
-	match arg:
-		"combat_gameover":
-			gameover()
-		_: emit_signal("dialogic_signal", arg)
+func on_dialogic_signal(arg:String):
+	if arg == "combat_gameover":
+		gameover()
+	elif arg.begins_with("screen_flash"): # flash,0.1,ffffff
+		var t = 0.1
+		var color = Color.white
+		var chunks = arg.split(",")
+		if chunks.size() > 1:
+			t = float(chunks[1])
+		if chunks.size() > 2:
+			color = Color(chunks[2])
+		EventBus.emit_signal("screen_flash", t, color)
+	elif arg.begins_with("sfx"):
+		var chunks = arg.split(",")
+		AudioPlayerPool.play(chunks[1])
+	else:
+		 emit_signal("dialogic_signal", arg)
 
 func save_settings():
 	var f = File.new()

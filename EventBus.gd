@@ -34,6 +34,8 @@ signal check_explore_gameover()
 signal start_chat(chat_filename)
 signal chat_msg(msg)
 
+# special effects
+signal screen_flash(flash_time, flash_color)
 
 # pollen spawn/spread
 signal spawn_pollen(coords)

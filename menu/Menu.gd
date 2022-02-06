@@ -4,7 +4,7 @@ class_name Menu
 signal menu_paused(menu)
 signal menu_resumed(menu)
 
-const menu_item_change_sfx = preload("res://sound/mixkit-metallic-sword-strike-2160.wav")
+const menu_item_change_sfx = preload("res://sound/sword-block.wav")
 const menu_item_action_sfx = preload("res://sound/mixkit-sword-cutting-flesh-2788.wav")
 const menu_item_disabled_sfx = preload("res://sound/thump.mp3")
 

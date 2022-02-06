@@ -15,7 +15,7 @@ const MED_PHRASE = ["Solid hit!", "Struck a blow!", "Nice shot!", ]
 const CRIT_PHRASE = ["CRIT!", "Critical hit!", "WHAM!", "POW!", ]
 
 const cursor_miss = preload("res://sound/mixkit-air-in-a-hit-2161.wav")
-const cursor_weak = preload("res://sound/mixkit-metallic-sword-strike-2160.wav")
+const cursor_weak = preload("res://sound/sword-block.wav")
 const cursor_strike = preload("res://sound/thump.mp3")
 const cursor_critical = preload("res://sound/mixkit-sword-cutting-flesh-2788.wav")
 const HitPhrase = preload("res://combat/HitPhrase.tscn")

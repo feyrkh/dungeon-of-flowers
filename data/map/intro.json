@@ -16,6 +16,7 @@
 		"vines": "dungeon/tiles/VineTileOverlay.tscn",
 		"cultist": "dungeon/tiles/TileEventCombat.tscn",
 		"secret_door": "dungeon/tiles/HiddenDoor.tscn",
+		"wall_crack": "dungeon/tiles/WallCrack.tscn",
 	},
 	"config": {
 		"1": {"event_dialogue": "intro_1", "rotation_percent":0},

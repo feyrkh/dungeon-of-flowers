@@ -225,6 +225,8 @@ func process_config_line(line, cur_file_name):
 			printerr("Unexpected chat config line: ", line)
 
 func start_chat(chat_id):
+	if chat_id == null:
+		return
 	var chat_filename = find_valid_chat(chat_id, GameData.get_allies_in_party())
 	if chat_filename == null:
 		return

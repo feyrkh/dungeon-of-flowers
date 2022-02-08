@@ -21,6 +21,7 @@ colors = PoolColorArray( 0.822266, 0, 1, 1, 0.823529, 0, 1, 0 )
 gradient = SubResource( 2 )
 
 [sub_resource type="ParticlesMaterial" id=4]
+render_priority = 100
 emission_shape = 1
 emission_sphere_radius = 0.5
 direction = Vector3( 1, 1, 1 )

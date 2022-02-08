@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://dungeon/Corridor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://dungeon/roots2.tscn" type="PackedScene" id=2]
 [ext_resource path="res://dungeon/PollenSource.tscn" type="PackedScene" id=3]
 [ext_resource path="res://dungeon/tiles/CorridorPollenSource.gd" type="Script" id=4]
+[ext_resource path="res://util/PerspectiveSprite.tscn" type="PackedScene" id=5]
+[ext_resource path="res://art_exports/props/pollen_generator.png" type="Texture" id=6]
 
 [node name="CorridorPollenSource" type="Spatial"]
 script = ExtResource( 4 )
@@ -21,3 +23,9 @@ transform = Transform( -0.04598, -0.393394, 0.918219, -0.993239, 0.11609, 0, -0.
 
 [node name="PollenGenerator" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.92, 0 )
+
+[node name="PerspectiveSprite" parent="." instance=ExtResource( 5 )]
+defined_frames = [ "front" ]
+frames = [ ExtResource( 6 ) ]
+image_offsets = [ Vector3( 0, 0, 0 ) ]
+width_in_meters = 3.0

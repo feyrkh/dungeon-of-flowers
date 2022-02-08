@@ -6,6 +6,7 @@
 		"wall": "dungeon/Wall.tscn",
 		"floor": "dungeon/Corridor.tscn",
 		"pollen_spawn":"dungeon/tiles/CorridorPollenSource.tscn",
+		"flower":"dungeon/tiles/PollenNode.tscn",
 		"treasure": "dungeon/tiles/FlatChest.tscn",
 		"gate": "dungeon/tiles/Gate.tscn",
 		"trap_arrow": {"scene":"dungeon/tiles/ArrowTrap.tscn", "props":{"firing":true, "damage":1}},
@@ -25,5 +26,6 @@
 		"4": {"chest_dialogue": "chest_shield", "chest_items": ["shield", "pickaxe"], "rotation_percent":0.3, "key": "ETERNAL_LOCK"},
 		"5": {"set_state": {"intro":"intro_3"}, "event_require_item": "shield", "event_dialogue": "intro_3", "event_combat": "tutorial2", "rotation_percent":0.4},
 		"6": {"event_dialogue": "intro_pollen_source", "rotation_percent":0.5},
+		"7": {"interact_dialogue": "destroy_pollen_node", "interact_combat": "tutorial_miniboss", "post_interact_dialogue": "destroy_pollen_node_2"},
 	}
 }

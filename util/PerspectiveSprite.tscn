@@ -16,4 +16,5 @@ cast_shadow = 0
 generate_lightmap = false
 billboard = 2
 shaded = true
+alpha_cut = 1
 texture = ExtResource( 4 )

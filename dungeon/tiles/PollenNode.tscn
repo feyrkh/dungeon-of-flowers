@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://util/PerspectiveSprite.tscn" type="PackedScene" id=1]
+[ext_resource path="res://art_exports/props/pollen_flower.png" type="Texture" id=2]
+[ext_resource path="res://dungeon/tiles/PollenNode.gd" type="Script" id=3]
+
+[node name="PollenNode" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="PerspectiveSprite" parent="." instance=ExtResource( 1 )]
+defined_frames = [ "front" ]
+frames = [ ExtResource( 2 ) ]
+image_offsets = [ Vector3( 0, 0, 0 ) ]
+width_in_meters = 3.0

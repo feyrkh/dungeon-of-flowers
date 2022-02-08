@@ -1,0 +1,6 @@
+{"enemies":[
+{"enemy":"tutorial_slime", "min": 6, "max": 6},
+{"enemy":"tutorial_slime", "min": 2, "max": 2},
+{"enemy":"tutorial_slime", "min": 2, "max": 2}
+],
+"rewards": {"pollen_water":3}}

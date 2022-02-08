@@ -26,7 +26,7 @@ func _get_configuration_warning() -> String:
 	if defined_frames.size() != frames.size():
 		return "Must have exactly the same number of frame textures as entries in defined_frames"
 	if defined_frames.size() != image_offsets.size():
-		return "Must have exactly the same number of frame textures as entries in defined_frames"
+		return "Must have exactly the same number of image offsets as entries in defined_frames"
 	return ""
 
 func _ready():

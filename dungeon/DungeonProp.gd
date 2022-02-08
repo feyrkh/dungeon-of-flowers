@@ -48,15 +48,15 @@ func _process(delta):
 		orig_rotate = rotation_degrees
 		orig_scale = scale
 		orig_translate = translation
-		
+
 	scale_offset += delta/writhe_time
 	rotate_offset += delta/writhe_time
 	translate_offset += delta/writhe_time
 	if scale_offset >= 2: scale_offset -= 2
 	if rotate_offset >= 2: rotate_offset -= 2
 	if translate_offset >= 2: translate_offset -= 2
-	
-	
+
+
 	if writhe_trans != Vector3.ZERO:
 		translation = orig_translate + Vector3.ZERO.linear_interpolate(writhe_trans, translate_time(t + translate_offset))
 	if writhe_rotate != Vector3.ZERO:

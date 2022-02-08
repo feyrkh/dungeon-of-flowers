@@ -208,8 +208,17 @@ func custom_tile_instance_handler(layer, layer_name, tileset, cell, tile_name, t
 	if layer_name != "ground":
 		var orientation_tile = get_tile("orientation", cell.x, cell.y)
 		var orientation_vector = orientation_tiles.get(orientation_tile, null)
-		if orientation_vector:
+		if orientation_vector != null:
 			tile_scene.rotation_degrees = orientation_vector
+			if tile_scene.has_method("on_map_orientation"):
+				var orientation_name = "north"
+				match orientation_vector.y:
+					0.0: orientation_name = "north"
+					180.0: orientation_name = "south"
+					90.0: orientation_name = "west"
+					-90.0: orientation_name = "east"
+					_: printerr("Unexpected map orientation angle: ", orientation_vector.y)
+				tile_scene.on_map_orientation(orientation_vector, orientation_name)
 	if tile_scene.is_in_group("rotated"):
 		var rotate_amt = deg2rad(randi()%4 * 90)
 		tile_scene.transform.basis = tile_scene.transform.basis.rotated(Vector3.UP, rotate_amt)

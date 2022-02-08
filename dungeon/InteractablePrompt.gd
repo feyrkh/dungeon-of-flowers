@@ -14,4 +14,5 @@ func on_update_interactable(interactable_list):
 			label_text = interactable_list[0].get_interactable_prompt()
 		if label_text == null:
 			label_text = ""
+			visible = false
 		$Label.text = label_text

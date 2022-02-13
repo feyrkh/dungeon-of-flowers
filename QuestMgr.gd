@@ -27,6 +27,7 @@ func _ready():
 	cutscene_bg_chars = Node2D.new()
 	add_child(cutscene_bg_chars)
 	EventBus.connect("pre_save_game", self, "on_pre_save_game")
+	EventBus.connect("pre_load_game", self, "on_pre_load_game")
 	EventBus.connect("post_load_game", self, "on_post_load_game")
 	GameData.connect("state_updated", self, "on_state_updated")
 	EventBus.connect("acquire_item", self, "on_acquire_item")
@@ -49,6 +50,12 @@ func on_pre_save_game():
 	GameData.set_state("QMGR_combat_phase", combat_phase)
 	GameData.set_state("QMGR_skill_menu_open", skill_menu_open)
 	GameData.set_state("QMGR_pollen_spread_enabled", pollen_spread_enabled)
+
+func on_pre_load_game():
+	if cutscene:
+		cutscene.queue_free()
+		cutscene = null
+	Util.delete_children(cutscene_bg_chars)
 
 func on_post_load_game():
 	combat_phase = GameData.get_state("QMGR_combat_phase")

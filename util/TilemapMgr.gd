@@ -126,6 +126,9 @@ func process_map(map_scene_file_or_node):
 func process_tileset(layer):
 	if owner.has_method("process_tileset"):
 		owner.process_tileset(layer)
+	var override_data = GameData.get_map_layer_data(layer.name).get("_tiles", {})
+	for override_cell in override_data.keys():
+		layer.set_cell(override_cell.x, override_cell.y, override_data.get(override_cell, -1))
 
 func process_tilemap_layer(layer:TileMap, layer_name:String):
 	var tileset:TileSet = layer.tile_set
@@ -136,9 +139,6 @@ func process_tilemap_layer(layer:TileMap, layer_name:String):
 		layer.get_parent().add_child_below_node(layer, tile_scene_parent, true)
 	else:
 		tile_scene_parent = self
-	var override_data = GameData.get_map_layer_data(layer_name).get("_tiles", {})
-	for override_cell in override_data.keys():
-		layer.set_cell(override_cell.x, override_cell.y, override_data.get(override_cell, -1))
 	var cells = layer.get_used_cells()
 	var has_custom_handler = owner.has_method("custom_tile_handler")
 	var has_tile_instance_handler = owner.has_method("custom_tile_instance_handler")

@@ -47,3 +47,6 @@ func interact():
 		queue_free()
 		AudioPlayerPool.play("res://sound/combat-strike.mp3")
 		EventBus.emit_signal("start_chat", "pollen_spawn_destroyed")
+
+func destroy_vines():
+	pass

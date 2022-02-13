@@ -40,5 +40,9 @@ func interact():
 		yield(QuestMgr, "cutscene_end")
 		queue_free()
 	queue_free()
+	change_tile(-1)
 	disable_movement(false)
 	EventBus.emit_signal("refresh_interactables")
+
+func destroy_vines():
+	pass

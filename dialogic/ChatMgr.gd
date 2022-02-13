@@ -222,7 +222,7 @@ func process_config_line(line, cur_file_name):
 				if chunks.size() > 2:
 					chat_lock[chunks[1]] = float(chunks[2]) + GameData.game_time
 		_:
-			printerr("Unexpected chat config line: ", line)
+			printerr("Unexpected chat config line in file ", cur_file_name, ": ", line)
 
 func start_chat(chat_id):
 	if chat_id == null:

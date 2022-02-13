@@ -25,7 +25,7 @@ func get_target_alpha():
 	return target_alpha
 
 func _ready():
-	if AllyPortraits: 
+	if AllyPortraits:
 		AllyPortraits.explore_mode()
 	EventBus.connect("player_finish_move", self, "_on_move_finish")
 	EventBus.connect("player_finish_turn", self, "_on_move_finish")
@@ -34,7 +34,7 @@ func _ready():
 	EventBus.connect("damage_all_allies", self, "_on_damage_all_allies")
 	CombatMgr.connect("combat_start", self, "_on_combat_start")
 	CombatMgr.connect("combat_end", self, "_on_combat_end")
-	if AllyPortraits: 
+	if AllyPortraits:
 		AllyPortraits.disable_combat_features()
 
 func _on_combat_start():
@@ -60,7 +60,7 @@ func regenerate_ally_portraits():
 		new_portraits.explore_mode()
 		new_portraits.disable_combat_features()
 
-	
+
 func _on_move_finish():
 	target_alpha = 1
 	#print("Finished move, target_alpha=", target_alpha)

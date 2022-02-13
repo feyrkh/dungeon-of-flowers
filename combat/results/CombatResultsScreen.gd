@@ -1,6 +1,7 @@
 extends Node2D
 
 var data
+var closing = false
 
 func _ready():
 	if data == null:
@@ -92,7 +93,10 @@ func set_badge_texture(block_pct, damage_pct):
 	$RankResults/S.texture = load("res://art_exports/ui_battle_results/ui_results_RANK_"+badge+".png")
 
 func _process(delta):
+	if closing:
+		return
 	if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_cancel"):
+		closing = true
 		$RankResults/Gleam.visible = false
 		CombatMgr.close_results(self)
 

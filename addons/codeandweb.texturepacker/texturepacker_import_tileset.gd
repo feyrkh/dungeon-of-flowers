@@ -92,8 +92,8 @@ func import(source_file, save_path, options, r_platform_variants, r_gen_files):
 		var image = load_image(sheetFile, "ImageTexture", [])
 		r_gen_files.push_back(sheet.image)
 		create_tiles(tileSet, sheet, image, usedIds)
-	
-	prune_tileset(tileSet, usedIds)	
+
+	prune_tileset(tileSet, usedIds)
 
 	r_gen_files.push_back(fileName)
 	ResourceSaver.save(fileName, tileSet)
@@ -121,7 +121,7 @@ func create_tiles(tileSet, sheet, image, r_usedIds):
 
 func create_tile(tileSet, sprite, image):
 	var tileName = sprite.filename.get_basename()
-	
+
 	var id = tileSet.find_tile_by_name(tileName)
 	if id==-1:
 		id = tileSet.get_last_unused_tile_id()
@@ -136,7 +136,7 @@ func create_tile(tileSet, sprite, image):
 
 func save_resource(name, texture):
 	create_folder(name.get_base_dir())
-	
+
 	var status = ResourceSaver.save(name, texture)
 	if status != OK:
 		printerr("Failed to save resource "+name)
@@ -158,4 +158,4 @@ func read_sprite_sheet(fileName):
 
 func load_image(rel_path, source_path, options):
 	return imageLoader.load_image(rel_path, source_path, options)
-	
+

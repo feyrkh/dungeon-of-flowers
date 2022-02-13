@@ -1,0 +1,4 @@
+!priority:1
+!replay_after:5
+pause:0.5
+g:Hah! Take that, you gross pollen spewer!

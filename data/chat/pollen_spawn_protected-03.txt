@@ -1,0 +1,5 @@
+!priority:2
+!replay_after:5
+pause:0.5
+g:I can do this all day!
+g:It probably won't help, though.

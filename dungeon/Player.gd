@@ -195,7 +195,7 @@ func update_interactable_prompt():
 	EventBus.emit_signal("update_interactable", interactable)
 
 func interact():
-	if !interactable or !interactable.size():
+	if !interactable or !interactable.size() or !is_instance_valid(interactable[0]):
 		return
 	if interactable[0].is_interactable():
 		interactable[0].interact()

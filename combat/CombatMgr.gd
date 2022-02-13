@@ -135,14 +135,14 @@ func close_combat():
 	fader.fade_in(fade_amt, 1)
 	yield(fader, "fade_complete")
 	fader.queue_free()
+	emit_signal("combat_end")
+	EventBus.emit_signal("enable_pause_menu")
 
 func close_results(results_screen):
 	QuestMgr.combat_phase = "combat_ended"
 	is_in_combat = false
 	combat_results_screen = results_screen
 	close_combat()
-	emit_signal("combat_end")
-	EventBus.emit_signal("enable_pause_menu")
 
 func show_combat_results():
 	var fader = PixelFader.instance()

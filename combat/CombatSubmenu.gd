@@ -47,21 +47,21 @@ func render_moves():
 
 func select_next_entry(direction):
 	var new_entry_idx = selected_entry_idx + direction
-	if new_entry_idx < 0:  
+	if new_entry_idx < 0:
 		# already at top, wrap around
 		new_entry_idx = 3
 		var new_entry = SubmenuEntries[new_entry_idx]
 		while new_entry.is_disabled():
 			new_entry_idx -= 1
 			new_entry = SubmenuEntries[new_entry_idx]
-			if new_entry_idx == selected_entry_idx: 
+			if new_entry_idx == selected_entry_idx:
 				break
-			
+
 	var new_entry = SubmenuEntries[new_entry_idx]
 	if new_entry_idx > 3 or new_entry.is_disabled():
 		new_entry_idx = 0
 		new_entry = SubmenuEntries[0]
-	
+
 	selected_entry_idx = new_entry_idx
 	highlight_entry(selected_entry_idx)
 
@@ -69,8 +69,8 @@ func highlight_entry(entry_idx):
 	for entry in SubmenuEntries:
 		entry.find_node("Highlight").visible = false
 	SubmenuEntries[entry_idx].find_node("Highlight").visible = true
-		
-		
+
+
 func open_targeting_menu():
 	var i = selected_entry_idx + selected_page_idx*4
 	if i >= move_entries.size() or i < 0:

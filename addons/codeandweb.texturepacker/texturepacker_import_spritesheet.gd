@@ -76,19 +76,19 @@ func get_import_order():
 
 func import(source_file, save_path, options, r_platform_variants, r_gen_files):
 	print("Importing sprite sheet from "+source_file);
-	
+
 	var sheets = read_sprite_sheet(source_file)
 	var sheetFolder = source_file.get_basename()+".sprites"
 	create_folder(sheetFolder)
-		
+
 	for sheet in sheets.textures:
 		var sheetFile = source_file.get_base_dir()+"/"+sheet.image
 		var image = load_image(sheetFile, "ImageTexture", [])
 		create_atlas_textures(sheetFolder, sheet, image, r_gen_files)
 
 	return ResourceSaver.save("%s.%s" % [save_path, get_save_extension()], Resource.new())
-	
-	
+
+
 func create_folder(folder):
 	var dir = Directory.new()
 	if !dir.dir_exists(folder):
@@ -115,7 +115,7 @@ func create_atlas_texture(sheetFolder, sprite, image, r_gen_files):
 
 func save_resource(name, texture):
 	create_folder(name.get_base_dir())
-	
+
 	var status = ResourceSaver.save(name, texture)
 	if status != OK:
 		printerr("Failed to save resource "+name)
@@ -137,4 +137,4 @@ func read_sprite_sheet(fileName):
 
 func load_image(rel_path, source_path, options):
 	return imageLoader.load_image(rel_path, source_path, options)
-	
+

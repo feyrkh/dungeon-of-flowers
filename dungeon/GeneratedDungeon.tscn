@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://dungeon/PollenProcessor.gd" type="Script" id=1]
 [ext_resource path="res://shader/pixel.shader" type="Shader" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://dungeon/GeneratedDungeon.gd" type="Script" id=11]
 [ext_resource path="res://util/TilemapMgr.gd" type="Script" id=12]
 [ext_resource path="res://dungeon/FullScreenOverlayContainer.gd" type="Script" id=13]
+[ext_resource path="res://dungeon/ThreatIndicator.tscn" type="PackedScene" id=14]
 
 [sub_resource type="Environment" id=1]
 background_energy = 0.0
@@ -42,6 +43,9 @@ gradient = SubResource( 3 )
 
 [node name="Dungeon" type="Spatial"]
 script = ExtResource( 11 )
+__meta__ = {
+"_edit_vertical_guides_": [ 959.87 ]
+}
 
 [node name="PollenProcessor" type="Node" parent="."]
 script = ExtResource( 1 )
@@ -77,6 +81,13 @@ __meta__ = {
 }
 
 [node name="Minimap" parent="." instance=ExtResource( 3 )]
+
+[node name="ThreatIndicator" parent="." instance=ExtResource( 14 )]
+margin_left = 883.773
+margin_top = 1031.43
+margin_right = 1034.77
+margin_bottom = 1071.43
+idleHudPath = NodePath("../IdleHud")
 
 [node name="IdleHud" type="Control" parent="."]
 modulate = Color( 1, 1, 1, 0.133333 )

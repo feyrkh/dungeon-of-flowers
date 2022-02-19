@@ -10,7 +10,7 @@ const Enemy = preload("res://combat/Enemy.tscn")
 #const MOVE_OFFSET_RIGHT = [2, 0, 4, 1, 3, 6, 8, 5, 9, 7]
 #const MOVE_OFFSET_UP    = [6, 5, 8, 7, 9, 0, 2, 1, 4, 3]
 #const MOVE_OFFSET_DOWN  = [5, 7, 6, 9, 8, 1, 0, 3, 2, 4]
-const MOVE_OFFSET_LEFT   = [4, 3, 2, 1, 0]
+const MOVE_OFFSET_LEFT   = [4, 0, 1, 2, 3]
 const MOVE_OFFSET_RIGHT  = [1, 2, 3, 4, 0]
 
 onready var EnemyImages = find_node("EnemyImages")

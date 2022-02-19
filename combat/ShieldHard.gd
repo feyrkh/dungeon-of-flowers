@@ -26,6 +26,7 @@ func _on_Area2D_body_entered(bullet:Node2D):
 	else: offset_dir = 1
 	#global_position.y += KNOCKBACK_DOWN_PIXELS * weakness_ratio
 	position.x += KNOCKBACK_SIDE_PIXELS * weakness_ratio * offset_dir
+	EventBus.emit_signal("refresh_bonus_icons")
 
 func shield_persists_between_rounds():
 	return shield_data.get("shield_strength", 12) > shield_data.get("shield_damage", 0)

@@ -77,3 +77,4 @@ func update_shields(config):
 		var new_shield = one_shield.duplicate()
 		new_shield["pos"] = Vector2(position, y)
 		shields.append(new_shield)
+	EventBus.emit_signal("refresh_bonus_icons")

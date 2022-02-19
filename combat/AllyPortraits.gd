@@ -28,6 +28,7 @@ func _ready():
 		if ally != null:
 			marker.rect_position = ally.rect_position + Vector2(ally.rect_size.x/2, -30)
 
+
 func on_cutscene_start(_cutscene_name):
 	cutscene_was_visible = visible
 	visible = false

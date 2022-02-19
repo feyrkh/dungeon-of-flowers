@@ -42,6 +42,7 @@ func _ready():
 	CombatMgr.connect("start_player_turn", self, "_on_CombatScreen_start_player_turn")
 	CombatMgr.connect("enemy_move_complete", self, "_on_enemy_move_complete")
 	EventBus.connect("damage_all_allies", self, "_on_damage_all_allies")
+	EventBus.connect("refresh_bonus_icons", self, "refresh_bonus_icons")
 
 func get_shields():
 	return data.get_shields()
@@ -138,18 +139,22 @@ func _on_CombatScreen_start_player_turn(combat_data):
 		if !shield.get("shield_destroyed", false):
 			remaining_shields.append(shield)
 	data.shields = remaining_shields
+	EventBus.emit_signal("refresh_bonus_icons")
 
 
 func _on_CombatScreen_start_enemy_turn(combat_data):
 	CombatIcons.hide()
 	rect_position = default_position
 	modulate = Color.white
+	EventBus.emit_signal("refresh_bonus_icons")
 
 func _on_enemy_move_complete(combat_data):
 	DamageIndicator.apply_damage(data)
+	EventBus.emit_signal("refresh_bonus_icons")
 
 func _on_CombatScreen_player_turn_complete(combat_data):
 	AllyPortrait.deselect()
+	EventBus.emit_signal("refresh_bonus_icons")
 
 
 func _on_Ally_cancel_submenu():
@@ -180,3 +185,8 @@ func ally_sp_lost(amt):
 		floater.set_damage(amt, GameData.get_sp_damage_label(amt))
 		add_child(floater)
 		floater.rect_global_position = SpDamageOrigin.global_position
+
+func refresh_bonus_icons():
+	var shield_bonus_icons = find_node("ShieldBonusIcons", true, false)
+	if shield_bonus_icons:
+		shield_bonus_icons.refresh(data.get_shields())

@@ -30,6 +30,10 @@ signal refresh_perspective_sprites(global_facing)
 signal damage_all_allies(damage) # for stuff like party-wide trap damage
 signal check_explore_gameover()
 
+signal set_threat_level(new_threat_level)
+signal reduce_threat_level(amt)
+signal increase_threat_level(amt)
+
 # party chat
 signal start_chat(chat_filename)
 signal chat_msg(msg)
@@ -48,6 +52,7 @@ signal ally_status_updated(ally_data)
 signal show_tutorial(tip_name, pause)
 signal hide_tutorial()
 signal acquire_item(item_name, amount)
+signal refresh_bonus_icons()
 
 # pause menu
 signal game_paused

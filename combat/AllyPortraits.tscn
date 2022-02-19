@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://combat/AllyPortraits.gd" type="Script" id=1]
 [ext_resource path="res://combat/AllyCombatDisplay.tscn" type="PackedScene" id=2]
 [ext_resource path="res://dialogic/ChatDialog.tscn" type="PackedScene" id=3]
+[ext_resource path="res://dungeon/ShieldBonusIcons.tscn" type="PackedScene" id=4]
 
 [node name="AllyPortraits" type="Control"]
 margin_right = 40.0
@@ -23,6 +24,12 @@ margin_left = 725.0
 margin_top = 896.0
 margin_right = 1265.0
 margin_bottom = 1976.0
+
+[node name="ShieldBonusIcons" parent="Ally2" instance=ExtResource( 4 )]
+margin_left = -3.0
+margin_top = 138.0
+margin_right = 37.0
+margin_bottom = 178.0
 
 [node name="Ally3" parent="." instance=ExtResource( 2 )]
 margin_left = 1304.0

@@ -19,7 +19,7 @@
 			"event_id": "dialogic_040"
 		},
 		{
-			"emit_signal": "sfx,res://sound/combat-strike.wav",
+			"emit_signal": "sfx,res://sound/combat-strike.mp3",
 			"event_id": "dialogic_040"
 		},
 		{

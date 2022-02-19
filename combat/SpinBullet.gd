@@ -39,7 +39,7 @@ func disable_collision():
 	self.collision_mask = 0
 
 func shield_block(shield):
-	if blocked: 
+	if blocked:
 		return
 	disable_collision()
 	blocked = true
@@ -47,13 +47,14 @@ func shield_block(shield):
 	velocity.y = -velocity.y
 	rot_velocity = 600 - rand_range(0, 1200)
 	fade_velocity = 1.0
+	EventBus.emit_signal("refresh_bonus_icons")
 
 func ally_strike(ally_data):
 	disable_collision()
 	self.velocity = Vector2.ZERO
 	self.blocked = true
 	self.fade_velocity = 1
-	
+
 func get_damage():
 	return damage
 

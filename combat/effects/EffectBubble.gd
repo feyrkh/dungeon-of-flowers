@@ -57,3 +57,4 @@ func end_effect():
 func _on_Area2D_body_entered(bullet:Node2D):
 	bullet.shield_block(self, 10000)
 	end_effect()
+	EventBus.emit_signal("refresh_bonus_icons")

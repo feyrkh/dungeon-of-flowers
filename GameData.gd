@@ -16,6 +16,7 @@ const STACKING_TOWER_HANDICAP = "hcap_stack_tower"
 const TILE_MATCH_HANDICAP = "hcap_tile_match"
 const TILE_MATCH_HANDICAP_MIN = -5
 const TILE_MATCH_HANDICAP_MAX = 10
+const THREAT_LEVEL = "threat_level";
 
 const UI_PLATFORM = "ui_platform"
 const UI_PLATFORM_PC = "pc"

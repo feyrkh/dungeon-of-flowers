@@ -102,6 +102,8 @@ func on_post_load_game():
 	is_in_combat = GameData.get_state("CMGR_is_in_combat")
 
 func trigger_combat(combat_config_file):
+	if is_in_combat:
+		return
 	print("Starting combat: ", combat_config_file)
 	EventBus.connect("acquire_item", self, "_on_acquire_item")
 	combat_rewards = {}

@@ -55,6 +55,14 @@ func trigger_event():
 		return
 	if event_require_item and GameData.inventory.get(event_require_item, 0) <= 0:
 		return
+	# Set game state from TileEvent
+	var event_set_state = map_config.get("event_set_state", {})
+	for k in event_set_state:
+		GameData.set_state(k, event_set_state[k])
+	# Increment game state from TileEvent
+	var event_inc_state = map_config.get("event_inc_state", {})
+	for k in event_inc_state:
+		Util.inc(GameData.game_state, k, event_inc_state[k])
 	for child in get_children():
 		if child.has_method("can_trigger_event") and !child.can_trigger_event(self, map_config):
 			continue

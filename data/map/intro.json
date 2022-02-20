@@ -1,7 +1,7 @@
 {
 	"map_name": "vestibule",
-	"combat_grace_period": 5,
-	"combat_chance_per_tile":0.00,
+	"combat_grace_period": 20,
+	"combat_chance_per_tile":0.05,
 	"tiles": {
 		"wall": "dungeon/Wall.tscn",
 		"floor": "dungeon/Corridor.tscn",
@@ -27,5 +27,7 @@
 		"5": {"set_state": {"intro":"intro_3"}, "event_require_item": "shield", "event_dialogue": "intro_3", "event_combat": "tutorial2", "rotation_percent":0.4},
 		"6": {"event_dialogue": "intro_pollen_source", "rotation_percent":0.5},
 		"7": {"interact_dialogue": "destroy_pollen_node", "interact_combat": "tutorial_miniboss", "post_interact_dialogue": "destroy_pollen_node_2"},
+		"8": {"event_chat": "pollen_sticks_to_me", "event_set_state": {"random_combat_enabled":true, "threat_enabled": true}},
+		"9": {"event_chat": "pollen_threat_level"},
 	}
 }

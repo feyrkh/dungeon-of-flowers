@@ -8,7 +8,6 @@ const FADE_OUT_TIME:float = FADE_IN_OUT_TIME
 const pollen_exposure_per_threat_level = 20
 var threat_level = 0
 var force_visible_time = 0
-var threat_enabled = true setget set_threat_enabled
 
 export(NodePath) var idleHudPath:NodePath
 var idleHud
@@ -16,7 +15,7 @@ var idleHud
 onready var ThreatFill:TextureRect = find_node("ThreatFill")
 onready var ThreatLevelLabel:Label = find_node("ThreatLevelLabel")
 
-const SAVE_ITEMS = ["threat_level", "threat_enabled"]
+const SAVE_ITEMS = ["threat_level"]
 const SAVE_PREFIX = "ThrtLvl_"
 func pre_save_game():
 	Util.pre_save_game(self, SAVE_PREFIX, SAVE_ITEMS)
@@ -26,15 +25,18 @@ func post_load_game():
 	accumulate_threat(0)
 
 func post_new_game():
+	accumulate_threat(0)
 	if GameData.get_state(GameData.TUTORIAL_ON):
 		set_threat_enabled(false)
+	else:
+		set_threat_enabled(true)
 
 func set_threat_enabled(val):
-	threat_enabled = val
-	if !threat_enabled:
-		visible = false
-	else:
-		visible = true
+	GameData.set_state("threat_enabled", val)
+	visible = val
+
+func get_threat_enabled():
+	return GameData.get_state("threat_enabled", true)
 
 func set_threat_level(val):
 	threat_level = val
@@ -61,8 +63,13 @@ func reduce_threat_level(amt):
 func increase_threat_level(amt):
 	accumulate_threat(amt)
 
+func refresh_visual():
+	ThreatFill.rect_scale.x = threat_level - int(threat_level)
+	visible = get_threat_enabled()
+
 func accumulate_threat(pollen_level):
-	if !threat_enabled:
+	refresh_visual()
+	if !get_threat_enabled():
 		return
 	var prev_level = int(threat_level)
 	if threat_level < 0:
@@ -71,7 +78,7 @@ func accumulate_threat(pollen_level):
 		pollen_level = 0
 	var divisor = floor(threat_level) + 1
 	threat_level += (pollen_level/divisor) / pollen_exposure_per_threat_level
-	ThreatFill.rect_scale.x = threat_level - int(threat_level)
+	refresh_visual()
 
 	if prev_level != int(threat_level):
 		if force_visible_time <= 0:

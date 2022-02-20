@@ -22,9 +22,9 @@ var global_target_point:Vector2 # Left edge of the target, set externally by the
 var target_width:float = 100    # width of the target, set externally by the attacker
 
 var curve_offset = 0.0 # How far along the various curves we moved - 0..1, where 1 means attack_time seconds have elapsed
-var timing_accum_per_bullet # How much weighted timing value we need to accumulate between each bullet. 
+var timing_accum_per_bullet # How much weighted timing value we need to accumulate between each bullet.
 							#Calculated by summing the value of every point of the curve at 1% intervals (0.01s * attack_time), then dividing by number of bullets
-var timing_accum	# How much weighted time has passed 
+var timing_accum	# How much weighted time has passed
 var next_bullet_fired_at # The weighted time at which the next bullet will be fired
 var origin_curve_center:Vector2
 var aim_flip = false
@@ -33,7 +33,7 @@ func setup(_dmg, _global_target_point, _target_width):
 	self.bullet_damage = _dmg
 	self.global_target_point = _global_target_point
 	self.target_width = _target_width
-	
+
 func _ready():
 	curve_offset = 0
 	bullet_origin = load(bullet_origin_scene).instance()
@@ -50,7 +50,7 @@ func _ready():
 		if p.x > max_x: max_x = p.x
 		if p.y > max_y: max_y = p.y
 	origin_curve_center = Vector2(round((max_x-min_x)/2+min_x), round((max_y-min_y)/2+min_y))
-		
+
 	bullet_origin.position = Vector2.ZERO
 	bullet_prototype = load(bullet_scene)
 	origin_follow = PathFollow2D.new()

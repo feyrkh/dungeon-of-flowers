@@ -221,9 +221,7 @@ func on_dialogic_signal(val:String):
 
 
 func can_enter_combat():
-	if GameData.get_state(GameData.TUTORIAL_ON, false) and str(GameData.get_state(INTRO)) != INTRO_FIRST_COMBAT:
-		return false
-	return true
+	return GameData.get_state(GameData.RANDOM_COMBAT_ENABLED, true)
 
 func on_tile_move_complete():
 	GameData.set_state("_step_counter", GameData.get_state("_step_counter", 0)+1)

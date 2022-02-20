@@ -28,7 +28,7 @@ func destroy_vines(delay=0):
 
 func finish_destroying_vines():
 	set_process(false)
-	print("Destroying vines at ", map_position)
+	#print("Destroying vines at ", map_position)
 	var tween = Util.one_shot_tween(self)
 	for dir in [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]:
 		var adjacent_vine = dungeon.get_tile_scene(map_layer, map_position + dir)
@@ -37,11 +37,11 @@ func finish_destroying_vines():
 	$Particles.emitting = true
 	tween.interpolate_property($Sprite3D, "modulate", Color.white, Color.transparent, ADJACENT_VINE_DELAY)
 	tween.start()
-	print("vines destroyed at ", map_position, " yielding until tween finished")
+	#print("vines destroyed at ", map_position, " yielding until tween finished")
 	yield(get_tree().create_timer(ADJACENT_VINE_DELAY*1.5), "timeout")
-	print("vines destroyed at ", map_position, " clearing tile")
+	#print("vines destroyed at ", map_position, " clearing tile")
 	change_tile(-1)
-	print("vines destroyed at ", map_position, " freeing myself")
+	#print("vines destroyed at ", map_position, " freeing myself")
 	queue_free()
 
 func count_adjacent_vines():

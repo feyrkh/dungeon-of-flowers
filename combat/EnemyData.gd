@@ -1,6 +1,11 @@
 extends Reference
 class_name EnemyData
 
+const HP_MULTIPLIER_PER_THREAT_LEVEL = 0.1
+const DODGE_MULTIPLIER_PER_THREAT_LEVEL = 0.1
+const DEFEND_MULTIPLIER_PER_THREAT_LEVEL = 0.1
+const RESIST_MULTIPLIER_PER_THREAT_LEVEL = 0.1
+
 var label : String
 var hp = load("res://util/StatValue.gd").new()
 var img : Texture
@@ -32,13 +37,13 @@ func load_from(data):
 	if data is String: # load the enemy data from a file if this is a string
 		data = DialogicResources.load_json("res://data/enemy/"+data+".json")
 	self.label = data.label
-	self.hp.value = data.hp
-	self.hp.max_value = data.hp
+	self.hp.value = data.hp * (1+GameData.get_threat_level()*HP_MULTIPLIER_PER_THREAT_LEVEL)
+	self.hp.max_value = data.hp * (1+GameData.get_threat_level()*HP_MULTIPLIER_PER_THREAT_LEVEL)
 	self.img = load(data.img)
 	self.intentions = data.intentions
-	self.dodge = data.dodge
-	self.defend = data.defend
-	self.resist = data.resist
+	self.dodge = data.dodge * (1+GameData.get_threat_level()*DODGE_MULTIPLIER_PER_THREAT_LEVEL)
+	self.defend = data.defend * (1+GameData.get_threat_level()*DEFEND_MULTIPLIER_PER_THREAT_LEVEL)
+	self.resist = data.resist * (1+GameData.get_threat_level()*RESIST_MULTIPLIER_PER_THREAT_LEVEL)
 	if !self.dodge: self.dodge = 100
 	if !self.defend: self.defend = 100
 	if !self.resist: self.resist = 100

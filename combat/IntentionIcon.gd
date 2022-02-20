@@ -2,6 +2,8 @@ extends Sprite
 
 const AttackBullet = preload("res://combat/AttackBullet.tscn")
 
+const DAMAGE_MULTIPLIER_PER_THREAT_LEVEL = 0.1
+
 const INTENTION_ATTACK_IMG = "res://art_exports/ui_HUD/ui_HUD_icon_fight.png"
 const INTENTION_DEFEND_IMG = "res://art_exports/ui_HUD/ui_HUD_icon_defend.png"
 const INTENTION_UNKNOWN_IMG = "res://art_exports/ui_HUD/ui_HUD_icon_item.png"
@@ -39,11 +41,10 @@ func setup(_enemy, _intention):
 	match intention.get("type"):
 		"attack":
 			intention_texture = INTENTION_ATTACK_IMG
-			base_damage = intention.get("base_damage", 0.5)
+			base_damage = intention.get("base_damage", 0.5) * (1 + GameData.get_threat_level()*DAMAGE_MULTIPLIER_PER_THREAT_LEVEL)
 			bullet_patterns = intention.get("bullet_pattern", "slime/dribble")
 			if bullet_patterns is String:
 				bullet_patterns = [bullet_patterns]
-
 		"defend":
 			intention_texture = INTENTION_DEFEND_IMG
 	visible = true

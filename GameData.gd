@@ -16,7 +16,8 @@ const STACKING_TOWER_HANDICAP = "hcap_stack_tower"
 const TILE_MATCH_HANDICAP = "hcap_tile_match"
 const TILE_MATCH_HANDICAP_MIN = -5
 const TILE_MATCH_HANDICAP_MAX = 10
-const THREAT_LEVEL = "threat_level";
+const THREAT_LEVEL = "threat_level"
+const RANDOM_COMBAT_ENABLED = "random_combat_enabled"
 
 const UI_PLATFORM = "ui_platform"
 const UI_PLATFORM_PC = "pc"
@@ -332,9 +333,13 @@ func new_game():
 	if get_state(TUTORIAL_ON):
 		cur_dungeon = "intro"
 		QuestMgr.pollen_spread_enabled = false
+		set_state(RANDOM_COMBAT_ENABLED, false)
+		set_state("threat_enabled", false)
 	else:
 		cur_dungeon = "floor1"
 		QuestMgr.pollen_spread_enabled = true
+		set_state(RANDOM_COMBAT_ENABLED, true)
+		set_state("threat_enabled", true)
 	get_tree().change_scene("res://dungeon/GeneratedDungeon.tscn")
 	yield(get_tree(), "idle_frame")
 	EventBus.emit_signal("post_new_game")
@@ -501,3 +506,6 @@ func set_sp_damage_label(options):
 
 func reset_sp_label():
 	next_sp_label = null
+
+func get_threat_level():
+	return int(get_state(THREAT_LEVEL, 0))

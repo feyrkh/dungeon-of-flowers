@@ -11,7 +11,7 @@ func _ready():
 	EventBus.connect("finalize_load_game", self, "finalize_load_game")
 
 func pre_save_game():
-	GameData.set_map_data(map_layer, map_position, {"is_open":is_open})
+	update_config({"is_open":is_open})
 
 func finalize_load_game():
 	if is_open:

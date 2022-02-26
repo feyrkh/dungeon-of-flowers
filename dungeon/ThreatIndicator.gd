@@ -52,6 +52,7 @@ func _ready():
 	EventBus.connect("set_threat_level", self, "set_threat_level")
 	EventBus.connect("reduce_threat_level", self, "reduce_threat_level")
 	EventBus.connect("increase_threat_level", self, "increase_threat_level")
+	EventBus.connect("fountain_heal", self, "fountain_heal")
 
 func tile_entered(player_coords:Vector2, player):
 	accumulate_threat(GameData.dungeon.get_pollen_level(player_coords))
@@ -62,6 +63,10 @@ func reduce_threat_level(amt):
 
 func increase_threat_level(amt):
 	accumulate_threat(amt)
+
+func fountain_heal():
+	threat_level = max(0, int(threat_level))
+	reduce_threat_level(1)
 
 func refresh_visual():
 	ThreatFill.rect_scale.x = threat_level - int(threat_level)

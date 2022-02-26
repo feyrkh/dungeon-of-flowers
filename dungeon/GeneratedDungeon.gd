@@ -54,6 +54,7 @@ func _ready():
 	EventBus.connect("new_player_location", self, "on_new_player_location")
 	CombatMgr.connect("combat_start", self, "_on_combat_start")
 	CombatMgr.connect("combat_end", self, "_on_combat_end")
+	EventBus.connect("fountain_heal", self, "fountain_heal")
 
 func on_new_player_location(map_x, map_y, rot_deg):
 	var new_in_pollen = get_pollen_level(Vector2(map_x, map_y))

@@ -40,6 +40,7 @@ signal chat_msg(msg)
 
 # special effects
 signal screen_flash(flash_time, flash_color)
+signal fountain_heal()
 
 # pollen spawn/spread
 signal spawn_pollen(coords)

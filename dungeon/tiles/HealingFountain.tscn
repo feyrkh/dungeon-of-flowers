@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://dungeon/tiles/HealingFountain.gd" type="Script" id=1]
+[ext_resource path="res://img/dungeon/fountain.png" type="Texture" id=2]
+[ext_resource path="res://util/PerspectiveSprite.tscn" type="PackedScene" id=3]
+[ext_resource path="res://img/dungeon/fountain_empty.png" type="Texture" id=4]
+
+[node name="HealingFountain" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="FilledSprite" parent="." instance=ExtResource( 3 )]
+defined_frames = [ "front" ]
+frames = [ ExtResource( 2 ) ]
+image_offsets = [ Vector3( 0, 0, 0 ) ]
+width_in_meters = 3.0
+
+[node name="EmptySprite" parent="." instance=ExtResource( 3 )]
+visible = false
+defined_frames = [ "front" ]
+frames = [ ExtResource( 4 ) ]
+image_offsets = [ Vector3( 0, 0, 0 ) ]
+width_in_meters = 3.0

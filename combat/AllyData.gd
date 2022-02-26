@@ -21,6 +21,7 @@ var moves : Array # of MoveData
 func _init():
 	hp.connect("value_changed", self, "on_set_hp")
 	sp.connect("value_changed", self, "on_set_sp")
+	EventBus.connect("fountain_heal", self, "fountain_heal")
 
 func save_data():
 	var data = Util.to_config(self)
@@ -49,6 +50,10 @@ func on_set_sp(old_val, val):
 	if val < old_val and val > 0:
 		emit_signal("ally_sp_lost", min(old_val, old_val-val))
 	EventBus.emit_signal("ally_status_updated", self)
+
+func fountain_heal():
+	hp.value = hp.max_value
+	sp.value = sp.max_value
 
 func get_moves(move_type:String):
 	var result = []
